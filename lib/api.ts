@@ -45,3 +45,13 @@ export function getAllPosts(fields: string[] = []) {
     .sort((post1, post2) => (post1.date > post2.date ? -1 : 1))
   return posts
 }
+
+export async function getBibles() {
+  const response = await fetch('http://localhost:8080/bible')
+  if (!response.ok) {
+    const message = `An error has occured: ${response.status}`;
+    throw new Error(message);
+  }
+  const resp = await response.json()
+  return resp.data
+}
