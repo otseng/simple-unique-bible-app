@@ -1,57 +1,28 @@
-import fs from 'fs'
-import { join } from 'path'
-import matter from 'gray-matter'
+import axios from 'axios'
+import useSWR from 'swr'
+import { API_SERVER } from './constants';
 
-const postsDirectory = join(process.cwd(), '_posts')
+export function getBibles() {
+  const address = API_SERVER + '/bible';
+  const fetcher = async (url) => await axios.get(url).then((res) => res.data.data);
+  const { data, error } = useSWR(address, fetcher);
 
-export function getPostSlugs() {
-  return fs.readdirSync(postsDirectory)
-}
-
-export function getPostBySlug(slug: string, fields: string[] = []) {
-  const realSlug = slug.replace(/\.md$/, '')
-  const fullPath = join(postsDirectory, `${realSlug}.md`)
-  const fileContents = fs.readFileSync(fullPath, 'utf8')
-  const { data, content } = matter(fileContents)
-
-  type Items = {
-    [key: string]: string
+  return {
+    data: data,
+    loading: !error && !data,
+    error: error
   }
-
-  const items: Items = {}
-
-  // Ensure only the minimal needed data is exposed
-  fields.forEach((field) => {
-    if (field === 'slug') {
-      items[field] = realSlug
-    }
-    if (field === 'content') {
-      items[field] = content
-    }
-
-    if (typeof data[field] !== 'undefined') {
-      items[field] = data[field]
-    }
-  })
-
-  return items
 }
 
-export function getAllPosts(fields: string[] = []) {
-  const slugs = getPostSlugs()
-  const posts = slugs
-    .map((slug) => getPostBySlug(slug, fields))
-    // sort posts by date in descending order
-    .sort((post1, post2) => (post1.date > post2.date ? -1 : 1))
-  return posts
-}
+export function getBibleBooks() {
+  const address = API_SERVER + '/data/bible/abbreviations?lang=eng';
+  const fetcher = async (url) => await axios.get(url).then((res) => res.data.data);
+  const { data, error } = useSWR(address, fetcher);
 
-export async function getBibles() {
-  const response = await fetch('http://localhost:8080/bible')
-  if (!response.ok) {
-    const message = `An error has occured: ${response.status}`;
-    throw new Error(message);
+  return {
+    data: data,
+    loading: !error && !data,
+    error: error
   }
-  const resp = await response.json()
-  return resp.data
 }
+
