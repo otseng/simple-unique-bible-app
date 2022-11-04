@@ -26,3 +26,14 @@ export function getBibleBooks() {
   }
 }
 
+export function getBibleChapter(text, bookNumber, chapter) {
+  const address = API_SERVER + `/bible/${text}/${bookNumber}/${chapter}`;
+  const fetcher = async (url) => await axios.get(url).then((res) => res.data.data);
+  const { data, error } = useSWR(address, fetcher);
+
+  return {
+    data: data,
+    loading: !error && !data,
+    error: error
+  }
+}

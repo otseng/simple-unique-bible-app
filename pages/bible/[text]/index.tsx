@@ -9,7 +9,7 @@ import { preloadData } from '../../../lib/util'
 
 export default function Index() {
 
-  preloadData()
+  if (!globalThis.bibleBooks) preloadData()
 
   const router = useRouter()
   const text = router.query.text
@@ -22,7 +22,8 @@ export default function Index() {
       </Head>
       <Container>
           <Intro />
-          <h1>{text}</h1>
+          <h1><Link href={"/"}>{text}</Link></h1>
+          <p>&nbsp;</p>
           <ul>
           {globalThis.bookNames.map((book) => (
             <li><Link href={"/bible/" + text + "/" + book}>{book}</Link></li>

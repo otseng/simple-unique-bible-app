@@ -6,11 +6,8 @@ import Link from 'next/link';
 import { getBibleBooks, getBibles } from '../lib/api'
 import Spinner from 'react-bootstrap/Spinner';
 import { APP_NAME } from '../lib/constants';
-import { preloadData } from '../lib/util';
 
 export default function Index() {
-
-  preloadData()
 
   const { data, loading, error } = getBibles()
 
