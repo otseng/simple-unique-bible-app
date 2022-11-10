@@ -16,8 +16,11 @@ https://jools.dev/nextjs-_appjs-example
 
 [_document vs _app](https://github.com/vercel/next.js/discussions/39821#discussioncomment-3447692)
 
-
 ## Caching
 
 https://nextjs.org/docs/going-to-production#caching
+
+## Deployment
+
+https://vercel.com
 
