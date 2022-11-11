@@ -24,3 +24,7 @@ Start GUI:
 
 Open browser:
 * http://localhost:3000/
+
+## Prod deployment
+
+* `yarn run build`
