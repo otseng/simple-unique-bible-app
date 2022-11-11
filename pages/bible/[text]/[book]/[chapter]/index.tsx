@@ -38,7 +38,7 @@ export default function Index() {
             <p>&nbsp;</p>
             {
                 data.map((verse) => (
-                    <p>{verse.c}:{verse.v} - {verse.t}</p>
+                    <p>{verse.c}:{verse.v} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verse.t }} /></p>
                 ))
             }
         </Container>
