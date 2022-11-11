@@ -59,7 +59,9 @@ export function getBooks() {
 
 export function getBookChapters(title) {
   
-  title = title.replaceAll(' ', '+')
+  if (title) {
+    title = title.replaceAll(' ', '+')
+  }
   const address = API_SERVER + `/book/${title}`;
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data);
   const { data, error } = useSWR(address, fetcher);
@@ -73,8 +75,10 @@ export function getBookChapters(title) {
 
 export function getBookChapterContent(title, chapter) {
   
-  title = title.replaceAll('%20', '+').replaceAll(' ', '+')
-  chapter = chapter.replaceAll('%20', '+').replaceAll(' ', '+')
+  if (title) {
+    title = title.replaceAll('%20', '+').replaceAll(' ', '+')
+    chapter = chapter.replaceAll('%20', '+').replaceAll(' ', '+')
+  }
   const address = API_SERVER + `/book/${title}/${chapter}`;
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data);
   const { data, error } = useSWR(address, fetcher);
