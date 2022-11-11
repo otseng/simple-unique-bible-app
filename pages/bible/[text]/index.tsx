@@ -22,7 +22,7 @@ export default function Index() {
       </Head>
       <Container>
           <Intro />
-          <h1><Link href={"/"}>{text}</Link></h1>
+          <h1><Link className="text-xl" href={"/"}>{text}</Link></h1>
           <p>&nbsp;</p>
           <ul>
           {globalThis.bookNames.map((book) => (

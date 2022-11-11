@@ -43,3 +43,46 @@ export function getBibleChapter(text, bookNumber, chapter) {
     error: error
   }
 }
+
+export function getBooks() {
+  
+  const address = API_SERVER + '/book';
+  const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data);
+  const { data, error } = useSWR(address, fetcher);
+
+  return {
+    data: data,
+    loading: !error && !data,
+    error: error
+  }
+}
+
+export function getBookChapters(title) {
+  
+  title = title.replaceAll(' ', '+')
+  const address = API_SERVER + `/book/${title}`;
+  const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data);
+  const { data, error } = useSWR(address, fetcher);
+
+  return {
+    data: data,
+    loading: !error && !data,
+    error: error
+  }
+}
+
+export function getBookChapterContent(title, chapter) {
+  
+  title = title.replaceAll('%20', '+').replaceAll(' ', '+')
+  chapter = chapter.replaceAll('%20', '+').replaceAll(' ', '+')
+  const address = API_SERVER + `/book/${title}/${chapter}`;
+  const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data);
+  const { data, error } = useSWR(address, fetcher);
+
+  return {
+    data: data,
+    loading: !error && !data,
+    error: error
+  }
+}
+
