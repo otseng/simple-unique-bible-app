@@ -29,4 +29,5 @@ Open browser:
 
 * `yarn`
 * `yarn run build`
-* `yarn run start`
+* `yarn run export`
+
