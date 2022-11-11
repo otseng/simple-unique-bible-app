@@ -27,4 +27,6 @@ Open browser:
 
 ## Prod deployment
 
+* `yarn`
 * `yarn run build`
+* `yarn run start`
