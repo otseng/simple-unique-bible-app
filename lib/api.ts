@@ -90,3 +90,29 @@ export function getBookChapterContent(title, chapter) {
   }
 }
 
+export function getCommentaries() {
+  
+  const address = API_SERVER + '/commentary';
+  const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data);
+  const { data, error } = useSWR(address, fetcher);
+
+  return {
+    data: data,
+    loading: !error && !data,
+    error: error
+  }
+}
+
+export function getCommentaryContent(title, bookNumber, chapter) {
+  
+  const address = API_SERVER + `/commentary/${title}/${bookNumber}/${chapter}`;
+  const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data);
+  const { data, error } = useSWR(address, fetcher);
+
+  return {
+    data: data,
+    loading: !error && !data,
+    error: error
+  }
+}
+
