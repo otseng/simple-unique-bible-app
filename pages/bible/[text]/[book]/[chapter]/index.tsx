@@ -5,9 +5,10 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
-import { preloadData } from '../../../../../lib/util'
+import { preloadData, scrollToTop } from '../../../../../lib/util'
 import { getBibleChapter } from '../../../../../lib/api'
 import { Spinner } from 'react-bootstrap'
+import { useEffect, useState } from 'react'
 
 export default function Index() {
 
@@ -18,7 +19,20 @@ export default function Index() {
     const book = router.query.book as string
     const bookNum = globalThis.bookNameHash[book]
     const chapter = router.query.chapter as string
+    const showPrevious = parseInt(chapter) > 1
 
+    const [showScrollToTopButton, setShowScrollToTopButton] = useState(false);
+
+    useEffect(() => {
+        window.addEventListener("scroll", () => {
+          if (window.pageYOffset > 300) {
+            setShowScrollToTopButton(true);
+          } else {
+            setShowScrollToTopButton(false);
+          }
+        });
+      }, []);
+  
     const { data, loading, error } = getBibleChapter(text, bookNum, chapter)
 
     if (error) return <div>Failed to load</div>
@@ -33,14 +47,21 @@ export default function Index() {
         </Head>
         <Container>
             <Intro />
-            <h1><Link href={"/bible/" + text}>{text}</Link> / <Link href={"/bible/" + text + '/' + book}>{book}</Link> {chapter}</h1>
-            <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) - 1)}>Previous</Link> / <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) + 1)}>Next</Link>
+            <h1 className="text-xl"><Link href={"/bible/" + text}>{text}</Link> / <Link href={"/bible/" + text + '/' + book}>{book}</Link> {chapter}</h1>
+            { showPrevious && (<Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) - 1)}>Previous / </Link>) }
+            <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) + 1)}>Next</Link>
             <p>&nbsp;</p>
             {
                 data.map((verse) => (
                     <p>{verse.c}:{verse.v} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verse.t }} /></p>
                 ))
             }
+            
+            {showScrollToTopButton && (
+            <button onClick={scrollToTop} className="back-to-top">
+            &#8679;
+            </button>
+            )}
         </Container>
         </Layout>
     </>

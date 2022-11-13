@@ -26,7 +26,7 @@ export default function Index() {
         </Head>
         <Container>
             <Intro />
-            <h1><Link href={"/bible/" + text}>{text}</Link> / {book}</h1>
+            <h1 className="text-xl"><Link href={"/bible/" + text}>{text}</Link> / {book}</h1>
             <p>&nbsp;</p>
             <ul>
             {chapters.map((chapter) => (

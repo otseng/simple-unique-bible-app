@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 50px;
+    color: rgb(30, 45, 255);
+    cursor: pointer;
+    border-radius: 60px;
+    border: none;
+    box-shadow: 0 5px 10px #ccc;
+}
+
+.back-to-top:hover {
+    background: rgb(121, 255, 141);
+}
