@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../lib/constants'
 import { preloadData } from '../../../lib/util'
+import { clickableButton } from '../../../lib/styles'
 
 export default function Index() {
 
@@ -24,12 +25,11 @@ export default function Index() {
           <Intro />
           <h1 className="text-xl">{text}</h1>
           <p>&nbsp;</p>
-          <ul>
           {globalThis.bookNames.map((book) => (
-            <li><Link href={"/bible/" + text + "/" + book}>{book}</Link></li>
+            <Link href={"/bible/" + text + "/" + book}>
+              <button className={`${clickableButton}`}>{book}</button>
+            </Link>
           ))}
-        </ul>
-
       </Container>
       </Layout>
   </>

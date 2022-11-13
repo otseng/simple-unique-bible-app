@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { APP_NAME } from '../../../../lib/constants'
 import { preloadData, range } from '../../../../lib/util'
 import { bibleChapters } from '../../../../data/bibleChapters'
+import { clickableButton } from '../../../../lib/styles'
 
 export default function Index() {
 
@@ -19,23 +20,23 @@ export default function Index() {
     const chapters = range(bibleChapters[bookNum], 1)
 
     return (
-    <>
-        <Layout>
-        <Head>
-            <title>{APP_NAME}</title>
-        </Head>
-        <Container>
-            <Intro />
-            <h1 className="text-xl"><Link href={"/bible/" + text}>{text}</Link> / {book}</h1>
-            <p>&nbsp;</p>
-            <ul>
-            {chapters.map((chapter) => (
-              <li><Link href={"/bible/" + text + '/' + book + '/' + chapter}>{chapter}</Link></li>
-            ))}
-            </ul>
-        </Container>
-        </Layout>
-    </>
+        <>
+            <Layout>
+                <Head>
+                    <title>{APP_NAME}</title>
+                </Head>
+                <Container>
+                    <Intro />
+                    <h1 className="text-xl"><Link href={"/bible/" + text}>{text}</Link> / {book}</h1>
+                    <p>&nbsp;</p>
+                    {chapters.map((chapter) => (
+                        <Link href={"/bible/" + text + "/" + book + "/" + chapter}>
+                            <button className={`${clickableButton}`}>{chapter}</button>
+                        </Link>
+                    ))}
+                </Container>
+            </Layout>
+        </>
     )
 }
 

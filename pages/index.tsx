@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { getBibles, getBooks, getCommentaries } from '../lib/api'
 import Spinner from 'react-bootstrap/Spinner';
 import { APP_NAME } from '../lib/constants';
+import { clickableButton } from '../lib/styles';
 
 export default function Index() {
 
@@ -30,31 +31,34 @@ export default function Index() {
           <div className="grid grid-cols-3 ml-10">
             <div>
               <div className="text-2xl">Bibles</div>
-              <ul>
                 {dataBible.map((text) => (
-                  <li><Link href={"/bible/" + text}>{text}</Link></li>
+                  <Link href={"/bible/" + text}>
+                      <button className={`${clickableButton}`}>{text}</button>
+                  </Link>
                 ))}
-              </ul>
             </div>
 
             <div>              
               <div className="text-2xl">
                 Comm<span className="invisible md:visible">entaries</span>
               </div>
-              <ul>
                 {dataCommentary.map((commentary) => (
-                  <li><Link href={"/commentary/" + commentary}>{commentary.replaceAll('_', ' ')}</Link></li>
+                  <Link href={"/commentary/" + commentary}>
+                    <button className={`${clickableButton}`}>
+                    {commentary.replaceAll('_', ' ')}
+                    </button>
+                  </Link>
                 ))}
-              </ul>
             </div>
 
             <div>              
               <div className="text-2xl">Books</div>
-              <ul>
                 {dataBooks.map((title) => (
-                  <li><Link href={"/book/" + title}>{title.replaceAll('_', ' ')}</Link></li>
+                  <Link href={"/book/" + title}>
+                    <button className={`${clickableButton}`}>
+                    {title.replaceAll('_', ' ')}</button>
+                  </Link>
                 ))}
-              </ul>
             </div>
           </div>
 

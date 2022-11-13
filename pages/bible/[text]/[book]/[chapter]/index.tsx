@@ -9,6 +9,7 @@ import { preloadData, scrollToTop } from '../../../../../lib/util'
 import { getBibleChapter } from '../../../../../lib/api'
 import { Spinner } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
+import { clickableButton } from '../../../../../lib/styles'
 
 export default function Index() {
 
@@ -36,7 +37,7 @@ export default function Index() {
     const { data, loading, error } = getBibleChapter(text, bookNum, chapter)
 
     if (error) return <div>Failed to load</div>
-    if (loading) return 
+    if (loading) return
 
     if (data) {
         return (
@@ -48,8 +49,11 @@ export default function Index() {
         <Container>
             <Intro />
             <h1 className="text-xl"><Link href={"/bible/" + text}>{text}</Link> / <Link href={"/bible/" + text + '/' + book}>{book}</Link> {chapter}</h1>
-            { showPrevious && (<Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) - 1)}>Previous / </Link>) }
-            <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) + 1)}>Next</Link>
+            { showPrevious && (<Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) - 1)}>
+              <button className={`${clickableButton}`}>Previous</button></Link>) }
+            <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) + 1)}>
+              <button className={`${clickableButton}`}>Next</button>
+            </Link>
             <p>&nbsp;</p>
             {
                 data.map((verse) => (

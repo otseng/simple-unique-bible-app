@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../lib/constants'
 import { getBookChapters } from '../../../lib/api'
+import { clickableButton } from '../../../lib/styles'
 
 export default function Index() {
 
@@ -29,7 +30,9 @@ export default function Index() {
             <div className="text-xl">{title}</div>
             <p>&nbsp;</p>
             {data.map((chapter) => (
-              <p><Link href={"/book/" + title + '/' + chapter}>{chapter}</Link></p>
+              <Link href={"/book/" + title + '/' + chapter}>
+                <button className={`${clickableButton}`}>{chapter}</button>
+              </Link>
             ))}
           </Container>
         </Layout>

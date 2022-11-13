@@ -9,6 +9,7 @@ import { preloadData, scrollToTop } from '../../../../../lib/util'
 import { getCommentaryContent } from '../../../../../lib/api'
 import { Spinner } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
+import { clickableButton } from '../../../../../lib/styles'
 
 export default function Index() {
 
@@ -36,7 +37,7 @@ export default function Index() {
     const { data, loading, error } = getCommentaryContent(title, bookNum, chapter)
 
     if (error) return <div>Failed to load</div>
-    if (loading) return <div>Loading</div>
+    if (loading) return
 
     if (data) {
         return (
@@ -47,9 +48,14 @@ export default function Index() {
         </Head>
         <Container>
             <Intro />
-            <h1 className="text-xl"><Link href={"/commentary/" + title}>{title}</Link> / <Link href={"/commentary/" + title + '/' + book}>{book}</Link> {chapter}</h1>
-            { showPrevious && (<Link href={"/commentary/" + title + '/' + book + '/' + (parseInt(chapter) - 1)}>Previous / </Link>) }
-            <Link href={"/commentary/" + title + '/' + book + '/' + (parseInt(chapter) + 1)}>Next</Link>
+            <h1 className="text-xl">Commentary / <Link href={"/commentary/" + title}>{title}</Link> / <Link href={"/commentary/" + title + '/' + book}>{book}</Link> {chapter}</h1>
+                { showPrevious && (
+                <Link href={"/commentary/" + title + '/' + book + '/' + (parseInt(chapter) - 1)}>
+                <button className={`${clickableButton}`}>Previous</button>
+                </Link>) }
+                <Link href={"/commentary/" + title + '/' + book + '/' + (parseInt(chapter) + 1)}>
+                <button className={`${clickableButton}`}>Next</button>
+                </Link>
             <p>&nbsp;</p>
             {
                 data.map((data) => (
