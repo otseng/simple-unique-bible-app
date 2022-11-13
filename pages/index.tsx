@@ -38,7 +38,9 @@ export default function Index() {
             </div>
 
             <div>              
-              <div className="text-2xl">Commentaries</div>
+              <div className="text-2xl">
+                Comm<span className="invisible md:visible">entaries</span>
+              </div>
               <ul>
                 {dataCommentary.map((commentary) => (
                   <li><Link href={"/commentary/" + commentary}>{commentary.replaceAll('_', ' ')}</Link></li>
