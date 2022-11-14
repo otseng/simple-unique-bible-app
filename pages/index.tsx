@@ -7,13 +7,27 @@ import { getBibles, getBooks, getCommentaries } from '../lib/api'
 import Spinner from 'react-bootstrap/Spinner';
 import { APP_NAME } from '../lib/constants';
 import { clickableButton } from '../lib/styles';
+import { scrollToTop } from '../lib/util';
+import { useEffect, useState } from 'react';
 
 export default function Index() {
+
+  const [showScrollToTopButton, setShowScrollToTopButton] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      if (window.pageYOffset > 300) {
+        setShowScrollToTopButton(true);
+      } else {
+        setShowScrollToTopButton(false);
+      }
+    });
+  }, []);
 
   const { data: dataBible, loading: loadingBible, error: errorBible } = getBibles()
   const { data: dataCommentary, loading: loadingCommentary, error: errorCommentary } = getCommentaries()
   const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBooks()
-
+  
   if (errorBible || errorBooks || errorCommentary ) return <div>Failed to load</div>
   if (loadingBible || loadingBooks || loadingCommentary ) return (
     <Spinner animation="border" role="status">
@@ -62,6 +76,11 @@ export default function Index() {
             </div>
           </div>
 
+          {showScrollToTopButton && (
+            <button onClick={scrollToTop} className="back-to-top">
+            &#8679;
+            </button>
+            )}
         </Container>
       </Layout>
     </>
