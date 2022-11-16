@@ -59,7 +59,7 @@ export default function Index() {
             </Disclosure.Panel>
           </Disclosure>
 
-          <Disclosure>
+          <Disclosure defaultOpen>
             <Disclosure.Button className={`${homeDisclosure}`}>
               <div className="text-2xl">Books</div>
             </Disclosure.Button>
@@ -75,7 +75,7 @@ export default function Index() {
             </Disclosure.Panel>
           </Disclosure>
 
-          <Disclosure>
+          <Disclosure defaultOpen>
             <Disclosure.Button className={`${homeDisclosure}`}>
               <div className="text-2xl">Commentaries</div>
             </Disclosure.Button>
