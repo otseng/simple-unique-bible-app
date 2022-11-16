@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react'
 export default function Index() {
 
   const router = useRouter()
-  const title = router.query.title
+  const title = router.query.title as string
   const chapter = router.query.chapter as string
 
   const [showScrollToTopButton, setShowScrollToTopButton] = useState(false);
@@ -44,7 +44,7 @@ export default function Index() {
           </Head>
           <Container>
             <Intro />
-            <div className="text-xl"><Link href={"/book/" + title}>{title}</Link></div>
+            <div className="text-xl"><Link href={"/book/" + title}>{title.replaceAll('_', ' ')}</Link></div>
             <br/>
             <div className="text-l">{chapter}</div>
             <p>&nbsp;</p>

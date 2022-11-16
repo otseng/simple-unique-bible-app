@@ -11,7 +11,7 @@ import { clickableButton } from '../../../lib/styles'
 export default function Index() {
 
   const router = useRouter()
-  const title = router.query.title
+  const title = router.query.title as string
 
   const { data, loading, error } = getBookChapters(title)
 
@@ -27,7 +27,7 @@ export default function Index() {
           </Head>
           <Container>
             <Intro />
-            <div className="text-xl">{title}</div>
+            <div className="text-xl">{title.replaceAll('_', ' ')}</div>
             <p>&nbsp;</p>
             {data.map((chapter) => (
               <Link href={"/book/" + title + '/' + chapter}>

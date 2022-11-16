@@ -10,6 +10,7 @@ import { getBibleChapter } from '../../../../../lib/api'
 import { Spinner } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
 import { clickableButton } from '../../../../../lib/styles'
+import { bibleChapters } from '../../../../../data/bibleChapters'
 
 export default function Index() {
 
@@ -21,6 +22,7 @@ export default function Index() {
     const bookNum = globalThis.bookNameHash[book]
     const chapter = router.query.chapter as string
     const showPrevious = parseInt(chapter) > 1
+    const showNext = parseInt(chapter) < bibleChapters[bookNum]
 
     const [showScrollToTopButton, setShowScrollToTopButton] = useState(false);
 
@@ -49,11 +51,12 @@ export default function Index() {
         <Container>
             <Intro />
             <h1 className="text-xl"><Link href={"/bible/" + text}>{text}</Link> / <Link href={"/bible/" + text + '/' + book}>{book}</Link> {chapter}</h1>
-            { showPrevious && (<Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) - 1)}>
-              <button className={`${clickableButton}`}>Previous</button></Link>) }
-            <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) + 1)}>
-              <button className={`${clickableButton}`}>Next</button>
-            </Link>
+            { showPrevious && 
+              <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) - 1)}>
+              <button className={`${clickableButton}`}>Previous</button></Link> }
+            { showNext && 
+              <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) + 1)}>
+              <button className={`${clickableButton}`}>Next</button></Link> }
             <p>&nbsp;</p>
             {
                 data.map((verse) => (
