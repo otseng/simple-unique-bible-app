@@ -66,6 +66,16 @@ export default function Index() {
             <p>&nbsp;</p>
             <div className="text-container" dangerouslySetInnerHTML={{ __html: html }} />
 
+            {navigation.previous && 
+            <Link href={"/book/" + title + '/' + navigation.previous}>
+                <button className={`${clickableButton}`}>Previous</button>
+            </Link>}
+            {navigation.next && 
+            <Link href={"/book/" + title + '/' + navigation.next}>
+                <button className={`${clickableButton}`}>Next</button>
+            </Link>}
+
+
             {showScrollToTopButton && (
             <button onClick={scrollToTop} className="back-to-top">
             &#8679;
