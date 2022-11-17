@@ -27,7 +27,7 @@ export default function Index() {
           </Head>
           <Container>
             <Intro />
-            <div className="text-xl">{title.replaceAll('_', ' ')}</div>
+            <div className="text-2xl">{title.replaceAll('_', ' ')}</div>
             <p>&nbsp;</p>
             {data.map((chapter) => (
               <Link href={"/book/" + title + '/' + chapter}>
