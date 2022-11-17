@@ -2,8 +2,12 @@ import { bibleBooks } from "../data/bibleBooks"
 
 export function preloadData() {
     globalThis.bookNames = bibleBooks.map((entry) => entry.n).slice(0, 66)
-    globalThis.bookNameHash = bibleBooks.reduce(function(map, obj) {
+    globalThis.bibleNameToNumber = bibleBooks.reduce(function(map, obj) {
         map[obj.n] = obj.i;
+        return map;
+    }, {});
+    globalThis.bibleNumberToName = bibleBooks.reduce(function(map, obj) {
+        map[obj.i] = obj.n;
         return map;
     }, {});
 }

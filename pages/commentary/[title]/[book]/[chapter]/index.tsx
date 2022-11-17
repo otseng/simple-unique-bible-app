@@ -18,7 +18,7 @@ export default function Index() {
     const router = useRouter()
     const title = router.query.title
     const book = router.query.book as string
-    const bookNum = globalThis.bookNameHash[book]
+    const bookNum = globalThis.bibleNameToNumber[book]
     const chapter = router.query.chapter as string
     const showPrevious = parseInt(chapter) > 1
 

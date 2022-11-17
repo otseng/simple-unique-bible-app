@@ -16,7 +16,7 @@ export default function Index() {
     const router = useRouter()
     const text = router.query.text
     const book = router.query.book as string
-    const bookNum = globalThis.bookNameHash[book]
+    const bookNum = globalThis.bibleNameToNumber[book]
     const chapters = range(bibleChapters[bookNum], 1)
 
     return (
@@ -27,7 +27,7 @@ export default function Index() {
                 </Head>
                 <Container>
                     <Intro />
-                    <h1 className="text-xl"><Link href={"/bible/" + text}>{text}</Link> / {book}</h1>
+                    <h1 className="text-xl font-bold"><Link href={"/bible/" + text}>{text}</Link> / {book}</h1>
                     <p>&nbsp;</p>
                     {chapters.map((chapter) => (
                         <Link href={"/bible/" + text + "/" + book + "/" + chapter}>

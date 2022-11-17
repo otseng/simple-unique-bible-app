@@ -39,7 +39,10 @@ export default function Index() {
 
     const navigation = getNavigation(dataChapters, chapter)
 
-    const html = data.replace(/<ref.*\/ref>/, '')
+    let html = data
+    if (title.includes('Hymn Lyrics')) {
+      html = data.replace(/<ref.*\/ref>/, '')
+    }
 
     return (
       <>
