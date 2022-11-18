@@ -24,7 +24,7 @@ const Intro = (props) => (
       <Popover.Panel className="absolute z-10">
         <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5
         w-200">
-          <div className="relative grid gap-1 bg-indigo-300 p-3 rounded text-lg">
+          <div className="relative grid gap-1 bg-indigo-300 p-3 rounded text-lg text-white font-bold">
             {props.showHome == 'true' &&
             <Popover.Button className="hover:bg-indigo-400 p-1">
               <Link href="/">Home</Link>
