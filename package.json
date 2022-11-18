@@ -1,4 +1,6 @@
 {
+  "name": "simple-unique-bible-viewer",
+  "vesion": "0.10",
   "private": true,
   "scripts": {
     "dev": "next",
