@@ -6,7 +6,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "build-start": "next build && nohup next run &",
+    "build-start": "next build && nohup next start &",
     "export": "next export",
     "build-export": "next build && next export",
     "typecheck": "tsc"
