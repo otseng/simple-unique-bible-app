@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../lib/constants'
 import { preloadData } from '../../../lib/util'
-import { clickableButton } from '../../../lib/styles'
+import { clickableButton, nonclickableButton } from '../../../lib/styles'
 import { getBibleTextBooks } from '../../../lib/api'
 
 export default function Index() {
@@ -33,7 +33,7 @@ export default function Index() {
           </Head>
           <Container>
             <Intro />
-            <h1 className="text-xl font-bold">{text}</h1>
+            <h1 className="text-l"><button className={`${nonclickableButton}`}>{text}</button></h1>
             <p>&nbsp;</p>
             {bookNames.map((book) => (
               <Link href={"/bible/" + text + "/" + book + "/1"}>

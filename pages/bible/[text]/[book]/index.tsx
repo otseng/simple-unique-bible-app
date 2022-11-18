@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { APP_NAME } from '../../../../lib/constants'
 import { preloadData, range } from '../../../../lib/util'
 import { bibleChapters } from '../../../../data/bibleChapters'
-import { clickableButton } from '../../../../lib/styles'
+import { clickableButton, nonclickableButton } from '../../../../lib/styles'
 
 export default function Index() {
 
@@ -27,7 +27,9 @@ export default function Index() {
                 </Head>
                 <Container>
                     <Intro />
-                    <h1 className="text-xl font-bold"><Link href={"/bible/" + text}>{text}</Link> / {book}</h1>
+                    <h1 className="text-l font-bold">
+                        <Link href={"/bible/" + text}><button className={`${clickableButton}`}>{text}</button></Link>
+                        <button className={`${nonclickableButton}`}>{book}</button></h1>
                     <p>&nbsp;</p>
                     {chapters.map((chapter) => (
                         <Link href={"/bible/" + text + "/" + book + "/" + chapter}>

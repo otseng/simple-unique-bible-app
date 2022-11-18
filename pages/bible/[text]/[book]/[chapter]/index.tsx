@@ -9,8 +9,9 @@ import { preloadData, range, scrollToTop } from '../../../../../lib/util'
 import { getBibleChapter } from '../../../../../lib/api'
 import { Spinner } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
-import { clickableButton } from '../../../../../lib/styles'
+import { chapterDisclosure, clickableButton } from '../../../../../lib/styles'
 import { bibleChapters } from '../../../../../data/bibleChapters'
+import { Disclosure } from '@headlessui/react'
 
 export default function Index() {
 
@@ -51,13 +52,22 @@ export default function Index() {
           </Head>
           <Container>
             <Intro />
-            <h1 className="text-xl font-bold"><Link href={"/bible/" + text}>{text}</Link> / <Link href={"/bible/" + text + '/' + book}>{book}</Link> {chapter}</h1>
+            <h1 className="text-l font-bold"><Link href={"/bible/" + text}>
+              <button className={`${clickableButton}`}>{text}</button></Link></h1>
 
-            {chapters.map((chapter) => (
+            <Disclosure>
+            <Disclosure.Button className={`${chapterDisclosure}`}>
+              <div>Chapter {chapter}</div>
+            </Disclosure.Button>
+            <Disclosure.Panel className="text-gray-500">
+              {chapters.map((chapter) => (
               <Link href={"/bible/" + text + "/" + book + "/" + chapter}>
                 <button className={`${clickableButton}`}>{chapter}</button>
               </Link>
             ))}
+            </Disclosure.Panel>
+          </Disclosure>
+          
 
             <p>&nbsp;</p>
             {

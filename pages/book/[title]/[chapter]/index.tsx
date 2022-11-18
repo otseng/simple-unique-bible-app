@@ -8,7 +8,9 @@ import { APP_NAME } from '../../../../lib/constants'
 import { getBookChapters, getBookChapterContent } from '../../../../lib/api'
 import { scrollToTop } from '../../../../lib/util'
 import { useEffect, useState } from 'react'
-import { clickableButton } from '../../../../lib/styles'
+import { chapterDisclosure, clickableButton } from '../../../../lib/styles'
+import { Disclosure } from '@headlessui/react'
+import { text } from 'stream/consumers'
 
 export default function Index() {
 
@@ -19,14 +21,14 @@ export default function Index() {
   const [showScrollToTopButton, setShowScrollToTopButton] = useState(false);
 
   useEffect(() => {
-      window.addEventListener("scroll", () => {
-        if (window.pageYOffset > 300) {
-          setShowScrollToTopButton(true);
-        } else {
-          setShowScrollToTopButton(false);
-        }
-      });
-    }, []);
+    window.addEventListener("scroll", () => {
+      if (window.pageYOffset > 300) {
+        setShowScrollToTopButton(true);
+      } else {
+        setShowScrollToTopButton(false);
+      }
+    });
+  }, []);
 
   const { data: dataChapters, loading: loadingChapters, error: errorChapters } = getBookChapters(title)
 
@@ -52,34 +54,41 @@ export default function Index() {
           </Head>
           <Container>
             <Intro />
-            <div className="text-2xl"><Link href={"/book/" + title}>{title.replaceAll('_', ' ')}</Link></div>
-            <br/>
-            <div className="text-xl font-bold">{chapter}</div>
-            {navigation.previous && 
-            <Link href={"/book/" + title + '/' + navigation.previous}>
-                <button className={`${clickableButton}`}>{navigation.previous}</button>
-            </Link>}
-            {navigation.next && 
-            <Link href={"/book/" + title + '/' + navigation.next}>
-                <button className={`${clickableButton}`}>{navigation.next}</button>
-            </Link>}
-            <p>&nbsp;</p>
+            <div className="text-xl"><Link href={"/book/" + title}><button className={`${clickableButton}`}>{title.replaceAll('_', ' ')}</button></Link></div>
+            <br />
+
+            <Disclosure>
+              <Disclosure.Button className={`${chapterDisclosure}`}>
+                <div>{chapter}</div>
+              </Disclosure.Button>
+              <Disclosure.Panel className="text-gray-500">
+                {navigation.previous &&
+                  <Link href={"/book/" + title + '/' + navigation.previous}>
+                    <button className={`${clickableButton}`}>{navigation.previous}</button>
+                  </Link>}
+                {navigation.next &&
+                  <Link href={"/book/" + title + '/' + navigation.next}>
+                    <button className={`${clickableButton}`}>{navigation.next}</button>
+                  </Link>}
+              </Disclosure.Panel>
+            </Disclosure>
+
             <div className="text-container" dangerouslySetInnerHTML={{ __html: html }} />
 
-            {navigation.previous && 
-            <Link href={"/book/" + title + '/' + navigation.previous}>
+            {navigation.previous &&
+              <Link href={"/book/" + title + '/' + navigation.previous}>
                 <button className={`${clickableButton}`}>Previous</button>
-            </Link>}
-            {navigation.next && 
-            <Link href={"/book/" + title + '/' + navigation.next}>
+              </Link>}
+            {navigation.next &&
+              <Link href={"/book/" + title + '/' + navigation.next}>
                 <button className={`${clickableButton}`}>Next</button>
-            </Link>}
+              </Link>}
 
 
             {showScrollToTopButton && (
-            <button onClick={scrollToTop} className="back-to-top">
-            &#8679;
-            </button>
+              <button onClick={scrollToTop} className="back-to-top">
+                &#8679;
+              </button>
             )}
           </Container>
         </Layout>
@@ -92,16 +101,16 @@ function getNavigation(dataChapters, chapter) {
   let previous = ''
   let next = ''
   console.log(chapter)
-  for (let i=0; i < dataChapters.length; i++) {
+  for (let i = 0; i < dataChapters.length; i++) {
     if (dataChapters[i] == chapter) {
       console.log(dataChapters[i])
       if (i > 0) {
-        previous = dataChapters[i-1]
+        previous = dataChapters[i - 1]
       }
       if (i < dataChapters.length) {
-        next = dataChapters[i+1]
+        next = dataChapters[i + 1]
       }
-    }  
+    }
   }
-  return {previous: previous, next: next}
+  return { previous: previous, next: next }
 }
