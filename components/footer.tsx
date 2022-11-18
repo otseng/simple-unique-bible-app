@@ -6,12 +6,14 @@ const { publicRuntimeConfig } = getConfig();
 
 const Footer = () => {
 
+  const version = publicRuntimeConfig?.version || 'Dev mode'
+
   return (
     <footer className="bg-neutral-50 border-t border-neutral-200">
       <Container>
           <div className="flex flex-col lg:flex-row justify-center items-center pt-5 pb-5 text-sm font-bold text-slate-400">
-            Ver {publicRuntimeConfig?.version} &nbsp;&bull;&nbsp;
-            <a href="https://github.com/eliranwong/UniqueBible" target="new"> Unique Bible App </a>
+            Version: {version} &nbsp;&bull;&nbsp;
+            <a href="https://github.com/eliranwong/UniqueBible" target="new">Unique Bible App</a>
         </div>
       </Container>
     </footer>
