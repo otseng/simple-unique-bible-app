@@ -36,8 +36,8 @@ export default function Index() {
             {/* {data.length > 100 &&
             <p>Filter: <input name="chapterFilter" onChange={handleChange} /><br/></p>} */}
             {data.map((chapter) => (
-              <Link href={"/book/" + title + '/' + chapter}>
-                <button className={`${clickableButton}`}>{chapter}</button>
+              <Link href={"/book/" + title + '/' + chapter.replaceAll("/", "_")}>
+                <button className={`${clickableButton}`}>{chapter.replaceAll("/", "_")}</button>
               </Link>
             ))}
           </Container>

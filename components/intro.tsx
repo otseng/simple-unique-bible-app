@@ -24,16 +24,13 @@ const Intro = (props) => (
       <Popover.Panel className="absolute z-10">
         <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5
         w-200">
-          <div className="relative grid gap-1 bg-indigo-300 p-3 rounded">
+          <div className="relative grid gap-1 bg-indigo-300 p-3 rounded text-lg">
             {props.showHome == 'true' &&
-            <Popover.Button className="hover:bg-indigo-400">
+            <Popover.Button className="hover:bg-indigo-400 p-1">
               <Link href="/">Home</Link>
             </Popover.Button>
             }
-            {/* <Popover.Button className="hover:bg-indigo-400">
-              <Link href="/">Home</Link>
-            </Popover.Button> */}
-            <Popover.Button className="hover:bg-indigo-400">
+            <Popover.Button className="hover:bg-indigo-400 p-1">
               <Link href="/about">About</Link>
             </Popover.Button>
           </div></div>
