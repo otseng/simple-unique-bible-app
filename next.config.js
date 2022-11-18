@@ -2,6 +2,6 @@ const { version } = require('./package.json');
 
 module.exports = {
   publicRuntimeConfig: {
-    version,
+    version: process.env.npm_package_version
   },
 };

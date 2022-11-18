@@ -2,11 +2,11 @@ import React from 'react';
 import Container from './container'
 import getConfig from 'next/config';
 
-const { publicRuntimeConfig } = getConfig();
 
 const Footer = () => {
 
-  const version = publicRuntimeConfig?.version || 'Dev mode'
+  const { publicRuntimeConfig } = getConfig();
+  const version = publicRuntimeConfig?.version
 
   return (
     <footer className="bg-neutral-50 border-t border-neutral-200">
