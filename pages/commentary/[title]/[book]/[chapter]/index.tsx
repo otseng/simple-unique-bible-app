@@ -47,7 +47,7 @@ export default function Index() {
                         <title>{APP_NAME}</title>
                     </Head>
                     <Container>
-                        <Intro />
+                        <Intro showHome="true" />
                         <h1 className="text-xl">
                             <Link href={"/commentary/" + title}><button className={`${clickableButton}`}>{title}</button></Link>
                             <Link href={"/commentary/" + title + '/' + book}><button className={`${clickableButton}`}>{book}</button></Link>

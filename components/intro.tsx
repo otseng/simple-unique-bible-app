@@ -1,7 +1,7 @@
 import { Menu, Popover, Transition } from '@headlessui/react'
 import Link from 'next/link'
 
-const Intro = () => (
+const Intro = (props) => (
   <section className="flex-row flex items-center justify-between mt-10 mb-10">
 
 <Popover className="relative">
@@ -25,11 +25,14 @@ const Intro = () => (
         <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5
         w-200">
           <div className="relative grid gap-1 bg-indigo-300 p-3 rounded">
-            {(`${window.location.pathname}` != '/') &&
+            {props.showHome == 'true' &&
             <Popover.Button className="hover:bg-indigo-400">
               <Link href="/">Home</Link>
             </Popover.Button>
             }
+            {/* <Popover.Button className="hover:bg-indigo-400">
+              <Link href="/">Home</Link>
+            </Popover.Button> */}
             <Popover.Button className="hover:bg-indigo-400">
               <Link href="/about">About</Link>
             </Popover.Button>

@@ -51,7 +51,7 @@ export default function Index() {
             <title>{APP_NAME}</title>
           </Head>
           <Container>
-            <Intro />
+            <Intro showHome="true" />
             <h1 className="text-l font-bold"><Link href={"/bible/" + text}>
               <button className={`${clickableButton}`}>{text}</button></Link></h1>
 

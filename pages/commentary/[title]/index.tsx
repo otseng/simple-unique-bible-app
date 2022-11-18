@@ -22,7 +22,7 @@ export default function Index() {
           <title>{APP_NAME}</title>
       </Head>
       <Container>
-          <Intro />
+          <Intro showHome="true" />
           <h1 className="text-xl"><button className={`${nonclickableButton}`}>{title}</button></h1>
           <p>&nbsp;</p>
           <ul>

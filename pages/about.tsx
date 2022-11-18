@@ -32,7 +32,7 @@ return (
           <title>{APP_NAME}</title>
         </Head>
         <Container>
-          <Intro />
+          <Intro showHome="true"/>
 
           <div className="text-xl"><button className={`${nonclickableButton}`}>About</button></div>
 

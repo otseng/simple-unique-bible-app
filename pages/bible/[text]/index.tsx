@@ -32,7 +32,7 @@ export default function Index() {
             <title>{APP_NAME}</title>
           </Head>
           <Container>
-            <Intro />
+            <Intro showHome="true" />
             <h1 className="text-l"><button className={`${nonclickableButton}`}>{text}</button></h1>
             <p>&nbsp;</p>
             {bookNames.map((book) => (

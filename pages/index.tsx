@@ -42,7 +42,7 @@ export default function Index() {
           <title>{APP_NAME}</title>
         </Head>
         <Container>
-          <Intro />
+          <Intro showHome="false"/>
 
           <Disclosure defaultOpen>
             <Disclosure.Button className={`${homeDisclosure}`}>

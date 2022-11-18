@@ -53,7 +53,7 @@ export default function Index() {
             <title>{APP_NAME}</title>
           </Head>
           <Container>
-            <Intro />
+            <Intro showHome="true"/>
             <div className="text-xl"><Link href={"/book/" + title}><button className={`${clickableButton}`}>{title.replaceAll('_', ' ')}</button></Link></div>
             <br />
 
