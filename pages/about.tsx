@@ -42,10 +42,12 @@ return (
 
             <p>&nbsp;</p>
 
-            <p className="text-lg font-bold">More UBA viewers:</p>
+            <p className="text-xl font-bold">More UBA viewers</p>
             <ul>
-              <li><a target="new" href="https://transliteralbible.com/index.html?cmd=.bible">TransliteralBible.com</a></li>
-              <li><a target="new" href="https://bible.gospelchurch.uk/index.html?cmd=John%203:16">GospelChurch.uk</a></li>
+              <li><a target="new" href="https://transliteralbible.com/index.html?cmd=.bible">
+                <button className={`${clickableButton}`}>TransliteralBible.com</button></a></li>
+              <li><a target="new" href="https://bible.gospelchurch.uk/index.html?cmd=John%203:16">
+              <button className={`${clickableButton}`}>GospelChurch.uk</button></a></li>
             </ul>
             
           </div>
