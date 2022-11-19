@@ -39,7 +39,7 @@ export default function BasicModal(props) {
                         {props.title}
                       </Dialog.Title>
                       <div className="mt-2">
-                        <div className="text-container text-sm text-gray-500" dangerouslySetInnerHTML={{ __html: props.content }} />
+                        <div className="text-container" dangerouslySetInnerHTML={{ __html: props.content }} />
                       </div>
                     </div>
                   </div>
