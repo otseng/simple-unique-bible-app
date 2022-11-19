@@ -7,7 +7,6 @@ import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
 import { preloadData, range, scrollToTop } from '../../../../../lib/util'
 import { getBibleChapter, getLexicon } from '../../../../../lib/api'
-import { Spinner } from 'react-bootstrap'
 import { useEffect, useRef, useState } from 'react'
 import { chapterDisclosure, clickableButton, textStrongs } from '../../../../../lib/styles'
 import { bibleChapters } from '../../../../../data/bibleChapters'
@@ -89,12 +88,12 @@ export default function Index() {
             <p>&nbsp;</p>
             {!parseVerse &&
               data.map((verse) => ( verse.t &&
-                <p>{verse.c}:{verse.v} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verse.t }} /></p>
+                <p id={`v${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verse.t }} /></p>
               ))
             }
             {parseVerse &&
               data.map((verse) => ( verse.t &&
-                <p>{verse.c}:{verse.v}<span> - </span> 
+                <p id={`v${verse.c}_${verse.v}`}>{verse.c}:{verse.v}<span> - </span> 
                   {verse.t.split(' ').map((word) => (
                     word.match(/[GH][0-9]{3,4}/) ?
                     <sup><a href="#" className={`${textStrongs}`} onClick={() => showLexicon(word)}>{word} </a></sup>
