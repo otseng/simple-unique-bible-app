@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
 import { preloadData, range, scrollToTop } from '../../../../../lib/util'
 import { getBibleChapter, getLexicon } from '../../../../../lib/api'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { chapterDisclosure, clickableButton, textStrongs } from '../../../../../lib/styles'
 import { bibleChapters } from '../../../../../data/bibleChapters'
 import { Disclosure } from '@headlessui/react'
@@ -57,9 +57,8 @@ export default function Index() {
 
   if (data) {
 
-    const parseVerse = text.endsWith('x')
+    const parseVerse = text.endsWith('x') || false
 
-    if (parseVerse)
     return (
       <>
         <Layout>
@@ -95,7 +94,7 @@ export default function Index() {
               data.map((verse) => ( verse.t &&
                 <p id={`v${verse.c}_${verse.v}`}>{verse.c}:{verse.v}<span> - </span> 
                   {verse.t.split(' ').map((word) => (
-                    word.match(/[GH][0-9]{3,4}/) ?
+                    word.match(/[GH][0-9]{1,4}/) ?
                     <sup><a href="#" className={`${textStrongs}`} onClick={() => showLexicon(word)}>{word} </a></sup>
                     : <span>{word} </span>
                   ))}
