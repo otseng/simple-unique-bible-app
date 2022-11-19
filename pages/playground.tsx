@@ -11,6 +11,7 @@ import BasicModal from '../components/basic-modal';
 export default function Index() {
 
   const [showScrollToTopButton, setShowScrollToTopButton] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -22,6 +23,10 @@ export default function Index() {
     });
   }, []);
 
+  function displayModal() {
+    setShowModal(true)
+  }
+
   return (
     <>
       <Layout>
@@ -31,25 +36,15 @@ export default function Index() {
         <Container>
           <Intro currentPage="true" />
 
-          <div className="text-xl"><button className={`${nonclickableButton}`}>About</button></div>
+          <div className="text-xl"><button className={`${nonclickableButton}`}>Playground</button></div>
 
           <div className="m-10">
 
-            <p>Simple web viewer for <a target="new" href="https://github.com/eliranwong/UniqueBible">UniqueBibleApp</a> written in React/Next.</p>
-
-            <p>&nbsp;</p>
-
-            <p className="text-xl font-bold">More UBA viewers</p>
-            <ul>
-              <li><a target="new" href="https://transliteralbible.com/index.html?cmd=.bible">
-                <button className={`${clickableButton}`}>TransliteralBible.com</button></a></li>
-              <li><a target="new" href="https://bible.gospelchurch.uk">
-                <button className={`${clickableButton}`}>GospelChurch.uk</button></a></li>
-              <li><a target="new" href="https://marvelbible.com">
-                <button className={`${clickableButton}`}>MarvelBible.com</button></a></li>
-            </ul>
+            <button className={`${clickableButton}`} onClick={displayModal}>Open Modal</button>
 
           </div>
+
+          <BasicModal show={showModal} setter={setShowModal} title="Test Modal" content="This is my content"></BasicModal>
 
           {showScrollToTopButton && (
             <button onClick={scrollToTop} className="back-to-top">

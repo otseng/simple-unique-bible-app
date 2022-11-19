@@ -1,10 +1,11 @@
 import { Menu, Popover, Transition } from '@headlessui/react'
 import Link from 'next/link'
+import isDev from '../lib/util'
 
 const Intro = (props) => (
   <section className="flex-row flex items-center justify-between mt-10 mb-10">
 
-<Popover className="relative">
+    <Popover className="relative">
       <Popover.Button className="dropdown-toggle inline-block px-4 py-2.5 bg-indigo-300 hover:bg-indigo-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg active:text-white transition duration-150 ease-in-out flex items-center whitespace-nowrap"
       >
         <div className="space-y-1 rounded">
@@ -21,20 +22,40 @@ const Intro = (props) => (
         leaveFrom="transform scale-100 opacity-100"
         leaveTo="transform scale-95 opacity-0"
       >
-      <Popover.Panel className="absolute z-10">
-        <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5
+        <Popover.Panel className="absolute z-10">
+          <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5
         w-200">
-          <div className="relative grid gap-1 bg-indigo-300 p-3 rounded text-lg text-white font-bold">
-            {props.showHome == 'true' &&
-            <Popover.Button className="hover:bg-indigo-400 p-1">
-              <Link href="/">Home</Link>
-            </Popover.Button>
-            }
-            <Popover.Button className="hover:bg-indigo-400 p-1">
-              <Link href="/about">About</Link>
-            </Popover.Button>
-          </div></div>
-      </Popover.Panel>
+            <div className="relative grid gap-1 bg-indigo-300 p-3 rounded text-lg text-white font-bold">
+              {props.currentPage != 'Home' && 
+                <Popover.Button className="hover:bg-indigo-400 p-1">
+                  <Link href="/">Home</Link>
+                </Popover.Button>
+              }
+              {props.currentPage != 'Bibles' &&
+                <Popover.Button className="hover:bg-indigo-400 p-1">
+                  <Link href="/bible">Bibles</Link>
+                </Popover.Button>
+              }
+              {props.currentPage != 'Books' &&
+                <Popover.Button className="hover:bg-indigo-400 p-1">
+                  <Link href="/book">Books</Link>
+                </Popover.Button>
+              }
+              {props.currentPage != 'Commentaries' &&
+                <Popover.Button className="hover:bg-indigo-400 p-1">
+                  <Link href="/commentary">Commentaries</Link>
+                </Popover.Button>
+              }
+              <Popover.Button className="hover:bg-indigo-400 p-1">
+                <Link href="/about">About</Link>
+              </Popover.Button>
+              {isDev() &&
+                <Popover.Button className="hover:bg-indigo-400 p-1">
+                  <Link href="/playground">Playground</Link>
+                </Popover.Button>
+              }
+            </div></div>
+        </Popover.Panel>
       </Transition>
     </Popover>
 

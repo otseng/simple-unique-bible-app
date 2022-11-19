@@ -30,7 +30,7 @@ export default function Index() {
             <title>{APP_NAME}</title>
           </Head>
           <Container>
-            <Intro showHome="true" />
+            <Intro currentPage="true" />
             <div className="text-xl"><button className={`${nonclickableButton}`}>{title.replaceAll('_', ' ')}</button></div>
             <p>&nbsp;</p>
             {/* {data.length > 100 &&

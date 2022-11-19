@@ -6,19 +6,20 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
 import { preloadData, range, scrollToTop } from '../../../../../lib/util'
-import { getBibleChapter } from '../../../../../lib/api'
+import { getBibleChapter, getLexicon } from '../../../../../lib/api'
 import { Spinner } from 'react-bootstrap'
-import { useEffect, useState } from 'react'
-import { chapterDisclosure, clickableButton } from '../../../../../lib/styles'
+import { useEffect, useRef, useState } from 'react'
+import { chapterDisclosure, clickableButton, textStrongs } from '../../../../../lib/styles'
 import { bibleChapters } from '../../../../../data/bibleChapters'
 import { Disclosure } from '@headlessui/react'
+import BasicModal from '../../../../../components/basic-modal'
 
 export default function Index() {
 
   if (!globalThis.bibleBooks) preloadData()
 
   const router = useRouter()
-  const text = router.query.text
+  const text = router.query.text as string
   const book = router.query.book as string
   const bookNum = globalThis.bibleNameToNumber[book]
   const chapter = router.query.chapter as string
@@ -27,6 +28,10 @@ export default function Index() {
   const chapters = range(bibleChapters[bookNum], 1)
 
   const [showScrollToTopButton, setShowScrollToTopButton] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState('')
+  const [modalContent, setModalContent] = useState('')
+  
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -40,10 +45,22 @@ export default function Index() {
 
   const { data, loading, error } = getBibleChapter(text, bookNum, chapter)
 
+  function showLexicon(strongs) {
+    setModalTitle('Lexicon - ' + strongs)
+    const data = getLexicon('TRLIT', strongs).then((data) => {
+      setModalContent(data)
+      setShowModal(true)
+    })
+  }
+
   if (error) return <div>Failed to load</div>
   if (loading) return
 
   if (data) {
+
+    const parseVerse = text.endsWith('x')
+
+    if (parseVerse)
     return (
       <>
         <Layout>
@@ -51,7 +68,7 @@ export default function Index() {
             <title>{APP_NAME}</title>
           </Head>
           <Container>
-            <Intro showHome="true" />
+            <Intro currentPage="true" />
             <h1 className="text-l font-bold"><Link href={"/bible/" + text}>
               <button className={`${clickableButton}`}>{text}</button></Link></h1>
 
@@ -70,9 +87,20 @@ export default function Index() {
           
 
             <p>&nbsp;</p>
-            {
-              data.map((verse) => (
+            {!parseVerse &&
+              data.map((verse) => ( verse.t &&
                 <p>{verse.c}:{verse.v} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verse.t }} /></p>
+              ))
+            }
+            {parseVerse &&
+              data.map((verse) => ( verse.t &&
+                <p>{verse.c}:{verse.v}<span> - </span> 
+                  {verse.t.split(' ').map((word) => (
+                    word.match(/[GH][0-9]{3,4}/) ?
+                    <sup><a href="#" className={`${textStrongs}`} onClick={() => showLexicon(word)}>{word} </a></sup>
+                    : <span>{word} </span>
+                  ))}
+                </p>
               ))
             }
 
@@ -82,6 +110,8 @@ export default function Index() {
             {showNext &&
               <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) + 1)}>
                 <button className={`${clickableButton}`}>Next</button></Link>}
+
+            <BasicModal show={showModal} setter={setShowModal} title={modalTitle} content={modalContent}></BasicModal>
 
             {showScrollToTopButton && (
               <button onClick={scrollToTop} className="back-to-top">

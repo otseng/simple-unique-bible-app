@@ -128,3 +128,11 @@ export function getCommentaryContent(title, bookNumber, chapter) {
   }
 }
 
+export async function getLexicon(lexicon, strongs) {
+  
+  const address = API_SERVER + `/lexicon/${lexicon}/${strongs}`;
+  const res = await axios.get(address, {auth})
+  const data = await res.data.data;
+  console.log(data)
+  return data
+}

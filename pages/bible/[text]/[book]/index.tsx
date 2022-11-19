@@ -26,7 +26,7 @@ export default function Index() {
                     <title>{APP_NAME}</title>
                 </Head>
                 <Container>
-                    <Intro showHome="true" />
+                    <Intro currentPage="true" />
                     <h1 className="text-l font-bold">
                         <Link href={"/bible/" + text}><button className={`${clickableButton}`}>{text}</button></Link>
                         <button className={`${nonclickableButton}`}>{book}</button></h1>

@@ -26,8 +26,8 @@ export default function Index() {
   }, []);
 
   const { data: dataBible, loading: loadingBible, error: errorBible } = getBibles()
-  const { data: dataCommentary, loading: loadingCommentary, error: errorCommentary } = getCommentaries()
   const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBooks()
+  const { data: dataCommentary, loading: loadingCommentary, error: errorCommentary } = getCommentaries()
 
   if (errorBible || errorBooks || errorCommentary) return <div>Failed to load</div>
   if (loadingBible || loadingBooks || loadingCommentary) return (
@@ -42,7 +42,7 @@ export default function Index() {
           <title>{APP_NAME}</title>
         </Head>
         <Container>
-          <Intro showHome="false"/>
+          <Intro currentPage="Home"/>
 
           <Disclosure defaultOpen>
             <Disclosure.Button className={`${homeDisclosure}`}>
