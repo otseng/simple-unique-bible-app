@@ -6,8 +6,9 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../lib/constants'
 import { preloadData } from '../../lib/util'
-import { clickableButton, nonclickableButton } from '../../lib/styles'
+import { clickableButton, homeDisclosure, nonclickableButton } from '../../lib/styles'
 import { getBibles } from '../../lib/api'
+import { Disclosure } from '@headlessui/react'
 
 export default function Index() {
 
@@ -30,13 +31,22 @@ export default function Index() {
           </Head>
           <Container>
             <Intro currentPage="Bibles" />
-            <h1 className="text-l"><button className={`${nonclickableButton}`}>Bibles</button></h1>
-            <p>&nbsp;</p>
-            {data.map((text) => (
-              <Link href={"/bible/" + text}>
-                <button className={`${clickableButton}`}>{text}</button>
-              </Link>
-            ))}
+
+            <Disclosure defaultOpen>
+            <Disclosure.Button className={`${homeDisclosure}`}>
+              <div className="text-2xl">Bibles</div>
+            </Disclosure.Button>
+            <Disclosure.Panel className="text-gray-500">
+              <div>
+                {data.map((text) => (
+                  <Link href={"/bible/" + text}>
+                    <button className={`${clickableButton}`}>{text}</button>
+                  </Link>
+                ))}
+              </div>
+            </Disclosure.Panel>
+          </Disclosure>
+
           </Container>
         </Layout>
       </>

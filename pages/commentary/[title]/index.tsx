@@ -6,7 +6,9 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../lib/constants'
 import { preloadData } from '../../../lib/util'
-import { clickableButton, nonclickableButton } from '../../../lib/styles'
+import { clickableButton, homeDisclosure, nonclickableButton } from '../../../lib/styles'
+import { getCommentaries } from '../../../lib/api'
+import { Disclosure } from '@headlessui/react'
 
 export default function Index() {
 
@@ -15,26 +17,53 @@ export default function Index() {
   const router = useRouter()
   const title = router.query.title
 
-  return (
-  <>
-      <Layout>
-      <Head>
-          <title>{APP_NAME}</title>
-      </Head>
-      <Container>
-          <Intro currentPage="true" />
-          <h1 className="text-xl"><button className={`${nonclickableButton}`}>{title}</button></h1>
-          <p>&nbsp;</p>
-          <ul>
-          {globalThis.bookNames.map((book) => (
-            <Link href={"/commentary/" + title + "/" + book}>
-              <button className={`${clickableButton}`}>{book}</button>
-            </Link>
-          ))}
-        </ul>
+  const { data: dataCommentaries, loading: loadingCommentaries, error: errorCommentaries } = getCommentaries()
 
-      </Container>
-      </Layout>
-  </>
-  )
+  if (dataCommentaries) {
+    return (
+      <>
+        <Layout>
+          <Head>
+            <title>{APP_NAME}</title>
+          </Head>
+          <Container>
+            <Intro currentPage="true" />
+
+            <Disclosure>
+              <Disclosure.Button className={`${homeDisclosure}`}>
+                <div className="text-2xl">Commentaries</div>
+              </Disclosure.Button>
+              <Disclosure.Panel className="text-gray-500">
+                <div>
+                  {dataCommentaries.map((commentary) => (
+                    <Link href={"/commentary/" + commentary}>
+                      <button className={`${clickableButton}`}>
+                        {commentary.replaceAll('_', ' ')}
+                      </button>
+                    </Link>
+                  ))}
+                </div>
+              </Disclosure.Panel>
+            </Disclosure>
+
+            <Disclosure defaultOpen>
+              <Disclosure.Button className={`${homeDisclosure}`}>
+                <div className="text-2xl">{title}</div>
+              </Disclosure.Button>
+              <Disclosure.Panel className="text-gray-500">
+                <div>
+                  {globalThis.bookNames.map((book) => (
+                    <Link href={"/commentary/" + title + "/" + book}>
+                      <button className={`${clickableButton}`}>{book}</button>
+                    </Link>
+                  ))}
+                </div>
+              </Disclosure.Panel>
+            </Disclosure>
+
+          </Container>
+        </Layout>
+      </>
+    )
+  }
 }

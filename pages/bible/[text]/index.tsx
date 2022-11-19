@@ -6,8 +6,9 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../lib/constants'
 import { preloadData } from '../../../lib/util'
-import { clickableButton, nonclickableButton } from '../../../lib/styles'
-import { getBibleTextBooks } from '../../../lib/api'
+import { clickableButton, homeDisclosure, nonclickableButton } from '../../../lib/styles'
+import { getBibles, getBibleTextBooks } from '../../../lib/api'
+import { Disclosure } from '@headlessui/react'
 
 export default function Index() {
 
@@ -16,12 +17,13 @@ export default function Index() {
   const router = useRouter()
   const text = router.query.text
 
+  const { data: dataBibles, loading: loadingBibles, error: errorBibles } = getBibles()
   const { data, loading, error } = getBibleTextBooks(text)
 
   if (error) return <div>Failed to load</div>
   if (loading) return
 
-  if (data) {
+  if (data && dataBibles) {
 
     const bookNames = data.map((number) => globalThis.bibleNumberToName[number])
 
@@ -33,13 +35,37 @@ export default function Index() {
           </Head>
           <Container>
             <Intro currentPage="true" />
-            <h1 className="text-l"><button className={`${nonclickableButton}`}>{text}</button></h1>
-            <p>&nbsp;</p>
-            {bookNames.map((book) => (
-              <Link href={"/bible/" + text + "/" + book + "/1"}>
-                <button className={`${clickableButton}`}>{book}</button>
-              </Link>
-            ))}
+
+            <Disclosure>
+              <Disclosure.Button className={`${homeDisclosure}`}>
+                <div className="text-2xl">Bibles</div>
+              </Disclosure.Button>
+              <Disclosure.Panel className="text-gray-500">
+                <div>
+                  {dataBibles.map((text) => (
+                    <Link href={"/bible/" + text}>
+                      <button className={`${clickableButton}`}>{text}</button>
+                    </Link>
+                  ))}
+                </div>
+              </Disclosure.Panel>
+            </Disclosure>
+
+            <Disclosure defaultOpen>
+              <Disclosure.Button className={`${homeDisclosure}`}>
+                <div className="text-2xl">{text}</div>
+              </Disclosure.Button>
+              <Disclosure.Panel className="text-gray-500">
+                <div>
+                  {bookNames.map((book) => (
+                    <Link href={"/bible/" + text + "/" + book + "/1"}>
+                      <button className={`${clickableButton}`}>{book}</button>
+                    </Link>
+                  ))}
+                </div>
+              </Disclosure.Panel>
+            </Disclosure>
+
           </Container>
         </Layout>
       </>

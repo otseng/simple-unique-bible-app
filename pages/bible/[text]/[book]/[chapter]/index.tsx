@@ -6,9 +6,9 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
 import { preloadData, range, scrollToTop } from '../../../../../lib/util'
-import { getBibleChapter, getLexicon } from '../../../../../lib/api'
+import { getBibleChapter, getBibles, getBibleTextBooks, getLexicon } from '../../../../../lib/api'
 import { useEffect, useState } from 'react'
-import { chapterDisclosure, clickableButton, textStrongs } from '../../../../../lib/styles'
+import { chapterDisclosure, clickableButton, homeDisclosure, textStrongs } from '../../../../../lib/styles'
 import { bibleChapters } from '../../../../../data/bibleChapters'
 import { Disclosure } from '@headlessui/react'
 import BasicModal from '../../../../../components/basic-modal'
@@ -30,7 +30,10 @@ export default function Index() {
   const [showModal, setShowModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('')
   const [modalContent, setModalContent] = useState('')
-  
+
+  const { data: dataBibles, loading: loadingBibles, error: errorBibles } = getBibles()
+  const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBibleTextBooks(text)
+  const { data, loading, error } = getBibleChapter(text, bookNum, chapter)
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -41,8 +44,6 @@ export default function Index() {
       }
     });
   }, []);
-
-  const { data, loading, error } = getBibleChapter(text, bookNum, chapter)
 
   function showLexicon(strongs) {
     setModalTitle('Lexicon - ' + strongs)
@@ -55,9 +56,10 @@ export default function Index() {
   if (error) return <div>Failed to load</div>
   if (loading) return
 
-  if (data) {
+  if (data && dataBooks && dataBibles) {
 
     const parseVerse = text.endsWith('x') || false
+    const bookNames = dataBooks.map((number) => globalThis.bibleNumberToName[number])
 
     return (
       <>
@@ -67,36 +69,63 @@ export default function Index() {
           </Head>
           <Container>
             <Intro currentPage="true" />
-            <h1 className="text-l font-bold"><Link href={"/bible/" + text}>
-              <button className={`${clickableButton}`}>{text}</button></Link></h1>
 
             <Disclosure>
-            <Disclosure.Button className={`${chapterDisclosure}`}>
-              <div>Chapter {chapter}</div>
-            </Disclosure.Button>
-            <Disclosure.Panel className="text-gray-500">
-              {chapters.map((chapter) => (
-              <Link href={"/bible/" + text + "/" + book + "/" + chapter}>
-                <button className={`${clickableButton}`}>{chapter}</button>
-              </Link>
-            ))}
-            </Disclosure.Panel>
-          </Disclosure>
-          
+              <Disclosure.Button className={`${homeDisclosure}`}>
+                <div className="text-2xl">Bibles</div>
+              </Disclosure.Button>
+              <Disclosure.Panel className="text-gray-500">
+                <div>
+                  {dataBibles.map((text) => (
+                    <Link href={"/bible/" + text + "/" + book + "/" + chapter}>
+                      <button className={`${clickableButton}`}>{text}</button>
+                    </Link>
+                  ))}
+                </div>
+              </Disclosure.Panel>
+            </Disclosure>
+
+            <Disclosure>
+              <Disclosure.Button className={`${homeDisclosure}`}>
+                <div className="text-2xl">{text}</div>
+              </Disclosure.Button>
+              <Disclosure.Panel className="text-gray-500">
+                <div>
+                  {bookNames.map((book) => (
+                    <Link href={"/bible/" + text + "/" + book + "/1"}>
+                      <button className={`${clickableButton}`}>{book}</button>
+                    </Link>
+                  ))}
+                </div>
+              </Disclosure.Panel>
+            </Disclosure>
+
+            <Disclosure>
+              <Disclosure.Button className={`${chapterDisclosure}`}>
+                <div className="text-xl">{book} {chapter}</div>
+              </Disclosure.Button>
+              <Disclosure.Panel className="text-gray-500">
+                {chapters.map((chapter) => (
+                  <Link href={"/bible/" + text + "/" + book + "/" + chapter}>
+                    <button className={`${clickableButton}`}>{chapter}</button>
+                  </Link>
+                ))}
+              </Disclosure.Panel>
+            </Disclosure>
 
             <p>&nbsp;</p>
             {!parseVerse &&
-              data.map((verse) => ( verse.t &&
+              data.map((verse) => (verse.t &&
                 <p id={`v${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verse.t }} /></p>
               ))
             }
             {parseVerse &&
-              data.map((verse) => ( verse.t &&
-                <p id={`v${verse.c}_${verse.v}`}>{verse.c}:{verse.v}<span> - </span> 
+              data.map((verse) => (verse.t &&
+                <p id={`v${verse.c}_${verse.v}`}>{verse.c}:{verse.v}<span> - </span>
                   {verse.t.split(' ').map((word) => (
                     word.match(/[GH][0-9]{1,4}/) ?
-                    <sup><a href="#" className={`${textStrongs}`} onClick={() => showLexicon(word)}>{word} </a></sup>
-                    : <span>{word} </span>
+                      <sup><a href="#" className={`${textStrongs}`} onClick={() => showLexicon(word)}>{word} </a></sup>
+                      : <span>{word} </span>
                   ))}
                 </p>
               ))
