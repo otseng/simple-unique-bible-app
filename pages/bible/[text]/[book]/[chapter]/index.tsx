@@ -124,8 +124,8 @@ export default function Index() {
                 <p id={`v${verse.c}_${verse.v}`}>{verse.c}:{verse.v}<span> - </span>
                   {verse.t.split(' ').map((word) => (
                     word.match(/[GH][0-9]{1,4}/) ?
-                      <sup><a href="#" className={`${textStrongs}`} onClick={() => showLexicon(word)}>{word} </a></sup>
-                      : <span>{word} </span>
+                      <sup><a className={`${textStrongs}`} onClick={() => showLexicon(word)}>{word} </a></sup>
+                      : <span dangerouslySetInnerHTML={{ __html: word + " " }} />
                   ))}
                 </p>
               ))
