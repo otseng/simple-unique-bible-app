@@ -36,6 +36,11 @@ const Intro = (props) => (
                   <Link href="/bible">Bibles</Link>
                 </Popover.Button>
               }
+              {props.currentPage != 'Devotionals' &&
+                <Popover.Button className="hover:bg-indigo-400 p-1">
+                  <Link href="/devotional">Devotionals</Link>
+                </Popover.Button>
+              }
               {props.currentPage != 'Books' &&
                 <Popover.Button className="hover:bg-indigo-400 p-1">
                   <Link href="/book">Books</Link>

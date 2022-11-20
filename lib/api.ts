@@ -128,6 +128,34 @@ export function getCommentaryContent(title, bookNumber, chapter) {
   }
 }
 
+export function getDevotionals() {
+  
+  const address = API_SERVER + `/devotional`;
+  const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data);
+  const { data, error } = useSWR(address, fetcher);
+
+  return {
+    data: data,
+    loading: !error && !data,
+    error: error
+  }
+}
+
+export function getDevotionalContent(book, month, day) {
+  
+  book = book.replaceAll('%20', '+').replaceAll(' ', '+')
+
+  const address = API_SERVER + `/devotional/${book}/${month}/${day}`;
+  const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data);
+  const { data, error } = useSWR(address, fetcher);
+
+  return {
+    data: data,
+    loading: !error && !data,
+    error: error
+  }
+}
+
 export async function getLexicon(lexicon, strongs) {
   
   const address = API_SERVER + `/lexicon/${lexicon}/${strongs}`;
