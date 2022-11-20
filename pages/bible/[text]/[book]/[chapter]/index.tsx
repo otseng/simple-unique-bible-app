@@ -106,6 +106,11 @@ export default function Index() {
     const parseVerse = text.endsWith('x') || text.endsWith('+')
     const bookNames = dataBooks.map((number) => globalThis.bibleNumberToName[number])
 
+    let textDir = 'ltr'
+    if (text == 'Tanakhxx') {
+      textDir = 'rtl'
+    }
+
     return (
       <>
         <Layout>
@@ -159,26 +164,29 @@ export default function Index() {
               </Disclosure.Panel>
             </Disclosure>
 
-            {!parseVerse &&
-              data.map((verse) => (verse.t &&
-                <p>
-                  <span className="hover:cursor-pointer" onClick={displayMenu} id={`v${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
-                  <span className="text-container" dangerouslySetInnerHTML={{ __html: verse.t }} /></p>
-              ))
-            }
-            {parseVerse &&
-              data.map((verse) => (verse.t &&
-                <p>
-                  <span className="hover:cursor-pointer" onClick={displayMenu} id={`v${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
-                  {verse.t.split(' ').map((word) => (
-                    word.match(/[GH][0-9]{1,4}/) ?
-                      <sup><a className={`${textStrongs}`} onClick={() => showLexicon(word)}>{word} </a></sup>
-                      : <span dangerouslySetInnerHTML={{ __html: word + " " }} />
-                  ))}
-                </p>
-              ))
-            }
+            <div dir={textDir}>
+              {!parseVerse &&
+                data.map((verse) => (verse.t &&
+                  <p>
+                    <span className="hover:cursor-pointer" onClick={displayMenu} id={`v${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
+                    <span className="text-container" dangerouslySetInnerHTML={{ __html: verse.t }} /></p>
+                ))
+              }
+              {parseVerse &&
+                data.map((verse) => (verse.t &&
+                  <p>
+                    <span className="hover:cursor-pointer" onClick={displayMenu} id={`v${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
+                    {verse.t.split(' ').map((word) => (
+                      word.match(/[GH][0-9]{1,4}/) ?
+                        <sup><a className={`${textStrongs}`} onClick={() => showLexicon(word)}>{word} </a></sup>
+                        : <span dangerouslySetInnerHTML={{ __html: word + " " }} />
+                    ))}
+                  </p>
+                ))
+              }
 
+            </div>
+            
             {showPrevious &&
               <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) - 1)}>
                 <button className={`${clickableButton}`}>Previous</button></Link>}
