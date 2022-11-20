@@ -4,8 +4,7 @@ import Layout from '../components/layout'
 import Head from 'next/head'
 import { APP_NAME } from '../lib/constants';
 import { clickableButton, nonclickableButton } from '../lib/styles';
-import { scrollToTop } from '../lib/util';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import BasicModal from '../components/basic-modal';
 import { Menu, Item, Separator, Submenu, useContextMenu } from 'react-contexify';
 import "react-contexify/dist/ReactContexify.css"
@@ -14,18 +13,7 @@ const BIBLE_VERSE_POPUP_MENU = "bible-verse-popup-menu"
 
 export default function Index() {
 
-  const [showScrollToTopButton, setShowScrollToTopButton] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      if (window.pageYOffset > 300) {
-        setShowScrollToTopButton(true);
-      } else {
-        setShowScrollToTopButton(false);
-      }
-    });
-  }, []);
 
   function displayModal() {
     setShowModal(true)
@@ -79,11 +67,6 @@ export default function Index() {
             </Submenu>
           </Menu>
 
-          {showScrollToTopButton && (
-            <button onClick={scrollToTop} className="back-to-top">
-              &#8679;
-            </button>
-          )}
         </Container>
       </Layout>
     </>

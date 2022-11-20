@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
-import { preloadData, range, scrollToTop } from '../../../../../lib/util'
+import { preloadData, range } from '../../../../../lib/util'
 import { getBibleChapter, getBibles, getBibleTextBooks, getLexicon } from '../../../../../lib/api'
 import { useEffect, useRef, useState } from 'react'
 import { chapterDisclosure, clickableButton, homeDisclosure, textStrongs } from '../../../../../lib/styles'
@@ -37,7 +37,6 @@ export default function Index() {
   const showNext = parseInt(chapter) < bibleChapters[bookNum]
   const chapters = range(bibleChapters[bookNum], 1)
 
-  const [showScrollToTopButton, setShowScrollToTopButton] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [modalTitle, setModalTitle] = useState('')
   const [modalContent, setModalContent] = useState('')
@@ -63,16 +62,6 @@ export default function Index() {
     }
   });
 
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      if (window.pageYOffset > 300) {
-        setShowScrollToTopButton(true)
-      } else {
-        setShowScrollToTopButton(false)
-      }
-    })
-  }, [])
-
   function handleItemClick({ id, event, props, data, triggerEvent }) {
     console.log(id, event, triggerEvent)
 
@@ -92,8 +81,10 @@ export default function Index() {
 
   function showLexicon(strongs) {
     setModalTitle('Lexicon - ' + strongs)
-    const data = getLexicon('TRLIT', strongs).then((data) => {
-      setModalContent(data)
+    const data = getLexicon('TRLIT', strongs).then((resp) => {
+      const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
+      console.log(html)
+      setModalContent(html)
       setShowModal(true)
     })
   }
@@ -207,11 +198,6 @@ export default function Index() {
               // </Submenu> */}
             </Menu>
 
-            {showScrollToTopButton && (
-              <button onClick={scrollToTop} className="back-to-top">
-                &#8679;
-              </button>
-            )}
           </Container>
         </Layout>
       </>

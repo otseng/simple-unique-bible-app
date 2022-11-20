@@ -4,23 +4,9 @@ import Layout from '../components/layout'
 import Head from 'next/head'
 import { APP_NAME, DOMAIN } from '../lib/constants';
 import { clickableButton, nonclickableButton } from '../lib/styles';
-import { scrollToTop } from '../lib/util';
-import { useEffect, useState } from 'react';
 import QRCode from "react-qr-code";
 
 export default function Index() {
-
-  const [showScrollToTopButton, setShowScrollToTopButton] = useState(false);
-
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      if (window.pageYOffset > 300) {
-        setShowScrollToTopButton(true);
-      } else {
-        setShowScrollToTopButton(false);
-      }
-    });
-  }, []);
 
   return (
     <>
@@ -58,12 +44,6 @@ export default function Index() {
             </div>
 
           </div>
-
-          {showScrollToTopButton && (
-            <button onClick={scrollToTop} className="back-to-top">
-              &#8679;
-            </button>
-          )}
         </Container>
       </Layout>
     </>
