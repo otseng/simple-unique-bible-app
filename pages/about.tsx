@@ -26,19 +26,9 @@ export default function Index() {
 
           <div className="m-10">
 
-            <p className="text-xl">Simple web viewer for <a target="new" href="https://github.com/eliranwong/UniqueBible">UniqueBibleApp</a> written in <a target="new" href="https://reactjs.org/">React</a>/<a target="new" href="https://nextjs.org/">Next</a>.</p>
+            <p className="text-xl">Simple web viewer for <a target="new" href="https://github.com/eliranwong/UniqueBible">Unique Bible App</a> written in <a target="new" href="https://reactjs.org/">React</a> / <a target="new" href="https://nextjs.org/">Next</a>.</p>
 
-            <p className="text-xl font-bold mt-10">More UBA viewers</p>
-            <ul>
-              <li><a target="new" href="https://transliteralbible.com/index.html?cmd=.bible">
-                <button className={`${clickableButton}`}>TransliteralBible.com</button></a></li>
-              <li><a target="new" href="https://bible.gospelchurch.uk">
-                <button className={`${clickableButton}`}>GospelChurch.uk</button></a></li>
-              <li><a target="new" href="https://marvelbible.com">
-                <button className={`${clickableButton}`}>MarvelBible.com</button></a></li>
-            </ul>
-
-            <p className="text-xl font-bold mt-10">App QR Code</p>
+            <p className="text-xl font-bold mt-10 mb-10">App QR Code</p>
             <div style={{ height: "auto", margin: "0 auto", maxWidth: 200, width: "400" }}>
               <QRCode
                 size={256}
@@ -47,6 +37,16 @@ export default function Index() {
                 viewBox={`0 0 256 256`}
               />
             </div>
+
+            <p className="text-xl font-bold mt-10 mb-3">More UBA viewers</p>
+            <ul>
+              <li><a target="new" href="https://transliteralbible.com/index.html?cmd=.bible">
+                <button className={`${clickableButton}`}>TransliteralBible.com</button></a></li>
+              <li><a target="new" href="https://bible.gospelchurch.uk">
+                <button className={`${clickableButton}`}>GospelChurch.uk</button></a></li>
+              <li><a target="new" href="https://marvelbible.com">
+                <button className={`${clickableButton}`}>MarvelBible.com</button></a></li>
+            </ul>
 
           </div>
 
