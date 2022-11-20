@@ -3,8 +3,9 @@ import Intro from '../components/intro'
 import Layout from '../components/layout'
 import Head from 'next/head'
 import { APP_NAME, DOMAIN } from '../lib/constants';
-import { clickableButton, nonclickableButton } from '../lib/styles';
+import { clickableButton, homeDisclosure } from '../lib/styles';
 import QRCode from "react-qr-code";
+import { Disclosure } from '@headlessui/react';
 
 export default function Index() {
 
@@ -17,11 +18,15 @@ export default function Index() {
         <Container>
           <Intro currentPage="true" />
 
-          <div className="text-xl"><button className={`${nonclickableButton}`}>About</button></div>
+          <Disclosure defaultOpen>
+            <Disclosure.Button className={`${homeDisclosure}`}>
+              <div className="text-2xl">About</div>
+            </Disclosure.Button>
+            <Disclosure.Panel className="text-gray-500">
 
           <div className="m-10">
 
-            <p>Simple web viewer for <a target="new" href="https://github.com/eliranwong/UniqueBible">UniqueBibleApp</a> written in React/Next.</p>
+            <p className="text-xl">Simple web viewer for <a target="new" href="https://github.com/eliranwong/UniqueBible">UniqueBibleApp</a> written in <a target="new" href="https://reactjs.org/">React</a>/<a target="new" href="https://nextjs.org/">Next</a>.</p>
 
             <p className="text-xl font-bold mt-10">More UBA viewers</p>
             <ul>
@@ -44,6 +49,10 @@ export default function Index() {
             </div>
 
           </div>
+
+          </Disclosure.Panel>
+          </Disclosure>
+
         </Container>
       </Layout>
     </>

@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.01] - 11/20/2022
+
+- Add devotionals
+
 ## [1.00] - 11/18/2022
 
 - Initial release

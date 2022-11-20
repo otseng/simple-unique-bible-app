@@ -5,9 +5,9 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../lib/constants'
-import { getBookChapters, getBookChapterContent } from '../../../../lib/api'
+import { getBookChapters, getBookChapterContent, getBooks } from '../../../../lib/api'
 import { useEffect, useState } from 'react'
-import { chapterDisclosure, clickableButton } from '../../../../lib/styles'
+import { chapterDisclosure, clickableButton, homeDisclosure } from '../../../../lib/styles'
 import { Disclosure } from '@headlessui/react'
 import { text } from 'stream/consumers'
 
@@ -17,14 +17,14 @@ export default function Index() {
   const title = router.query.title as string
   const chapter = router.query.chapter as string
 
+  const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBooks()
   const { data: dataChapters, loading: loadingChapters, error: errorChapters } = getBookChapters(title)
-
   const { data, loading, error } = getBookChapterContent(title, chapter)
 
   if (error) return <div>Failed to load</div>
   if (loading) return
 
-  if (data && dataChapters) {
+  if (data && dataBooks && dataChapters) {
 
     const navigation = getNavigation(dataChapters, chapter)
 
@@ -40,9 +40,38 @@ export default function Index() {
             <title>{APP_NAME}</title>
           </Head>
           <Container>
-            <Intro currentPage="true"/>
-            <div className="text-xl"><Link href={"/book/" + title}><button className={`${clickableButton}`}>{title.replaceAll('_', ' ')}</button></Link></div>
-            <br />
+            <Intro currentPage="Books"/>
+
+            <Disclosure>
+              <Disclosure.Button className={`${homeDisclosure}`}>
+                <div className="text-2xl">Books</div>
+              </Disclosure.Button>
+              <Disclosure.Panel className="text-gray-500">
+                <div>
+                  {dataBooks.map((title) => (
+                    <Link href={"/book/" + title}>
+                      <button className={`${clickableButton}`}>
+                        {title.replaceAll('_', ' ')}</button>
+                    </Link>
+                  ))}
+                </div>
+              </Disclosure.Panel>
+            </Disclosure>
+
+            <Disclosure>
+              <Disclosure.Button className={`${homeDisclosure}`}>
+                <div className="text-2xl">{title.replaceAll('_', ' ')}</div>
+              </Disclosure.Button>
+              <Disclosure.Panel className="text-gray-500">
+                <div>
+                  {dataChapters.map((chapter) => (
+                    <Link href={"/book/" + title + '/' + chapter.replaceAll("/", "_")}>
+                      <button className={`${clickableButton}`}>{chapter.replaceAll("/", "_")}</button>
+                    </Link>
+                  ))}
+                </div>
+              </Disclosure.Panel>
+            </Disclosure>
 
             <Disclosure>
               <Disclosure.Button className={`${chapterDisclosure}`}>

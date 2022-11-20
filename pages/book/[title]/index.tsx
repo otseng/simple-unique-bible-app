@@ -5,9 +5,10 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../lib/constants'
-import { getBookChapters } from '../../../lib/api'
-import { clickableButton, nonclickableButton } from '../../../lib/styles'
+import { getBookChapters, getBooks } from '../../../lib/api'
+import { chapterDisclosure, clickableButton, homeDisclosure, nonclickableButton } from '../../../lib/styles'
 import React from 'react'
+import { Disclosure } from '@headlessui/react'
 
 export default function Index() {
 
@@ -16,13 +17,13 @@ export default function Index() {
 
   const [filteredData, setFilteredData] = React.useState([]);
 
+  const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBooks()
+  const { data: dataChapters, loading: loadingChapters, error: errorChapters } = getBookChapters(title)
 
-  const { data, loading, error } = getBookChapters(title)
+  if (errorChapters) return <div>Failed to load</div>
+  if (loadingChapters) return
 
-  if (error) return <div>Failed to load</div>
-  if (loading) return
-
-  if (data) {
+  if (dataChapters && dataBooks) {
     return (
       <>
         <Layout>
@@ -30,16 +31,39 @@ export default function Index() {
             <title>{APP_NAME}</title>
           </Head>
           <Container>
-            <Intro currentPage="true" />
-            <div className="text-xl"><button className={`${nonclickableButton}`}>{title.replaceAll('_', ' ')}</button></div>
-            <p>&nbsp;</p>
-            {/* {data.length > 100 &&
-            <p>Filter: <input name="chapterFilter" onChange={handleChange} /><br/></p>} */}
-            {data.map((chapter) => (
-              <Link href={"/book/" + title + '/' + chapter.replaceAll("/", "_")}>
-                <button className={`${clickableButton}`}>{chapter.replaceAll("/", "_")}</button>
-              </Link>
-            ))}
+            <Intro currentPage="Books" />
+
+            <Disclosure>
+              <Disclosure.Button className={`${homeDisclosure}`}>
+                <div className="text-2xl">Books</div>
+              </Disclosure.Button>
+              <Disclosure.Panel className="text-gray-500">
+                <div>
+                  {dataBooks.map((title) => (
+                    <Link href={"/book/" + title}>
+                      <button className={`${clickableButton}`}>
+                        {title.replaceAll('_', ' ')}</button>
+                    </Link>
+                  ))}
+                </div>
+              </Disclosure.Panel>
+            </Disclosure>
+
+            <Disclosure defaultOpen>
+              <Disclosure.Button className={`${homeDisclosure}`}>
+                <div className="text-2xl">{title.replaceAll('_', ' ')}</div>
+              </Disclosure.Button>
+              <Disclosure.Panel className="text-gray-500">
+                <div>
+                  {dataChapters.map((chapter) => (
+                    <Link href={"/book/" + title + '/' + chapter.replaceAll("/", "_")}>
+                      <button className={`${clickableButton}`}>{chapter.replaceAll("/", "_")}</button>
+                    </Link>
+                  ))}
+                </div>
+              </Disclosure.Panel>
+            </Disclosure>
+
           </Container>
         </Layout>
       </>

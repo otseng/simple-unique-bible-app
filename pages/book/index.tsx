@@ -17,12 +17,12 @@ export default function Index() {
   const router = useRouter()
   const text = router.query.text
 
-  const { data, loading, error } = getBooks()
+  const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBooks()
 
-  if (error) return <div>Failed to load</div>
-  if (loading) return
+  if (errorBooks) return <div>Failed to load</div>
+  if (loadingBooks) return
 
-  if (data) {
+  if (dataBooks) {
     return (
       <>
         <Layout>
@@ -38,7 +38,7 @@ export default function Index() {
             </Disclosure.Button>
             <Disclosure.Panel className="text-gray-500">
               <div>
-              {data.map((title) => (
+              {dataBooks.map((title) => (
               <Link href={"/book/" + title}>
                 <button className={`${clickableButton}`}>
                   {title.replaceAll('_', ' ')}</button>
