@@ -7,11 +7,22 @@ import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
 import { preloadData, range, scrollToTop } from '../../../../../lib/util'
 import { getBibleChapter, getBibles, getBibleTextBooks, getLexicon } from '../../../../../lib/api'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { chapterDisclosure, clickableButton, homeDisclosure, textStrongs } from '../../../../../lib/styles'
 import { bibleChapters } from '../../../../../data/bibleChapters'
 import { Disclosure } from '@headlessui/react'
 import BasicModal from '../../../../../components/basic-modal'
+import {
+  Menu,
+  Item,
+  Separator,
+  Submenu,
+  useContextMenu
+} from "react-contexify"
+import "react-contexify/dist/ReactContexify.css"
+import { toast, Toaster } from 'react-hot-toast'
+
+const BIBLE_VERSE_POPUP_MENU = "bible-verse-popup-menu"
 
 export default function Index() {
 
@@ -26,24 +37,58 @@ export default function Index() {
   const showNext = parseInt(chapter) < bibleChapters[bookNum]
   const chapters = range(bibleChapters[bookNum], 1)
 
-  const [showScrollToTopButton, setShowScrollToTopButton] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showScrollToTopButton, setShowScrollToTopButton] = useState(false)
+  const [showModal, setShowModal] = useState(false)
   const [modalTitle, setModalTitle] = useState('')
   const [modalContent, setModalContent] = useState('')
+  const { show } = useContextMenu({
+    id: BIBLE_VERSE_POPUP_MENU
+  })
 
   const { data: dataBibles, loading: loadingBibles, error: errorBibles } = getBibles()
   const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBibleTextBooks(text)
   const { data, loading, error } = getBibleChapter(text, bookNum, chapter)
 
+  const scrolledRef = useRef(false);
+
+  useEffect(() => {
+    const hash = window?.location?.hash
+    if (hash && !scrolledRef.current) {
+      const id = hash.replace('#', '');
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        scrolledRef.current = true;
+      }
+    }
+  });
+
   useEffect(() => {
     window.addEventListener("scroll", () => {
       if (window.pageYOffset > 300) {
-        setShowScrollToTopButton(true);
+        setShowScrollToTopButton(true)
       } else {
-        setShowScrollToTopButton(false);
+        setShowScrollToTopButton(false)
       }
-    });
-  }, []);
+    })
+  }, [])
+
+  function handleItemClick({ id, event, props, data, triggerEvent }) {
+    console.log(id, event, triggerEvent)
+
+    if (id == 'copy') {
+      const targetId = triggerEvent?.srcElement?.id || ''
+      let url = window.location.href + '#' + targetId
+      navigator.clipboard.writeText(url)
+      toast('Link copied to clipboard')
+    }
+  }
+
+  function displayMenu(e) {
+    show({
+      event: e,
+    })
+  }
 
   function showLexicon(strongs) {
     setModalTitle('Lexicon - ' + strongs)
@@ -58,7 +103,7 @@ export default function Index() {
 
   if (data && dataBooks && dataBibles) {
 
-    const parseVerse = text.endsWith('x') || false
+    const parseVerse = text.endsWith('x') || text.endsWith('+')
     const bookNames = dataBooks.map((number) => globalThis.bibleNumberToName[number])
 
     return (
@@ -68,6 +113,7 @@ export default function Index() {
             <title>{APP_NAME}</title>
           </Head>
           <Container>
+            <div><Toaster position="top-center" /></div>
             <Intro currentPage="true" />
 
             <Disclosure>
@@ -113,15 +159,17 @@ export default function Index() {
               </Disclosure.Panel>
             </Disclosure>
 
-            <p>&nbsp;</p>
             {!parseVerse &&
               data.map((verse) => (verse.t &&
-                <p id={`v${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verse.t }} /></p>
+                <p>
+                  <span className="hover:cursor-pointer" onClick={displayMenu} id={`v${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
+                  <span className="text-container" dangerouslySetInnerHTML={{ __html: verse.t }} /></p>
               ))
             }
             {parseVerse &&
               data.map((verse) => (verse.t &&
-                <p id={`v${verse.c}_${verse.v}`}>{verse.c}:{verse.v}<span> - </span>
+                <p>
+                  <span className="hover:cursor-pointer" onClick={displayMenu} id={`v${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
                   {verse.t.split(' ').map((word) => (
                     word.match(/[GH][0-9]{1,4}/) ?
                       <sup><a className={`${textStrongs}`} onClick={() => showLexicon(word)}>{word} </a></sup>
@@ -139,6 +187,17 @@ export default function Index() {
                 <button className={`${clickableButton}`}>Next</button></Link>}
 
             <BasicModal show={showModal} setter={setShowModal} title={modalTitle} content={modalContent}></BasicModal>
+
+            <Menu id={BIBLE_VERSE_POPUP_MENU}>
+              <Item id="copy" onClick={handleItemClick}><span className="text-sm">Copy link</span></Item>
+              {/* <Item id="xref" onClick={handleItemClick}><span className="text-sm">Cross-references</span></Item>
+              <Item id="compare" onClick={handleItemClick}><span className="text-sm">Quick compare</span></Item> */}
+              {/* <Separator />
+              // <Submenu className="text-sm" label="Commentary">
+              //   <Item onClick={handleItemClick}><span className="text-sm">Commentary A</span></Item>
+              //   <Item onClick={handleItemClick}><span className="text-sm">Commentary B</span></Item>
+              // </Submenu> */}
+            </Menu>
 
             {showScrollToTopButton && (
               <button onClick={scrollToTop} className="back-to-top">
