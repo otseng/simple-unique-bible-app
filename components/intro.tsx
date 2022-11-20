@@ -26,38 +26,38 @@ const Intro = (props) => (
           <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5
         w-200">
             <div className="relative grid gap-1 bg-indigo-300 p-3 rounded text-lg text-white font-bold">
-              {props.currentPage != 'Home' && 
-                <Popover.Button className="hover:bg-indigo-400 p-1">
-                  <Link href="/">Home</Link>
-                </Popover.Button>
+              {props.currentPage != 'Home' &&
+                <Link href="/"><Popover.Button className="hover:bg-indigo-400 p-1">
+                  Home
+                </Popover.Button></Link>
               }
               {props.currentPage != 'Bibles' &&
-                <Popover.Button className="hover:bg-indigo-400 p-1">
-                  <Link href="/bible">Bibles</Link>
-                </Popover.Button>
+                <Link href="/bible"><Popover.Button className="hover:bg-indigo-400 p-1">
+                  Bibles
+                </Popover.Button></Link>
               }
               {props.currentPage != 'Devotionals' &&
-                <Popover.Button className="hover:bg-indigo-400 p-1">
-                  <Link href="/devotional">Devotionals</Link>
-                </Popover.Button>
+                <Link href="/devotional"><Popover.Button className="hover:bg-indigo-400 p-1">
+                  Devotionals
+                </Popover.Button></Link>
               }
               {props.currentPage != 'Books' &&
-                <Popover.Button className="hover:bg-indigo-400 p-1">
-                  <Link href="/book">Books</Link>
-                </Popover.Button>
+                <Link href="/book"><Popover.Button className="hover:bg-indigo-400 p-1">
+                  Books
+                </Popover.Button></Link>
               }
               {props.currentPage != 'Commentaries' &&
-                <Popover.Button className="hover:bg-indigo-400 p-1">
-                  <Link href="/commentary">Commentaries</Link>
-                </Popover.Button>
+                <Link href="/commentary"><Popover.Button className="hover:bg-indigo-400 p-1">
+                  Commentaries
+                </Popover.Button></Link>
               }
-              <Popover.Button className="hover:bg-indigo-400 p-1">
-                <Link href="/about">About</Link>
-              </Popover.Button>
+              <Link href="/about"><Popover.Button className="hover:bg-indigo-400 p-1">
+                About
+              </Popover.Button></Link>
               {isDev() &&
-                <Popover.Button className="hover:bg-indigo-400 p-1">
-                  <Link href="/playground">Playground</Link>
-                </Popover.Button>
+                <Link href="/playground"><Popover.Button className="hover:bg-indigo-400 p-1">
+                  Playground
+                </Popover.Button></Link>
               }
             </div></div>
         </Popover.Panel>
