@@ -57,7 +57,6 @@ export default function Index() {
               </Disclosure.Panel>
             </Disclosure>
 
-
           </Container>
         </Layout>
       </>

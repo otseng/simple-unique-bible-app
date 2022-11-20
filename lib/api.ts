@@ -143,7 +143,9 @@ export function getDevotionals() {
 
 export function getDevotionalContent(book, month, day) {
   
-  book = book.replaceAll('%20', '+').replaceAll(' ', '+')
+  if (book) {
+    book = book.replaceAll('%20', '+').replaceAll(' ', '+')
+  }
 
   const address = API_SERVER + `/devotional/${book}/${month}/${day}`;
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data);
