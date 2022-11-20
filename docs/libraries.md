@@ -16,4 +16,5 @@ Context Menu
 Toast
 * [Hot toast](https://react-hot-toast.com/)
 
-
+QR Code
+* [React QR Code](https://www.npmjs.com/package/react-qr-code)
