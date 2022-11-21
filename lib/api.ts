@@ -193,7 +193,7 @@ export function getCompareVerses(book, chapter, verse) {
 
 export function getCrossReferences(book, chapter, verse, text) {
   
-  if (!book || book == 'undefined') {
+  if (!book || book == 'undefined' || !text || text == 'undefined') {
     return {
       data: null,
       loading: null,
