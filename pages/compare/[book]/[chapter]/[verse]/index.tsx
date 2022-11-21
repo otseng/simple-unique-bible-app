@@ -6,15 +6,21 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
 import { preloadData, range } from '../../../../../lib/util'
-import { clickableButton, homeDisclosure } from '../../../../../lib/styles'
-import { getBibleBooks, getBibles, getBibleTextBooks, getCompareVerses } from '../../../../../lib/api'
+import { clickableButton, homeDisclosure, textStrongs } from '../../../../../lib/styles'
+import { getBibleBooks, getBibles, getBibleTextBooks, getCompareVerses, getLexicon } from '../../../../../lib/api'
 import { Disclosure } from '@headlessui/react'
 import { bibleChapters } from '../../../../../data/bibleChapters'
 import { bibleChapterVerses } from '../../../../../data/bibleChapterVerses'
+import BasicModal from '../../../../../components/basic-modal'
+import { useState } from 'react'
 
 export default function Index() {
 
   if (!globalThis.bibleBooks) preloadData()
+
+  const [showModal, setShowModal] = useState(false)
+  const [modalTitle, setModalTitle] = useState('')
+  const [modalContent, setModalContent] = useState('')
 
   const router = useRouter()
   const book = router.query.book as string
@@ -26,12 +32,21 @@ export default function Index() {
   const verses = (chapter && verseList) ? range(verseList[chapter], 1) : []
 
   const { data: texts, loading, error } = getBibleBooks()
-  // const { data: dataVerses, loading: loadingVerses, error: errorVerses } = getCompareVerses(bookNum, chapter, verse)
+  const { data: dataVerses, loading: loadingVerses, error: errorVerses } = getCompareVerses(bookNum, chapter, verse)
+
+  function showLexicon(strongs) {
+    setModalTitle('Lexicon - ' + strongs)
+    const data = getLexicon('TRLIT', strongs).then((resp) => {
+      const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
+      setModalContent(html)
+      setShowModal(true)
+    })
+  }
 
   if (error) return <div>Failed to load</div>
   if (loading) return
 
-  if (texts) {
+  if (texts && dataVerses) {
     return (
       <>
         <Layout>
@@ -73,7 +88,7 @@ export default function Index() {
 
             <Disclosure>
               <Disclosure.Button className={`${homeDisclosure}`}>
-                <div className="text-2xl">Chapter {chapter}</div>
+                <div className="text-2xl">Chapter {chapter}:{verse}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>
@@ -86,17 +101,27 @@ export default function Index() {
               </Disclosure.Panel>
             </Disclosure>
 
-            <Disclosure>
-              <Disclosure.Button className={`${homeDisclosure}`}>
-                <div className="text-2xl">{book} {chapter}:{verse}</div>
-              </Disclosure.Button>
-            </Disclosure>
+            <div>
+              {dataVerses.map((data) => {
+                const verseStr = data[1][3]
+                if (verseStr) {
+                  if (data[0].endsWith('+') || data[0].endsWith('x')) {
+                    return( 
+                      verseStr.split(' ').map((word) => (
+                      word.match(/[GH][0-9]{1,4}/) ?
+                        <sup><a className={`${textStrongs}`} onClick={() => showLexicon(word)}>{word} </a></sup>
+                        : <span dangerouslySetInnerHTML={{ __html: word + " " }} />
+                    ))
+                    )
+                  } else {
+                    return (<p>({data[0]}) {data[1][1]}:{data[1][2]} -  <span className="text-container" dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
+                  }
+                }
+              })
+              }
+            </div>
 
-            {/* <div>
-              {dataVerses.map((data) => (
-                <p>({data[0]}) {book} {data[1][1]}:{data[1][2]} - {data[1][3]}</p>
-              ))}
-            </div> */}
+            <BasicModal show={showModal} setter={setShowModal} title={modalTitle} content={modalContent}></BasicModal>
 
           </Container>
         </Layout>
