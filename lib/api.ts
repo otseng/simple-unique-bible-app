@@ -161,8 +161,19 @@ export function getDevotionalContent(book, month, day) {
 export function getCompareVerses(book, chapter, verse) {
   
   const address = API_SERVER + `/compare/${book}/${chapter}/${verse}`+ 
-  '?text=KJV&text=WEB&text=NET&text=EasyEnglish&text=ERV&text=BBE&text=YLT&text=KJVx&text=TRLIT&text=TRLITx&text=Greek%2b&text=Tanakhxx&text=TRx&text=CUV&text=Pinyin';
-  console.log(address)
+  '?text=KJV&text=KJVx&text=HKJVx' +
+  '&text=TRLIT&text=TRLITx' + 
+  '&text=ASV&text=ASVx' +
+  '&text=LEB&text=LEBx' + 
+  '&text=WEB&text=WEBx' +
+  '&text=NET&text=NETx' +
+  '&text=ERV&text=ISV&text=ULT&text=UST&text=2001' +
+  '&text=BBE&text=EasyEnglish&text=NHEB&text=PESH' +
+  '&text=YLT&text=Darby&txt=KJV1611&text=Geneva&text=Wesley&text=Bishops&text=Wycliffe' +
+  '&text=OHGB' +
+  '&text=Tanakhxx&text=MOB' +
+  '&text=Greek%2b&text=TRx' +
+  '&text=CUV&text=Pinyin';
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data);
   const { data, error } = useSWR(address, fetcher);
 

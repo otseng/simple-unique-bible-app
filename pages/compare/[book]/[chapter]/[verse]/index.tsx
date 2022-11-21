@@ -104,17 +104,19 @@ export default function Index() {
             <div>
               {dataVerses.map((data) => {
                 const verseStr = data[1][3]
+                const text = data[0]
+                const dir = (bookNum < 40 && (text == 'Tanakhxx' || text.startsWith('OHGB') || text == "MOB")) ? 'rtl' : 'ltr'
                 if (verseStr) {
-                  if (data[0].endsWith('+') || data[0].endsWith('x')) {
-                    return( 
-                      verseStr.split(' ').map((word) => (
+                  const link = <Link href={"/bible/" + data[0] + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>({data[0]}) {data[1][1]}:{data[1][2]}</Link>
+                  if (text.endsWith('+') || text.endsWith('x')) {
+                    const parsed = verseStr.split(' ').map((word) => (
                       word.match(/[GH][0-9]{1,4}/) ?
                         <sup><a className={`${textStrongs}`} onClick={() => showLexicon(word)}>{word} </a></sup>
                         : <span dangerouslySetInnerHTML={{ __html: word + " " }} />
                     ))
-                    )
+                    return (<p dir={dir}>{link} - {parsed}</p>)
                   } else {
-                    return (<p>({data[0]}) {data[1][1]}:{data[1][2]} -  <span className="text-container" dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
+                    return (<p dir={dir}>{link} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
                   }
                 }
               })
