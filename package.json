@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start",
+    "start": "nohup next start &",
     "build-start": "next build && nohup next start &",
     "export": "next export",
     "build-export": "next build && next export",

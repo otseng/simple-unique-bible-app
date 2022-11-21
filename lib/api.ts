@@ -161,11 +161,8 @@ export function getDevotionalContent(book, month, day) {
 export function getCompareVerses(book, chapter, verse) {
   
   if (!book || book == 'undefined') {
-    return {
-      data: Promise.resolve(),
-      loading: Promise.resolve(),
-      error: Promise.resolve()
-    }
+    console.log("undefined passed into getCompareVerses")
+    return
   }
   const address = API_SERVER + `/compare/${book}/${chapter}/${verse}`+ 
   '?text=KJV&text=KJVx&text=HKJVx' +
