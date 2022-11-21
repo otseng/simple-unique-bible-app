@@ -158,6 +158,20 @@ export function getDevotionalContent(book, month, day) {
   }
 }
 
+export function getCompareVerses(book, chapter, verse) {
+  
+  const address = API_SERVER + `/compare/${book}/${chapter}/${verse}`+ '?text=KJV&text=TRLIT';
+  console.log(address)
+  const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data);
+  const { data, error } = useSWR(address, fetcher);
+
+  return {
+    data: data,
+    loading: !error && !data,
+    error: error
+  }
+}
+
 export async function getLexicon(lexicon, strongs) {
   
   const address = API_SERVER + `/lexicon/${lexicon}/${strongs}`;
