@@ -163,7 +163,7 @@ export function getCompareVerses(book, chapter, verse) {
   if (!book || book == 'undefined') {
     return {
       data: null,
-      loading: Promise.resolve("Loading"),
+      loading: null, // Promise.resolve("Loading"),
       error: null
     }
   }
