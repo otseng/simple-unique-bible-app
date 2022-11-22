@@ -28,12 +28,12 @@ export default function Index() {
   const verses = (chapter && verseList) ? range(verseList[chapter], 1) : []
 
   const { data: texts, loading, error } = getBibleBooks()
-  const { data: dataVerses, loading: loadingVerses, error: errorVerses } = getCrossReferences(bookNum, chapter, verse, text)
+  // const { data: dataVerses, loading: loadingVerses, error: errorVerses } = getCrossReferences(bookNum, chapter, verse, text)
 
   if (error) return <div>Failed to load</div>
   if (loading) return
 
-  if (texts && dataVerses) {
+  if (texts) {
     return (
       <>
         <Layout>
@@ -89,8 +89,9 @@ export default function Index() {
             </Disclosure>
 
             <div>
-              {dataVerses.map((data) => {
-                {data}
+              no data
+              { /* {dataVerses.map((data) => {
+                // {data}
                 // const verseStr = data[1][3]
                 // const text = data[0]
                 // const dir = (bookNum < 40 && (text == 'Tanakhxx' || text.startsWith('OHGB') || text == "MOB")) ? 'rtl' : 'ltr'
@@ -108,7 +109,7 @@ export default function Index() {
                 //   }
                 // }
               })
-              }
+            */ } 
             </div>
 
           </Container>
