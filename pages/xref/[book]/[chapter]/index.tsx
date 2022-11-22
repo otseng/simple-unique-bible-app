@@ -70,7 +70,7 @@ export default function Index() {
             <Disclosure.Panel className="text-gray-500">
               <div>
                 {verses.map((verse) => (
-                  <Link href={"/xref/" + book + "/" + chapter + "/" + verse}>
+                  <Link href={"/xref/" + book + "/" + chapter + "/" + verse + "/KJV"}>
                     <button className={`${clickableButton}`}>{verse}</button>
                   </Link>
                 ))}

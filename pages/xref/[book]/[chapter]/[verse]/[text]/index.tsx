@@ -11,7 +11,6 @@ import { getBibleBooks, getCrossReferences } from '../../../../../../lib/api'
 import { Disclosure } from '@headlessui/react'
 import { bibleChapters } from '../../../../../../data/bibleChapters'
 import { bibleChapterVerses } from '../../../../../../data/bibleChapterVerses'
-import { useState } from 'react'
 
 export default function Index() {
 
@@ -27,13 +26,12 @@ export default function Index() {
   const verseList = bibleChapterVerses[bookNum]
   const verses = (chapter && verseList) ? range(verseList[chapter], 1) : []
 
-  const { data: texts, loading, error } = getBibleBooks()
-  // const { data: dataVerses, loading: loadingVerses, error: errorVerses } = getCrossReferences(bookNum, chapter, verse, text)
+  const { data: dataVerses, loading: loadingVerses, error: errorVerses } = getCrossReferences(bookNum, chapter, verse, text)
 
-  if (error) return <div>Failed to load</div>
-  if (loading) return
+  if (errorVerses) return <div>Failed to load</div>
+  if (loadingVerses) return <div>Loading</div>
 
-  if (texts) {
+  if (dataVerses) {
     return (
       <>
         <Layout>
@@ -80,7 +78,7 @@ export default function Index() {
               <Disclosure.Panel className="text-gray-500">
                 <div>
                   {verses.map((verse) => (
-                    <Link href={"/xref/" + book + "/" + chapter + "/" + verse}>
+                    <Link href={"/xref/" + book + "/" + chapter + "/" + verse + "/" + text}>
                       <button className={`${clickableButton}`}>{verse}</button>
                     </Link>
                   ))}
@@ -89,27 +87,15 @@ export default function Index() {
             </Disclosure>
 
             <div>
-              no data
-              { /* {dataVerses.map((data) => {
-                // {data}
-                // const verseStr = data[1][3]
-                // const text = data[0]
-                // const dir = (bookNum < 40 && (text == 'Tanakhxx' || text.startsWith('OHGB') || text == "MOB")) ? 'rtl' : 'ltr'
-                // if (verseStr) {
-                //   const link = <Link href={"/bible/" + data[0] + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>({data[0]}) {data[1][1]}:{data[1][2]}</Link>
-                //   if (text.endsWith('+') || text.endsWith('x')) {
-                //     const parsed = verseStr.split(' ').map((word) => (
-                //       word.match(/[GH][0-9]{1,4}/) ?
-                //         <sup><a className={`${textStrongs}`} onClick={() => showLexicon(word)}>{word} </a></sup>
-                //         : <span dangerouslySetInnerHTML={{ __html: word + " " }} />
-                //     ))
-                //     return (<p dir={dir}>{link} - {parsed}</p>)
-                //   } else {
-                //     return (<p dir={dir}>{link} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
-                //   }
-                // }
+              {dataVerses.map((data) => {
+                const bookName = globalThis.bibleNumberToName[data[0]]
+                const chapt = data[1]
+                const verse = data[2]
+                const dir = (bookNum < 40 && (text == 'Tanakhxx' || text.startsWith('OHGB') || text == "MOB")) ? 'rtl' : 'ltr'
+                const link = <Link href={"/bible/" + text + "/" + bookName + "/" + chapt + "#v" + chapt + "_" + verse}>{bookName} {data[1]}:{data[2]}</Link>
+                return (<p dir={dir} className="mt-2">{link} - {data[3]}</p>)
               })
-            */ } 
+            } 
             </div>
 
           </Container>

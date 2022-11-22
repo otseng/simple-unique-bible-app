@@ -193,13 +193,14 @@ export function getCompareVerses(book, chapter, verse) {
 
 export function getCrossReferences(book, chapter, verse, text) {
   
-  if (!book || book == 'undefined' || !text || text == 'undefined') {
-    return {
-      data: null,
-      loading: null,
-      error: null
-    }
-  }
+  // if (!book || book == 'undefined' || !verse || !chapter || !text) {
+  //   return {
+  //     data: null,
+  //     loading: null,
+  //     error: null
+  //   }
+  // }
+
   const address = API_SERVER + `/crossreference/${book}/${chapter}/${verse}/${text}`
   console.log(address)
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data)

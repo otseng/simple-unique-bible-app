@@ -65,16 +65,18 @@ export default function Index() {
   function handleItemClick({ id, event, props, data, triggerEvent }) {
     console.log(id, event, triggerEvent)
     const targetId = triggerEvent?.srcElement?.id || ''
-    if (id == 'copy') {
+    const regex = /v(.*)_(.*)/
+    const matches = regex.exec(targetId)
+    const chapter = matches[1]
+    const verse = matches[2]
+  if (id == 'copy') {
       let url = window.location.href + '#' + targetId
       navigator.clipboard.writeText(url)
       toast('Link copied to clipboard')
     } else if (id == 'compare') {
-      const regex = /v(.*)_(.*)/
-      const matches = regex.exec(targetId)
-      const chapter = matches[1]
-      const verse = matches[2]
       router.push(`/compare/${book}/${chapter}/${verse}`)
+    } else if (id == 'xref') {
+      router.push(`/xref/${book}/${chapter}/${verse}/${text}`)
     }
   }
 
@@ -102,7 +104,7 @@ export default function Index() {
     const bookNames = dataBooks.map((number) => globalThis.bibleNumberToName[number])
 
     let textDir = 'ltr'
-    if (text == 'Tanakhxx') {
+    if (text == 'Tanakhxx' || text == 'OHGB') {
       textDir = 'rtl'
     }
 
@@ -194,7 +196,7 @@ export default function Index() {
             <Menu id={BIBLE_VERSE_POPUP_MENU}>
               <Item id="copy" onClick={handleItemClick}><span className="text-sm">Copy link</span></Item>
               <Item id="compare" onClick={handleItemClick}><span className="text-sm">Compare</span></Item>
-              {/* <Item id="xref" onClick={handleItemClick}><span className="text-sm">Cross-references</span></Item>
+              <Item id="xref" onClick={handleItemClick}><span className="text-sm">Cross references</span></Item>
               {/* <Separator />
               // <Submenu className="text-sm" label="Commentary">
               //   <Item onClick={handleItemClick}><span className="text-sm">Commentary A</span></Item>
