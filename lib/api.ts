@@ -193,16 +193,7 @@ export function getCompareVerses(book, chapter, verse) {
 
 export function getCrossReferences(book, chapter, verse, text) {
   
-  // if (!book || book == 'undefined' || !verse || !chapter || !text) {
-  //   return {
-  //     data: null,
-  //     loading: null,
-  //     error: null
-  //   }
-  // }
-
   const address = API_SERVER + `/crossreference/${book}/${chapter}/${verse}/${text}`
-  console.log(address)
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 
@@ -213,6 +204,27 @@ export function getCrossReferences(book, chapter, verse, text) {
   }
 }
 
+export function search(searchText, text) {
+  
+  if (!searchText || searchText == 'undefined') {
+    return {
+      data: null,
+      loading: null,
+      error: null
+    }
+  }
+
+  const address = API_SERVER + `/search?searchText=` + searchText + '&text=' + text
+  console.log(address)
+  const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data)
+  const { data, error } = useSWR(address, fetcher)
+
+  return {
+    data: data,
+    loading: !error && !data,
+    error: error
+  }
+}
 export async function getLexicon(lexicon, strongs) {
   
   const address = API_SERVER + `/lexicon/${lexicon}/${strongs}`
