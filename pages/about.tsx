@@ -28,6 +28,11 @@ export default function Index() {
 
             <p className="text-xl">Simple web viewer for <a target="new" href="https://github.com/eliranwong/UniqueBible">Unique Bible App</a> written in <a target="new" href="https://reactjs.org/">React</a> / <a target="new" href="https://nextjs.org/">Next</a>.</p>
 
+            <div className="text-center mt-10">
+            <a target="new" href="https://github.com/otseng/simple-unique-bible-viewer/issues"><button className={`${clickableButton}`}>Suggest a feature</button></a>
+            <a target="new" href="https://github.com/otseng/simple-unique-bible-viewer/discussions"><button className={`${clickableButton}`}>Feedback / Questions</button></a>
+            </div>
+
             <p className="text-xl font-bold mt-10 mb-10">App QR Code</p>
             <div style={{ height: "auto", margin: "0 auto", maxWidth: 200, width: "400" }}>
               <QRCode

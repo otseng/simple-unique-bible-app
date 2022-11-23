@@ -23,7 +23,8 @@ export default function Index() {
   const [modalContent, setModalContent] = useState('')
 
   const router = useRouter()
-  const book = router.query.book as string
+  let book = router.query.book as string
+  book = book.replaceAll("%20", " ")
   const chapter = router.query.chapter as string
   const verse = router.query.verse as string
   const bookNum = globalThis.bibleNameToNumber[book]
@@ -54,7 +55,7 @@ export default function Index() {
             <title>{APP_NAME}</title>
           </Head>
           <Container>
-            <Intro currentPage="true" />
+            <Intro currentPage="Compare" />
 
             <Disclosure>
               <Disclosure.Button className={`${homeDisclosure}`}>

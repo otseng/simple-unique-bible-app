@@ -2,7 +2,7 @@ import Container from '../../../../components/container'
 import Intro from '../../../../components/intro'
 import Layout from '../../../../components/layout'
 import Head from 'next/head'
-import { APP_NAME, DOMAIN } from '../../../../lib/constants';
+import { APP_NAME } from '../../../../lib/constants';
 import { clickableButton, homeDisclosure, textStrongs } from '../../../../lib/styles';
 import { Disclosure } from '@headlessui/react';
 import { useRouter } from 'next/router';
@@ -15,7 +15,7 @@ export default function Index() {
   if (!globalThis.bibleBooks) preloadData()
 
   const router = useRouter()
-  const searchText = router.query.searchText
+  const searchText = router.query.searchText as string
 
   const text: string = 'KJV'
   const { data: dataVerses, loading, error } = searchBible(searchText, text)
@@ -52,19 +52,21 @@ export default function Index() {
                 const book = globalThis.bibleNumberToName[bookNum]
                 const chapter = data[1]
                 const verse = data[2]
-                const verseStr = data[3]
+                let verseStr = data[3]
                 const dir = getBibleTextDir(text, bookNum)
                 if (verseStr) {
-                  const link = <Link href={"/bible/" + data[0] + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>{book} {chapter}:{verse}</Link>
+                  const link = <Link href={"/bible/" + text + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>{book} {chapter}:{verse}</Link>
                   if (text.endsWith('+') || text.endsWith('x')) {
                     const parsed = verseStr.split(' ').map((word) => (
                       word.match(/[GH][0-9]{1,4}/) ?
                         <sup><a className={`${textStrongs}`}>{word} </a></sup>
                         : <span dangerouslySetInnerHTML={{ __html: word + " " }} />
                     ))
-                    return (<p className="mt-2" dir={dir}>{link} - {parsed}</p>)
+                    verseStr = highlight(parsed, searchText)
+                    return (<p className="mt-2 color-black" dir={dir}>{link} - {parsed}</p>)
                   } else {
-                    return (<p className="mt-2" dir={dir}>{link} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
+                    verseStr = highlight(verseStr, searchText)
+                    return (<p className="mt-2 color-black" dir={dir}>{link} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
                   }
                 }
               })
@@ -80,3 +82,9 @@ export default function Index() {
     )
   }
 }
+function highlight(html: string, searchText: string): any {
+  html = html.replace(new RegExp("(" + searchText + ")", "ig"), "<span style='background-color: rgb(254 240 138);'>$1</span>")
+  return html
+
+}
+

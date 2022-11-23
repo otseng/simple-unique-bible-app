@@ -113,7 +113,7 @@ export default function Index() {
           </Head>
           <Container>
             <div><Toaster position="top-center" /></div>
-            <Intro currentPage="true" />
+            <Intro currentPage="Bibles" />
 
             <Disclosure>
               <Disclosure.Button className={`${homeDisclosure}`}>

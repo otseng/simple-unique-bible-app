@@ -31,7 +31,7 @@ export default function Index() {
           <title>{APP_NAME}</title>
         </Head>
         <Container>
-          <Intro currentPage="true" />
+          <Intro currentPage="Compare" />
 
           <Disclosure>
             <Disclosure.Button className={`${homeDisclosure}`}>
