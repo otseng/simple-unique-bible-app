@@ -16,7 +16,7 @@ export default function Index() {
           <title>{APP_NAME}</title>
         </Head>
         <Container>
-          <Intro currentPage="true" />
+          <Intro currentPage="About" />
 
           <Disclosure defaultOpen>
             <Disclosure.Button className={`${homeDisclosure}`}>

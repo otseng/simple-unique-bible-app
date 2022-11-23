@@ -1,4 +1,4 @@
-import isDev from "./util"
+import { isDev } from "./util"
 
 export const APP_NAME = 'Simple Unique Bible Viewer'
 export const DOMAIN = 'https://simple.uniquebibleapp.com'

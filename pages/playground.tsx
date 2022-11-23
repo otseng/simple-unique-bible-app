@@ -40,7 +40,7 @@ export default function Index() {
           <title>{APP_NAME}</title>
         </Head>
         <Container>
-          <Intro currentPage="true" />
+          <Intro currentPage="Playground" />
 
           <div className="text-xl"><button className={`${nonclickableButton}`}>Playground</button></div>
 

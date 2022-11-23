@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
-import { preloadData, range } from '../../../../../lib/util'
+import { getBibleTextDir, preloadData, range } from '../../../../../lib/util'
 import { getBibleChapter, getBibles, getBibleTextBooks, getLexicon } from '../../../../../lib/api'
 import { useEffect, useRef, useState } from 'react'
 import { chapterDisclosure, clickableButton, homeDisclosure, textStrongs } from '../../../../../lib/styles'
@@ -103,10 +103,7 @@ export default function Index() {
     const parseVerse = text.endsWith('x') || text.endsWith('+')
     const bookNames = dataBooks.map((number) => globalThis.bibleNumberToName[number])
 
-    let textDir = 'ltr'
-    if (text == 'Tanakhxx' || text == 'OHGB') {
-      textDir = 'rtl'
-    }
+    const textDir = getBibleTextDir(text, bookNum)
 
     return (
       <>

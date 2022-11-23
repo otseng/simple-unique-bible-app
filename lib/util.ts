@@ -23,7 +23,11 @@ export function scrollToTop() {
     });
 };
 
-export default function isDev(): boolean
+export function isDev(): boolean
 {
     return !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+}
+
+export function getBibleTextDir(text, bookNum) {
+    return (bookNum < 40 && (text == 'Tanakhxx' || text.startsWith('OHGB') || text == "MOB")) ? 'rtl' : 'ltr'
 }

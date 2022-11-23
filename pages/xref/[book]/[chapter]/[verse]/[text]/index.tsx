@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../../lib/constants'
-import { preloadData, range } from '../../../../../../lib/util'
+import { getBibleTextDir, preloadData, range } from '../../../../../../lib/util'
 import { clickableButton, homeDisclosure, textStrongs } from '../../../../../../lib/styles'
 import { getBibleBooks, getCrossReferences } from '../../../../../../lib/api'
 import { Disclosure } from '@headlessui/react'
@@ -91,7 +91,7 @@ export default function Index() {
                 const bookName = globalThis.bibleNumberToName[data[0]]
                 const chapt = data[1]
                 const verse = data[2]
-                const dir = (bookNum < 40 && (text == 'Tanakhxx' || text.startsWith('OHGB') || text == "MOB")) ? 'rtl' : 'ltr'
+                const dir = getBibleTextDir(text, bookNum)
                 const link = <Link href={"/bible/" + text + "/" + bookName + "/" + chapt + "#v" + chapt + "_" + verse}>{bookName} {data[1]}:{data[2]}</Link>
                 return (<p dir={dir} className="mt-2">{link} - {data[3]}</p>)
               })

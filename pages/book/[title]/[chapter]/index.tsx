@@ -6,10 +6,8 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../lib/constants'
 import { getBookChapters, getBookChapterContent, getBooks } from '../../../../lib/api'
-import { useEffect, useState } from 'react'
 import { chapterDisclosure, clickableButton, homeDisclosure } from '../../../../lib/styles'
 import { Disclosure } from '@headlessui/react'
-import { text } from 'stream/consumers'
 
 export default function Index() {
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import Container from './container'
 import getConfig from 'next/config';
-import isDev from '../lib/util';
+import { isDev } from '../lib/util';
 
 
 const Footer = () => {

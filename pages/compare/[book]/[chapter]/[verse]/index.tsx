@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
-import { preloadData, range } from '../../../../../lib/util'
+import { getBibleTextDir, preloadData, range } from '../../../../../lib/util'
 import { clickableButton, homeDisclosure, textStrongs } from '../../../../../lib/styles'
 import { getBibleBooks, getBibles, getBibleTextBooks, getCompareVerses, getLexicon } from '../../../../../lib/api'
 import { Disclosure } from '@headlessui/react'
@@ -105,7 +105,7 @@ export default function Index() {
               {dataVerses.map((data) => {
                 const verseStr = data[1][3]
                 const text = data[0]
-                const dir = (bookNum < 40 && (text == 'Tanakhxx' || text.startsWith('OHGB') || text == "MOB")) ? 'rtl' : 'ltr'
+                const dir = getBibleTextDir(text, bookNum)
                 if (verseStr) {
                   const link = <Link href={"/bible/" + data[0] + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>({data[0]}) {data[1][1]}:{data[1][2]}</Link>
                   if (text.endsWith('+') || text.endsWith('x')) {

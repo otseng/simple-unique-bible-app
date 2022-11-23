@@ -6,9 +6,9 @@ import { APP_NAME, DOMAIN } from '../../../../lib/constants';
 import { clickableButton, homeDisclosure, textStrongs } from '../../../../lib/styles';
 import { Disclosure } from '@headlessui/react';
 import { useRouter } from 'next/router';
-import { search } from '../../../../lib/api';
+import { searchBible } from '../../../../lib/api';
 import Link from 'next/link';
-import { preloadData } from '../../../../lib/util';
+import { getBibleTextDir, preloadData } from '../../../../lib/util';
 
 export default function Index() {
 
@@ -18,7 +18,7 @@ export default function Index() {
   const searchText = router.query.searchText
 
   const text: string = 'KJV'
-  const { data: dataVerses, loading, error } = search(searchText, text)
+  const { data: dataVerses, loading, error } = searchBible(searchText, text)
 
   if (error) return <div>Failed to load</div>
   if (loading) return
@@ -31,15 +31,21 @@ export default function Index() {
             <title>{APP_NAME}</title>
           </Head>
           <Container>
-            <Intro currentPage="true" />
+            <Intro currentPage="Search" />
 
             <Disclosure defaultOpen>
               <Disclosure.Button className={`${homeDisclosure}`}>
-                <div className="text-2xl">Search results</div>
+                <div className="text-2xl">Bible search results</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
 
                 <div className="m-10">
+
+                <Link href={"/search"}>
+                    <button className={`${clickableButton}`}>Back to search</button>
+                </Link>
+
+                <p className="font-bold">Search "{searchText}" - {dataVerses.length} verses found</p>
 
                 {dataVerses.map((data) => {
                 const bookNum = data[0]
@@ -47,7 +53,7 @@ export default function Index() {
                 const chapter = data[1]
                 const verse = data[2]
                 const verseStr = data[3]
-                const dir = (bookNum < 40 && (text == 'Tanakhxx' || text.startsWith('OHGB') || text == "MOB")) ? 'rtl' : 'ltr'
+                const dir = getBibleTextDir(text, bookNum)
                 if (verseStr) {
                   const link = <Link href={"/bible/" + data[0] + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>{book} {chapter}:{verse}</Link>
                   if (text.endsWith('+') || text.endsWith('x')) {

@@ -1,7 +1,7 @@
 import { Disclosure } from '@headlessui/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Container from '../../components/container';
 import Intro from '../../components/intro';
 import Layout from '../../components/layout';
@@ -14,6 +14,13 @@ export default function Index() {
 
   const router = useRouter()
 
+  useEffect(() => {
+    const element = document.getElementById('search-text')
+    if (element) {
+      element.focus()
+    }
+  });
+
   function searchBible() {
     const url = `/search/bible/${searchText}`
     router.push(url)
@@ -23,6 +30,12 @@ export default function Index() {
     setSearchText(event.target.value)
   }
 
+  function searchTextKeyPress(event) {
+    if (event.charCode == 13) {
+      searchBible()
+    }
+  }
+
   return (
     <>
       <Layout>
@@ -30,7 +43,7 @@ export default function Index() {
           <title>{APP_NAME}</title>
         </Head>
         <Container>
-          <Intro currentPage="true" />
+          <Intro currentPage="Search" />
 
           <Disclosure defaultOpen>
             <Disclosure.Button className={`${homeDisclosure}`}>
@@ -39,14 +52,15 @@ export default function Index() {
             <Disclosure.Panel className="text-gray-500">
 
               <div className="m-10">
-                  <div className="flex w-full justify-center">
+                <div className="flex w-full justify-center">
 
-                  <input className="w-2/4 p-2 border-sky-500 border-solid drop-shadow" type="text" 
-                  value={searchText} onChange={searchTextChange}/>
+                  <input id="search-text" className="w-1/4 p-2 border-sky-500 border-solid drop-shadow" 
+                    type="text" value={searchText} 
+                    onChange={searchTextChange} onKeyPress={searchTextKeyPress}/>
 
-                  <button className={`${clickableButton}`} onClick={searchBible}>Search</button>
+                  <button className={`${clickableButton}`} onClick={searchBible}>Search Bible</button>
 
-                  </div>
+                </div>
 
               </div>
 

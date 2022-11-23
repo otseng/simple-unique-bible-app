@@ -4,3 +4,5 @@ export const chapterDisclosure = "flex w-full justify-center rounded-lg bg-purpl
 export const clickableButton = "bg-blue-500 hover:bg-blue-300 text-white font-bold py-2 px-3 rounded m-2"
 export const nonclickableButton = "hover:cursor-default bg-blue-500 text-white font-bold py-2 px-3 rounded m-2"
 export const textStrongs = "text-amber-700 hover:cursor-pointer"
+
+export const menuItemStyle = "min-w-200 bg-indigo-300 p-2 text-lg text-blue z-20 hover:bg-indigo-400"
