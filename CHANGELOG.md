@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.02] - 11/23/2022
+
+- Added search
+
 ## [1.01] - 11/21/2022
 
 - Added devotionals
