@@ -160,13 +160,13 @@ export function getDevotionalContent(book, month, day) {
 
 export function getCompareVerses(book, chapter, verse) {
   
-  if (!book || book == 'undefined') {
-    return {
-      data: null,
-      loading: null, // Promise.resolve("Loading"),
-      error: null
-    }
-  }
+  // if (!book || book == 'undefined' || !chapter || chapter == 'undefined' || !verse || verse == 'undefined') {
+  //   return {
+  //     data: null,
+  //     loading: null, // Promise.resolve("Loading"),
+  //     error: null
+  //   }
+  // }
   const address = API_SERVER + `/compare/${book}/${chapter}/${verse}`+ 
   '?text=KJV&text=KJVx&text=HKJVx' +
   '&text=TRLIT&text=TRLITx' + 

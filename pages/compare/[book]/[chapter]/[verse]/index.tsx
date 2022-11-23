@@ -24,7 +24,6 @@ export default function Index() {
 
   const router = useRouter()
   let book = router.query.book as string
-  book = book.replaceAll("%20", " ")
   const chapter = router.query.chapter as string
   const verse = router.query.verse as string
   const bookNum = globalThis.bibleNameToNumber[book]
@@ -34,6 +33,10 @@ export default function Index() {
 
   const { data: texts, loading, error } = getBibleBooks()
   const { data: dataVerses, loading: loadingVerses, error: errorVerses } = getCompareVerses(bookNum, chapter, verse)
+
+  async function getStaticProps({ params: {slug} }) {
+    console.log(`Building slug: ${slug}`)
+  }
 
   function showLexicon(strongs) {
     setModalTitle('Lexicon - ' + strongs)
