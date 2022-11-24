@@ -9,6 +9,10 @@ isDev()
                       <button className={`${clickableButton}`}>{verse}</button>
                     </Link>
 
+# onClick
+
+onClick={() => showLexicon(word)}>
+
 # Output html
 
  <span className="text-container" dangerouslySetInnerHTML={{ __html: verse.t }} />

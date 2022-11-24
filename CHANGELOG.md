@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.03] - 11/24/2022
+
+- Added bookmarks
+
 ## [1.02] - 11/23/2022
 
 - Added search

@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
-import { getBibleTextDir, preloadData, range } from '../../../../../lib/util'
+import { addBookmark, bookmarkExists, getBibleTextDir, preloadData, range } from '../../../../../lib/util'
 import { getBibleChapter, getBibles, getBibleTextBooks, getInstantLex, getLexicon } from '../../../../../lib/api'
 import { useEffect, useRef, useState } from 'react'
 import { chapterDisclosure, clickableButton, homeDisclosure, textStrongs } from '../../../../../lib/styles'
@@ -70,13 +70,21 @@ export default function Index() {
     const chapter = matches[1]
     const verse = matches[2]
     if (id == 'copy') {
-      let url = window.location.href + '#' + targetId
+      const url = window.location.href + '#' + targetId
       navigator.clipboard.writeText(url)
       toast('Link copied to clipboard')
     } else if (id == 'compare') {
       router.push(`/compare/${book}/${chapter}/${verse}?text=${text}`)
     } else if (id == 'xref') {
       router.push(`/xref/${book}/${chapter}/${verse}/${text}`)
+    } else if (id == 'bookmark') {
+      const url = `/bible/${text}/${book}/${chapter}#${targetId}`
+      if (bookmarkExists(url)) {
+        toast('Bookmark already exists')
+      } else {
+        addBookmark(url)
+        toast('Bookmark added')
+      }
     }
   }
 
@@ -210,9 +218,10 @@ export default function Index() {
             <BasicModal show={showModal} setter={setShowModal} title={modalTitle} content={modalContent}></BasicModal>
 
             <Menu id={BIBLE_VERSE_POPUP_MENU}>
-              <Item id="copy" onClick={handleItemClick}><span className="text-sm">Copy link</span></Item>
-              <Item id="compare" onClick={handleItemClick}><span className="text-sm">Compare</span></Item>
-              <Item id="xref" onClick={handleItemClick}><span className="text-sm">Cross references</span></Item>
+              <Item id="copy" onClick={handleItemClick}><span className="text-md">Copy link</span></Item>
+              <Item id="compare" onClick={handleItemClick}><span className="text-md">Compare</span></Item>
+              <Item id="xref" onClick={handleItemClick}><span className="text-md">Cross references</span></Item>
+              <Item id="bookmark" onClick={handleItemClick}><span className="text-md">Add bookmark</span></Item>
               {/* <Separator />
               // <Submenu className="text-sm" label="Commentary">
               //   <Item onClick={handleItemClick}><span className="text-sm">Commentary A</span></Item>

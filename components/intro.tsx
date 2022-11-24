@@ -86,6 +86,16 @@ const Intro = (props) => (
                   Commentaries
                 </Popover.Button>
               }
+              {props.currentPage != 'Bookmarks' &&
+                <Link href="/bookmark"><Popover.Button className="hover:bg-indigo-400 p-1">
+                  Bookmarks
+                </Popover.Button></Link>
+              }
+              {props.currentPage == 'Bookmarks' &&
+                <Popover.Button className="text-left ml-1 text-yellow-400">
+                  Bookmarks
+                </Popover.Button>
+              }
               {props.currentPage != 'About' &&
                 <Link href="/about"><Popover.Button className="hover:bg-indigo-400 p-1">
                   About
