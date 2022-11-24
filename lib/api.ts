@@ -215,7 +215,6 @@ export function searchBible(searchText, text) {
   }
 
   const address = API_SERVER + `/search?type=bible&searchText=` + searchText + '&text=' + text
-  console.log(address)
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 
@@ -225,11 +224,20 @@ export function searchBible(searchText, text) {
     error: error
   }
 }
+
+
 export async function getLexicon(lexicon, strongs) {
   
   const address = API_SERVER + `/lexicon/${lexicon}/${strongs}`
   const res = await axios.get(address, {auth})
   const data = await res.data.data
-  console.log(data)
+  return data
+}
+
+export async function getInstantLex(strongs) {
+  
+  const address = API_SERVER + `/data/lex/${strongs}`
+  const res = await axios.get(address, {auth})
+  const data = await res.data.data
   return data
 }

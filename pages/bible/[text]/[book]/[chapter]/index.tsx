@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
 import { getBibleTextDir, preloadData, range } from '../../../../../lib/util'
-import { getBibleChapter, getBibles, getBibleTextBooks, getLexicon } from '../../../../../lib/api'
+import { getBibleChapter, getBibles, getBibleTextBooks, getInstantLex, getLexicon } from '../../../../../lib/api'
 import { useEffect, useRef, useState } from 'react'
 import { chapterDisclosure, clickableButton, homeDisclosure, textStrongs } from '../../../../../lib/styles'
 import { bibleChapters } from '../../../../../data/bibleChapters'
@@ -69,7 +69,7 @@ export default function Index() {
     const matches = regex.exec(targetId)
     const chapter = matches[1]
     const verse = matches[2]
-  if (id == 'copy') {
+    if (id == 'copy') {
       let url = window.location.href + '#' + targetId
       navigator.clipboard.writeText(url)
       toast('Link copied to clipboard')
@@ -88,11 +88,24 @@ export default function Index() {
 
   function showLexicon(strongs) {
     setModalTitle('Lexicon - ' + strongs)
-    const data = getLexicon('TRLIT', strongs).then((resp) => {
+    getLexicon('TRLIT', strongs).then((resp) => {
       const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
       setModalContent(html)
       setShowModal(true)
     })
+  }
+
+  function instantLexicon(strongs) {
+    getInstantLex(strongs).then((resp) => {
+      if (resp) {
+        const info = resp[0] + " " + resp[1] + " " + resp[2]
+        toast(info, {duration: 10000})
+      }
+    })
+  }
+
+  function removeToast() {
+    toast.dismiss();
   }
 
   if (error) return <div>Failed to load</div>
@@ -112,7 +125,7 @@ export default function Index() {
             <title>{APP_NAME}</title>
           </Head>
           <Container>
-            <div><Toaster position="top-center" /></div>
+            <div><Toaster position="bottom-center" /></div>
             <Intro currentPage="Bibles" />
 
             <Disclosure>
@@ -172,7 +185,7 @@ export default function Index() {
                     <span className="hover:cursor-pointer" onClick={displayMenu} id={`v${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
                     {verse.t.split(' ').map((word) => (
                       word.match(/[GH][0-9]{1,4}/) ?
-                        <sup><a className={`${textStrongs}`} onClick={() => showLexicon(word)}>{word} </a></sup>
+                        <sup><a className={`${textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a></sup>
                         : <span dangerouslySetInnerHTML={{ __html: word + " " }} />
                     ))}
                   </p>
@@ -180,13 +193,15 @@ export default function Index() {
               }
 
             </div>
-            
-            {showPrevious &&
-              <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) - 1)}>
-                <button className={`${clickableButton}`}>Previous</button></Link>}
-            {showNext &&
-              <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) + 1)}>
-                <button className={`${clickableButton}`}>Next</button></Link>}
+
+            <div className="flex justify-center items-center mt-2">
+              {showPrevious &&
+                <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) - 1)}>
+                  <button className={`${clickableButton}`}>Previous</button></Link>}
+              {showNext &&
+                <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) + 1)}>
+                  <button className={`${clickableButton}`}>Next</button></Link>}
+            </div>
 
             <BasicModal show={showModal} setter={setShowModal} title={modalTitle} content={modalContent}></BasicModal>
 
