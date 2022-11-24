@@ -83,7 +83,14 @@ export default function Index() {
   }
 }
 function highlight(html: string, searchText: string): any {
-  html = html.replace(new RegExp("(" + searchText + ")", "ig"), "<span style='background-color: rgb(254 240 138);'>$1</span>")
+  if (searchText.startsWith('"')) {
+    searchText = searchText.replaceAll('"', '')
+    html = html.replace(new RegExp("(" + searchText + ")", "ig"), "<span style='background-color: rgb(254 240 138);'>$1</span>")
+  } else {
+    searchText.split(' ').map((word) => {
+      html = html.replace(new RegExp("(" + word + ")", "ig"), "<span style='background-color: rgb(254 240 138);'>$1</span>")
+    })
+  }
   return html
 
 }
