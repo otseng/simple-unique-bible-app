@@ -98,8 +98,8 @@ export default function Index() {
   function instantLexicon(strongs) {
     getInstantLex(strongs).then((resp) => {
       if (resp) {
-        const info = resp[0] + " " + resp[1] + " " + resp[2]
-        toast(info, {duration: 10000})
+        const info = strongs + " • " + resp[0] + " • " + resp[1] + " • " + resp[2] + " • " + resp[3]
+        toast(info, { duration: 10000 })
       }
     })
   }
@@ -125,7 +125,11 @@ export default function Index() {
             <title>{APP_NAME}</title>
           </Head>
           <Container>
-            <div><Toaster position="bottom-center" /></div>
+            <div><Toaster position="bottom-center" toastOptions={{
+              style: {
+                border: '1px solid #713200'
+              }
+            }} /></div>
             <Intro currentPage="Bibles" />
 
             <Disclosure>

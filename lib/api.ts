@@ -160,13 +160,6 @@ export function getDevotionalContent(book, month, day) {
 
 export function getCompareVerses(book, chapter, verse) {
   
-  // if (!book || book == 'undefined' || !chapter || chapter == 'undefined' || !verse || verse == 'undefined') {
-  //   return {
-  //     data: null,
-  //     loading: null, // Promise.resolve("Loading"),
-  //     error: null
-  //   }
-  // }
   const address = API_SERVER + `/compare/${book}/${chapter}/${verse}`+ 
   '?text=KJV&text=KJVx&text=HKJVx' +
   '&text=TRLIT&text=TRLITx' + 
@@ -225,19 +218,30 @@ export function searchBible(searchText, text) {
   }
 }
 
+const cacheLexicon: Map<string, string> = new Map();
 
 export async function getLexicon(lexicon, strongs) {
   
-  const address = API_SERVER + `/lexicon/${lexicon}/${strongs}`
-  const res = await axios.get(address, {auth})
-  const data = await res.data.data
-  return data
+  const key = lexicon + "-" + strongs
+  if (!cacheLexicon.has(key)) {
+    const address = API_SERVER + `/lexicon/${lexicon}/${strongs}`
+    const res = await axios.get(address, {auth})
+    const data = await res.data.data
+    cacheLexicon.set(key, data)
+  }
+  return cacheLexicon.get(key)
 }
 
+const cacheInstantLex: Map<string, string> = new Map();
+
 export async function getInstantLex(strongs) {
-  
-  const address = API_SERVER + `/data/lex/${strongs}`
-  const res = await axios.get(address, {auth})
-  const data = await res.data.data
-  return data
+
+  if (!cacheInstantLex.has(strongs)) {
+    const address = API_SERVER + `/data/lex/${strongs}`
+    const res = await axios.get(address, {auth})
+    const data = await res.data.data
+    cacheInstantLex.set(strongs, data)
+  }
+  return cacheInstantLex.get(strongs)
 }
+
