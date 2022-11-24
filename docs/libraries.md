@@ -19,3 +19,7 @@ Toast
 
 QR Code
 * [React QR Code](https://www.npmjs.com/package/react-qr-code)
+
+Select / Dropdown
+
+* [React select](https://react-select.com)

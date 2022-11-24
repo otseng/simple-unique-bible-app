@@ -51,8 +51,8 @@ export default function Index() {
     })
   }
 
-  if (error) return <div>Failed to load</div>
-  if (loading) return
+  if (error || errorVerses) return <div>Failed to load</div>
+  if (loadingVerses) return <div>Loading...</div>
 
   if (texts && dataVerses) {
     return (

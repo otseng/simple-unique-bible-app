@@ -20,7 +20,7 @@ import {
   useContextMenu
 } from "react-contexify"
 import "react-contexify/dist/ReactContexify.css"
-import { toast, Toaster } from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 
 const BIBLE_VERSE_POPUP_MENU = "bible-verse-popup-menu"
 
@@ -133,11 +133,6 @@ export default function Index() {
             <title>{APP_NAME}</title>
           </Head>
           <Container>
-            <div><Toaster position="bottom-center" toastOptions={{
-              style: {
-                border: '1px solid #713200'
-              }
-            }} /></div>
             <Intro currentPage="Bibles" />
 
             <Disclosure>

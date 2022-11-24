@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Toaster } from "react-hot-toast";
 import { scrollToTop } from "../lib/util";
 
 type Props = {
@@ -26,9 +27,15 @@ const Container = ({ children }: Props) => {
           &#8679;
         </button>
       )}
+      <div><Toaster position="bottom-center" toastOptions={{
+              style: {
+                border: '1px solid #713200'
+              }
+            }} /></div>
 
       <div className="container mx-auto px-5">{children}</div>
     </section>
+    
   )
 }
 

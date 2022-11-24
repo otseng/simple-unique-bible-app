@@ -1,3 +1,7 @@
+# Find port in use
+
+lsof -i -P -n | grep 3000
+
 # Check dev mode
 
 Util.ts

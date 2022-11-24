@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { searchBible } from '../../../../lib/api';
 import Link from 'next/link';
 import { getBibleTextDir, preloadData } from '../../../../lib/util';
+import { Spinner } from 'react-bootstrap';
 
 export default function Index() {
 
@@ -16,12 +17,12 @@ export default function Index() {
 
   const router = useRouter()
   const searchText = router.query.searchText as string
-
-  const text: string = 'KJV'
+  let text = router.query.text as string
+  if (!text) text = "KJV"
   const { data: dataVerses, loading, error } = searchBible(searchText, text)
 
   if (error) return <div>Failed to load</div>
-  if (loading) return
+  if (loading) return <div>Loading...</div>
 
   if (dataVerses) {
     return (
@@ -41,36 +42,26 @@ export default function Index() {
 
                 <div className="m-10">
 
-                <Link href={"/search"}>
+                  <Link href={"/search?text=" + `${text}`}>
                     <button className={`${clickableButton}`}>Back to search</button>
-                </Link>
+                  </Link>
 
-                <p className="font-bold">Search "{searchText}" - {dataVerses.length} verses found</p>
+                  <p className="font-bold">Search "{searchText}" in {text} - {dataVerses.length} verses found</p>
 
-                {dataVerses.map((data) => {
-                const bookNum = data[0]
-                const book = globalThis.bibleNumberToName[bookNum]
-                const chapter = data[1]
-                const verse = data[2]
-                let verseStr = data[3]
-                const dir = getBibleTextDir(text, bookNum)
-                if (verseStr) {
-                  const link = <Link href={"/bible/" + text + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>{book} {chapter}:{verse}</Link>
-                  if (text.endsWith('+') || text.endsWith('x')) {
-                    const parsed = verseStr.split(' ').map((word) => (
-                      word.match(/[GH][0-9]{1,4}/) ?
-                        <sup><a className={`${textStrongs}`}>{word} </a></sup>
-                        : <span dangerouslySetInnerHTML={{ __html: word + " " }} />
-                    ))
-                    verseStr = highlight(parsed, searchText)
-                    return (<p className="mt-2 color-black" dir={dir}>{link} - {parsed}</p>)
-                  } else {
-                    verseStr = highlight(verseStr, searchText)
-                    return (<p className="mt-2 color-black" dir={dir}>{link} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
+                  {dataVerses.map((data) => {
+                    const bookNum = data[0]
+                    const book = globalThis.bibleNumberToName[bookNum]
+                    const chapter = data[1]
+                    const verse = data[2]
+                    let verseStr = data[3]
+                    const dir = getBibleTextDir(text, bookNum)
+                    if (verseStr) {
+                      const link = <Link href={"/bible/" + text + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>{book} {chapter}:{verse}</Link>
+                      verseStr = highlight(verseStr, searchText)
+                      return (<p className="mt-2 color-black" dir={dir}>{link} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
+                    }
+                  })
                   }
-                }
-              })
-              }
                 </div>
 
               </Disclosure.Panel>
@@ -83,13 +74,13 @@ export default function Index() {
   }
 }
 function highlight(html: string, searchText: string): any {
-  if (searchText.startsWith('"')) {
-    searchText = searchText.replaceAll('"', '')
-    html = html.replace(new RegExp("(" + searchText + ")", "ig"), "<span style='background-color: rgb(254 240 138);'>$1</span>")
-  } else {
+  if (searchText.includes(" ")) {
     searchText.split(' ').map((word) => {
       html = html.replace(new RegExp("(" + word + ")", "ig"), "<span style='background-color: rgb(254 240 138);'>$1</span>")
     })
+  } else {
+    searchText = searchText.replaceAll('"', '')
+    html = html.replace(new RegExp("(" + searchText + ")", "ig"), "<span style='background-color: rgb(254 240 138);'>$1</span>")
   }
   return html
 

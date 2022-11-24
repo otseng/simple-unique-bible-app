@@ -5,14 +5,20 @@ import { useEffect, useState } from 'react';
 import Container from '../../components/container';
 import Intro from '../../components/intro';
 import Layout from '../../components/layout';
+import { getBibles } from '../../lib/api';
 import { APP_NAME } from '../../lib/constants';
 import { clickableButton, homeDisclosure } from '../../lib/styles';
+import Select from 'react-select'
 
 export default function Index() {
 
-  const [searchText, setSearchText] = useState('');
-
   const router = useRouter()
+  let text = router.query.text as string
+  if (!text) text = "KJV"
+
+  const [searchText, setSearchText] = useState('');
+  const [selectedBible, setSelectedBible] = useState(text);
+  const { data, loading, error } = getBibles()
 
   useEffect(() => {
     const element = document.getElementById('search-text')
@@ -22,7 +28,7 @@ export default function Index() {
   });
 
   function searchBible() {
-    const url = `/search/bible/${searchText}`
+    const url = `/search/bible/${searchText}?text=${selectedBible}`
     router.push(url)
   }
 
@@ -36,38 +42,59 @@ export default function Index() {
     }
   }
 
-  return (
-    <>
-      <Layout>
-        <Head>
-          <title>{APP_NAME}</title>
-        </Head>
-        <Container>
-          <Intro currentPage="Search" />
+  function handleBibleChange(e) {
+    setSelectedBible(e.value);
+  }
 
-          <Disclosure defaultOpen>
-            <Disclosure.Button className={`${homeDisclosure}`}>
-              <div className="text-2xl">Search</div>
-            </Disclosure.Button>
-            <Disclosure.Panel className="text-gray-500">
+  if (error) return <div>Failed to load</div>
+  if (loading) return
 
-              <div className="m-10">
-                <div className="flex justify-center items-center">
-                  <input id="search-text" className="relative z-0 text-red w-1/2 p-2 border-sky-500 border-solid drop-shadow"
-                    type="text" value={searchText}
-                    onChange={searchTextChange} onKeyPress={searchTextKeyPress} />
+  if (data) {
+
+    const bibleOptions = data.map((bible) => (
+      { value: bible, label: bible }
+    ))
+
+    return (
+      <>
+        <Layout>
+          <Head>
+            <title>{APP_NAME}</title>
+          </Head>
+          <Container>
+            <Intro currentPage="Search" />
+
+            <Disclosure defaultOpen>
+              <Disclosure.Button className={`${homeDisclosure}`}>
+                <div className="text-2xl">Search</div>
+              </Disclosure.Button>
+              <Disclosure.Panel className="text-gray-500">
+
+                <div className="m-10">
+                  <div className="flex justify-center items-center mb-5">
+                    <span className="text-lg mr-2">Bible:</span>
+                    <Select options={bibleOptions}
+                      value={bibleOptions.filter(obj => obj.value === selectedBible)}
+                      onChange={handleBibleChange}
+                    />
+                  </div>
+                  <div className="flex justify-center items-center">
+                    <input id="search-text" className="relative z-0 text-red w-1/2 p-2 border-sky-500 border-solid drop-shadow"
+                      type="text" value={searchText}
+                      onChange={searchTextChange} onKeyPress={searchTextKeyPress} />
+                  </div>
+                  <div className="flex justify-center items-center">
+                    <button className={`${clickableButton}`} onClick={searchBible}>Search</button>
+                  </div>
                 </div>
-                <div className="flex justify-center items-center">
-                  <button className={`${clickableButton}`} onClick={searchBible}>Search Bible</button>
-                </div>
-              </div>
 
-            </Disclosure.Panel>
-          </Disclosure>
+              </Disclosure.Panel>
+            </Disclosure>
 
-        </Container>
-      </Layout>
-    </>
-  )
+          </Container>
+        </Layout>
+      </>
+    )
+  }
 }
 
