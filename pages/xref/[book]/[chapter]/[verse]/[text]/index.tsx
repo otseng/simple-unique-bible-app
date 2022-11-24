@@ -92,10 +92,17 @@ export default function Index() {
                 const chapt = data[1]
                 const verse = data[2]
                 const dir = getBibleTextDir(text, bookNum)
+                const verseText = data[3]
                 const link = <Link href={"/bible/" + text + "/" + bookName + "/" + chapt + "#v" + chapt + "_" + verse}>{bookName} {data[1]}:{data[2]}</Link>
-                return (<p dir={dir} className="mt-2">{link} - {data[3]}</p>)
+                return (<p dir={dir} className="mt-2">{link} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verseText }} /></p>)
               })
-            } 
+              }
+            </div>
+
+            <div className="flex justify-center items-center">
+              <Link href={"/bible/" + text + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>
+                <button className={`${clickableButton}`}>Return to {book} {chapter}:{verse}</button>
+              </Link>
             </div>
 
           </Container>

@@ -22,7 +22,7 @@ const Intro = (props) => (
         leaveFrom="transform scale-100 opacity-100"
         leaveTo="transform scale-95 opacity-0"
       >
-        <Popover.Panel className="absolute z-10">
+        <Popover.Panel className="absolute z-20">
           <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5
         w-200">
             <div className="relative grid gap-1 bg-indigo-300 p-3 rounded text-lg text-white font-bold">

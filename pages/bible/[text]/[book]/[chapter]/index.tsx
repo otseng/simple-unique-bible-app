@@ -74,7 +74,7 @@ export default function Index() {
       navigator.clipboard.writeText(url)
       toast('Link copied to clipboard')
     } else if (id == 'compare') {
-      router.push(`/compare/${book}/${chapter}/${verse}`)
+      router.push(`/compare/${book}/${chapter}/${verse}?text=${text}`)
     } else if (id == 'xref') {
       router.push(`/xref/${book}/${chapter}/${verse}/${text}`)
     }

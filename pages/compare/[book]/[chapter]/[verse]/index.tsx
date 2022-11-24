@@ -26,6 +26,10 @@ export default function Index() {
   let book = router.query.book as string
   const chapter = router.query.chapter as string
   const verse = router.query.verse as string
+  let text = router.query.text as string
+  if (!text) {
+    text = "KJV"
+  }
   const bookNum = globalThis.bibleNameToNumber[book]
   const chapters = range(bibleChapters[bookNum], 1)
   const verseList = bibleChapterVerses[bookNum]
@@ -125,6 +129,12 @@ export default function Index() {
                 }
               })
               }
+            </div>
+
+            <div className="flex justify-center items-center">
+              <Link href={"/bible/" + text + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>
+                <button className={`${clickableButton}`}>Return to {book} {chapter}:{verse}</button>
+              </Link>
             </div>
 
             <BasicModal show={showModal} setter={setShowModal} title={modalTitle} content={modalContent}></BasicModal>

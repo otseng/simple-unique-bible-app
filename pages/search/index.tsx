@@ -52,16 +52,14 @@ export default function Index() {
             <Disclosure.Panel className="text-gray-500">
 
               <div className="m-10">
-                <div className="flex w-full justify-center">
-
-                  <input id="search-text" className="w-1/4 p-2 border-sky-500 border-solid drop-shadow" 
-                    type="text" value={searchText} 
-                    onChange={searchTextChange} onKeyPress={searchTextKeyPress}/>
-
-                  <button className={`${clickableButton}`} onClick={searchBible}>Search Bible</button>
-
+                <div className="flex justify-center items-center">
+                  <input id="search-text" className="relative z-0 text-red w-1/2 p-2 border-sky-500 border-solid drop-shadow"
+                    type="text" value={searchText}
+                    onChange={searchTextChange} onKeyPress={searchTextKeyPress} />
                 </div>
-
+                <div className="flex justify-center items-center">
+                  <button className={`${clickableButton}`} onClick={searchBible}>Search Bible</button>
+                </div>
               </div>
 
             </Disclosure.Panel>
