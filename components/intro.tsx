@@ -2,6 +2,17 @@ import { Menu, Popover, Transition } from '@headlessui/react'
 import Link from 'next/link'
 import { isDev } from '../lib/util'
 
+const menuItems = [
+  ['Home', '/'],
+  ['Search', '/search'],
+  ['Bibles', '/bible'],
+  ['Devotionals', '/devotional'],
+  ['Books', '/book'],
+  ['Commentaries', '/commentary'],
+  ['Bookmarks', '/bookmark'],
+  ['About', '/about'],
+]
+
 const Intro = (props) => (
   <section className="flex-row flex items-center justify-between mt-10 mb-10">
 
@@ -23,88 +34,22 @@ const Intro = (props) => (
         leaveTo="transform scale-95 opacity-0"
       >
         <Popover.Panel className="absolute z-20">
-          <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5
-        w-200">
+          <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 w-200">
             <div className="relative grid gap-1 bg-indigo-300 p-3 rounded text-lg text-white font-bold">
-              {props.currentPage != 'Home' &&
-                <Link href="/"><Popover.Button className="hover:bg-indigo-400 p-1">
-                  Home
-                </Popover.Button></Link>
-              }
-              {props.currentPage == 'Home' &&
-                <Popover.Button className="text-left ml-1 text-yellow-400">
-                  Home
-                </Popover.Button>
-              }
-              {props.currentPage != 'Search' &&
-                <Link href="/search"><Popover.Button className="hover:bg-indigo-400 p-1">
-                  Search
-                </Popover.Button></Link>
-              }
-              {props.currentPage == 'Search' &&
-                <Popover.Button className="text-left ml-1 text-yellow-400">
-                  Search
-                </Popover.Button>
-              }
-              {props.currentPage != 'Bibles' &&
-                <Link href="/bible"><Popover.Button className="hover:bg-indigo-400 p-1">
-                  Bibles
-                </Popover.Button></Link>
-              }
-              {props.currentPage == 'Bibles' &&
-                <Popover.Button className="text-left ml-1 text-yellow-400">
-                  Bibles
-                </Popover.Button>
-              }
-              {props.currentPage != 'Devotionals' &&
-                <Link href="/devotional"><Popover.Button className="hover:bg-indigo-400 p-1">
-                  Devotionals
-                </Popover.Button></Link>
-              }
-              {props.currentPage == 'Devotionals' &&
-                <Popover.Button className="text-left ml-1 text-yellow-400">
-                  Devotionals
-                </Popover.Button>
-              }
-              {props.currentPage != 'Books' &&
-                <Link href="/book"><Popover.Button className="hover:bg-indigo-400 p-1">
-                  Books
-                </Popover.Button></Link>
-              }
-              {props.currentPage == 'Books' &&
-                <Popover.Button className="text-left ml-1 text-yellow-400">
-                  Books
-                </Popover.Button>
-              }
-              {props.currentPage != 'Commentaries' &&
-                <Link href="/commentary"><Popover.Button className="hover:bg-indigo-400 p-1">
-                  Commentaries
-                </Popover.Button></Link>
-              }
-              {props.currentPage == 'Commentaries' &&
-                <Popover.Button className="text-left ml-1 text-yellow-400">
-                  Commentaries
-                </Popover.Button>
-              }
-              {props.currentPage != 'Bookmarks' &&
-                <Link href="/bookmark"><Popover.Button className="hover:bg-indigo-400 p-1">
-                  Bookmarks
-                </Popover.Button></Link>
-              }
-              {props.currentPage == 'Bookmarks' &&
-                <Popover.Button className="text-left ml-1 text-yellow-400">
-                  Bookmarks
-                </Popover.Button>
-              }
-              {props.currentPage != 'About' &&
-                <Link href="/about"><Popover.Button className="hover:bg-indigo-400 p-1">
-                  About
-                </Popover.Button></Link>
-              }
-              {props.currentPage == 'About' &&
-                <Popover.Button className="text-left ml-1 text-yellow-400">
-                  About
-                </Popover.Button>
+              {menuItems.map((item) => {
+                return (
+                  <>
+                    {props.currentPage != item[0] &&
+                      <Link href={item[1]}><Popover.Button className="hover:bg-indigo-400 p-1">
+                        {item[0]}
+                      </Popover.Button></Link>}
+                    {props.currentPage == item[0] &&
+                      <Popover.Button className="text-left ml-1 text-yellow-400">
+                        {item[0]}
+                      </Popover.Button>}
+                  </>
+                )
+              })
               }
               {(isDev() && props.currentPage != 'Playground') &&
                 <Link href="/playground"><Popover.Button className="hover:bg-indigo-400 p-1">
