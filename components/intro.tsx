@@ -17,7 +17,7 @@ const Intro = (props) => (
   <section className="flex-row flex items-center justify-between mt-10 mb-10">
 
     <Popover className="relative">
-      <Popover.Button className="dropdown-toggle inline-block px-4 py-2.5 bg-indigo-300 hover:bg-indigo-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg active:text-white transition duration-150 ease-in-out flex items-center whitespace-nowrap"
+      <Popover.Button className="dropdown-toggle inline-block px-4 py-2.5 bg-blue-300 hover:bg-blue-400 -5text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg active:text-white transition duration-150 ease-in-out flex items-center whitespace-nowrap"
       >
         <div className="space-y-1 rounded">
           <span className="block w-4 h-1 bg-gray-600"></span>
@@ -35,7 +35,7 @@ const Intro = (props) => (
       >
         <Popover.Panel className="absolute z-20">
           <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 w-200">
-            <div className="relative grid gap-1 bg-indigo-300 p-3 rounded text-lg text-white font-bold">
+            <div className="relative grid gap-1 bg-blue-400 p-3 rounded text-lg text-white font-bold">
               {menuItems.map((item) => {
                 return (
                   <>
