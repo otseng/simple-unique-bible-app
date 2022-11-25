@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
 import { addBookmark, bookmarkExists, getBibleTextDir, preloadData, range } from '../../../../../lib/util'
-import { getBibleChapter, getBibles, getBibleTextBooks, getInstantLex, getLexicon } from '../../../../../lib/api'
+import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, getCommentaryContent, _getCommentaryContent, _getInstantLex, _getLexicon } from '../../../../../lib/api'
 import { useEffect, useRef, useState } from 'react'
 import { chapterDisclosure, clickableButton, homeDisclosure, textStrongs } from '../../../../../lib/styles'
 import { bibleChapters } from '../../../../../data/bibleChapters'
@@ -33,6 +33,7 @@ export default function Index() {
   const book = router.query.book as string
   const bookNum = globalThis.bibleNameToNumber[book]
   const chapter = router.query.chapter as string
+  const commentary = router.query.commentary as string
   const showPrevious = parseInt(chapter) > 1
   const showNext = parseInt(chapter) < bibleChapters[bookNum]
   const chapters = range(bibleChapters[bookNum], 1)
@@ -47,17 +48,26 @@ export default function Index() {
   const { data: dataBibles, loading: loadingBibles, error: errorBibles } = getBibles()
   const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBibleTextBooks(text)
   const { data, loading, error } = getBibleChapter(text, bookNum, chapter)
+  const { data: dataCommentaries, loading: loadingCommentaries, error: errorCommentaries } = getCommentaries()
 
   const scrolledRef = useRef(false);
 
   useEffect(() => {
     const hash = window?.location?.hash
-    if (hash && !scrolledRef.current) {
+    if (commentary) {
+      const element = document.getElementById('commentary-content')
+      if (element) {
+        element.scrollIntoView();
+      }
+    } else if (hash) {
       const id = hash.replace('#', '');
       const element = document.getElementById(id);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-        scrolledRef.current = true;
+        element.style.backgroundColor = 'lightgoldenrodyellow'
+        if (!scrolledRef.current) {
+          element.scrollIntoView({ behavior: 'smooth' });
+          scrolledRef.current = true;
+        }
       }
     }
   });
@@ -65,20 +75,27 @@ export default function Index() {
   function handleItemClick({ id, event, props, data, triggerEvent }) {
     console.log(id, event, triggerEvent)
     const targetId = triggerEvent?.srcElement?.id || ''
-    const regex = /v(.*)_(.*)/
+    const regex = /t(.*)_(.*)/
     const matches = regex.exec(targetId)
     const chapter = matches[1]
     const verse = matches[2]
     if (id == 'copy') {
-      const url = window.location.href + '#' + targetId
+      const url = window.location.protocol + '//' + window.location.host + `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
       navigator.clipboard.writeText(url)
       toast('Link copied to clipboard')
+    } else if (id == 'highlight') {
+      const element = document.getElementById("v" + chapter + "_" + verse);
+      if (element.style.backgroundColor !== 'lightgoldenrodyellow') {
+        element.style.backgroundColor = 'lightgoldenrodyellow'
+      } else {
+        element.style.backgroundColor = ''
+      }
     } else if (id == 'compare') {
       router.push(`/compare/${book}/${chapter}/${verse}?text=${text}`)
     } else if (id == 'xref') {
       router.push(`/xref/${book}/${chapter}/${verse}/${text}`)
     } else if (id == 'bookmark') {
-      const url = `/bible/${text}/${book}/${chapter}#${targetId}`
+      const url = `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
       if (bookmarkExists(url)) {
         toast('Bookmark already exists')
       } else {
@@ -96,7 +113,7 @@ export default function Index() {
 
   function showLexicon(strongs) {
     setModalTitle('Lexicon - ' + strongs)
-    getLexicon('TRLIT', strongs).then((resp) => {
+    _getLexicon('TRLIT', strongs).then((resp) => {
       const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
       setModalContent(html)
       setShowModal(true)
@@ -104,10 +121,10 @@ export default function Index() {
   }
 
   function instantLexicon(strongs) {
-    getInstantLex(strongs).then((resp) => {
+    _getInstantLex(strongs).then((resp) => {
       if (resp) {
         const info = strongs + " • " + resp[0] + " • " + resp[1] + " • " + resp[2] + " • " + resp[3]
-        toast(info, { duration: 10000 })
+        toast(info, { duration: 5000 })
       }
     })
   }
@@ -119,7 +136,7 @@ export default function Index() {
   if (error) return <div>Failed to load</div>
   if (loading) return
 
-  if (data && dataBooks && dataBibles) {
+  if (data && dataBooks && dataBibles && dataCommentaries) {
 
     const parseVerse = text.endsWith('x') || text.endsWith('+')
     const bookNames = dataBooks.map((number) => globalThis.bibleNumberToName[number])
@@ -142,7 +159,7 @@ export default function Index() {
               <Disclosure.Panel className="text-gray-500">
                 <div>
                   {dataBibles.map((text) => (
-                    <Link href={"/bible/" + text + "/" + book + "/" + chapter}>
+                    <Link href={"/bible/" + text + "/" + book + "/" + chapter + "?commentary="}>
                       <button className={`${clickableButton}`}>{text}</button>
                     </Link>
                   ))}
@@ -157,7 +174,7 @@ export default function Index() {
               <Disclosure.Panel className="text-gray-500">
                 <div>
                   {bookNames.map((book) => (
-                    <Link href={"/bible/" + text + "/" + book + "/1"}>
+                    <Link href={"/bible/" + text + "/" + book + "/1?commentary="}>
                       <button className={`${clickableButton}`}>{book}</button>
                     </Link>
                   ))}
@@ -171,7 +188,7 @@ export default function Index() {
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 {chapters.map((chapter) => (
-                  <Link href={"/bible/" + text + "/" + book + "/" + chapter}>
+                  <Link href={"/bible/" + text + "/" + book + "/" + chapter  + "?commentary="}>
                     <button className={`${clickableButton}`}>{chapter}</button>
                   </Link>
                 ))}
@@ -181,15 +198,15 @@ export default function Index() {
             <div dir={textDir}>
               {!parseVerse &&
                 data.map((verse) => (verse.t &&
-                  <p>
-                    <span className="hover:cursor-pointer" onClick={displayMenu} id={`v${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
+                  <p id={`v${verse.c}_${verse.v}`}>
+                    <span className="hover:cursor-pointer" onClick={displayMenu} id={`t${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
                     <span className="text-container" dangerouslySetInnerHTML={{ __html: verse.t }} /></p>
                 ))
               }
               {parseVerse &&
                 data.map((verse) => (verse.t &&
-                  <p>
-                    <span className="hover:cursor-pointer" onClick={displayMenu} id={`v${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
+                  <p id={`v${verse.c}_${verse.v}`}>
+                    <span className="hover:cursor-pointer" onClick={displayMenu} id={`t${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
                     {verse.t.split(' ').map((word) => (
                       word.match(/[GH][0-9]{1,4}/) ?
                         <a className={`${textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
@@ -201,7 +218,7 @@ export default function Index() {
 
             </div>
 
-            <div className="flex justify-center items-center mt-2">
+            <div className="flex justify-center items-center mt-2 mb-5">
               {showPrevious &&
                 <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) - 1)}>
                   <button className={`${clickableButton}`}>Previous</button></Link>}
@@ -210,10 +227,28 @@ export default function Index() {
                   <button className={`${clickableButton}`}>Next</button></Link>}
             </div>
 
+            <Disclosure>
+              <Disclosure.Button className={`${chapterDisclosure}`}>
+                <div className="text-xl">Commentaries</div>
+              </Disclosure.Button>
+              <Disclosure.Panel className="text-gray-500">
+                <div>
+                  {dataCommentaries.map((commentary) => (
+                    <Link href={"/commentary/" + commentary + '/' + book + '/' + chapter + '?text=' + text }>
+                      <button className={`${clickableButton}`}>
+                        {commentary.replaceAll('_', ' ')}
+                      </button>
+                    </Link>
+                  ))}
+                </div>
+              </Disclosure.Panel>
+            </Disclosure>
+
             <BasicModal show={showModal} setter={setShowModal} title={modalTitle} content={modalContent}></BasicModal>
 
             <Menu id={BIBLE_VERSE_POPUP_MENU}>
               <Item id="copy" onClick={handleItemClick}><span className="text-md">Copy link</span></Item>
+              <Item id="highlight" onClick={handleItemClick}><span className="text-md">Toggle highlight</span></Item>
               <Item id="compare" onClick={handleItemClick}><span className="text-md">Compare</span></Item>
               <Item id="xref" onClick={handleItemClick}><span className="text-md">Cross references</span></Item>
               <Item id="bookmark" onClick={handleItemClick}><span className="text-md">Add bookmark</span></Item>

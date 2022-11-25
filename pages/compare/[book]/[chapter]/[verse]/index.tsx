@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
 import { getBibleTextDir, preloadData, range } from '../../../../../lib/util'
 import { clickableButton, homeDisclosure, textStrongs } from '../../../../../lib/styles'
-import { getBibleBooks, getBibles, getBibleTextBooks, getCompareVerses, getLexicon } from '../../../../../lib/api'
+import { getBibleBooks, getBibles, getBibleTextBooks, getCompareVerses, _getLexicon } from '../../../../../lib/api'
 import { Disclosure } from '@headlessui/react'
 import { bibleChapters } from '../../../../../data/bibleChapters'
 import { bibleChapterVerses } from '../../../../../data/bibleChapterVerses'
@@ -44,7 +44,7 @@ export default function Index() {
 
   function showLexicon(strongs) {
     setModalTitle('Lexicon - ' + strongs)
-    const data = getLexicon('TRLIT', strongs).then((resp) => {
+    const data = _getLexicon('TRLIT', strongs).then((resp) => {
       const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
       setModalContent(html)
       setShowModal(true)

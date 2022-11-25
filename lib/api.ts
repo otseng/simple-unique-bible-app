@@ -212,7 +212,7 @@ export function searchBible(searchText, text) {
 
 const cacheLexicon: Map<string, string> = new Map();
 
-export async function getLexicon(lexicon, strongs) {
+export async function _getLexicon(lexicon, strongs) {
   
   const key = lexicon + "-" + strongs
   if (!cacheLexicon.has(key)) {
@@ -226,7 +226,7 @@ export async function getLexicon(lexicon, strongs) {
 
 const cacheInstantLex: Map<string, string> = new Map();
 
-export async function getInstantLex(strongs) {
+export async function _getInstantLex(strongs) {
 
   if (!cacheInstantLex.has(strongs)) {
     const address = API_SERVER + `/data/lex/${strongs}`
@@ -237,3 +237,17 @@ export async function getInstantLex(strongs) {
   return cacheInstantLex.get(strongs)
 }
 
+const cacheCommentaryContent: Map<string, string> = new Map();
+
+export async function _getCommentaryContent(title, bookNumber, chapter) {
+  
+  const key = title + '_' + bookNumber + '_' + chapter
+  if (!cacheCommentaryContent.has(key)) {
+    const address = API_SERVER + `/commentary/${title}/${bookNumber}/${chapter}`
+    const res = await axios.get(address, {auth})
+    const data = await res.data.data
+    cacheCommentaryContent.set(key, data)
+  }
+
+  return cacheCommentaryContent.get(key)
+}

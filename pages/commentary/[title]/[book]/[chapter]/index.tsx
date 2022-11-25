@@ -22,6 +22,7 @@ export default function Index() {
     const chapter = router.query.chapter as string
     const showPrevious = parseInt(chapter) > 1
     const chapters = range(bibleChapters[bookNum], 1)
+    const text = router.query.text as string
 
     const { data: dataCommentaries, loading: loadingCommentaries, error: errorCommentaries } = getCommentaries()
 
@@ -94,13 +95,23 @@ export default function Index() {
                             ))
                         }
 
-                        {showPrevious && (
-                            <Link href={"/commentary/" + title + '/' + book + '/' + (parseInt(chapter) - 1)}>
-                                <button className={`${clickableButton}`}>Previous</button>
-                            </Link>)}
-                        <Link href={"/commentary/" + title + '/' + book + '/' + (parseInt(chapter) + 1)}>
-                            <button className={`${clickableButton}`}>Next</button>
-                        </Link>
+                        <div className="flex justify-center items-center mt-2 mb-5">
+                            {showPrevious && (
+                                <Link href={"/commentary/" + title + '/' + book + '/' + (parseInt(chapter) - 1)}>
+                                    <button className={`${clickableButton}`}>Previous</button>
+                                </Link>)}
+                            <Link href={"/commentary/" + title + '/' + book + '/' + (parseInt(chapter) + 1)}>
+                                <button className={`${clickableButton}`}>Next</button>
+                            </Link>
+                        </div>
+
+                        {text &&
+                            <div className="flex justify-center items-center mt-2 mb-5">
+                                <Link href={"/bible/" + text + '/' + book + '/' + chapter}>
+                                    <button className={`${clickableButton}`}>Back to {text}</button>
+                                </Link>
+                            </div>
+                        }
 
                     </Container>
                 </Layout>

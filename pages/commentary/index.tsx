@@ -17,12 +17,12 @@ export default function Index() {
   const router = useRouter()
   const text = router.query.text
 
-  const { data, loading, error } = getCommentaries()
+  const { data: dataCommentaries, loading: loadingCommentaries, error: errorCommentaries } = getCommentaries()
 
-  if (error) return <div>Failed to load</div>
-  if (loading) return
+  if (errorCommentaries) return <div>Failed to load</div>
+  if (loadingCommentaries) return
 
-  if (data) {
+  if (dataCommentaries) {
     return (
       <>
         <Layout>
@@ -38,7 +38,7 @@ export default function Index() {
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>
-                  {data.map((commentary) => (
+                  {dataCommentaries.map((commentary) => (
                     <Link href={"/commentary/" + commentary}>
                       <button className={`${clickableButton}`}>
                         {commentary.replaceAll('_', ' ')}
