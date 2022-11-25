@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../lib/constants'
-import { deleteBookmark, getBookmarks, preloadData, setLocalStorage } from '../../lib/util'
+import { deleteBookmark, getBookmarks, isDev, preloadData, setLocalStorage } from '../../lib/util'
 import { clickableButton, homeDisclosure } from '../../lib/styles'
 import { Disclosure } from '@headlessui/react'
 import { useState } from 'react'
@@ -43,7 +43,11 @@ export default function Index() {
   function buildUrl() {
     let url = ''
     if (typeof window !== 'undefined') {
-      url = "https://simple.uniquebibleapp.com/bookmark/read?bm=" + bookmarks.join("&bm=")
+      if (isDev()) {
+        url = "http://localhost:3000/bookmark/read?bm=" + bookmarks.join("&bm=")
+      } else {
+        url = "https://simple.uniquebibleapp.com/bookmark/read?bm=" + bookmarks.join("&bm=")
+      }
       url = url.replaceAll("#", '!').replaceAll('+', '%2B')
     }
     return url
@@ -90,7 +94,7 @@ export default function Index() {
                   )
                 })
                 }
-                {bookmarks.length > 1 &&
+                {bookmarks.length > 0 &&
                   <>
                     <div className="flex justify-center p-1 text-lg font-bold text-black">Share bookmarks</div>
                     <div className="flex justify-center p-1">

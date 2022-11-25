@@ -20,11 +20,19 @@ export default function Index() {
   const bm = router.query.bm
   console.log(bm)
   let bookmarks = []
-  bookmarks = bookmarks.concat(bm)
+
+  if (typeof bm === 'undefined') {
+  } else if (typeof bm === 'string') {
+    bookmarks.push(bm)
+  } else {
+    bookmarks = bookmarks.concat(bm)
+  }
 
   function copyAll() {
-    navigator.clipboard.writeText(window?.location?.href)
-    toast('Shared bookmarks link copied to clipboard')
+    if (typeof window !== 'undefined') {
+      navigator.clipboard.writeText(window?.location?.href)
+      toast('Shared bookmarks link copied to clipboard')
+    }
   }
 
   return (
@@ -46,8 +54,6 @@ export default function Index() {
                 {bookmarks.map((bookmark) => {
                   if (bookmark) {
                     bookmark = bookmark.replaceAll('!','#')
-                    console.log(bookmark)
-                    // return (<></>)
 
                     const regex = new RegExp("/bible/(.*)/(.*)/(.*)#v.*_(.*)")
                     const matches = regex.exec(bookmark)
@@ -73,7 +79,7 @@ export default function Index() {
                 }
               </div>
 
-              {bookmarks.length > 1 &&
+              {(bookmarks.length > 0 && typeof window !== 'undefined')  &&
                   <>
                     <div className="flex justify-center p-1 text-lg font-bold text-black">Share bookmarks</div>
                     <div className="flex justify-center p-1">
