@@ -44,13 +44,12 @@ export default function Index() {
   const { show } = useContextMenu({
     id: BIBLE_VERSE_POPUP_MENU
   })
+  const scrolledRef = useRef(false);
 
   const { data: dataBibles, loading: loadingBibles, error: errorBibles } = getBibles()
   const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBibleTextBooks(text)
   const { data, loading, error } = getBibleChapter(text, bookNum, chapter)
   const { data: dataCommentaries, loading: loadingCommentaries, error: errorCommentaries } = getCommentaries()
-
-  const scrolledRef = useRef(false);
 
   useEffect(() => {
     const hash = window?.location?.hash
@@ -106,6 +105,7 @@ export default function Index() {
   }
 
   function displayMenu(e) {
+    removeToast()
     show({
       event: e,
     })
@@ -121,12 +121,14 @@ export default function Index() {
   }
 
   function instantLexicon(strongs) {
-    _getInstantLex(strongs).then((resp) => {
-      if (resp) {
-        const info = strongs + " • " + resp[0] + " • " + resp[1] + " • " + resp[2] + " • " + resp[3]
-        toast(info, { duration: 5000 })
-      }
-    })
+    if ((typeof window !== 'undefined') && window.innerWidth > 820) {
+      _getInstantLex(strongs).then((resp) => {
+        if (resp) {
+          const info = strongs + " • " + resp[0] + " • " + resp[1] + " • " + resp[2] + " • " + resp[3]
+          toast(info, { duration: 5000 })
+        }
+      })
+    }
   }
 
   function removeToast() {
@@ -188,7 +190,7 @@ export default function Index() {
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 {chapters.map((chapter) => (
-                  <Link href={"/bible/" + text + "/" + book + "/" + chapter  + "?commentary="}>
+                  <Link href={"/bible/" + text + "/" + book + "/" + chapter + "?commentary="}>
                     <button className={`${clickableButton}`}>{chapter}</button>
                   </Link>
                 ))}
@@ -234,7 +236,7 @@ export default function Index() {
               <Disclosure.Panel className="text-gray-500">
                 <div>
                   {dataCommentaries.map((commentary) => (
-                    <Link href={"/commentary/" + commentary + '/' + book + '/' + chapter + '?text=' + text }>
+                    <Link href={"/commentary/" + commentary + '/' + book + '/' + chapter + '?text=' + text}>
                       <button className={`${clickableButton}`}>
                         {commentary.replaceAll('_', ' ')}
                       </button>
