@@ -10,6 +10,7 @@ import { clickableButton, homeDisclosure } from '../../lib/styles'
 import { Disclosure } from '@headlessui/react'
 import { useState } from 'react'
 import { toast } from 'react-hot-toast'
+import QRCode from 'react-qr-code'
 
 export default function Index() {
 
@@ -17,27 +18,39 @@ export default function Index() {
 
   const router = useRouter()
 
-  const [refresh, setRefresh] = useState([])
+  const [bookmarksUrl, setBookmarksUrl] = useState('')
 
   let bookmarks = getBookmarks()
+  if (bookmarksUrl == '' && bookmarks.length > 0) {
+    const url = buildUrl()
+    setBookmarksUrl(url)
+  }
 
   function deleteOne(bookmark) {
     deleteBookmark(bookmark)
     bookmarks = getBookmarks()
-    setRefresh(bookmarks)
+    const url = buildUrl()
+    setBookmarksUrl(url)
   }
 
   function deleteAll() {
     setLocalStorage('bookmarks', [])
     bookmarks = getBookmarks()
-    setRefresh(bookmarks)
+    const url = buildUrl()
+    setBookmarksUrl(url)
+  }
+
+  function buildUrl() {
+    let url = ''
+    if (typeof window !== 'undefined') {
+      url = "https://simple.uniquebibleapp.com/bookmark/read?bm=" + bookmarks.join("&bm=")
+      url = url.replaceAll("#", '!').replaceAll('+', '%2B')
+    }
+    return url
   }
 
   function copyAll() {
-    let url = window.location.protocol + "//" + window.location.host + "/bookmark/read?bm=" + bookmarks.join("&bm=")
-    url = url.replaceAll("#", '!').replaceAll('+', '%2B')
-    console.log(url)
-    navigator.clipboard.writeText(url)
+    navigator.clipboard.writeText(bookmarksUrl)
     toast('Shared bookmarks link copied to clipboard')
   }
 
@@ -78,10 +91,25 @@ export default function Index() {
                 })
                 }
                 {bookmarks.length > 1 &&
-                  <div className="flex justify-center p-1">
-                      <button onClick={copyAll} className={`${clickableButton}`}>Share bookmarks</button>
+                  <>
+                    <div className="flex justify-center p-1 text-lg font-bold text-black">Share bookmarks</div>
+                    <div className="flex justify-center p-1">
+                      <div style={{ height: "auto", margin: "0 auto", maxWidth: 300, width: "400" }}>
+                        <QRCode
+                          size={256}
+                          style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                          value={bookmarksUrl}
+                          viewBox={`0 0 256 256`}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-center p-1">
+                      <button onClick={copyAll} className={`${clickableButton}`}>Copy to clipboard</button>
+                    </div>
+                    <div className="flex justify-center p-1">
                       <button onClick={deleteAll} className={`${clickableButton}`}>Delete All</button>
-                  </div>
+                    </div>
+                  </>
                 }
               </div>
             </Disclosure.Panel>

@@ -9,6 +9,8 @@ import { APP_NAME } from '../../lib/constants'
 import { preloadData } from '../../lib/util'
 import { clickableButton, homeDisclosure } from '../../lib/styles'
 import { Disclosure } from '@headlessui/react'
+import QRCode from 'react-qr-code'
+import toast from 'react-hot-toast'
 
 export default function Index() {
 
@@ -19,6 +21,11 @@ export default function Index() {
   console.log(bm)
   let bookmarks = []
   bookmarks = bookmarks.concat(bm)
+
+  function copyAll() {
+    navigator.clipboard.writeText(window?.location?.href)
+    toast('Shared bookmarks link copied to clipboard')
+  }
 
   return (
     <>
@@ -65,6 +72,26 @@ export default function Index() {
                 })
                 }
               </div>
+
+              {bookmarks.length > 1 &&
+                  <>
+                    <div className="flex justify-center p-1 text-lg font-bold text-black">Share bookmarks</div>
+                    <div className="flex justify-center p-1">
+                      <div style={{ height: "auto", margin: "0 auto", maxWidth: 300, width: "400" }}>
+                        <QRCode
+                          size={256}
+                          style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                          value={window?.location?.href}
+                          viewBox={`0 0 256 256`}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-center p-1">
+                      <button onClick={copyAll} className={`${clickableButton}`}>Copy to clipboard</button>
+                    </div>
+                  </>
+                }
+                
             </Disclosure.Panel>
           </Disclosure>
 
