@@ -16,11 +16,6 @@ export default function Index() {
   if (!globalThis.bibleBooks) preloadData()
 
   const router = useRouter()
-  const bm = router.query.bm
-  if (bm) {
-    console.log("!!! found bm")
-    // console.log(bm)
-  }
 
   const [refresh, setRefresh] = useState([])
 
@@ -39,10 +34,11 @@ export default function Index() {
   }
 
   function copyAll() {
-    const url = window.location.protocol + "//" + window.location.host + "/bookmark?bm=" + bookmarks.join("&bm=")
+    let url = window.location.protocol + "//" + window.location.host + "/bookmark/read?bm=" + bookmarks.join("&bm=")
+    url = url.replaceAll("#", '!').replaceAll('+', '%2B')
     console.log(url)
     navigator.clipboard.writeText(url)
-    toast('Link copied to clipboard')
+    toast('Shared bookmarks link copied to clipboard')
   }
 
   return (
@@ -83,7 +79,7 @@ export default function Index() {
                 }
                 {bookmarks.length > 1 &&
                   <div className="flex justify-center p-1">
-                      {/* <button onClick={copyAll} className={`${clickableButton}`}>Copy all bookmarks to clipboard</button> */}
+                      <button onClick={copyAll} className={`${clickableButton}`}>Share bookmarks</button>
                       <button onClick={deleteAll} className={`${clickableButton}`}>Delete All</button>
                   </div>
                 }
