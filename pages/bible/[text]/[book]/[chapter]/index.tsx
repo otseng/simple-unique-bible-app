@@ -192,7 +192,7 @@ export default function Index() {
                     <span className="hover:cursor-pointer" onClick={displayMenu} id={`v${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
                     {verse.t.split(' ').map((word) => (
                       word.match(/[GH][0-9]{1,4}/) ?
-                        <sup><a className={`${textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a></sup>
+                        <a className={`${textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
                         : <span dangerouslySetInnerHTML={{ __html: word + " " }} />
                     ))}
                   </p>
