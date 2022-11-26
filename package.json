@@ -23,6 +23,7 @@
     "gray-matter": "^4.0.3",
     "heroicons": "^2.0.13",
     "next": "latest",
+    "rc-input": "^0.1.4",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-contexify": "^6.0.0",

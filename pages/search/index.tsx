@@ -9,6 +9,7 @@ import { getBibles } from '../../lib/api';
 import { APP_NAME } from '../../lib/constants';
 import { clickableButton, homeDisclosure } from '../../lib/styles';
 import Select from 'react-select'
+import Input from 'rc-input';
 
 export default function Index() {
 
@@ -79,7 +80,7 @@ export default function Index() {
                     />
                   </div>
                   <div className="flex justify-center items-center">
-                    <input id="search-text" className="relative z-0 text-red w-1/2 p-2 border-sky-500 border-solid drop-shadow"
+                    <Input id="search-text" 
                       type="text" value={searchText}
                       onChange={searchTextChange} onKeyPress={searchTextKeyPress} />
                   </div>
