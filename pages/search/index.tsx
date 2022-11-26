@@ -34,7 +34,9 @@ export default function Index() {
   }
 
   function searchTextChange(event) {
-    setSearchText(event.target.value)
+    if (event.target.value.length < 50) {
+      setSearchText(event.target.value)
+    }
   }
 
   function searchTextKeyPress(event) {
@@ -80,7 +82,7 @@ export default function Index() {
                     />
                   </div>
                   <div className="flex justify-center items-center">
-                    <Input id="search-text" 
+                    <Input id="search-text" className="w-1/2 p-2 border-blue-300 border-2 border-solid drop-shadow"
                       type="text" value={searchText}
                       onChange={searchTextChange} onKeyPress={searchTextKeyPress} />
                   </div>
