@@ -26,12 +26,12 @@ export default function Index() {
 
           <div className="m-10">
 
-            <p className="text-xl">Simple web viewer for <a target="new" href="https://github.com/eliranwong/UniqueBible">Unique Bible App</a> written in <a target="new" href="https://reactjs.org/">React</a> / <a target="new" href="https://nextjs.org/">Next</a>.</p>
+            <p className="text-xl">Simple web viewer for <a href="https://github.com/eliranwong/UniqueBible">Unique Bible App</a> written in <a href="https://reactjs.org/">React</a> / <a href="https://nextjs.org/">Next</a>.</p>
 
             <div className="text-center mt-10">
-            <a target="new" href="https://github.com/otseng/simple-unique-bible-viewer/wiki/FAQ"><button className={`${clickableButton}`}>FAQ</button></a>
-            <a target="new" href="https://github.com/otseng/simple-unique-bible-viewer/issues"><button className={`${clickableButton}`}>Suggest a feature</button></a>
-            <a target="new" href="https://github.com/otseng/simple-unique-bible-viewer/discussions"><button className={`${clickableButton}`}>Feedback / Questions</button></a>
+            <a href="https://github.com/otseng/simple-unique-bible-viewer/wiki/FAQ"><button className={`${clickableButton}`}>FAQ</button></a>
+            <a href="https://github.com/otseng/simple-unique-bible-viewer/issues"><button className={`${clickableButton}`}>Suggest a feature</button></a>
+            <a href="https://github.com/otseng/simple-unique-bible-viewer/discussions"><button className={`${clickableButton}`}>Feedback / Questions</button></a>
             </div>
 
             <p className="text-xl font-bold mt-10 mb-10">App QR Code</p>
@@ -46,11 +46,11 @@ export default function Index() {
 
             <p className="text-xl font-bold mt-10 mb-3">More UBA viewers</p>
             <ul>
-              <li><a target="new" href="https://transliteralbible.com/index.html?cmd=.bible">
+              <li><a href="https://transliteralbible.com/index.html?cmd=.bible">
                 <button className={`${clickableButton}`}>TransliteralBible.com</button></a></li>
-              <li><a target="new" href="https://bible.gospelchurch.uk">
+              <li><a href="https://bible.gospelchurch.uk">
                 <button className={`${clickableButton}`}>GospelChurch.uk</button></a></li>
-              <li><a target="new" href="https://marvelbible.com">
+              <li><a href="https://marvelbible.com">
                 <button className={`${clickableButton}`}>MarvelBible.com</button></a></li>
             </ul>
 
