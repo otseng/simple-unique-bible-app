@@ -82,7 +82,7 @@ export default function Index() {
                     />
                   </div>
                   <div className="flex justify-center items-center">
-                    <Input id="search-text" className="w-1/2 p-2 border-blue-300 border-2 border-solid drop-shadow"
+                    <Input id="search-text" className="w-1/2 p-2 border-blue-300 border-2 border-solid"
                       type="text" value={searchText}
                       onChange={searchTextChange} onKeyPress={searchTextKeyPress} />
                   </div>
