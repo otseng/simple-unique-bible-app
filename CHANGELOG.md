@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.04] - 11/28/2022
+
+- Added quick link Bibles in verse reference
+
 ## [1.03] - 11/25/2022
 
 - Added bookmarks
