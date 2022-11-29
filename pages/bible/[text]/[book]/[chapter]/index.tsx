@@ -64,8 +64,8 @@ export default function Index() {
       if (element) {
         element.style.backgroundColor = 'lightgoldenrodyellow'
         // if (!scrolledRef.current) {
-          element.scrollIntoView({ behavior: 'smooth' });
-          scrolledRef.current = true;
+        element.scrollIntoView({ behavior: 'smooth' });
+        scrolledRef.current = true;
         // }
       }
     }
@@ -260,11 +260,11 @@ export default function Index() {
             <BasicModal show={showModal} setter={setShowModal} title={modalTitle} content={modalContent}></BasicModal>
 
             <Menu id={BIBLE_VERSE_POPUP_MENU}>
-              <Item id="copy" onClick={handleItemClick}><span className="text-md">Copy link</span></Item>
-              <Item id="highlight" onClick={handleItemClick}><span className="text-md">Toggle highlight</span></Item>
-              <Item id="compare" onClick={handleItemClick}><span className="text-md">Compare</span></Item>
-              <Item id="xref" onClick={handleItemClick}><span className="text-md">Cross references</span></Item>
               <Item id="bookmark" onClick={handleItemClick}><span className="text-md">Add bookmark</span></Item>
+              <Item id="highlight" onClick={handleItemClick}><span className="text-md">Toggle highlight</span></Item>
+              <Item id="copy" onClick={handleItemClick}><span className="text-md">Copy link</span></Item>
+              <Item id="xref" onClick={handleItemClick}><span className="text-md">Cross references</span></Item>
+              <Item id="compare" onClick={handleItemClick}><span className="text-md">Compare</span></Item>
               <Separator />
               <Item id="bible-KJV" onClick={handleItemClick}><span className="text-md">KJV</span></Item>
               <Item id="bible-NET" onClick={handleItemClick}><span className="text-md">NET</span></Item>
