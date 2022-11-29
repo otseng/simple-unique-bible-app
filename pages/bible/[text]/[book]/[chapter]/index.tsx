@@ -85,7 +85,7 @@ export default function Index() {
     } else if (id == 'highlight') {
       const element = document.getElementById("v" + chapter + "_" + verse);
       if (element.style.backgroundColor !== 'lightgoldenrodyellow') {
-        element.style.backgroundColor = 'lightgoldenrodyellow'
+        router.push(`/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`)
       } else {
         element.style.backgroundColor = ''
       }
@@ -171,11 +171,14 @@ export default function Index() {
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>
-                  {dataBibles.map((text) => (
-                    <Link href={"/bible/" + text + "/" + book + "/" + chapter + "?commentary="}>
+                  {dataBibles.map((text) => {
+                    const hash = window?.location?.hash
+                    return (
+                    <Link href={"/bible/" + text + "/" + book + "/" + chapter + "?commentary=" + hash }>
                       <button className={`${clickableButton}`}>{text}</button>
                     </Link>
-                  ))}
+                    )}
+                  )}
                 </div>
               </Disclosure.Panel>
             </Disclosure>
