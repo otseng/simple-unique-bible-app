@@ -63,10 +63,10 @@ export default function Index() {
       const element = document.getElementById(id);
       if (element) {
         element.style.backgroundColor = 'lightgoldenrodyellow'
-        if (!scrolledRef.current) {
+        // if (!scrolledRef.current) {
           element.scrollIntoView({ behavior: 'smooth' });
           scrolledRef.current = true;
-        }
+        // }
       }
     }
   });
