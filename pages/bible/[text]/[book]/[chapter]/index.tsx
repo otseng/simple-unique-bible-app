@@ -269,8 +269,9 @@ export default function Index() {
               <Item id="bible-KJV" onClick={handleItemClick}><span className="text-md">KJV</span></Item>
               <Item id="bible-NET" onClick={handleItemClick}><span className="text-md">NET</span></Item>
               <Item id="bible-NET" onClick={handleItemClick}><span className="text-md">WEB</span></Item>
-              <Item id="bible-NETx" onClick={handleItemClick}><span className="text-md">WEBx</span></Item>
+              <Item id="bible-TRLIT" onClick={handleItemClick}><span className="text-md">TRLIT</span></Item>
               <Item id="bible-TRLITx" onClick={handleItemClick}><span className="text-md">TRLITx</span></Item>
+              <Item id="bible-KJVx" onClick={handleItemClick}><span className="text-md">KJVx</span></Item>
               <Item id="bible-Tanakhxx" onClick={handleItemClick}><span className="text-md">Tanakhxx</span></Item>
               <Item id="bible-Greek+" onClick={handleItemClick}><span className="text-md">Greek+</span></Item>
             </Menu>
