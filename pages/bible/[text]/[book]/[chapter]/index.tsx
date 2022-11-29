@@ -118,8 +118,16 @@ export default function Index() {
     setModalTitle('Lexicon - ' + strongs)
     _getLexicon('TRLIT', strongs).then((resp) => {
       const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
-      setModalContent(html)
-      setShowModal(true)
+      if (!html.includes("[Not found]")) {
+        setModalContent(html)
+        setShowModal(true)
+      } else {
+        _getLexicon('SECE', strongs).then((resp) => {
+          const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
+          setModalContent(html)
+          setShowModal(true)
+        })
+      }
     })
   }
 
@@ -260,7 +268,8 @@ export default function Index() {
               <Separator />
               <Item id="bible-KJV" onClick={handleItemClick}><span className="text-md">KJV</span></Item>
               <Item id="bible-NET" onClick={handleItemClick}><span className="text-md">NET</span></Item>
-              <Item id="bible-NETx" onClick={handleItemClick}><span className="text-md">NETx</span></Item>
+              <Item id="bible-NET" onClick={handleItemClick}><span className="text-md">WEB</span></Item>
+              <Item id="bible-NETx" onClick={handleItemClick}><span className="text-md">WEBx</span></Item>
               <Item id="bible-TRLITx" onClick={handleItemClick}><span className="text-md">TRLITx</span></Item>
               <Item id="bible-Tanakhxx" onClick={handleItemClick}><span className="text-md">Tanakhxx</span></Item>
               <Item id="bible-Greek+" onClick={handleItemClick}><span className="text-md">Greek+</span></Item>
