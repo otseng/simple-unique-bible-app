@@ -29,7 +29,7 @@ export default function Index() {
     const { data, loading, error } = getCommentaryContent(title, bookNum, chapter)
 
     if (error) return <div>Failed to load</div>
-    if (loading) return
+    if (loading) return <div>Loading...</div>
 
     if (data && dataCommentaries) {
         return (
