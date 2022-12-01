@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.05] - 11/30/2022
+
+- Added morphology to MOB
+
 ## [1.04] - 11/28/2022
 
 - Added quick link Bibles in verse reference
