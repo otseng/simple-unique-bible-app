@@ -115,6 +115,7 @@ export default function Index() {
   }
 
   function showLexicon(strongs) {
+    removeToast()
     setModalTitle('Lexicon - ' + strongs)
     _getLexicon('TRLIT', strongs).then((resp) => {
       const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
@@ -142,11 +143,23 @@ export default function Index() {
     }
   }
 
+  function showMorphology(portion, wordId) {
+    removeToast()
+    _getMorphology(portion, wordId).then((resp) => {
+      const html = resp[5] + " • " + resp[7] + " • " + resp[8] + "<br/>" + resp[4]
+      setModalTitle('Morphology - ' + resp[1])
+      setModalContent(html)
+      setShowModal(true)
+    }
+    )
+  }
+
   function instantMorphology(portion, wordId) {
     if ((typeof window !== 'undefined') && window.innerWidth > 820) {
       _getMorphology(portion, wordId).then((resp) => {
         if (resp) {
-          const info = resp[1] + " • " + resp[5] + " • " + resp[4] + " • " + resp[7]
+          const definition = resp[7] || ''
+          const info = resp[1] + " • " + resp[5] + " • " + definition + "\n" + resp[4].replaceAll(",", ", ")
           toast(info, { duration: 10000 })
         }
       })
@@ -254,19 +267,14 @@ export default function Index() {
                   }
                   return (
                     <>
-                      <span id={`v${verse.c}_${verse.v}`} className="hover:cursor-pointer" onClick={displayMenu} onMouseEnter={() => removeToast()}>{verse.c}:{verse.v} - </span>
-                      {verseContent.map((data) => (
-                        <span onMouseEnter={() => instantMorphology(data[0], data[1])} onMouseLeave={() => removeToast()} className="hover:cursor-pointer">{data[2]}</span>
-                      ))}
-                      <br />
+                      <p id={`v${verse.c}_${verse.v}`}>
+                        <span id={`t${verse.c}_${verse.v}`} className="hover:cursor-pointer" onClick={displayMenu} onMouseEnter={() => removeToast()}>{verse.c}:{verse.v} - </span>
+                        {verseContent.map((data) => (
+                          <span onMouseEnter={() => instantMorphology(data[0], data[1])} onMouseLeave={() => removeToast()} onClick={() => showMorphology(data[0], data[1])} className="hover:cursor-pointer">{data[2]}</span>
+                        ))}
+                      </p>
                     </>
                   )
-                  // return (
-                  //   <>
-                  //     <span id={`v${verse.c}_${verse.v}`} className="hover:cursor-pointer" onClick={displayMenu}>{verse.c}:{verse.v} - </span>
-                  //     <span className="text-container" dangerouslySetInnerHTML={{ __html: text }} /><br/>
-                  //   </>
-                  // )
                 }
                 )
               }
@@ -333,6 +341,7 @@ export default function Index() {
               <Item id="bible-TRLIT" onClick={handleItemClick}><span className="text-md">TRLIT</span></Item>
               <Item id="bible-TRLITx" onClick={handleItemClick}><span className="text-md">TRLITx</span></Item>
               <Item id="bible-KJVx" onClick={handleItemClick}><span className="text-md">KJVx</span></Item>
+              <Item id="bible-MOB" onClick={handleItemClick}><span className="text-md">MOB</span></Item>
               <Item id="bible-Tanakhxx" onClick={handleItemClick}><span className="text-md">Tanakhxx</span></Item>
               <Item id="bible-Greek+" onClick={handleItemClick}><span className="text-md">Greek+</span></Item>
             </Menu>
