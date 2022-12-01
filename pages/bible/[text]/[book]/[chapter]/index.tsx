@@ -145,8 +145,8 @@ export default function Index() {
   function showMorphology(portion, wordId) {
     removeToast()
     _getMorphology(portion, wordId).then((resp) => {
-      const html = resp[5] + " • " + resp[7] + " • " + resp[8] + "<br/>" + resp[4]
-      setModalTitle('Morphology - ' + resp[1])
+      const html = resp[5] + " • " + resp[1] + " • " + resp[7] + " • " + resp[8] + "<br/>" + resp[4]
+      setModalTitle('Morphology - ' + resp[0])
       setModalContent(html)
       setShowModal(true)
     }
@@ -158,7 +158,7 @@ export default function Index() {
       _getMorphology(portion, wordId).then((resp) => {
         if (resp) {
           const definition = resp[7] || ''
-          const info = resp[1] + " • " + resp[5] + " • " + definition + "\n" + resp[4].replaceAll(",", ", ")
+          const info = resp[0] + " • " + resp[5] + " • " + definition + "\n" + resp[4].replaceAll(",", ", ")
           toast(info, { duration: 10000 })
         }
       })
