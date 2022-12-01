@@ -171,7 +171,7 @@ export default function Index() {
   }
 
   if (error) return <div>Failed to load</div>
-  if (loading) return
+  if (loading) return <div>Loading</div>
 
   if (data && dataBooks && dataBibles && dataCommentaries) {
 
