@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
 import { addBookmark, bookmarkExists, getBibleTextDir, preloadData, range } from '../../../../../lib/util'
-import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, getCommentaryContent, _getCommentaryContent, _getInstantLex, _getLexicon } from '../../../../../lib/api'
+import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, getCommentaryContent, _getCommentaryContent, _getInstantLex, _getLexicon, _getMorphology } from '../../../../../lib/api'
 import { useEffect, useRef, useState } from 'react'
 import { chapterDisclosure, clickableButton, homeDisclosure, textStrongs } from '../../../../../lib/styles'
 import { bibleChapters } from '../../../../../data/bibleChapters'
@@ -142,8 +142,15 @@ export default function Index() {
     }
   }
 
-  function instantMorphology() {
-    toast("morph here")
+  function instantMorphology(portion, wordId) {
+    if ((typeof window !== 'undefined') && window.innerWidth > 820) {
+      _getMorphology(portion, wordId).then((resp) => {
+        if (resp) {
+          const info = resp[1] + " • " + resp[5] + " • " + resp[4] + " • " + resp[7]
+          toast(info, { duration: 10000 })
+        }
+      })
+    }
   }
 
   function removeToast() {
@@ -222,7 +229,8 @@ export default function Index() {
             <div dir={textDir}>
               {mobBible &&
                 data.map((verse) => {
-                  let html = ""
+                  let verseContent = []
+                  // let html = ""
                   let text = verse.t
                   let words = text.matchAll(new RegExp("<heb.*?</heb>", "g"))
                   words = Array.from(words)
@@ -240,16 +248,20 @@ export default function Index() {
                     regex = new RegExp("<heb.*?>(.*?)</heb>")
                     matches = regex.exec(word[0])
                     console.log(matches[1])
-                    if (portion == '') {
-                      html = html + `<span>${matches[1]}</span>`
-                    } else {
-                      html = html + `<span>${matches[1]}</span>`
-                    }
+                    verseContent.push([portion, wordId, matches[1]])
+                    // if (portion == '') {
+                    //   html = html + `<span>${matches[1]}</span>`
+                    // } else {
+                    //   html = html + `<span style="cursor: pointer;" onMouseEnter="` + this.instantMorphology() + `">${matches[1]}</span>`
+                    // }
                   }
-                  return ( 
+                  return (
                     <>
-                    <span id={`v${verse.c}_${verse.v}`} className="hover:cursor-pointer" onClick={displayMenu}>{verse.c}:{verse.v} - </span>
-                    <span className="text-container" dangerouslySetInnerHTML={{ __html: html }} /><br/>
+                      <span id={`v${verse.c}_${verse.v}`} className="hover:cursor-pointer" onClick={displayMenu}>{verse.c}:{verse.v} - </span>
+                      {verseContent.map((data) => (
+                        <span onMouseEnter={() => instantMorphology(data[0], data[1])} onMouseLeave={() => removeToast()} className="hover:cursor-pointer">{data[2]}</span>
+                      ))}
+                      <br />
                     </>
                   )
                   // return (
