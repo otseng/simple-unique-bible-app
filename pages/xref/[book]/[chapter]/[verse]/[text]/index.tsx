@@ -6,8 +6,8 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../../lib/constants'
 import { getBibleTextDir, preloadData, range } from '../../../../../../lib/util'
-import { clickableButton, homeDisclosure, textStrongs } from '../../../../../../lib/styles'
-import { getBibleBooks, getCrossReferences } from '../../../../../../lib/api'
+import { clickableButton, homeDisclosure } from '../../../../../../lib/styles'
+import { getCrossReferences } from '../../../../../../lib/api'
 import { Disclosure } from '@headlessui/react'
 import { bibleChapters } from '../../../../../../data/bibleChapters'
 import { bibleChapterVerses } from '../../../../../../data/bibleChapterVerses'
@@ -29,7 +29,7 @@ export default function Index() {
   const { data: dataVerses, loading: loadingVerses, error: errorVerses } = getCrossReferences(bookNum, chapter, verse, text)
 
   if (errorVerses) return <div>Failed to load</div>
-  if (loadingVerses) return <div>Loading</div>
+  if (loadingVerses) return <div>Loading...</div>
 
   if (dataVerses) {
     return (

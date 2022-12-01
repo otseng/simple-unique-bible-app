@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
 import { addBookmark, bookmarkExists, getBibleTextDir, preloadData, range } from '../../../../../lib/util'
-import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, getCommentaryContent, _getCommentaryContent, _getInstantLex, _getLexicon, _getMorphology } from '../../../../../lib/api'
+import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, _getCommentaryContent, _getInstantLex, _getLexicon, _getMorphology } from '../../../../../lib/api'
 import { useEffect, useRef, useState } from 'react'
 import { chapterDisclosure, clickableButton, homeDisclosure, textStrongs } from '../../../../../lib/styles'
 import { bibleChapters } from '../../../../../data/bibleChapters'
@@ -16,7 +16,6 @@ import {
   Menu,
   Item,
   Separator,
-  Submenu,
   useContextMenu
 } from "react-contexify"
 import "react-contexify/dist/ReactContexify.css"
@@ -171,7 +170,7 @@ export default function Index() {
   }
 
   if (error) return <div>Failed to load</div>
-  if (loading) return <div>Loading</div>
+  if (loading) return <div>Loading...</div>
 
   if (data && dataBooks && dataBibles && dataCommentaries) {
 
