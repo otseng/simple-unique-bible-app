@@ -28,7 +28,7 @@ export function isDev(): boolean {
 }
 
 export function getBibleTextDir(text, bookNum) {
-    return (bookNum < 40 && (text == 'Tanakhxx' || text.startsWith('OHGB') || text == "MOB")) ? 'rtl' : 'ltr'
+    return (bookNum < 40 && (['Tanakhxx', 'MOB', 'MAB', 'MPB', 'MTB'].indexOf(text) > -1 || text.startsWith('OHGB'))) ? 'rtl' : 'ltr'
 }
 
 export function getLocalStorage(key) {
