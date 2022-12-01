@@ -230,9 +230,9 @@ export default function Index() {
               {mobBible &&
                 data.map((verse) => {
                   let verseContent = []
-                  // let html = ""
                   let text = verse.t
-                  let words = text.matchAll(new RegExp("<heb.*?</heb>", "g"))
+                  const type = bookNum < 40 ? 'heb' : 'grk'
+                  let words = text.matchAll(new RegExp("<" + type + ".*?</" + type + ">", "g"))
                   words = Array.from(words)
                   for (const word of words) {
                     // console.log(word[0])
@@ -245,19 +245,16 @@ export default function Index() {
                       wordId = matches[2]
                       console.log(portion + ":" + wordId)
                     }
-                    regex = new RegExp("<heb.*?>(.*?)</heb>")
+                    regex = new RegExp("<" + type + ".*?>(.*?)</" + type + ">")
                     matches = regex.exec(word[0])
                     console.log(matches[1])
-                    verseContent.push([portion, wordId, matches[1]])
-                    // if (portion == '') {
-                    //   html = html + `<span>${matches[1]}</span>`
-                    // } else {
-                    //   html = html + `<span style="cursor: pointer;" onMouseEnter="` + this.instantMorphology() + `">${matches[1]}</span>`
-                    // }
+                    let aword = matches[1].replace("<pm>", "").replace("</pm>", "")
+                    if (type == 'grk') aword = aword + ' '
+                    verseContent.push([portion, wordId, aword])
                   }
                   return (
                     <>
-                      <span id={`v${verse.c}_${verse.v}`} className="hover:cursor-pointer" onClick={displayMenu}>{verse.c}:{verse.v} - </span>
+                      <span id={`v${verse.c}_${verse.v}`} className="hover:cursor-pointer" onClick={displayMenu} onMouseEnter={() => removeToast()}>{verse.c}:{verse.v} - </span>
                       {verseContent.map((data) => (
                         <span onMouseEnter={() => instantMorphology(data[0], data[1])} onMouseLeave={() => removeToast()} className="hover:cursor-pointer">{data[2]}</span>
                       ))}
