@@ -251,3 +251,18 @@ export async function _getCommentaryContent(title, bookNumber, chapter) {
 
   return cacheCommentaryContent.get(key)
 }
+
+const cacheMorphology: Map<string, string> = new Map();
+
+export async function _getMorphology(portion, wordId) {
+  
+  const key = portion + '_' + wordId
+  if (!cacheMorphology.has(key)) {
+    const address = API_SERVER + `/morphology/${portion}/${wordId}`
+    const res = await axios.get(address, {auth})
+    const data = await res.data.data
+    cacheMorphology.set(key, data)
+  }
+
+  return cacheMorphology.get(key)
+}

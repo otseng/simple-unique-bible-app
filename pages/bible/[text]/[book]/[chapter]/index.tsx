@@ -142,6 +142,10 @@ export default function Index() {
     }
   }
 
+  function instantMorphology() {
+    toast("morph here")
+  }
+
   function removeToast() {
     toast.dismiss();
   }
@@ -151,7 +155,10 @@ export default function Index() {
 
   if (data && dataBooks && dataBibles && dataCommentaries) {
 
+    const mobBible = text == 'MOB'
+    const mibBible = text == 'MIB'
     const parseVerse = text.endsWith('x') || text.endsWith('+')
+    const rawVerse = !mobBible && !mibBible && !parseVerse
     const bookNames = dataBooks.map((number) => globalThis.bibleNumberToName[number])
 
     const textDir = getBibleTextDir(text, bookNum)
@@ -174,10 +181,11 @@ export default function Index() {
                   {dataBibles.map((text) => {
                     const hash = window?.location?.hash
                     return (
-                    <Link href={"/bible/" + text + "/" + book + "/" + chapter + "?commentary=" + hash }>
-                      <button className={`${clickableButton}`}>{text}</button>
-                    </Link>
-                    )}
+                      <Link href={"/bible/" + text + "/" + book + "/" + chapter + "?commentary=" + hash}>
+                        <button className={`${clickableButton}`}>{text}</button>
+                      </Link>
+                    )
+                  }
                   )}
                 </div>
               </Disclosure.Panel>
@@ -212,7 +220,48 @@ export default function Index() {
             </Disclosure>
 
             <div dir={textDir}>
-              {!parseVerse &&
+              {mobBible &&
+                data.map((verse) => {
+                  let html = ""
+                  let text = verse.t
+                  let words = text.matchAll(new RegExp("<heb.*?</heb>", "g"))
+                  words = Array.from(words)
+                  for (const word of words) {
+                    // console.log(word[0])
+                    let portion = ''
+                    let wordId = ''
+                    let regex = new RegExp("searchWord[(](.*?),(.*?)[)]")
+                    let matches = regex.exec(word[0])
+                    if (matches) {
+                      portion = matches[1]
+                      wordId = matches[2]
+                      console.log(portion + ":" + wordId)
+                    }
+                    regex = new RegExp("<heb.*?>(.*?)</heb>")
+                    matches = regex.exec(word[0])
+                    console.log(matches[1])
+                    if (portion == '') {
+                      html = html + `<span>${matches[1]}</span>`
+                    } else {
+                      html = html + `<span>${matches[1]}</span>`
+                    }
+                  }
+                  return ( 
+                    <>
+                    <span id={`v${verse.c}_${verse.v}`} className="hover:cursor-pointer" onClick={displayMenu}>{verse.c}:{verse.v} - </span>
+                    <span className="text-container" dangerouslySetInnerHTML={{ __html: html }} /><br/>
+                    </>
+                  )
+                  // return (
+                  //   <>
+                  //     <span id={`v${verse.c}_${verse.v}`} className="hover:cursor-pointer" onClick={displayMenu}>{verse.c}:{verse.v} - </span>
+                  //     <span className="text-container" dangerouslySetInnerHTML={{ __html: text }} /><br/>
+                  //   </>
+                  // )
+                }
+                )
+              }
+              {rawVerse &&
                 data.map((verse) => (verse.t &&
                   <p id={`v${verse.c}_${verse.v}`}>
                     <span className="hover:cursor-pointer" onClick={displayMenu} id={`t${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
