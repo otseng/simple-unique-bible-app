@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.06] - 12/1/2022
+
+- Added support for MAB, MIB, MPB, and MTB
+
 ## [1.05] - 11/30/2022
 
 - Added morphology to MOB
