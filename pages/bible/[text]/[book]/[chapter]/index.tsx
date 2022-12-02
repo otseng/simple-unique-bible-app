@@ -51,6 +51,7 @@ export default function Index() {
   const { data: dataCommentaries, loading: loadingCommentaries, error: errorCommentaries } = getCommentaries()
 
   useEffect(() => {
+    removeToast()
     const hash = window?.location?.hash
     if (commentary) {
       const element = document.getElementById('commentary-content')
@@ -63,15 +64,13 @@ export default function Index() {
       if (element) {
         element.style.backgroundColor = 'lightgoldenrodyellow'
         // if (!scrolledRef.current) {
-        // element.scrollIntoView({ behavior: 'smooth' });
-        window.scrollTo({
-          behavior: 'smooth',
-          top:
-            element.getBoundingClientRect().top -
-            document.body.getBoundingClientRect().top - 10,
-        })
-
-        // scrolledRef.current = true;
+          window.scrollTo({
+            behavior: 'smooth',
+            top:
+              element.getBoundingClientRect().top -
+              document.body.getBoundingClientRect().top - 10,
+          })
+        //   scrolledRef.current = true;
         // }
       }
     }
@@ -264,7 +263,7 @@ export default function Index() {
                   return (
                     <p id={`v${verse.c}_${verse.v}`}>
                       <span className="hover:cursor-pointer" onClick={displayMenu} id={`t${verse.c}_${verse.v}`}>{verse.c}:{verse.v}</span>
-                      {(mtbBible || mpbBible) && <br/>}
+                      {(mtbBible || mpbBible) && <br />}
                       <span className="text-container" dangerouslySetInnerHTML={{ __html: text }} /></p>
                   )
                 })
