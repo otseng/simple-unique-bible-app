@@ -63,8 +63,15 @@ export default function Index() {
       if (element) {
         element.style.backgroundColor = 'lightgoldenrodyellow'
         // if (!scrolledRef.current) {
-        element.scrollIntoView({ behavior: 'smooth' });
-        scrolledRef.current = true;
+        // element.scrollIntoView({ behavior: 'smooth' });
+        window.scrollTo({
+          behavior: 'smooth',
+          top:
+            element.getBoundingClientRect().top -
+            document.body.getBoundingClientRect().top - 10,
+        })
+
+        // scrolledRef.current = true;
         // }
       }
     }
@@ -114,9 +121,9 @@ export default function Index() {
   }
 
   function showLexicon(strongs) {
-    removeToast()
     setModalTitle('Lexicon - ' + strongs)
     _getLexicon('TRLIT', strongs).then((resp) => {
+      removeToast()
       const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
       if (!html.includes("[Not found]")) {
         setModalContent(html)
@@ -134,6 +141,7 @@ export default function Index() {
   function instantLexicon(strongs) {
     if ((typeof window !== 'undefined') && window.innerWidth > 820) {
       _getInstantLex(strongs).then((resp) => {
+        removeToast()
         if (resp) {
           const info = strongs + " • " + resp[0] + " • " + resp[1] + " • " + resp[2] + " • " + resp[3]
           toast(info, { duration: 5000 })
@@ -143,8 +151,8 @@ export default function Index() {
   }
 
   function showMorphology(portion, wordId) {
-    removeToast()
     _getMorphology(portion, wordId).then((resp) => {
+      removeToast()
       const html = resp[5] + " • " + resp[1] + " • " + resp[7] + " • " + resp[8] + "<br/>" + resp[4]
       setModalTitle('Morphology - ' + resp[0])
       setModalContent(html)
@@ -156,6 +164,7 @@ export default function Index() {
   function instantMorphology(portion, wordId) {
     if ((typeof window !== 'undefined') && window.innerWidth > 820) {
       _getMorphology(portion, wordId).then((resp) => {
+        removeToast()
         if (resp) {
           const definition = resp[7] || ''
           const info = resp[0] + " • " + resp[5] + " • " + definition + "\n" + resp[4].replaceAll(",", ", ")
@@ -174,8 +183,11 @@ export default function Index() {
 
   if (data && dataBooks && dataBibles && dataCommentaries) {
 
+    const mabBible = text == 'MAB'
     const mobBible = text == 'MOB'
     const mibBible = text == 'MIB'
+    const mpbBible = text == 'MPB'
+    const mtbBible = text == 'MTB'
     const parseVerse = text.endsWith('x') || text.endsWith('+')
     const rawVerse = !mobBible && !mibBible && !parseVerse
     const bookNames = dataBooks.map((number) => globalThis.bibleNumberToName[number])
@@ -239,6 +251,24 @@ export default function Index() {
             </Disclosure>
 
             <div dir={textDir}>
+              {(mabBible || mibBible || mtbBible || mpbBible) &&
+                data.map((verse) => {
+                  let text = verse.t
+                  text = text.replaceAll(/<vid.*?<\/vid>/g, "")
+                  text = text.replaceAll(/^(<br>)*/g, "")
+                  text = text.replaceAll(/onclick=".*?"/g, "")
+                  text = text.replaceAll(/ondblclick=".*?"/g, "")
+                  text = text.replaceAll(/onmouseover=".*?"/g, "")
+                  text = text.replaceAll(/onmouseout=".*?"/g, "")
+                  console.log(text)
+                  return (
+                    <p id={`v${verse.c}_${verse.v}`}>
+                      <span className="hover:cursor-pointer" onClick={displayMenu} id={`t${verse.c}_${verse.v}`}>{verse.c}:{verse.v}</span>
+                      {(mtbBible || mpbBible) && <br/>}
+                      <span className="text-container" dangerouslySetInnerHTML={{ __html: text }} /></p>
+                  )
+                })
+              }
               {mobBible &&
                 data.map((verse) => {
                   let verseContent = []
@@ -336,13 +366,14 @@ export default function Index() {
               <Separator />
               <Item id="bible-KJV" onClick={handleItemClick}><span className="text-md">KJV</span></Item>
               <Item id="bible-NET" onClick={handleItemClick}><span className="text-md">NET</span></Item>
-              <Item id="bible-NET" onClick={handleItemClick}><span className="text-md">WEB</span></Item>
+              <Item id="bible-WEB" onClick={handleItemClick}><span className="text-md">WEB</span></Item>
               <Item id="bible-TRLIT" onClick={handleItemClick}><span className="text-md">TRLIT</span></Item>
               <Item id="bible-TRLITx" onClick={handleItemClick}><span className="text-md">TRLITx</span></Item>
               <Item id="bible-KJVx" onClick={handleItemClick}><span className="text-md">KJVx</span></Item>
               <Item id="bible-MOB" onClick={handleItemClick}><span className="text-md">MOB</span></Item>
-              <Item id="bible-Tanakhxx" onClick={handleItemClick}><span className="text-md">Tanakhxx</span></Item>
-              <Item id="bible-Greek+" onClick={handleItemClick}><span className="text-md">Greek+</span></Item>
+              <Item id="bible-MIB" onClick={handleItemClick}><span className="text-md">MIB</span></Item>
+              {bookNum < 40 && <Item id="bible-Tanakhxx" onClick={handleItemClick}><span className="text-md">Tanakhxx</span></Item>}
+              {bookNum > 39 && <Item id="bible-Greek+" onClick={handleItemClick}><span className="text-md">Greek+</span></Item>}
             </Menu>
 
           </Container>
