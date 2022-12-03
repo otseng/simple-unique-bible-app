@@ -131,7 +131,13 @@ export default function Index() {
         }
         router.push(`/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`)
       } else {
-        element.style.backgroundColor = ''
+        for (const x of Array(150).keys()) {
+          const searchElement = "v" + chapter + "_" + (x + 1)
+          const element = document.getElementById(searchElement)
+          if (!element) break;
+          element.style.backgroundColor = ''
+        }
+        router.push(`/bible/${text}/${book}/${chapter}#`)
       }
     } else if (id == 'compare') {
       router.push(`/compare/${book}/${chapter}/${verse}?text=${text}`)
