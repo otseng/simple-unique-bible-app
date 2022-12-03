@@ -5,8 +5,8 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
-import { addBookmark, bookmarkExists, getBibleTextDir, preloadData, range } from '../../../../../lib/util'
-import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, _getCommentaryContent, _getInstantLex, _getLexicon, _getMorphology } from '../../../../../lib/api'
+import { addBookmark, bookmarkExists, getBibleTextDir, isMobile, preloadData, range } from '../../../../../lib/util'
+import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, _getCommentaryContent, _getInstantLex, _getLexicon, _getMorphology, _getSearchTool } from '../../../../../lib/api'
 import { useEffect, useRef, useState } from 'react'
 import { chapterDisclosure, clickableButton, homeDisclosure, textStrongs } from '../../../../../lib/styles'
 import { bibleChapters } from '../../../../../data/bibleChapters'
@@ -43,7 +43,7 @@ export default function Index() {
   const { show } = useContextMenu({
     id: BIBLE_VERSE_POPUP_MENU
   })
-  const scrolledRef = useRef(false);
+  const scrolledRef = useRef(false)
 
   const { data: dataBibles, loading: loadingBibles, error: errorBibles } = getBibles()
   const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBibleTextBooks(text)
@@ -56,28 +56,61 @@ export default function Index() {
     if (commentary) {
       const element = document.getElementById('commentary-content')
       if (element) {
-        element.scrollIntoView();
+        element.scrollIntoView()
       }
     } else if (hash) {
-      const id = hash.replace('#', '');
-      const element = document.getElementById(id);
+      const id = hash.replace('#', '')
+      const element = document.getElementById(id)
       if (element) {
         element.style.backgroundColor = 'lightgoldenrodyellow'
-        // if (!scrolledRef.current) {
-          window.scrollTo({
-            behavior: 'smooth',
-            top:
-              element.getBoundingClientRect().top -
-              document.body.getBoundingClientRect().top - 10,
+        window.scrollTo({
+          behavior: 'smooth',
+          top:
+            element.getBoundingClientRect().top -
+            document.body.getBoundingClientRect().top - 10,
+        })
+      }
+    }
+    if (text == "MIB") {
+      let elements = document.getElementsByTagName("wmorph")
+      let module = "mETCBC"
+      if (bookNum >= 40) module = "mRMAC"
+      for (const element of elements) {
+        const text = element.innerHTML
+        element.className = "hover:cursor-pointer"
+        element.addEventListener('mouseout', function (event) {
+          removeToast()
+        })
+        element.addEventListener('click', function (event) {
+          showSearchTool(module, text)
+        })
+        if (!isMobile()) {
+          element.addEventListener('mouseover', function (event) {
+            instantSearchTool(module, text)
           })
-        //   scrolledRef.current = true;
-        // }
+        }
+      }
+      elements = document.getElementsByTagName("wsn")
+      for (const element of elements) {
+        const text = element.innerHTML
+        element.className = "hover:cursor-pointer"
+        element.addEventListener('mouseout', function (event) {
+          removeToast()
+        })
+        element.addEventListener('click', function (event) {
+          showLexicon(text)
+        })
+        if (!isMobile()) {
+          element.addEventListener('mouseover', function (event) {
+            instantLexicon(text)
+          })
+        }
       }
     }
   });
 
   function handleItemClick({ id, event, props, data, triggerEvent }) {
-    console.log(id, event, triggerEvent)
+    // console.log(id, event, triggerEvent)
     const targetId = triggerEvent?.srcElement?.id || ''
     const regex = /t(.*)_(.*)/
     const matches = regex.exec(targetId)
@@ -88,8 +121,14 @@ export default function Index() {
       navigator.clipboard.writeText(url)
       toast('Link copied to clipboard')
     } else if (id == 'highlight') {
-      const element = document.getElementById("v" + chapter + "_" + verse);
+      const element = document.getElementById("v" + chapter + "_" + verse)
       if (element.style.backgroundColor !== 'lightgoldenrodyellow') {
+        for (const x of Array(150).keys()) {
+          const searchElement = "v" + chapter + "_" + (x + 1)
+          const element = document.getElementById(searchElement)
+          if (!element) break;
+          element.style.backgroundColor = ''
+        }
         router.push(`/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`)
       } else {
         element.style.backgroundColor = ''
@@ -138,7 +177,7 @@ export default function Index() {
   }
 
   function instantLexicon(strongs) {
-    if ((typeof window !== 'undefined') && window.innerWidth > 820) {
+    if (!isMobile()) {
       _getInstantLex(strongs).then((resp) => {
         removeToast()
         if (resp) {
@@ -161,7 +200,7 @@ export default function Index() {
   }
 
   function instantMorphology(portion, wordId) {
-    if ((typeof window !== 'undefined') && window.innerWidth > 820) {
+    if (!isMobile()) {
       _getMorphology(portion, wordId).then((resp) => {
         removeToast()
         if (resp) {
@@ -173,8 +212,32 @@ export default function Index() {
     }
   }
 
+  // mETCBC - OT
+  // mRMAC - NT
+  function showSearchTool(module, text) {
+    _getSearchTool(module, text).then((resp) => {
+      removeToast()
+      if (resp) {
+        let content = resp.replaceAll("<b>", "").replaceAll("</b>", "")
+        setModalTitle(module)
+        setModalContent(content)
+        setShowModal(true)
+      }
+    })
+  }
+
+  function instantSearchTool(module, text) {
+    _getSearchTool(module, text).then((resp) => {
+      removeToast()
+      if (resp) {
+        let content = resp.replaceAll("<b>", "").replaceAll("</b>", "")
+        toast(content, { duration: 10000 })
+      }
+    })
+  }
+
   function removeToast() {
-    toast.dismiss();
+    toast.dismiss()
   }
 
   if (error) return <div>Failed to load</div>
@@ -259,7 +322,7 @@ export default function Index() {
                   text = text.replaceAll(/ondblclick=".*?"/g, "")
                   text = text.replaceAll(/onmouseover=".*?"/g, "")
                   text = text.replaceAll(/onmouseout=".*?"/g, "")
-                  console.log(text)
+                  // console.log(text)
                   return (
                     <p id={`v${verse.c}_${verse.v}`}>
                       <span className="hover:cursor-pointer" onClick={displayMenu} id={`t${verse.c}_${verse.v}`}>{verse.c}:{verse.v}</span>
@@ -284,11 +347,11 @@ export default function Index() {
                     if (matches) {
                       portion = matches[1]
                       wordId = matches[2]
-                      console.log(portion + ":" + wordId)
+                      // console.log(portion + ":" + wordId)
                     }
                     regex = new RegExp("<" + type + ".*?>(.*?)</" + type + ">")
                     matches = regex.exec(word[0])
-                    console.log(matches[1])
+                    // console.log(matches[1])
                     let aword = matches[1].replace("<pm>", "").replace("</pm>", "")
                     if (type == 'grk') aword = aword + ' '
                     verseContent.push([portion, wordId, aword])

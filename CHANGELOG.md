@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.07] - 12/2/2022
+
+- Added lexicon to MIB
+
+
 ## [1.06] - 12/1/2022
 
 - Added support for MAB, MIB, MPB, and MTB

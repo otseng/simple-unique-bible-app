@@ -23,6 +23,10 @@ export function scrollToTop() {
     });
 };
 
+export function isMobile(): boolean {
+    return (typeof window !== 'undefined') && window.innerWidth < 820
+}
+
 export function isDev(): boolean {
     return !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 }

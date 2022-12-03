@@ -1,10 +1,17 @@
 import axios from 'axios'
 import useSWR from 'swr'
 import { API_SERVER } from './constants'
+import md5 from 'md5'
 
 const auth = {
-  username: 'ubaclient',
-  password: 'uniquebibleapp'
+  username: 'simpleubaclient',
+  password: getPassword()
+}
+
+function getPassword() {
+  let pass = "uniquebibleapp" + (new Date().getUTCMonth() + 1)
+  pass = md5(pass)
+  return pass
 }
 
 export function getBibles() {
@@ -265,4 +272,19 @@ export async function _getMorphology(portion, wordId) {
   }
 
   return cacheMorphology.get(key)
+}
+
+const cacheSearchToolmETCBC: Map<string, string> = new Map();
+
+export async function _getSearchTool(module, text) {
+  
+  const key = module + "_" + text
+  if (!cacheSearchToolmETCBC.has(key)) {
+    const address = API_SERVER + `/searchtool/${module}/${text}`
+    const res = await axios.get(address, {auth})
+    const data = await res.data.data
+    cacheSearchToolmETCBC.set(key, data)
+  }
+
+  return cacheSearchToolmETCBC.get(key)
 }
