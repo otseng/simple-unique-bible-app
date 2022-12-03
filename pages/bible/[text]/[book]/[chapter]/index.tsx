@@ -51,7 +51,7 @@ export default function Index() {
   const { data: dataCommentaries, loading: loadingCommentaries, error: errorCommentaries } = getCommentaries()
 
   useEffect(() => {
-    removeToast()
+    window.addEventListener('scroll', function (event) { removeToast() });
     const hash = window?.location?.hash
     if (commentary) {
       const element = document.getElementById('commentary-content')
