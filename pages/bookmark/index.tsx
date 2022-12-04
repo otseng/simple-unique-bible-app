@@ -75,23 +75,27 @@ export default function Index() {
               <div>
                 {bookmarks.length == 0 && <p className="ml-10 mt-10 font-lg">No bookmarks</p>}
                 {bookmarks.map((bookmark) => {
-                  const regex = new RegExp("/bible/(.*)/(.*)/(.*)#v.*_(.*)")
-                  const matches = regex.exec(bookmark)
-                  const text = matches[1]
-                  const book = matches[2]
-                  const chapter = matches[3]
-                  const verse = matches[4]
+                  if (bookmark) {
+                    bookmark = bookmark.replaceAll('!', '#')
+                    const regex = new RegExp("/bible/(.*)/(.*)/(.*)#v.*_(.*)")
+                    const matches = regex.exec(bookmark)
+                    const text = matches[1]
+                    const book = matches[2]
+                    const chapter = matches[3]
+                    const verse = matches[4]
 
-                  return (
-                    <>
-                      <div className="ml-10 flex justify-left">
-                        <Link href={bookmark}>
-                          <button className={`${clickableButton}`}>{text} {book} {chapter}:{verse}</button>
-                        </Link>
-                        <button id={bookmark} onClick={() => deleteOne(bookmark)} className={`${clickableButton}`}>Delete</button>
-                      </div>
-                    </>
-                  )
+                    return (
+                      <>
+                        <div className="ml-10 flex justify-left">
+                          <Link href={bookmark}>
+                            <button className={`${clickableButton}`}>{text} {book} {chapter}:{verse}</button>
+                          </Link>
+                          <button id={bookmark} onClick={() => deleteOne(bookmark)} className={`${clickableButton}`}>Delete</button>
+                        </div>
+                      </>
+                    )
+                  }
+
                 })
                 }
                 {bookmarks.length > 0 &&
