@@ -6,9 +6,10 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../lib/constants'
 import { getBookChapters, getBooks } from '../../../lib/api'
-import { chapterDisclosure, clickableButton, homeDisclosure, nonclickableButton } from '../../../lib/styles'
-import React from 'react'
+import { clickableButton, homeDisclosure } from '../../../lib/styles'
+import React, { useState } from 'react'
 import { Disclosure } from '@headlessui/react'
+import Input from 'rc-input'
 
 export default function Index() {
 
@@ -16,9 +17,33 @@ export default function Index() {
   const title = router.query.title as string
 
   const [filteredData, setFilteredData] = React.useState([]);
+  const [searchText, setSearchText] = useState('');
 
   const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBooks()
   const { data: dataChapters, loading: loadingChapters, error: errorChapters } = getBookChapters(title)
+
+  function searchTextChange(event) {
+    if (event.target.value.length <= 2) {
+      for (const chapter of dataChapters) {
+        const element = document.getElementById(chapter)
+        if (element) {
+          element.hidden = false
+        }
+      }
+    } else if (event.target.value.length > 2) {
+      for (const chapter of dataChapters) {
+        const element = document.getElementById(chapter)
+        if (element) {
+          if (chapter.toLowerCase().includes(event.target.value.toLowerCase())) {
+            element.hidden = false
+          } else {
+            element.hidden = true
+          }
+        }
+      }
+    }
+    setSearchText(event.target.value)
+  }
 
   if (errorChapters) return <div>Failed to load</div>
   if (loadingChapters) return
@@ -49,30 +74,31 @@ export default function Index() {
               </Disclosure.Panel>
             </Disclosure>
 
-            <Disclosure defaultOpen>
+            <Disclosure>
               <Disclosure.Button className={`${homeDisclosure}`}>
                 <div className="text-2xl">{title.replaceAll('_', ' ')}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
-                <div>
-                  {dataChapters.map((chapter) => (
-                    <Link href={"/book/" + title + '/' + chapter.replaceAll("/", "_")}>
-                      <button className={`${clickableButton}`}>{chapter.replaceAll("/", "_")}</button>
-                    </Link>
-                  ))}
+                <div className="flex justify-center items-center">
+                  <Input id="search-text" className="w-1/2 p-2 border-blue-300 border-2 border-solid"
+                    type="text" value={searchText}
+                    onChange={searchTextChange} />
                 </div>
               </Disclosure.Panel>
             </Disclosure>
+
+            <div>
+              {dataChapters.map((chapter) => (
+                <Link id={chapter} href={"/book/" + title + '/' + chapter.replaceAll("/", "_")}>
+                  <button className={`${clickableButton}`}>{chapter.replaceAll("/", "_")}</button>
+                </Link>
+              ))}
+            </div>
 
           </Container>
         </Layout>
       </>
     )
-  }
-
-  function handleChange(event) {
-    console.log(event.target.value);
-    // this.filteredData = this.data.filter(name => (name.includes(event.target.value)))
   }
 }
 

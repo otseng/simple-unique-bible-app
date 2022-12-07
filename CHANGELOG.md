@@ -1,9 +1,12 @@
 # Changelog
 
+## [1.08] - 12/7/2022
+
+- Added bookmarking to books
+
 ## [1.07] - 12/2/2022
 
 - Added lexicon to MIB
-
 
 ## [1.06] - 12/1/2022
 

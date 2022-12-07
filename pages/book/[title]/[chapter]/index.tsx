@@ -8,16 +8,40 @@ import { APP_NAME } from '../../../../lib/constants'
 import { getBookChapters, getBookChapterContent, getBooks } from '../../../../lib/api'
 import { chapterDisclosure, clickableButton, homeDisclosure } from '../../../../lib/styles'
 import { Disclosure } from '@headlessui/react'
+import toast from 'react-hot-toast'
+import { bookmarkExists, addBookmark, deleteBookmark } from '../../../../lib/util'
+import { useState } from 'react'
 
 export default function Index() {
 
   const router = useRouter()
   const title = router.query.title as string
   const chapter = router.query.chapter as string
+  const url = window.location.protocol + '//' + window.location.host + `/book/${title}/${chapter}`
+  
+  const [chapterBookmarked, setChapterBookmarked ] = useState(bookmarkExists(url))
 
   const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBooks()
   const { data: dataChapters, loading: loadingChapters, error: errorChapters } = getBookChapters(title)
   const { data, loading, error } = getBookChapterContent(title, chapter)
+
+  function addChapterBookmark() {
+    toast.dismiss()
+    if (bookmarkExists(url)) {
+      toast('Bookmark exists')
+    } else {
+      addBookmark(url)
+      toast('Bookmark added')
+      setChapterBookmarked(true)
+    }
+  }
+
+  function deleteChapterBookmark() {
+    toast.dismiss()
+    deleteBookmark(url)
+    setChapterBookmarked(false)
+    toast('Bookmark deleted')
+  }
 
   if (error) return <div>Failed to load</div>
   if (loading) return
@@ -38,7 +62,7 @@ export default function Index() {
             <title>{APP_NAME}</title>
           </Head>
           <Container>
-            <Intro currentPage="Books"/>
+            <Intro currentPage="Books" />
 
             <Disclosure>
               <Disclosure.Button className={`${homeDisclosure}`}>
@@ -61,13 +85,13 @@ export default function Index() {
                 <div className="text-2xl">{title.replaceAll('_', ' ')}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
-                <div>
-                  {dataChapters.map((chapter) => (
-                    <Link href={"/book/" + title + '/' + chapter.replaceAll("/", "_")}>
-                      <button className={`${clickableButton}`}>{chapter.replaceAll("/", "_")}</button>
-                    </Link>
-                  ))}
-                </div>
+              <div>
+              {dataChapters.map((chapter) => (
+                <Link href={"/book/" + title + '/' + chapter.replaceAll("/", "_")}>
+                  <button className={`${clickableButton}`}>{chapter.replaceAll("/", "_")}</button>
+                </Link>
+              ))}
+            </div>
               </Disclosure.Panel>
             </Disclosure>
 
@@ -80,6 +104,8 @@ export default function Index() {
                   <Link href={"/book/" + title + '/' + navigation.previous}>
                     <button className={`${clickableButton}`}>{navigation.previous}</button>
                   </Link>}
+                  {!chapterBookmarked && <button onClick={addChapterBookmark} className={`${clickableButton}`}>Add bookmark</button>}
+                  {chapterBookmarked && <button onClick={deleteChapterBookmark} className={`${clickableButton}`}>Delete bookmark</button>}
                 {navigation.next &&
                   <Link href={"/book/" + title + '/' + navigation.next}>
                     <button className={`${clickableButton}`}>{navigation.next}</button>

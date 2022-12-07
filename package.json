@@ -1,6 +1,6 @@
 {
   "name": "simple-unique-bible-viewer",
-  "version": "1.07",
+  "version": "1.08",
   "private": true,
   "scripts": {
     "dev": "next",

@@ -77,23 +77,43 @@ export default function Index() {
                 {bookmarks.map((bookmark) => {
                   if (bookmark) {
                     bookmark = bookmark.replaceAll('!', '#')
-                    const regex = new RegExp("/bible/(.*)/(.*)/(.*)#v.*_(.*)")
-                    const matches = regex.exec(bookmark)
-                    const text = matches[1]
-                    const book = matches[2]
-                    const chapter = matches[3]
-                    const verse = matches[4]
+                    let regex = new RegExp("/bible/(.*)/(.*)/(.*)#v.*_(.*)")
+                    let matches = regex.exec(bookmark)
+                    if (matches) {
+                      const text = matches[1]
+                      const book = matches[2]
+                      const chapter = matches[3]
+                      const verse = matches[4]
 
-                    return (
-                      <>
-                        <div className="ml-10 flex justify-left">
-                          <Link href={bookmark}>
-                            <button className={`${clickableButton}`}>{text} {book} {chapter}:{verse}</button>
-                          </Link>
-                          <button id={bookmark} onClick={() => deleteOne(bookmark)} className={`${clickableButton}`}>Delete</button>
-                        </div>
-                      </>
-                    )
+                      return (
+                        <>
+                          <div className="ml-10 flex justify-left">
+                            <Link href={bookmark}>
+                              <button className={`${clickableButton}`}>{text} {book} {chapter}:{verse}</button>
+                            </Link>
+                            <button id={bookmark} onClick={() => deleteOne(bookmark)} className={`${clickableButton}`}>Delete</button>
+                          </div>
+                        </>
+                      )
+                    }
+                    regex = new RegExp("/book/(.*)/(.*)")
+                    matches = regex.exec(bookmark)
+                    if (matches) {
+                      const book = matches[1]
+                      const chapter = matches[2]
+
+                      return (
+                        <>
+                          <div className="ml-10 flex justify-left">
+                            <Link href={bookmark}>
+                              <button className={`${clickableButton}`}>{book} / {chapter}</button>
+                            </Link>
+                            <button id={bookmark} onClick={() => deleteOne(bookmark)} className={`${clickableButton}`}>Delete</button>
+                          </div>
+                        </>
+                      )
+                    }
+
                   }
 
                 })

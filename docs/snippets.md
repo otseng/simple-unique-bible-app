@@ -15,6 +15,8 @@ isDev()
 
 # onClick
 
+<button onClick={copyAll} className={`${clickableButton}`}>Copy to clipboard</button>
+
 onClick={() => showLexicon(word)}>
 
 # Output html
