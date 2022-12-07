@@ -50,6 +50,7 @@ export function setLocalStorage(key, value) {
 }
 
 export function bookmarkExists(link) {
+    if (link == '') return false
     const bookmarks = getLocalStorage('bookmarks') || []
     return bookmarks.includes(link)
 }

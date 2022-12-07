@@ -19,16 +19,14 @@ export default function Index() {
   const chapter = router.query.chapter as string
 
   let url = ''
-  let bookmarkExist = false
 
   if (windowExists()) {
     url = window.location.protocol + '//' + window.location.host + `/book/${title}/${chapter}`
   }
-  if (url) {
-    bookmarkExist = bookmarkExists(url)
-  }
 
-  const [chapterBookmarked, setChapterBookmarked ] = useState(bookmarkExist)
+  let bookmarkExist = bookmarkExists(url)
+
+  const [chapterBookmarked, setChapterBookmarked ] = useState(bookmarkExists(url))
 
   const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBooks()
   const { data: dataChapters, loading: loadingChapters, error: errorChapters } = getBookChapters(title)
@@ -113,8 +111,8 @@ export default function Index() {
                   <Link href={"/book/" + title + '/' + navigation.previous}>
                     <button className={`${clickableButton}`}>{navigation.previous}</button>
                   </Link>}
-                  {!chapterBookmarked && <button onClick={addChapterBookmark} className={`${clickableButton}`}>Add bookmark</button>}
-                  {chapterBookmarked && <button onClick={deleteChapterBookmark} className={`${clickableButton}`}>Delete bookmark</button>}
+                  {!bookmarkExist && <button onClick={addChapterBookmark} className={`${clickableButton}`}>Add bookmark</button>}
+                  {bookmarkExist && <button onClick={deleteChapterBookmark} className={`${clickableButton}`}>Delete bookmark</button>}
                 {navigation.next &&
                   <Link href={"/book/" + title + '/' + navigation.next}>
                     <button className={`${clickableButton}`}>{navigation.next}</button>
