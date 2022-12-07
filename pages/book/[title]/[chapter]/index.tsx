@@ -11,12 +11,16 @@ import { Disclosure } from '@headlessui/react'
 import toast from 'react-hot-toast'
 import { bookmarkExists, addBookmark, deleteBookmark, windowExists } from '../../../../lib/util'
 import { useState } from 'react'
+import Input from 'rc-input'
 
 export default function Index() {
 
   const router = useRouter()
   const title = router.query.title as string
   const chapter = router.query.chapter as string
+
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchText, setSearchText] = useState('');
 
   let url = ''
 
@@ -26,11 +30,34 @@ export default function Index() {
 
   let bookmarkExist = bookmarkExists(url)
 
-  const [chapterBookmarked, setChapterBookmarked ] = useState(bookmarkExists(url))
+  const [chapterBookmarked, setChapterBookmarked] = useState(bookmarkExists(url))
 
   const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBooks()
   const { data: dataChapters, loading: loadingChapters, error: errorChapters } = getBookChapters(title)
   const { data, loading, error } = getBookChapterContent(title, chapter)
+
+  function searchTextChange(event) {
+    if (event.target.value.length <= 2) {
+      for (const chapter of dataChapters) {
+        const element = document.getElementById(chapter)
+        if (element) {
+          element.hidden = false
+        }
+      }
+    } else if (event.target.value.length > 2) {
+      for (const chapter of dataChapters) {
+        const element = document.getElementById(chapter)
+        if (element) {
+          if (chapter.toLowerCase().includes(event.target.value.toLowerCase())) {
+            element.hidden = false
+          } else {
+            element.hidden = true
+          }
+        }
+      }
+    }
+    setSearchText(event.target.value)
+  }
 
   function addChapterBookmark() {
     toast.dismiss()
@@ -79,8 +106,7 @@ export default function Index() {
                 <div>
                   {dataBooks.map((title) => (
                     <Link href={"/book/" + title}>
-                      <button className={`${clickableButton}`}>
-                        {title.replaceAll('_', ' ')}</button>
+                      <button className={`${clickableButton}`}>{title.replaceAll('_', ' ')}</button>
                     </Link>
                   ))}
                 </div>
@@ -92,13 +118,18 @@ export default function Index() {
                 <div className="text-2xl">{title.replaceAll('_', ' ')}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
-              <div>
-              {dataChapters.map((chapter) => (
-                <Link href={"/book/" + title + '/' + chapter.replaceAll("/", "_")}>
-                  <button className={`${clickableButton}`}>{chapter.replaceAll("/", "_")}</button>
-                </Link>
-              ))}
-            </div>
+                <div className="flex justify-center items-center">
+                  <Input id="search-text" className="w-1/2 p-2 border-blue-300 border-2 border-solid"
+                    type="text" value={searchText}
+                    onChange={searchTextChange} />
+                </div>
+                <div>
+                  {dataChapters.map((chapter) => (
+                    <Link id={chapter} href={"/book/" + title + '/' + chapter.replaceAll("/", "_")}>
+                      <button className={`${clickableButton}`}>{chapter.replaceAll("/", "_")}</button>
+                    </Link>
+                  ))}
+                </div>
               </Disclosure.Panel>
             </Disclosure>
 
@@ -111,8 +142,8 @@ export default function Index() {
                   <Link href={"/book/" + title + '/' + navigation.previous}>
                     <button className={`${clickableButton}`}>{navigation.previous}</button>
                   </Link>}
-                  {!bookmarkExist && <button onClick={addChapterBookmark} className={`${clickableButton}`}>Add bookmark</button>}
-                  {bookmarkExist && <button onClick={deleteChapterBookmark} className={`${clickableButton}`}>Delete bookmark</button>}
+                {!bookmarkExist && <button onClick={addChapterBookmark} className={`${clickableButton}`}>Add bookmark</button>}
+                {bookmarkExist && <button onClick={deleteChapterBookmark} className={`${clickableButton}`}>Delete bookmark</button>}
                 {navigation.next &&
                   <Link href={"/book/" + title + '/' + navigation.next}>
                     <button className={`${clickableButton}`}>{navigation.next}</button>
