@@ -9,7 +9,7 @@ import { getBookChapters, getBookChapterContent, getBooks } from '../../../../li
 import { chapterDisclosure, clickableButton, homeDisclosure } from '../../../../lib/styles'
 import { Disclosure } from '@headlessui/react'
 import toast from 'react-hot-toast'
-import { bookmarkExists, addBookmark, deleteBookmark } from '../../../../lib/util'
+import { bookmarkExists, addBookmark, deleteBookmark, windowExists } from '../../../../lib/util'
 import { useState } from 'react'
 
 export default function Index() {
@@ -17,9 +17,18 @@ export default function Index() {
   const router = useRouter()
   const title = router.query.title as string
   const chapter = router.query.chapter as string
-  const url = window.location.protocol + '//' + window.location.host + `/book/${title}/${chapter}`
-  
-  const [chapterBookmarked, setChapterBookmarked ] = useState(bookmarkExists(url))
+
+  let url = ''
+  let bookmarkExist = false
+
+  if (windowExists()) {
+    url = window.location.protocol + '//' + window.location.host + `/book/${title}/${chapter}`
+  }
+  if (url) {
+    bookmarkExist = bookmarkExists(url)
+  }
+
+  const [chapterBookmarked, setChapterBookmarked ] = useState(bookmarkExist)
 
   const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBooks()
   const { data: dataChapters, loading: loadingChapters, error: errorChapters } = getBookChapters(title)

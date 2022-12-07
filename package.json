@@ -2,6 +2,7 @@
   "name": "simple-unique-bible-viewer",
   "version": "1.08",
   "private": true,
+  "license": "Apache2",
   "scripts": {
     "dev": "next",
     "build": "next build",

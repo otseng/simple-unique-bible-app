@@ -23,6 +23,10 @@ export function scrollToTop() {
     });
 };
 
+export function windowExists(): boolean {
+    return (typeof window !== 'undefined')
+}
+
 export function isMobile(): boolean {
     return (typeof window !== 'undefined') && window.innerWidth < 820
 }
