@@ -17,10 +17,13 @@ export function getLang() {
         }
     }
     setLocalStorage("lang", lang)
-    // return "zh_HANT"
-    // return "zh_HANS"
-    // return "en"
-    return lang
+    if (isDev()) {
+        return "zh_HANT"
+        // return "zh_HANS"
+        // return "en"
+    } else {
+        return lang
+    }
 }
 
 export async function preloadData() {

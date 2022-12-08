@@ -1,7 +1,7 @@
 import { Menu, Popover, Transition } from '@headlessui/react'
 import Link from 'next/link'
 import { useLang } from '../lang/langContext'
-import { isDev } from '../lib/util'
+import { getLang, isDev } from '../lib/util'
 
 
 const Intro = (props) => {
@@ -40,29 +40,29 @@ const Intro = (props) => {
         leaveTo="transform scale-95 opacity-0"
       >
         <Popover.Panel className="absolute z-20">
-          <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 w-200">
+          <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
             <div className="relative grid gap-1 bg-blue-400 p-3 rounded text-lg text-white font-bold">
               {menuItems.map((item) => {
                 return (
                   <>
                     {props.currentPage != item[0] &&
-                      <Link href={item[1]}><Popover.Button className="hover:bg-indigo-400 p-1">
+                      <Link href={item[1]}><Popover.Button className="hover:bg-indigo-400 p-1 whitespace-nowrap">
                         {item[0]}
                       </Popover.Button></Link>}
                     {props.currentPage == item[0] &&
-                      <Popover.Button className="text-left ml-1 text-yellow-400">
+                      <Popover.Button className="text-left ml-1 text-yellow-400 whitespace-nowrap">
                         {item[0]}
                       </Popover.Button>}
                   </>
                 )
               })
               }
-              {(isDev() && props.currentPage != 'Playground') &&
+              {(isDev() && getLang() == "en" && props.currentPage != 'Playground') &&
                 <Link href="/playground"><Popover.Button className="hover:bg-indigo-400 p-1">
                   Playground
                 </Popover.Button></Link>
               }
-              {(isDev() && props.currentPage == 'Playground') &&
+              {(isDev() && getLang() == "en" && props.currentPage == 'Playground') &&
                 <Popover.Button className="text-left ml-1 text-yellow-400">
                   Playground
                 </Popover.Button>
