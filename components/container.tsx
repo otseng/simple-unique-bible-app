@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { useLang } from "../lang/langContext";
 import { langs } from "../lang/languages";
-import { scrollToTop } from "../lib/util";
+import { getLang, scrollToTop } from "../lib/util";
 
 type Props = {
   children?: React.ReactNode
@@ -13,8 +13,7 @@ const Container = ({ children }: Props) => {
   const {lang, setLang} = useLang()
   const [showScrollToTopButton, setShowScrollToTopButton] = useState(false);
 
-  // setLang(langs["en"])
-  setLang(langs["zh_HANS"])
+  setLang(langs[getLang()])
 
   useEffect(() => {
     window.addEventListener("scroll", () => {

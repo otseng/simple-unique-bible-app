@@ -1,6 +1,40 @@
-import { bibleBooks } from "../data/bibleBooks"
 
-export function preloadData() {
+export function getLang() {
+    let lang = getLocalStorage("lang")
+    if (!lang) {
+        if (windowExists()) {
+            const host = window.location.host
+            if (host.startsWith("simple.")) {
+                lang = "en"
+            } else if (host.startsWith("tc.")) {
+                lang = "zh_HANT"
+            } else if (host.startsWith("sc.")) {
+                lang = "zh_HANS"
+            }
+        } else {
+            lang = "en"
+        }
+    }
+    setLocalStorage("lang", lang)
+    // return "zh_HANT"
+    // return "zh_HANS"
+    // return "en"
+    return lang
+}
+
+export async function preloadData() {
+
+    let importer = null
+
+    try {
+        importer = await import("../lang/bibleBooks_" + getLang())
+    } catch (error) {
+        console.log("lang/bibleBooks_" + getLang() + " is not available")
+        importer = await import("../lang/bibleBooks_en")
+    }
+
+    const bibleBooks = importer.bibleBooks
+
     globalThis.bookNames = bibleBooks.map((entry) => entry.n).slice(0, 66)
     globalThis.bibleNameToNumber = bibleBooks.reduce(function (map, obj) {
         map[obj.n] = obj.i;
@@ -50,7 +84,7 @@ export function setLocalStorage(key, value) {
 }
 
 export function bookmarkExists(link) {
-    if (link == '') return false
+    if (link == '') return
     const bookmarks = getLocalStorage('bookmarks') || []
     return bookmarks.includes(link)
 }
