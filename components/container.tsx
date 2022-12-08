@@ -13,8 +13,8 @@ const Container = ({ children }: Props) => {
   const {lang, setLang} = useLang()
   const [showScrollToTopButton, setShowScrollToTopButton] = useState(false);
 
-  setLang(langs["en"])
-  // setLang(langs["zh_HANS"])
+  // setLang(langs["en"])
+  setLang(langs["zh_HANS"])
 
   useEffect(() => {
     window.addEventListener("scroll", () => {

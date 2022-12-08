@@ -9,11 +9,13 @@ import { preloadData } from '../../lib/util'
 import { clickableButton, homeDisclosure, nonclickableButton } from '../../lib/styles'
 import { getCommentaries } from '../../lib/api'
 import { Disclosure } from '@headlessui/react'
+import { useLang } from '../../lang/langContext'
 
 export default function Index() {
 
   if (!globalThis.bibleBooks) preloadData()
 
+  const {lang, setLang} = useLang()
   const router = useRouter()
   const text = router.query.text
 
@@ -34,7 +36,7 @@ export default function Index() {
 
             <Disclosure defaultOpen>
               <Disclosure.Button className={`${homeDisclosure}`}>
-                <div className="text-2xl">Commentaries</div>
+                <div className="text-2xl">{lang.Commentaries}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>

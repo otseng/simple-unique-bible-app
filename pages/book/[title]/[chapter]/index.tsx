@@ -145,8 +145,8 @@ export default function Index() {
                   <Link href={"/book/" + title + '/' + navigation.previous}>
                     <button className={`${clickableButton}`}>{navigation.previous}</button>
                   </Link>}
-                {!bookmarkExist && <button onClick={addChapterBookmark} className={`${clickableButton}`}>Add bookmark</button>}
-                {bookmarkExist && <button onClick={deleteChapterBookmark} className={`${clickableButton}`}>Delete bookmark</button>}
+                {!bookmarkExist && <button onClick={addChapterBookmark} className={`${clickableButton}`}>{lang.Add_bookmark}</button>}
+                {bookmarkExist && <button onClick={deleteChapterBookmark} className={`${clickableButton}`}>{lang.Delete_bookmark}</button>}
                 {navigation.next &&
                   <Link href={"/book/" + title + '/' + navigation.next}>
                     <button className={`${clickableButton}`}>{navigation.next}</button>
@@ -158,11 +158,11 @@ export default function Index() {
 
             {navigation.previous &&
               <Link href={"/book/" + title + '/' + navigation.previous}>
-                <button className={`${clickableButton}`}>Previous</button>
+                <button className={`${clickableButton}`}>{lang.Previous}</button>
               </Link>}
             {navigation.next &&
               <Link href={"/book/" + title + '/' + navigation.next}>
-                <button className={`${clickableButton}`}>Next</button>
+                <button className={`${clickableButton}`}>{lang.Next}</button>
               </Link>}
 
           </Container>

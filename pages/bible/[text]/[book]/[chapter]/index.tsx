@@ -403,15 +403,15 @@ export default function Index() {
             <div className="flex justify-center items-center mt-2 mb-5">
               {showPrevious &&
                 <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) - 1)}>
-                  <button className={`${clickableButton}`}>Previous</button></Link>}
+                  <button className={`${clickableButton}`}>{lang.Previous}</button></Link>}
               {showNext &&
                 <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) + 1)}>
-                  <button className={`${clickableButton}`}>Next</button></Link>}
+                  <button className={`${clickableButton}`}>{lang.Next}</button></Link>}
             </div>
 
             <Disclosure>
               <Disclosure.Button className={`${chapterDisclosure}`}>
-                <div className="text-xl">Commentaries</div>
+                <div className="text-xl">{lang.Commentaries}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>

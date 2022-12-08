@@ -94,7 +94,7 @@ export default function Index() {
                             <Link href={bookmark}>
                               <button className={`${clickableButton}`}>{text} {book} {chapter}:{verse}</button>
                             </Link>
-                            <button id={bookmark} onClick={() => deleteOne(bookmark)} className={`${clickableButton}`}>Delete</button>
+                            <button id={bookmark} onClick={() => deleteOne(bookmark)} className={`${clickableButton}`}>{lang.Delete}</button>
                           </div>
                         </>
                       )
@@ -111,7 +111,7 @@ export default function Index() {
                             <Link href={bookmark}>
                               <button className={`${clickableButton}`}>{book} / {chapter}</button>
                             </Link>
-                            <button id={bookmark} onClick={() => deleteOne(bookmark)} className={`${clickableButton}`}>Delete</button>
+                            <button id={bookmark} onClick={() => deleteOne(bookmark)} className={`${clickableButton}`}>{lang.Delete}</button>
                           </div>
                         </>
                       )
@@ -138,7 +138,7 @@ export default function Index() {
                       <button onClick={copyAll} className={`${clickableButton}`}>Copy to clipboard</button>
                     </div>
                     <div className="flex justify-center p-1">
-                      <button onClick={deleteAll} className={`${clickableButton}`}>Delete All</button>
+                      <button onClick={deleteAll} className={`${clickableButton}`}>{lang.Delete_All}</button>
                     </div>
                   </>
                 }

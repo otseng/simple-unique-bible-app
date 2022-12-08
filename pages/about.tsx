@@ -6,8 +6,11 @@ import { APP_NAME, DOMAIN } from '../lib/constants';
 import { clickableButton, homeDisclosure } from '../lib/styles';
 import QRCode from "react-qr-code";
 import { Disclosure } from '@headlessui/react';
+import { useLang } from '../lang/langContext';
 
 export default function Index() {
+
+  const {lang, setLang} = useLang()
 
   return (
     <>
@@ -20,7 +23,7 @@ export default function Index() {
 
           <Disclosure defaultOpen>
             <Disclosure.Button className={`${homeDisclosure}`}>
-              <div className="text-2xl">About</div>
+              <div className="text-2xl">{lang.About}</div>
             </Disclosure.Button>
             <Disclosure.Panel className="text-gray-500">
 

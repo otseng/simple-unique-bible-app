@@ -10,11 +10,13 @@ import { getCommentaries, getCommentaryContent } from '../../../../../lib/api'
 import { chapterDisclosure, clickableButton, homeDisclosure } from '../../../../../lib/styles'
 import { Disclosure } from '@headlessui/react'
 import { bibleChapters } from '../../../../../data/bibleChapters'
+import { useLang } from '../../../../../lang/langContext'
 
 export default function Index() {
 
     if (!globalThis.bibleBooks) preloadData()
 
+    const {lang, setLang} = useLang()
     const router = useRouter()
     const title = router.query.title
     const book = router.query.book as string
@@ -25,7 +27,6 @@ export default function Index() {
     const text = router.query.text as string
 
     const { data: dataCommentaries, loading: loadingCommentaries, error: errorCommentaries } = getCommentaries()
-
     const { data, loading, error } = getCommentaryContent(title, bookNum, chapter)
 
     if (error) return <div>Failed to load</div>
@@ -43,7 +44,7 @@ export default function Index() {
 
                         <Disclosure>
                             <Disclosure.Button className={`${homeDisclosure}`}>
-                                <div className="text-2xl">Commentaries</div>
+                                <div className="text-2xl">{lang.Commentaries}</div>
                             </Disclosure.Button>
                             <Disclosure.Panel className="text-gray-500">
                                 <div>
@@ -98,10 +99,10 @@ export default function Index() {
                         <div className="flex justify-center items-center mt-2 mb-5">
                             {showPrevious && (
                                 <Link href={"/commentary/" + title + '/' + book + '/' + (parseInt(chapter) - 1)}>
-                                    <button className={`${clickableButton}`}>Previous</button>
+                                    <button className={`${clickableButton}`}>{lang.Previous}</button>
                                 </Link>)}
                             <Link href={"/commentary/" + title + '/' + book + '/' + (parseInt(chapter) + 1)}>
-                                <button className={`${clickableButton}`}>Next</button>
+                                <button className={`${clickableButton}`}>{lang.Next}</button>
                             </Link>
                         </div>
 
