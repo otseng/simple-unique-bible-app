@@ -9,8 +9,11 @@ import { preloadData } from '../../lib/util'
 import { clickableButton, homeDisclosure, nonclickableButton } from '../../lib/styles'
 import { getBooks } from '../../lib/api'
 import { Disclosure } from '@headlessui/react'
+import { useLang } from '../../lang/langContext'
 
 export default function Index() {
+
+  const {lang, setLang} = useLang()
 
   if (!globalThis.bibleBooks) preloadData()
 
@@ -34,7 +37,7 @@ export default function Index() {
 
             <Disclosure defaultOpen>
             <Disclosure.Button className={`${homeDisclosure}`}>
-              <div className="text-2xl">Books</div>
+              <div className="text-2xl">{lang.Books}</div>
             </Disclosure.Button>
             <Disclosure.Panel className="text-gray-500">
               <div>

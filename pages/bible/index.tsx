@@ -17,7 +17,6 @@ export default function Index() {
   if (!globalThis.bibleBooks) preloadData()
 
   const {lang, setLang} = useLang()
-  setLang(langs.zh_HANT)
 
   const router = useRouter()
   const text = router.query.text

@@ -63,7 +63,7 @@ export default function Index() {
 
             <Disclosure>
               <Disclosure.Button className={`${homeDisclosure}`}>
-                <div className="text-2xl">Books</div>
+                <div className="text-2xl">{lang.Books}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>

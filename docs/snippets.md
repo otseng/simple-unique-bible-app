@@ -34,3 +34,11 @@ https://stackoverflow.com/questions/30523800/call-react-component-function-from-
 function getStaticProps({ params: {slug} }) {
     console.log(`Building slug: ${slug}`)
 }
+
+# Language
+
+const {lang, setLang} = useLang()
+
+{lang.Bibles}
+
+language detection in container.tsx

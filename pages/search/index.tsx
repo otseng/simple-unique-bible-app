@@ -10,8 +10,11 @@ import { APP_NAME } from '../../lib/constants';
 import { clickableButton, homeDisclosure } from '../../lib/styles';
 import Select from 'react-select'
 import Input from 'rc-input';
+import { useLang } from '../../lang/langContext';
 
 export default function Index() {
+
+  const {lang, setLang} = useLang()
 
   const router = useRouter()
   let text = router.query.text as string
@@ -69,13 +72,13 @@ export default function Index() {
 
             <Disclosure defaultOpen>
               <Disclosure.Button className={`${homeDisclosure}`}>
-                <div className="text-2xl">Search</div>
+                <div className="text-2xl">{lang.Search}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
 
                 <div className="m-10">
                   <div className="flex justify-center items-center mb-5">
-                    <span className="text-lg mr-2">Bible:</span>
+                    <span className="text-lg mr-2">{lang.Bible}:</span>
                     <Select options={bibleOptions}
                       value={bibleOptions.filter(obj => obj.value === selectedBible)}
                       onChange={handleBibleChange}
@@ -87,7 +90,7 @@ export default function Index() {
                       onChange={searchTextChange} onKeyPress={searchTextKeyPress} />
                   </div>
                   <div className="flex justify-center items-center">
-                    <button className={`${clickableButton}`} onClick={searchBible}>Search</button>
+                    <button className={`${clickableButton}`} onClick={searchBible}>{lang.Search}</button>
                   </div>
                 </div>
 

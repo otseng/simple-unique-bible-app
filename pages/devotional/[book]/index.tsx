@@ -8,8 +8,11 @@ import { APP_NAME } from '../../../lib/constants'
 import { chapterDisclosure, clickableButton, homeDisclosure } from '../../../lib/styles'
 import { getDevotionalContent, getDevotionals } from '../../../lib/api'
 import { Disclosure } from '@headlessui/react'
+import { useLang } from '../../../lang/langContext'
 
 export default function Index() {
+
+  const {lang, setLang} = useLang()
 
   const router = useRouter()
   const book = router.query.book
@@ -35,7 +38,7 @@ export default function Index() {
 
             <Disclosure>
               <Disclosure.Button className={`${homeDisclosure}`}>
-                <div className="text-2xl">Devotionals</div>
+                <div className="text-2xl">{lang.Devotionals}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>

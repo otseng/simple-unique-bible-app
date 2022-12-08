@@ -9,7 +9,7 @@ export const LangContext = React.createContext({
 export const useLang = () => useContext(LangContext)
 
 export const LangProvider = (props) => {
-    const [currentLang, setCurrentLang] = useState(langs.en)
+    const [currentLang, setCurrentLang] = useState(langs["en"])
 
     return (
         <LangContext.Provider value={{ lang: currentLang, setLang: setCurrentLang }}> 

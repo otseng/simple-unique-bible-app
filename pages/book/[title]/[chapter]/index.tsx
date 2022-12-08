@@ -12,8 +12,11 @@ import toast from 'react-hot-toast'
 import { bookmarkExists, addBookmark, deleteBookmark, windowExists } from '../../../../lib/util'
 import { useState } from 'react'
 import Input from 'rc-input'
+import { useLang } from '../../../../lang/langContext'
 
 export default function Index() {
+
+  const {lang, setLang} = useLang()
 
   const router = useRouter()
   const title = router.query.title as string
@@ -100,7 +103,7 @@ export default function Index() {
 
             <Disclosure>
               <Disclosure.Button className={`${homeDisclosure}`}>
-                <div className="text-2xl">Books</div>
+                <div className="text-2xl">{lang.Books}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>

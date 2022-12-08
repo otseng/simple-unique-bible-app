@@ -20,12 +20,15 @@ import {
 } from "react-contexify"
 import "react-contexify/dist/ReactContexify.css"
 import { toast } from 'react-hot-toast'
+import { useLang } from '../../../../../lang/langContext'
 
 const BIBLE_VERSE_POPUP_MENU = "bible-verse-popup-menu"
 
 export default function Index() {
 
   if (!globalThis.bibleBooks) preloadData()
+
+  const {lang, setLang} = useLang()
 
   const router = useRouter()
   const text = router.query.text as string
@@ -273,7 +276,7 @@ export default function Index() {
 
             <Disclosure>
               <Disclosure.Button className={`${homeDisclosure}`}>
-                <div className="text-2xl">Bibles</div>
+                <div className="text-2xl">{lang.Bibles}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>

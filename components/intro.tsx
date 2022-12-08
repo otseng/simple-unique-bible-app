@@ -1,19 +1,25 @@
 import { Menu, Popover, Transition } from '@headlessui/react'
 import Link from 'next/link'
+import { useLang } from '../lang/langContext'
 import { isDev } from '../lib/util'
 
-const menuItems = [
-  ['Home', '/'],
-  ['Search', '/search'],
-  ['Bibles', '/bible'],
-  ['Devotionals', '/devotional'],
-  ['Books', '/book'],
-  ['Commentaries', '/commentary'],
-  ['Bookmarks', '/bookmark'],
-  ['About', '/about'],
-]
 
-const Intro = (props) => (
+const Intro = (props) => {
+
+  const {lang, setLang} = useLang()
+
+  const menuItems = [
+    [lang.Home, '/'],
+    [lang.Search, '/search'],
+    [lang.Bibles, '/bible'],
+    [lang.Devotionals, '/devotional'],
+    [lang.Books, '/book'],
+    [lang.Commentaries, '/commentary'],
+    [lang.Bookmarks, '/bookmark'],
+    [lang.About, '/about'],
+  ]
+  
+  return (
   <section className="flex-row flex items-center justify-between mt-10 mb-10">
 
     <Popover className="relative">
@@ -72,7 +78,7 @@ const Intro = (props) => (
       </Link>
     </div>
 
-  </section>
-)
+  </section>)
+}
 
 export default Intro

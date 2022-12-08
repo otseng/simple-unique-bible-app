@@ -7,8 +7,11 @@ import { getBibles, getBooks, getCommentaries, getDevotionals } from '../lib/api
 import { APP_NAME } from '../lib/constants';
 import { clickableButton, homeDisclosure } from '../lib/styles';
 import { Disclosure } from '@headlessui/react';
+import { useLang } from '../lang/langContext';
 
 export default function Index() {
+
+  const {lang, setLang} = useLang()
 
   const { data: dataBible, loading: loadingBible, error: errorBible } = getBibles()
   const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBooks()
@@ -28,7 +31,7 @@ export default function Index() {
 
           <Disclosure defaultOpen>
             <Disclosure.Button className={`${homeDisclosure}`}>
-              <div className="text-2xl">Bibles</div>
+              <div className="text-2xl">{lang.Bibles}</div>
             </Disclosure.Button>
             <Disclosure.Panel className="text-gray-500">
               <div>
@@ -43,7 +46,7 @@ export default function Index() {
 
           <Disclosure defaultOpen>
             <Disclosure.Button className={`${homeDisclosure}`}>
-              <div className="text-2xl">Devotionals</div>
+              <div className="text-2xl">{lang.Devotionals}</div>
             </Disclosure.Button>
             <Disclosure.Panel className="text-gray-500">
               <div>
@@ -58,7 +61,7 @@ export default function Index() {
 
           <Disclosure defaultOpen>
             <Disclosure.Button className={`${homeDisclosure}`}>
-              <div className="text-2xl">Books</div>
+              <div className="text-2xl">{lang.Books}</div>
             </Disclosure.Button>
             <Disclosure.Panel className="text-gray-500">
               <div>
@@ -74,7 +77,7 @@ export default function Index() {
 
           <Disclosure defaultOpen>
             <Disclosure.Button className={`${homeDisclosure}`}>
-              <div className="text-2xl">Commentaries</div>
+              <div className="text-2xl">{lang.Commentaries}</div>
             </Disclosure.Button>
             <Disclosure.Panel className="text-gray-500">
               <div>

@@ -11,8 +11,11 @@ import { Disclosure } from '@headlessui/react'
 import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import QRCode from 'react-qr-code'
+import { useLang } from '../../lang/langContext'
 
 export default function Index() {
+
+  const {lang, setLang} = useLang()
 
   if (!globalThis.bibleBooks) preloadData()
 
@@ -69,7 +72,7 @@ export default function Index() {
 
           <Disclosure defaultOpen>
             <Disclosure.Button className={`${homeDisclosure}`}>
-              <div className="text-2xl">Bookmarks</div>
+              <div className="text-2xl">{lang.Bookmarks}</div>
             </Disclosure.Button>
             <Disclosure.Panel className="text-gray-500">
               <div>
