@@ -1,3 +1,4 @@
+import { bibleBooks } from "../lang/bibleBooks_en"
 
 export function getLang() {
     let lang = getLocalStorage("lang")
@@ -25,22 +26,27 @@ export function getLang() {
 export async function preloadData() {
 
     let importer = null
+    let tmpBibleBooks = null
 
-    try {
-        importer = await import("../lang/bibleBooks_" + getLang())
-    } catch (error) {
-        console.log("lang/bibleBooks_" + getLang() + " is not available")
-        importer = await import("../lang/bibleBooks_en")
+    if (windowExists()) {
+        try {
+            importer = await import("../lang/bibleBooks_" + getLang())
+        } catch (error) {
+            console.log("lang/bibleBooks_" + getLang() + " is not available")
+            importer = await import("../lang/bibleBooks_en")
+        }
+
+        tmpBibleBooks = importer.bibleBooks
+    } else {
+        tmpBibleBooks = bibleBooks
     }
 
-    const bibleBooks = importer.bibleBooks
-
-    globalThis.bookNames = bibleBooks.map((entry) => entry.n).slice(0, 66)
-    globalThis.bibleNameToNumber = bibleBooks.reduce(function (map, obj) {
+    globalThis.bookNames = tmpBibleBooks.map((entry) => entry.n).slice(0, 66)
+    globalThis.bibleNameToNumber = tmpBibleBooks.reduce(function (map, obj) {
         map[obj.n] = obj.i;
         return map;
     }, {});
-    globalThis.bibleNumberToName = bibleBooks.reduce(function (map, obj) {
+    globalThis.bibleNumberToName = tmpBibleBooks.reduce(function (map, obj) {
         map[obj.i] = obj.n;
         return map;
     }, {});
