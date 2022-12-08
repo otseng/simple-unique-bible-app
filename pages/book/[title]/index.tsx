@@ -10,9 +10,12 @@ import { clickableButton, homeDisclosure } from '../../../lib/styles'
 import React, { useState } from 'react'
 import { Disclosure } from '@headlessui/react'
 import Input from 'rc-input'
+import { useLang } from '../../../lang/langContext'
 
 export default function Index() {
 
+  const {lang, setLang} = useLang()
+  
   const router = useRouter()
   const title = router.query.title as string
 
