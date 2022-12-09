@@ -34,12 +34,12 @@ export default function Index() {
   });
 
   function enterCommand() {
+    setSearchText("")
     if (searchText.startsWith(".")) {
       processCommand(searchText.substring(1))
     } else {
       searchBible()
     }
-    setSearchText("")
   }
 
   function searchBible() {
@@ -119,7 +119,6 @@ export default function Index() {
 function processCommand(text: string) {
   const lowerText = text.toLowerCase()
   const cmd = lowerText.split(" ")
-  console.log(cmd[0])
   switch (cmd[0]) {
     case 'power':
       if (cmd.length > 1) {

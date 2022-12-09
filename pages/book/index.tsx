@@ -23,7 +23,7 @@ export default function Index() {
   const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBooks()
 
   if (errorBooks) return <div>Failed to load</div>
-  if (loadingBooks) return
+  if (loadingBooks) return <div>Loading...</div>
 
   if (dataBooks) {
     return (

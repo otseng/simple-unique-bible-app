@@ -22,7 +22,7 @@ export default function Index() {
   const { data: dataCommentaries, loading: loadingCommentaries, error: errorCommentaries } = getCommentaries()
 
   if (errorCommentaries) return <div>Failed to load</div>
-  if (loadingCommentaries) return
+  if (loadingCommentaries) return <div>Loading...</div>
 
   if (dataCommentaries) {
     return (

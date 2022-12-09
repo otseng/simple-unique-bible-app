@@ -42,3 +42,9 @@ const {lang, setLang} = useLang()
 {lang.Bibles}
 
 language detection in container.tsx
+
+# Toast
+
+import { toast } from 'react-hot-toast'
+
+toast.dismiss()

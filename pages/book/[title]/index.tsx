@@ -49,7 +49,7 @@ export default function Index() {
   }
 
   if (errorChapters) return <div>Failed to load</div>
-  if (loadingChapters) return
+  if (loadingChapters) return <div>Loading...</div>
 
   if (dataChapters && dataBooks) {
     return (
