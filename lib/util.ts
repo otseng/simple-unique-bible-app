@@ -16,14 +16,13 @@ export function getLang() {
             lang = "en"
         }
     }
-    setLocalStorage("lang", lang)
     if (isDev()) {
-        return "zh_HANT"
-        // return "zh_HANS"
-        // return "en"
-    } else {
-        return lang
+        lang = "zh_HANT"
+        // lang = "zh_HANS"
+        // lang = "en"
     }
+    setLocalStorage("lang", lang)
+    return lang
 }
 
 export async function preloadData() {

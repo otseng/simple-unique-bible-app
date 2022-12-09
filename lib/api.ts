@@ -2,6 +2,7 @@ import axios from 'axios'
 import useSWR from 'swr'
 import { API_SERVER } from './constants'
 import md5 from 'md5'
+import { getLocalStorage } from './util'
 
 const auth = {
   username: 'simpleubaclient',
@@ -16,7 +17,7 @@ function getPassword() {
 
 export function getBibles() {
   
-  const address = API_SERVER + '/bible'
+  const address = API_SERVER + '/bible?' + addLang()
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 
@@ -40,7 +41,7 @@ export function getBibleBooks() {
 }
 
 export function getBibleTextBooks(text) {
-  const address = API_SERVER + `/data/bible/books/${text}`
+  const address = API_SERVER + `/data/bible/books/${text}?` + addLang()
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 
@@ -52,7 +53,7 @@ export function getBibleTextBooks(text) {
 }
 
 export function getBibleChapter(text, bookNumber, chapter) {
-  const address = API_SERVER + `/bible/${text}/${bookNumber}/${chapter}`
+  const address = API_SERVER + `/bible/${text}/${bookNumber}/${chapter}?` + addLang()
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 
@@ -65,7 +66,7 @@ export function getBibleChapter(text, bookNumber, chapter) {
 
 export function getBooks() {
   
-  const address = API_SERVER + '/book'
+  const address = API_SERVER + '/book?' + addLang()
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 
@@ -81,7 +82,7 @@ export function getBookChapters(title) {
   if (title) {
     title = title.replaceAll(' ', '+')
   }
-  const address = API_SERVER + `/book/${title}`
+  const address = API_SERVER + `/book/${title}?` + addLang()
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 
@@ -98,7 +99,7 @@ export function getBookChapterContent(title, chapter) {
     title = title.replaceAll('%20', '+').replaceAll(' ', '+')
     chapter = chapter.replaceAll('%20', '+').replaceAll(' ', '+')
   }
-  const address = API_SERVER + `/book/${title}/${chapter}`
+  const address = API_SERVER + `/book/${title}/${chapter}?` + addLang()
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 
@@ -111,7 +112,7 @@ export function getBookChapterContent(title, chapter) {
 
 export function getCommentaries() {
   
-  const address = API_SERVER + '/commentary'
+  const address = API_SERVER + '/commentary?' + addLang()
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 
@@ -124,7 +125,7 @@ export function getCommentaries() {
 
 export function getCommentaryContent(title, bookNumber, chapter) {
   
-  const address = API_SERVER + `/commentary/${title}/${bookNumber}/${chapter}`
+  const address = API_SERVER + `/commentary/${title}/${bookNumber}/${chapter}?` + addLang()
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 
@@ -137,7 +138,7 @@ export function getCommentaryContent(title, bookNumber, chapter) {
 
 export function getDevotionals() {
   
-  const address = API_SERVER + `/devotional`
+  const address = API_SERVER + `/devotional?` + addLang()
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 
@@ -154,7 +155,7 @@ export function getDevotionalContent(book, month, day) {
     book = book.replaceAll('%20', '+').replaceAll(' ', '+')
   }
 
-  const address = API_SERVER + `/devotional/${book}/${month}/${day}`
+  const address = API_SERVER + `/devotional/${book}/${month}/${day}?` + addLang()
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 
@@ -180,7 +181,8 @@ export function getCompareVerses(book, chapter, verse) {
   '&text=OHGB' +
   '&text=Tanakhxx&text=MOB' +
   '&text=Greek%2b&text=TRx' +
-  '&text=CUV&text=Pinyin'
+  '&text=CUV&text=Pinyin' +
+  '&' + addLang()
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 
@@ -193,7 +195,7 @@ export function getCompareVerses(book, chapter, verse) {
 
 export function getCrossReferences(book, chapter, verse, text) {
   
-  const address = API_SERVER + `/crossreference/${book}/${chapter}/${verse}/${text}`
+  const address = API_SERVER + `/crossreference/${book}/${chapter}/${verse}/${text}?` + addLang()
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 
@@ -206,7 +208,8 @@ export function getCrossReferences(book, chapter, verse, text) {
 
 export function searchBible(searchText, text) {
   
-  const address = API_SERVER + `/search?type=bible&searchText=` + searchText + '&text=' + text
+  const address = API_SERVER + `/search?type=bible&searchText=` + searchText + '&text=' + text +
+    '&' + addLang()
   const fetcher = async (url) => await axios.get(url, {auth}).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 
@@ -223,7 +226,7 @@ export async function _getLexicon(lexicon, strongs) {
   
   const key = lexicon + "-" + strongs
   if (!cacheLexicon.has(key)) {
-    const address = API_SERVER + `/lexicon/${lexicon}/${strongs}`
+    const address = API_SERVER + `/lexicon/${lexicon}/${strongs}?` + addLang()
     const res = await axios.get(address, {auth})
     const data = await res.data.data
     cacheLexicon.set(key, data)
@@ -236,7 +239,7 @@ const cacheInstantLex: Map<string, string> = new Map();
 export async function _getInstantLex(strongs) {
 
   if (!cacheInstantLex.has(strongs)) {
-    const address = API_SERVER + `/data/lex/${strongs}`
+    const address = API_SERVER + `/data/lex/${strongs}?` + addLang()
     const res = await axios.get(address, {auth})
     const data = await res.data.data
     cacheInstantLex.set(strongs, data)
@@ -250,7 +253,7 @@ export async function _getCommentaryContent(title, bookNumber, chapter) {
   
   const key = title + '_' + bookNumber + '_' + chapter
   if (!cacheCommentaryContent.has(key)) {
-    const address = API_SERVER + `/commentary/${title}/${bookNumber}/${chapter}`
+    const address = API_SERVER + `/commentary/${title}/${bookNumber}/${chapter}?` + addLang()
     const res = await axios.get(address, {auth})
     const data = await res.data.data
     cacheCommentaryContent.set(key, data)
@@ -265,7 +268,7 @@ export async function _getMorphology(portion, wordId) {
   
   const key = portion + '_' + wordId
   if (!cacheMorphology.has(key)) {
-    const address = API_SERVER + `/morphology/${portion}/${wordId}`
+    const address = API_SERVER + `/morphology/${portion}/${wordId}?` + addLang()
     const res = await axios.get(address, {auth})
     const data = await res.data.data
     cacheMorphology.set(key, data)
@@ -280,7 +283,7 @@ export async function _getSearchTool(module, text) {
   
   const key = module + "_" + text
   if (!cacheSearchToolmETCBC.has(key)) {
-    const address = API_SERVER + `/searchtool/${module}/${text}`
+    const address = API_SERVER + `/searchtool/${module}/${text}?` + addLang()
     const res = await axios.get(address, {auth})
     const data = await res.data.data
     cacheSearchToolmETCBC.set(key, data)
@@ -288,3 +291,11 @@ export async function _getSearchTool(module, text) {
 
   return cacheSearchToolmETCBC.get(key)
 }
+
+function addLang() {
+  let lang = getLocalStorage("lang")
+  if (!lang) lang = "en"
+  const add = "lang=" + lang
+  return add
+}
+
