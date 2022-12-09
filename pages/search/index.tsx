@@ -11,10 +11,12 @@ import { clickableButton, homeDisclosure } from '../../lib/styles';
 import Select from 'react-select'
 import Input from 'rc-input';
 import { useLang } from '../../lang/langContext';
+import { setLocalStorage } from '../../lib/util';
+import toast from 'react-hot-toast';
 
 export default function Index() {
 
-  const {lang, setLang} = useLang()
+  const { lang, setLang } = useLang()
 
   const router = useRouter()
   let text = router.query.text as string
@@ -31,20 +33,30 @@ export default function Index() {
     }
   });
 
+  function enterCommand() {
+    if (searchText.startsWith(".")) {
+      processCommand(searchText.substring(1))
+    } else {
+      searchBible()
+    }
+    setSearchText("")
+  }
+
   function searchBible() {
     const url = `/search/bible/${searchText}?text=${selectedBible}`
     router.push(url)
   }
 
   function searchTextChange(event) {
-    if (event.target.value.length < 50) {
-      setSearchText(event.target.value)
+    const text = event.target.value
+    if (text.length < 50) {
+      setSearchText(text)
     }
   }
 
   function searchTextKeyPress(event) {
     if (event.charCode == 13) {
-      searchBible()
+      enterCommand()
     }
   }
 
@@ -90,7 +102,7 @@ export default function Index() {
                       onChange={searchTextChange} onKeyPress={searchTextKeyPress} />
                   </div>
                   <div className="flex justify-center items-center">
-                    <button className={`${clickableButton}`} onClick={searchBible}>{lang.Search}</button>
+                    <button className={`${clickableButton}`} onClick={enterCommand}>{lang.Search}</button>
                   </div>
                 </div>
 
@@ -104,3 +116,26 @@ export default function Index() {
   }
 }
 
+function processCommand(text: string) {
+  const lowerText = text.toLowerCase()
+  const cmd = lowerText.split(" ")
+  console.log(cmd[0])
+  switch (cmd[0]) {
+    case 'power':
+      if (cmd.length > 1) {
+        if (cmd[1] == "off") disablePowerMode()
+        else enablePowerMode()
+      } else enablePowerMode()
+      break;
+  }
+}
+
+function enablePowerMode() {
+  setLocalStorage("powerMode", true)
+  toast("Power mode on")
+}
+
+function disablePowerMode() {
+  setLocalStorage("powerMode", false)
+  toast("Power mode off")
+}

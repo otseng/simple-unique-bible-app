@@ -26,14 +26,17 @@ const BIBLE_VERSE_POPUP_MENU = "bible-verse-popup-menu"
 
 export default function Index() {
 
-  if (!globalThis.bibleBooks) preloadData()
+  if (!globalThis.bibleBooks || !globalThis.bibleNameToNumber) preloadData()
 
   const {lang, setLang} = useLang()
 
   const router = useRouter()
   const text = router.query.text as string
   const book = router.query.book as string
-  const bookNum = globalThis.bibleNameToNumber[book]
+  let bookNum = 1
+  if (typeof globalThis.bibleNameToNumber !== "undefined") {
+    bookNum = globalThis.bibleNameToNumber[book]
+  }
   const chapter = router.query.chapter as string
   const commentary = router.query.commentary as string
   const showPrevious = parseInt(chapter) > 1
@@ -56,9 +59,13 @@ export default function Index() {
   let biblesInPopup = []
 
   if (getLang() == "en") {
-    biblesInPopup = ['KJV', 'NET', 'WEB', 'TRLIT', 'TRLITx', 'KJVx', 'MOB', 'MIB']
+    biblesInPopup = ['KJV', 'NET', 'WEB', 'TRLITx', 'KJVx', 'MOB', 'MIB']
   } else if (getLang().startsWith("zh")) {
     biblesInPopup = ['CUV', 'CUVs', 'KJV', 'KJVx', 'MOB', 'MIB']
+  }
+  if (!isMobile()) {
+    biblesInPopup.push('MPB')
+    biblesInPopup.push('MAB')
   }
 
   useEffect(() => {

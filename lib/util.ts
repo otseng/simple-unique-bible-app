@@ -122,3 +122,7 @@ export function deleteBookmark(key) {
     })
     setLocalStorage('bookmarks', updatedBookmarks)
 }
+
+export function isPowerMode() {
+    return getLocalStorage("powerMode") == true
+}

@@ -2,7 +2,7 @@ import axios from 'axios'
 import useSWR from 'swr'
 import { API_SERVER } from './constants'
 import md5 from 'md5'
-import { getLang, getLocalStorage } from './util'
+import { getLang, getLocalStorage, isPowerMode } from './util'
 
 const auth = {
   username: 'simpleubaclient',
@@ -303,7 +303,10 @@ export async function _getSearchTool(module, text) {
 function addLang() {
   let lang = getLocalStorage("lang")
   if (!lang) lang = "en"
-  const add = "lang=" + lang
+  let add = "lang=" + lang
+  if (isPowerMode()) {
+    add += "x"
+  }
   return add
 }
 
