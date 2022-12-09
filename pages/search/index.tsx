@@ -122,9 +122,9 @@ function processCommand(text: string) {
   switch (cmd[0]) {
     case 'power':
       if (cmd.length > 1) {
+        if (cmd[1] == "on") enablePowerMode()
         if (cmd[1] == "off") disablePowerMode()
-        else enablePowerMode()
-      } else enablePowerMode()
+      } 
       break;
   }
 }
