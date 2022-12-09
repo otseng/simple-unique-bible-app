@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
-import { addBookmark, bookmarkExists, getBibleTextDir, isMobile, preloadData, range } from '../../../../../lib/util'
+import { addBookmark, bookmarkExists, getBibleTextDir, getLang, isMobile, preloadData, range } from '../../../../../lib/util'
 import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, _getCommentaryContent, _getInstantLex, _getLexicon, _getMorphology, _getSearchTool } from '../../../../../lib/api'
 import { useEffect, useRef, useState } from 'react'
 import { chapterDisclosure, clickableButton, homeDisclosure, textStrongs } from '../../../../../lib/styles'
@@ -52,6 +52,14 @@ export default function Index() {
   const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBibleTextBooks(text)
   const { data, loading, error } = getBibleChapter(text, bookNum, chapter)
   const { data: dataCommentaries, loading: loadingCommentaries, error: errorCommentaries } = getCommentaries()
+
+  let biblesInPopup = []
+
+  if (getLang() == "en") {
+    biblesInPopup = ['KJV', 'NET', 'WEB', 'TRLIT', 'TRLITx', 'KJVx', 'MOB', 'MIB']
+  } else if (getLang().startsWith("zh")) {
+    biblesInPopup = ['CUV', 'CUVS', 'MOB', 'MIB']
+  }
 
   useEffect(() => {
     window.addEventListener('scroll', function (event) { removeToast() });
@@ -122,7 +130,7 @@ export default function Index() {
     if (id == 'copy') {
       const url = window.location.protocol + '//' + window.location.host + `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
       navigator.clipboard.writeText(url)
-      toast('Link copied to clipboard')
+      toast(lang.Link_copied_to_clipboard)
     } else if (id == 'highlight') {
       const element = document.getElementById("v" + chapter + "_" + verse)
       if (element.style.backgroundColor !== 'lightgoldenrodyellow') {
@@ -149,7 +157,7 @@ export default function Index() {
     } else if (id == 'bookmark') {
       const url = `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
       if (bookmarkExists(url)) {
-        toast('Bookmark already exists')
+        toast(lang.Bookmark_already_exists)
       } else {
         addBookmark(url)
         toast('Bookmark added')
@@ -429,20 +437,16 @@ export default function Index() {
             <BasicModal show={showModal} setter={setShowModal} title={modalTitle} content={modalContent}></BasicModal>
 
             <Menu id={BIBLE_VERSE_POPUP_MENU}>
-              <Item id="bookmark" onClick={handleItemClick}><span className="text-md">Add bookmark</span></Item>
-              <Item id="highlight" onClick={handleItemClick}><span className="text-md">Toggle highlight</span></Item>
-              <Item id="copy" onClick={handleItemClick}><span className="text-md">Copy link</span></Item>
-              <Item id="xref" onClick={handleItemClick}><span className="text-md">Cross references</span></Item>
-              <Item id="compare" onClick={handleItemClick}><span className="text-md">Compare</span></Item>
+              <Item id="bookmark" onClick={handleItemClick}><span className="text-md">{lang.Add_bookmark}</span></Item>
+              <Item id="highlight" onClick={handleItemClick}><span className="text-md">{lang.Toggle_highlight}</span></Item>
+              <Item id="copy" onClick={handleItemClick}><span className="text-md">{lang.Copy_link}</span></Item>
+              <Item id="xref" onClick={handleItemClick}><span className="text-md">{lang.Cross_references}</span></Item>
+              <Item id="compare" onClick={handleItemClick}><span className="text-md">{lang.Compare}</span></Item>
               <Separator />
-              <Item id="bible-KJV" onClick={handleItemClick}><span className="text-md">KJV</span></Item>
-              <Item id="bible-NET" onClick={handleItemClick}><span className="text-md">NET</span></Item>
-              <Item id="bible-WEB" onClick={handleItemClick}><span className="text-md">WEB</span></Item>
-              <Item id="bible-TRLIT" onClick={handleItemClick}><span className="text-md">TRLIT</span></Item>
-              <Item id="bible-TRLITx" onClick={handleItemClick}><span className="text-md">TRLITx</span></Item>
-              <Item id="bible-KJVx" onClick={handleItemClick}><span className="text-md">KJVx</span></Item>
-              <Item id="bible-MOB" onClick={handleItemClick}><span className="text-md">MOB</span></Item>
-              <Item id="bible-MIB" onClick={handleItemClick}><span className="text-md">MIB</span></Item>
+              {biblesInPopup.map((bible) => {
+                return <Item id="bible-{bible}" onClick={handleItemClick}><span className="text-md">{bible}</span></Item>
+              })
+              }
               {bookNum < 40 && <Item id="bible-Tanakhxx" onClick={handleItemClick}><span className="text-md">Tanakhxx</span></Item>}
               {bookNum > 39 && <Item id="bible-Greek+" onClick={handleItemClick}><span className="text-md">Greek+</span></Item>}
             </Menu>

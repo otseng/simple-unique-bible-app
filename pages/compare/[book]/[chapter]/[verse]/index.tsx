@@ -13,11 +13,13 @@ import { bibleChapters } from '../../../../../data/bibleChapters'
 import { bibleChapterVerses } from '../../../../../data/bibleChapterVerses'
 import BasicModal from '../../../../../components/basic-modal'
 import { useState } from 'react'
+import { useLang } from '../../../../../lang/langContext'
 
 export default function Index() {
 
   if (!globalThis.bibleBooks) preloadData()
 
+  const {lang, setLang} = useLang()
   const [showModal, setShowModal] = useState(false)
   const [modalTitle, setModalTitle] = useState('')
   const [modalContent, setModalContent] = useState('')
@@ -133,7 +135,7 @@ export default function Index() {
 
             <div className="flex justify-center items-center">
               <Link href={"/bible/" + text + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>
-                <button className={`${clickableButton}`}>Return to {book} {chapter}:{verse}</button>
+                <button className={`${clickableButton}`}>{lang.Return_to} {book} {chapter}:{verse}</button>
               </Link>
             </div>
 
