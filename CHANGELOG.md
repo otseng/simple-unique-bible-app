@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.09] - 12/8/2022
+
+- Added multilingual support (zh_HANS, zh_HANT)
+
 ## [1.08] - 12/7/2022
 
 - Added bookmarking to books
