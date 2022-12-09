@@ -21,9 +21,20 @@ const Footer = () => {
   })
 
   function handleItemClick({ id, event, props, data, triggerEvent }) {
-    setLocalStorage("lang", id)
-    const url = window.location.protocol + '//' + window.location.host
-    router.push(url)
+    if (isDev()) {
+      setLocalStorage("lang", id)
+      const url = window.location.protocol + '//' + window.location.host
+      router.push(url)
+    } else {
+      setLocalStorage("lang", '')
+      if (id == "en") {
+        router.push('https://simple.uniquebibleapp.com')
+      } else if (id == "zh_HANT") {
+        router.push('https://tc.uniquebibleapp.com')
+      } else if (id == "zh_HANS") {
+        router.push('https://sc.uniquebibleapp.com')
+      }
+    }
   }
 
   function displayMenu(e) {
