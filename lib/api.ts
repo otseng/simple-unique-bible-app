@@ -170,16 +170,25 @@ export function getCompareVerses(book, chapter, verse) {
 
   let address = API_SERVER + `/compare/${book}/${chapter}/${verse}?` + addLang()
   if (getLang() == "en") {
-    address = address +
-      '&text=KJV&text=KJVx&text=HKJVx' +
-      '&text=TRLIT&text=TRLITx' +
-      '&text=ASV&text=ASVx' +
-      '&text=LEB&text=LEBx' +
-      '&text=WEB&text=WEBx' +
-      '&text=NET&text=NETx' +
+    address = address + '&text=KJV&text=WEB&text=NET'
+    if (isPowerMode()) {
+      address = address +
+        '&text=ESV&text=NASB&text=NIV&text=AMP&text=TLB&text=TPT&text=MSG'
+    }
+    address = address + 'text=KJV' +
       '&text=ERV&text=ISV&text=ULT&text=UST&text=2001' +
       '&text=BBE&text=EasyEnglish&text=NHEB&text=PESH' +
-      '&text=YLT&text=Darby&txt=KJV1611&text=Geneva&text=Wesley&text=Bishops&text=Wycliffe' +
+      '&text=ASV&text=LEB' +
+      '&text=YLT&text=Darby&txt=KJV1611&text=Geneva&text=Wesley&text=Bishops&text=Wycliffe'
+    address = address +
+      '&text=TRLIT&text=TRLITx' +
+      '&text=KJVx&text=HKJVx' +
+      '&text=ASVx&text=LEBx&text=WEBx&text=NETx'
+    if (isPowerMode()) {
+      address = address +
+        '&text=NASBx'
+    }
+    address = address +
       '&text=OHGB' +
       '&text=Tanakhxx&text=MOB' +
       '&text=Greek%2b&text=TRx' +

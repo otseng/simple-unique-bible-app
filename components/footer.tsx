@@ -1,12 +1,11 @@
 import React from 'react';
 import Container from './container'
 import getConfig from 'next/config';
-import { getLang, isDev, setLocalStorage } from '../lib/util';
+import { getLang, isDev, isPowerMode, setLocalStorage } from '../lib/util';
 import { useLang } from '../lang/langContext';
 import { Item, Menu, Separator, useContextMenu } from 'react-contexify';
 import "react-contexify/dist/ReactContexify.css"
 import router from 'next/router';
-
 
 const Footer = () => {
 
@@ -19,6 +18,13 @@ const Footer = () => {
   const { show } = useContextMenu({
     id: LANGUAGE_POPUP_MENU
   })
+
+  let modeInfo = ""
+  if (isDev() || isPowerMode()) {
+    if (isDev()) modeInfo += "Dev "
+    if (isPowerMode()) modeInfo += "Power "
+    modeInfo += "mode"
+  }
 
   function handleItemClick({ id, event, props, data, triggerEvent }) {
     if (isDev()) {
@@ -48,8 +54,9 @@ const Footer = () => {
       <footer className="bg-neutral-50 border-t border-neutral-200">
         <Container>
           <div className="flex justify-center items-center pt-5 pb-5 text-sm font-bold text-slate-400">
-            {isDev() && <span>(Dev Mode)&nbsp;</span>}
-            <a href="https://github.com/otseng/simple-unique-bible-viewer/blob/main/CHANGELOG.md" target="new">{lang.Version}: {version}</a>&nbsp;&bull;&nbsp;
+            <a href="https://github.com/otseng/simple-unique-bible-viewer/blob/main/CHANGELOG.md" target="new">{lang.Version}: {version}</a>
+            {modeInfo && <span>&nbsp;({modeInfo})</span>}
+            &nbsp;&bull;&nbsp;
             <span className="hover:cursor-pointer" onClick={displayMenu}>{lang.Language} ({language})</span>
             &nbsp;&bull;&nbsp;
             <a href="https://github.com/eliranwong/UniqueBible" target="new">Unique Bible App</a>
