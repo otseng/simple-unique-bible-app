@@ -29,8 +29,7 @@ const Footer = () => {
   function handleItemClick({ id, event, props, data, triggerEvent }) {
     if (isDev()) {
       setLocalStorage("lang", id)
-      const url = window.location.protocol + '//' + window.location.host
-      router.push(url)
+      gotoHome()
     } else {
       setLocalStorage("lang", '')
       if (id == "en") {
@@ -49,13 +48,23 @@ const Footer = () => {
     })
   }
 
+  function disablePowerMode() {
+    setLocalStorage("powerMode", false)
+    gotoHome()
+  }
+
+  function gotoHome() {
+    const url = window.location.protocol + '//' + window.location.host
+    router.push(url)
+  }
+
   return (
     <>
       <footer className="bg-neutral-50 border-t border-neutral-200">
         <Container>
           <div className="flex justify-center items-center pt-5 pb-5 text-sm font-bold text-slate-400">
             <a href="https://github.com/otseng/simple-unique-bible-viewer/blob/main/CHANGELOG.md" target="new">{lang.Version}: {version}</a>
-            {modeInfo && <span>&nbsp;({modeInfo})</span>}
+            {modeInfo && <span onClick={disablePowerMode}>&nbsp;({modeInfo})</span>}
             &nbsp;&bull;&nbsp;
             <span className="hover:cursor-pointer" onClick={displayMenu}>{lang.Language} ({language})</span>
             &nbsp;&bull;&nbsp;
