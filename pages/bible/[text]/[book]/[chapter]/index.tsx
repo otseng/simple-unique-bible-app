@@ -58,7 +58,7 @@ export default function Index() {
   if (getLang() == "en") {
     biblesInPopup = ['KJV', 'NET', 'WEB', 'TRLIT', 'TRLITx', 'KJVx', 'MOB', 'MIB']
   } else if (getLang().startsWith("zh")) {
-    biblesInPopup = ['CUV', 'CUVS', 'MOB', 'MIB']
+    biblesInPopup = ['CUV', 'CUVs', 'KJV', 'KJVx', 'MOB', 'MIB']
   }
 
   useEffect(() => {
@@ -444,7 +444,8 @@ export default function Index() {
               <Item id="compare" onClick={handleItemClick}><span className="text-md">{lang.Compare}</span></Item>
               <Separator />
               {biblesInPopup.map((bible) => {
-                return <Item id="bible-{bible}" onClick={handleItemClick}><span className="text-md">{bible}</span></Item>
+                const bibleId = "bible-" + bible
+                return <Item id={bibleId} onClick={handleItemClick}><span className="text-md">{bible}</span></Item>
               })
               }
               {bookNum < 40 && <Item id="bible-Tanakhxx" onClick={handleItemClick}><span className="text-md">Tanakhxx</span></Item>}
