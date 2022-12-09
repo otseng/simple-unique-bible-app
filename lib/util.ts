@@ -5,11 +5,11 @@ export function getLang() {
     if (!lang) {
         if (windowExists()) {
             const host = window.location.host
-            if (host.startsWith("simple.")) {
+            if (host.startsWith("en.") || host.startsWith("simple.")) {
                 lang = "en"
-            } else if (host.startsWith("tc.")) {
+            } else if (host.startsWith("zh_HANT.") || host.startsWith("tc.")) {
                 lang = "zh_HANT"
-            } else if (host.startsWith("sc.")) {
+            } else if (host.startsWith("zh_HANS.") || host.startsWith("sc.")) {
                 lang = "zh_HANS"
             }
         } else {
@@ -17,7 +17,7 @@ export function getLang() {
         }
     }
     if (isDev()) {
-        lang = "zh_HANT"
+        // lang = "zh_HANT"
         // lang = "zh_HANS"
         // lang = "en"
     }

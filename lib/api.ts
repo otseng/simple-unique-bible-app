@@ -228,7 +228,7 @@ export function searchBible(searchText, text) {
   }
 }
 
-const cacheLexicon: Map<string, string> = new Map();
+let cacheLexicon: Map<string, string> = new Map();
 
 export async function _getLexicon(lexicon, strongs) {
 
@@ -242,7 +242,7 @@ export async function _getLexicon(lexicon, strongs) {
   return cacheLexicon.get(key)
 }
 
-const cacheInstantLex: Map<string, string> = new Map();
+let cacheInstantLex: Map<string, string> = new Map();
 
 export async function _getInstantLex(strongs) {
 
@@ -255,7 +255,7 @@ export async function _getInstantLex(strongs) {
   return cacheInstantLex.get(strongs)
 }
 
-const cacheCommentaryContent: Map<string, string> = new Map();
+let cacheCommentaryContent: Map<string, string> = new Map();
 
 export async function _getCommentaryContent(title, bookNumber, chapter) {
 
@@ -270,7 +270,7 @@ export async function _getCommentaryContent(title, bookNumber, chapter) {
   return cacheCommentaryContent.get(key)
 }
 
-const cacheMorphology: Map<string, string> = new Map();
+let cacheMorphology: Map<string, string> = new Map();
 
 export async function _getMorphology(portion, wordId) {
 
@@ -285,7 +285,7 @@ export async function _getMorphology(portion, wordId) {
   return cacheMorphology.get(key)
 }
 
-const cacheSearchToolmETCBC: Map<string, string> = new Map();
+let cacheSearchToolmETCBC: Map<string, string> = new Map();
 
 export async function _getSearchTool(module, text) {
 
@@ -307,3 +307,10 @@ function addLang() {
   return add
 }
 
+export function clearCache() {
+  cacheLexicon = new Map()
+  cacheInstantLex = new Map()
+  cacheCommentaryContent = new Map()
+  cacheMorphology = new Map()
+  cacheSearchToolmETCBC = new Map()
+}
