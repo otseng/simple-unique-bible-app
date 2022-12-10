@@ -181,7 +181,6 @@ export function getCompareVerses(book, chapter, verse) {
       '&text=BBE&text=EasyEnglish&text=NHEB&text=PESH' +
       '&text=ASV&text=LEB' +
       '&text=YLT&text=Darby&txt=KJV1611&text=Geneva&text=Wesley&text=Bishops&text=Wycliffe'
-    console.log("compare 2: " + address)
     address +=
       '&text=TRLIT&text=TRLITx' +
       '&text=KJVx&text=HKJVx' +
@@ -189,7 +188,6 @@ export function getCompareVerses(book, chapter, verse) {
     if (isPowerMode()) {
       address += '&text=NASBx'
     }
-    console.log("compare 3: " + address)
     address +=
       '&text=OHGB' +
       '&text=Tanakhxx&text=MOB' +
