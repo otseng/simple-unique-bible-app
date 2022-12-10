@@ -29,6 +29,7 @@ const Footer = () => {
   function handleItemClick({ id, event, props, data, triggerEvent }) {
     if (isDev()) {
       setLocalStorage("lang", id)
+      console.log("setting to " + id)
       gotoHome()
     } else {
       setLocalStorage("lang", '')

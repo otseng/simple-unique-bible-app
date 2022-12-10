@@ -1,3 +1,6 @@
+import { useLang } from '../lang/langContext'
+import { langs } from '../lang/languages'
+import { getLang } from '../lang/langUtil'
 import Footer from './footer'
 import Meta from './meta'
 
@@ -7,6 +10,10 @@ type Props = {
 }
 
 const Layout = ({ preview, children }: Props) => {
+
+  const {lang, setLang} = useLang()
+  setLang(langs[getLang()])
+
   return (
     <>
       <Meta />
