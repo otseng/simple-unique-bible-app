@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
-import { addBookmark, bookmarkExists, getBibleTextDir, getLang, isMobile, preloadData, range } from '../../../../../lib/util'
+import { addBookmark, bookmarkExists, getBibleTextDir, isMobile, preloadData, range } from '../../../../../lib/util'
 import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, _getCommentaryContent, _getInstantLex, _getLexicon, _getMorphology, _getSearchTool } from '../../../../../lib/api'
 import { useEffect, useRef, useState } from 'react'
 import { chapterDisclosure, clickableButton, homeDisclosure, textStrongs } from '../../../../../lib/styles'
@@ -21,6 +21,7 @@ import {
 import "react-contexify/dist/ReactContexify.css"
 import { toast } from 'react-hot-toast'
 import { useLang } from '../../../../../lang/langContext'
+import { getLang } from '../../../../../lang/langUtil'
 
 const BIBLE_VERSE_POPUP_MENU = "bible-verse-popup-menu"
 

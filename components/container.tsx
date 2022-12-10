@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { useLang } from "../lang/langContext";
 import { langs } from "../lang/languages";
-import { getLang, scrollToTop } from "../lib/util";
+import { getLang } from "../lang/langUtil";
+import { scrollToTop } from "../lib/util";
 
 type Props = {
   children?: React.ReactNode

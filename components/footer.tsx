@@ -1,11 +1,12 @@
 import React from 'react';
 import Container from './container'
 import getConfig from 'next/config';
-import { getLang, isDev, isPowerMode, setLocalStorage } from '../lib/util';
+import { isDev, isPowerMode, setLocalStorage } from '../lib/util';
 import { useLang } from '../lang/langContext';
-import { Item, Menu, Separator, useContextMenu } from 'react-contexify';
+import { Item, Menu, useContextMenu } from 'react-contexify';
 import "react-contexify/dist/ReactContexify.css"
 import router from 'next/router';
+import { getLang } from '../lang/langUtil';
 
 const Footer = () => {
 

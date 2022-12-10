@@ -1,3 +1,14 @@
+# yarn
+
+yarn run dev
+yarn run build
+yarn run start
+
+# yvm
+
+yvm ls
+yvm use 
+
 # Find port in use
 
 lsof -i -P -n | grep 3000
@@ -41,7 +52,9 @@ const {lang, setLang} = useLang()
 
 {lang.Bibles}
 
-language detection in container.tsx
+language detection - langutil.ts, container.tsx
+
+language selection - footer.tsx
 
 # Toast
 

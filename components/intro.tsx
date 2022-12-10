@@ -1,23 +1,27 @@
 import { Menu, Popover, Transition } from '@headlessui/react'
 import Link from 'next/link'
 import { useLang } from '../lang/langContext'
-import { getLang, isDev } from '../lib/util'
+import { getLang, showDevotions } from '../lang/langUtil'
+import { isDev } from '../lib/util'
 
 
 const Intro = (props) => {
 
   const {lang, setLang} = useLang()
 
-  const menuItems = [
+  let menuItems = [
     [lang.Home, '/'],
     [lang.Search, '/search'],
-    [lang.Bibles, '/bible'],
-    [lang.Devotionals, '/devotional'],
-    [lang.Books, '/book'],
-    [lang.Commentaries, '/commentary'],
-    [lang.Bookmarks, '/bookmark'],
-    [lang.About, '/about'],
-  ]
+    [lang.Bibles, '/bible']]
+
+  if (showDevotions()) {
+    menuItems.push([lang.Devotionals, '/devotional'])
+  }
+  
+  menuItems.push([lang.Books, '/book'])
+  menuItems.push([lang.Commentaries, '/commentary'])
+  menuItems.push([lang.Bookmarks, '/bookmark'])
+  menuItems.push([lang.About, '/about'])
   
   return (
   <section className="flex-row flex items-center justify-between mt-10 mb-10">

@@ -8,6 +8,7 @@ import { APP_NAME } from '../lib/constants';
 import { clickableButton, homeDisclosure } from '../lib/styles';
 import { Disclosure } from '@headlessui/react';
 import { useLang } from '../lang/langContext';
+import { showDevotions } from '../lang/langUtil';
 
 export default function Index() {
 
@@ -44,6 +45,7 @@ export default function Index() {
             </Disclosure.Panel>
           </Disclosure>
 
+         {showDevotions() && 
           <Disclosure defaultOpen>
             <Disclosure.Button className={`${homeDisclosure}`}>
               <div className="text-2xl">{lang.Devotionals}</div>
@@ -57,7 +59,7 @@ export default function Index() {
                 ))}
               </div>
             </Disclosure.Panel>
-          </Disclosure>
+          </Disclosure>}
 
           <Disclosure defaultOpen>
             <Disclosure.Button className={`${homeDisclosure}`}>

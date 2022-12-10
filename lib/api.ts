@@ -2,7 +2,8 @@ import axios from 'axios'
 import useSWR from 'swr'
 import { API_SERVER } from './constants'
 import md5 from 'md5'
-import { getLang, getLocalStorage, isPowerMode } from './util'
+import { getLocalStorage, isPowerMode } from './util'
+import { getLang } from '../lang/langUtil'
 
 const auth = {
   username: 'simpleubaclient',
