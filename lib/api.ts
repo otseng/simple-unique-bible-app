@@ -170,31 +170,32 @@ export function getCompareVerses(book, chapter, verse) {
 
   let address = API_SERVER + `/compare/${book}/${chapter}/${verse}?` + addLang()
   if (getLang() == "en") {
-    address = address + '&text=KJV&text=WEB&text=NET'
+    address += '&text=KJV&text=WEB&text=NET'
     if (isPowerMode()) {
-      address = address +
+      address +=
         '&text=ESV&text=NASB&text=NIV&text=AMP&text=TLB&text=TPT&text=MSG'
     }
-    address = address +
+    console.log("compare 1: " + address)
+    address +=
       '&text=ERV&text=ISV&text=ULT&text=UST&text=2001' +
       '&text=BBE&text=EasyEnglish&text=NHEB&text=PESH' +
       '&text=ASV&text=LEB' +
       '&text=YLT&text=Darby&txt=KJV1611&text=Geneva&text=Wesley&text=Bishops&text=Wycliffe'
-    address = address +
+    address +=
       '&text=TRLIT&text=TRLITx' +
       '&text=KJVx&text=HKJVx' +
       '&text=ASVx&text=LEBx&text=WEBx&text=NETx'
     if (isPowerMode()) {
-      address = address +
-        '&text=NASBx'
+      address += '&text=NASBx'
     }
-    address = address +
+    console.log("compare 2: " + address)
+    address +=
       '&text=OHGB' +
       '&text=Tanakhxx&text=MOB' +
       '&text=Greek%2b&text=TRx' +
       '&text=CUV&text=Pinyin'
   } else if (getLang().startsWith("zh")) {
-    address = address +
+    address +=
       '&text=CUV&text=CUVs&text=Pinyin' +
       '&text=KJV&text=KJVx' +
       '&text=Tanakhxx&text=MOB' +
