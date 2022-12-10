@@ -200,6 +200,7 @@ export function getCompareVerses(book, chapter, verse) {
       '&text=Tanakhxx&text=MOB' +
       '&text=Greek%2b'
   }
+  console.log("compare address: " + address)
   const fetcher = async (url) => await axios.get(url, { auth }).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 
