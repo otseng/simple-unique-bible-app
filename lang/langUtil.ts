@@ -20,6 +20,7 @@ export function getLang() {
         } else if (host.startsWith("zh_HANS.") || host.startsWith("sc.")) {
             lang = "zh_HANS"
         }
+        setLocalStorage("lang", lang)
     }
     return lang
 }
