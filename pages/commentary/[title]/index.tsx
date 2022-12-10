@@ -13,7 +13,7 @@ import { useLang } from '../../../lang/langContext'
 
 export default function Index() {
 
-  if (!globalThis.bibleBooks) preloadData()
+  if (!globalThis.bibleBooks || !globalThis.bookNames) preloadData()
 
   const {lang, setLang} = useLang()
   const router = useRouter()
@@ -21,7 +21,7 @@ export default function Index() {
 
   const { data: dataCommentaries, loading: loadingCommentaries, error: errorCommentaries } = getCommentaries()
 
-  if (dataCommentaries) {
+  if (dataCommentaries && globalThis.bookNames) {
     return (
       <>
         <Layout>

@@ -3,11 +3,10 @@ import { getLang } from "../lang/langUtil"
 
 export async function preloadData() {
 
-    let importer = null
-    let tmpBibleBooks = null
-
     if (windowExists()) {
-        try {
+        let importer = null
+        let tmpBibleBooks = null
+            try {
             importer = await import("../lang/bibleBooks_" + getLang())
         } catch (error) {
             console.log("lang/bibleBooks_" + getLang() + " is not available")
@@ -15,19 +14,19 @@ export async function preloadData() {
         }
 
         tmpBibleBooks = importer.bibleBooks
+        globalThis.bookNames = tmpBibleBooks.map((entry) => entry.n).slice(0, 66)
+        globalThis.bibleNameToNumber = tmpBibleBooks.reduce(function (map, obj) {
+            map[obj.n] = obj.i;
+            return map;
+        }, {});
+        globalThis.bibleNumberToName = tmpBibleBooks.reduce(function (map, obj) {
+            map[obj.i] = obj.n;
+            return map;
+        }, {});
     } else {
-        tmpBibleBooks = bibleBooks
+        globalThis.bookNames = null
+        globalThis.bibleNameToNumber = null
     }
-
-    globalThis.bookNames = tmpBibleBooks.map((entry) => entry.n).slice(0, 66)
-    globalThis.bibleNameToNumber = tmpBibleBooks.reduce(function (map, obj) {
-        map[obj.n] = obj.i;
-        return map;
-    }, {});
-    globalThis.bibleNumberToName = tmpBibleBooks.reduce(function (map, obj) {
-        map[obj.i] = obj.n;
-        return map;
-    }, {});
 }
 
 export function range(size: number, startAt: number = 0): ReadonlyArray<number> {

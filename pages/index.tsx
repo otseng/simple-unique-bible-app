@@ -9,10 +9,13 @@ import { clickableButton, homeDisclosure } from '../lib/styles';
 import { Disclosure } from '@headlessui/react';
 import { useLang } from '../lang/langContext';
 import { showDevotions } from '../lang/langUtil';
+import { preloadData } from '../lib/util';
 
 export default function Index() {
 
   const {lang, setLang} = useLang()
+
+  if (!globalThis.bibleBooks || !globalThis.bookNames) preloadData()
 
   const { data: dataBible, loading: loadingBible, error: errorBible } = getBibles()
   const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBooks()
@@ -21,7 +24,7 @@ export default function Index() {
 
   if (errorBible || errorBooks || errorCommentary || errorDevotionals) return <div>Failed to load</div>
   if (loadingBible || loadingBooks || loadingCommentary || loadingDevotionals) return
-  if (dataBible && dataBooks && dataCommentary && dataDevotionals) return (
+  if (dataBible && dataBooks && dataCommentary && dataDevotionals && globalThis.bookNames) return (
     <>
       <Layout>
         <Head>
