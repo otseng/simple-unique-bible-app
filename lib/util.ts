@@ -1,12 +1,37 @@
 import { bibleBooks } from "../lang/bibleBooks_en"
-import { getLang } from "../lang/langUtil"
+
+export function getLang() {
+    let lang = getLocalStorage("lang")
+    if (!lang) {
+        if (windowExists()) {
+            const host = window.location.host
+            if (host.startsWith("en.") || host.startsWith("simple.")) {
+                lang = "en"
+            } else if (host.startsWith("zh_HANT.") || host.startsWith("tc.")) {
+                lang = "zh_HANT"
+            } else if (host.startsWith("zh_HANS.") || host.startsWith("sc.")) {
+                lang = "zh_HANS"
+            }
+        } else {
+            lang = "en"
+        }
+    }
+    if (isDev()) {
+        // lang = "zh_HANT"
+        // lang = "zh_HANS"
+        // lang = "en"
+    }
+    setLocalStorage("lang", lang)
+    return lang
+}
 
 export async function preloadData() {
 
+    let importer = null
+    let tmpBibleBooks = null
+
     if (windowExists()) {
-        let importer = null
-        let tmpBibleBooks = null
-            try {
+        try {
             importer = await import("../lang/bibleBooks_" + getLang())
         } catch (error) {
             console.log("lang/bibleBooks_" + getLang() + " is not available")
@@ -14,19 +39,19 @@ export async function preloadData() {
         }
 
         tmpBibleBooks = importer.bibleBooks
-        globalThis.bookNames = tmpBibleBooks.map((entry) => entry.n).slice(0, 66)
-        globalThis.bibleNameToNumber = tmpBibleBooks.reduce(function (map, obj) {
-            map[obj.n] = obj.i;
-            return map;
-        }, {});
-        globalThis.bibleNumberToName = tmpBibleBooks.reduce(function (map, obj) {
-            map[obj.i] = obj.n;
-            return map;
-        }, {});
     } else {
-        globalThis.bookNames = null
-        globalThis.bibleNameToNumber = null
+        tmpBibleBooks = bibleBooks
     }
+
+    globalThis.bookNames = tmpBibleBooks.map((entry) => entry.n).slice(0, 66)
+    globalThis.bibleNameToNumber = tmpBibleBooks.reduce(function (map, obj) {
+        map[obj.n] = obj.i;
+        return map;
+    }, {});
+    globalThis.bibleNumberToName = tmpBibleBooks.reduce(function (map, obj) {
+        map[obj.i] = obj.n;
+        return map;
+    }, {});
 }
 
 export function range(size: number, startAt: number = 0): ReadonlyArray<number> {
