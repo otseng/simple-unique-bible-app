@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
-import { addBookmark, bookmarkExists, getBibleTextDir, isMobile, preloadData, range } from '../../../../../lib/util'
+import { addBookmark, bookmarkExists, getBibleNumberFromName, getBibleTextDir, isMobile, preloadData, range } from '../../../../../lib/util'
 import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, _getCommentaryContent, _getInstantLex, _getLexicon, _getMorphology, _getSearchTool } from '../../../../../lib/api'
 import { useEffect, useRef, useState } from 'react'
 import { chapterDisclosure, clickableButton, homeDisclosure, textStrongs } from '../../../../../lib/styles'
@@ -27,17 +27,14 @@ const BIBLE_VERSE_POPUP_MENU = "bible-verse-popup-menu"
 
 export default function Index() {
 
-  if (!globalThis.bibleBooks || !globalThis.bibleNameToNumber) preloadData()
+  if (!globalThis.bibleBooks) preloadData()
 
   const {lang, setLang} = useLang()
 
   const router = useRouter()
   const text = router.query.text as string
   const book = router.query.book as string
-  let bookNum = 1
-  if (typeof globalThis.bibleNameToNumber !== "undefined") {
-    bookNum = globalThis.bibleNameToNumber[book]
-  }
+  const bookNum = getBibleNumberFromName(book)
   const chapter = router.query.chapter as string
   const commentary = router.query.commentary as string
   const showPrevious = parseInt(chapter) > 1

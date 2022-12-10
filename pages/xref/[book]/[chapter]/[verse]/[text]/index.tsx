@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../../lib/constants'
-import { getBibleTextDir, preloadData, range } from '../../../../../../lib/util'
+import { getBibleNumberFromName, getBibleTextDir, preloadData, range } from '../../../../../../lib/util'
 import { clickableButton, homeDisclosure } from '../../../../../../lib/styles'
 import { getCrossReferences } from '../../../../../../lib/api'
 import { Disclosure } from '@headlessui/react'
@@ -21,7 +21,7 @@ export default function Index() {
   const chapter = router.query.chapter as string
   const verse = router.query.verse as string
   const text = router.query.text as string
-  const bookNum = globalThis.bibleNameToNumber[book]
+  const bookNum = getBibleNumberFromName(book)
   const chapters = range(bibleChapters[bookNum], 1)
   const verseList = bibleChapterVerses[bookNum]
   const verses = (chapter && verseList) ? range(verseList[chapter], 1) : []

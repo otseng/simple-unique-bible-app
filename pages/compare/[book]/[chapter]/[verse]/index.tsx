@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
-import { getBibleTextDir, preloadData, range } from '../../../../../lib/util'
+import { getBibleNumberFromName, getBibleTextDir, preloadData, range } from '../../../../../lib/util'
 import { clickableButton, homeDisclosure, textStrongs } from '../../../../../lib/styles'
 import { getBibleBooks, getBibles, getBibleTextBooks, getCompareVerses, _getLexicon } from '../../../../../lib/api'
 import { Disclosure } from '@headlessui/react'
@@ -32,10 +32,7 @@ export default function Index() {
   if (!text) {
     text = "KJV"
   }
-  let bookNum = 1
-  if (typeof globalThis.bibleNameToNumber != "undefined") {
-    bookNum = globalThis.bibleNameToNumber[book]
-  }
+  const bookNum = getBibleNumberFromName(book)
   const chapters = range(bibleChapters[bookNum], 1)
   const verseList = bibleChapterVerses[bookNum]
   const verses = (chapter && verseList) ? range(verseList[chapter], 1) : []

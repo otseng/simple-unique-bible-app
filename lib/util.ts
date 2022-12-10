@@ -54,6 +54,14 @@ export async function preloadData() {
     }, {});
 }
 
+export function getBibleNumberFromName(name) {
+    let bookNum = 0
+    if (typeof globalThis.bibleNameToNumber != "undefined") {
+        bookNum = globalThis.bibleNameToNumber[name]
+    }
+    return bookNum
+}
+
 export function range(size: number, startAt: number = 0): ReadonlyArray<number> {
     return [...Array(size).keys()].map(i => i + startAt);
 }

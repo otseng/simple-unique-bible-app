@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../lib/constants'
-import { preloadData, range } from '../../../../lib/util'
+import { getBibleNumberFromName, preloadData, range } from '../../../../lib/util'
 import { bibleChapters } from '../../../../data/bibleChapters'
 import { clickableButton, homeDisclosure, nonclickableButton } from '../../../../lib/styles'
 import { getCommentaries } from '../../../../lib/api'
@@ -20,7 +20,7 @@ export default function Index() {
   const router = useRouter()
   const title = router.query.title
   const book = router.query.book as string
-  const bookNum = globalThis.bibleNameToNumber[book]
+  const bookNum = getBibleNumberFromName(book)
   const chapters = range(bibleChapters[bookNum], 1)
 
   const { data: dataCommentaries, loading: loadingCommentaries, error: errorCommentaries } = getCommentaries()
