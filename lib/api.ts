@@ -175,13 +175,13 @@ export function getCompareVerses(book, chapter, verse) {
       address +=
         '&text=ESV&text=NASB&text=NIV&text=AMP&text=TLB&text=TPT&text=MSG'
     }
-    console.log("compare")
+    console.log("compare:" + address)
     address +=
       '&text=ERV&text=ISV&text=ULT&text=UST&text=2001' +
       '&text=BBE&text=EasyEnglish&text=NHEB&text=PESH' +
       '&text=ASV&text=LEB' +
       '&text=YLT&text=Darby&txt=KJV1611&text=Geneva&text=Wesley&text=Bishops&text=Wycliffe'
-    console.log("compare")
+    console.log("compare:" + address)
     address +=
       '&text=TRLIT&text=TRLITx' +
       '&text=KJVx&text=HKJVx' +
