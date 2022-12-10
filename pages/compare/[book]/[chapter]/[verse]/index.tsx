@@ -32,7 +32,10 @@ export default function Index() {
   if (!text) {
     text = "KJV"
   }
-  const bookNum = globalThis.bibleNameToNumber[book]
+  let bookNum = 1
+  if (typeof globalThis.bibleNameToNumber != "undefined") {
+    bookNum = globalThis.bibleNameToNumber[book]
+  }
   const chapters = range(bibleChapters[bookNum], 1)
   const verseList = bibleChapterVerses[bookNum]
   const verses = (chapter && verseList) ? range(verseList[chapter], 1) : []

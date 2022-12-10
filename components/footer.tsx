@@ -21,9 +21,8 @@ const Footer = () => {
 
   let modeInfo = ""
   if (isDev() || isPowerMode()) {
-    if (isDev()) modeInfo += "Dev "
-    if (isPowerMode()) modeInfo += "Power "
-    modeInfo += "mode"
+    if (isDev()) modeInfo += "Dev"
+    if (isPowerMode()) modeInfo += "x"
   }
 
   function handleItemClick({ id, event, props, data, triggerEvent }) {
