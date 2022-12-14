@@ -64,4 +64,6 @@ toast.dismiss()
 
 # Theme
 
+const {theme, setTheme} = useTheme()
+
 className={`${theme.bibleDivContainer}`}

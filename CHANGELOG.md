@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.10] - 12/14/2022
+
+- Added themes
+
 ## [1.09] - 12/8/2022
 
 - Added multilingual support (zh_HANS, zh_HANT)

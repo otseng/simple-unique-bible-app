@@ -7,17 +7,24 @@ import { Item, Menu, useContextMenu } from 'react-contexify';
 import "react-contexify/dist/ReactContexify.css"
 import router from 'next/router';
 import { getLang } from '../lang/langUtil';
+import { useTheme } from '../theme/themeContext';
+import { getTheme } from '../theme/themeUtil';
 
 const Footer = () => {
 
   const { lang, setLang } = useLang()
+  const { theme, setTheme } = useTheme()
+
   const { publicRuntimeConfig } = getConfig()
   const version = publicRuntimeConfig?.version
-  const language = getLang()
 
   const LANGUAGE_POPUP_MENU = 'language-popup-menu'
-  const { show } = useContextMenu({
+  const { show: showLanguageMenu } = useContextMenu({
     id: LANGUAGE_POPUP_MENU
+  })
+  const THEME_POPUP_MENU = 'theme-popup-menu'
+  const { show: showThemeMenu } = useContextMenu({
+    id: THEME_POPUP_MENU
   })
 
   let modeInfo = ""
@@ -26,7 +33,7 @@ const Footer = () => {
     if (isPowerMode()) modeInfo += "x"
   }
 
-  function handleItemClick({ id, event, props, data, triggerEvent }) {
+  function handleLanguageItemClick({ id, event, props, data, triggerEvent }) {
     if (isDev()) {
       setLocalStorage("lang", id)
       console.log("setting to " + id)
@@ -43,8 +50,20 @@ const Footer = () => {
     }
   }
 
-  function displayMenu(e) {
-    show({
+  function handleThemeItemClick({ id, event, props, data, triggerEvent }) {
+    setTheme(id)
+    setLocalStorage("theme", id)
+    console.log("setting theme to " + id)
+  }
+
+  function displayLanguageMenu(e) {
+    showLanguageMenu({
+      event: e,
+    })
+  }
+
+  function displayThemeMenu(e) {
+    showThemeMenu({
       event: e,
     })
   }
@@ -67,16 +86,20 @@ const Footer = () => {
             <a href="https://github.com/otseng/simple-unique-bible-viewer/blob/main/CHANGELOG.md" target="new">{lang.Version}: {version}</a>
             {modeInfo && <span onClick={disablePowerMode}>&nbsp;({modeInfo})</span>}
             &nbsp;&bull;&nbsp;
-            <span className="hover:cursor-pointer" onClick={displayMenu}>{lang.Language} ({language})</span>
+            <span className="hover:cursor-pointer" onClick={displayLanguageMenu}>{lang.Language} ({getLang()})</span>
             &nbsp;&bull;&nbsp;
-            <a href="https://github.com/eliranwong/UniqueBible" target="new">Unique Bible App</a>
+            <span className="hover:cursor-pointer" onClick={displayThemeMenu}>Theme ({getTheme()})</span>
           </div>
         </Container>
       </footer>
       <Menu id={LANGUAGE_POPUP_MENU}>
-        <Item id="en" onClick={handleItemClick}><span className="text-md">English</span></Item>
-        <Item id="zh_HANT" onClick={handleItemClick}><span className="text-md">zh_HANT</span></Item>
-        <Item id="zh_HANS" onClick={handleItemClick}><span className="text-md">zh_HANS</span></Item>
+        <Item id="en" onClick={handleLanguageItemClick}><span className="text-md">English</span></Item>
+        <Item id="zh_HANT" onClick={handleLanguageItemClick}><span className="text-md">zh_HANT</span></Item>
+        <Item id="zh_HANS" onClick={handleLanguageItemClick}><span className="text-md">zh_HANS</span></Item>
+      </Menu>
+      <Menu id={THEME_POPUP_MENU}>
+        <Item id="default" onClick={handleThemeItemClick}><span className="text-md">Default</span></Item>
+        <Item id="large" onClick={handleThemeItemClick}><span className="text-md">Large</span></Item>
       </Menu>
 
     </>
