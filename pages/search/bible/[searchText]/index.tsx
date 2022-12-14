@@ -3,15 +3,19 @@ import Intro from '../../../../components/intro'
 import Layout from '../../../../components/layout'
 import Head from 'next/head'
 import { APP_NAME } from '../../../../lib/constants';
-import { clickableButton, homeDisclosure, textStrongs } from '../../../../lib/styles';
 import { Disclosure } from '@headlessui/react';
 import { useRouter } from 'next/router';
 import { searchBible } from '../../../../lib/api';
 import Link from 'next/link';
 import { getBibleTextDir, preloadData } from '../../../../lib/util';
 import { Spinner } from 'react-bootstrap';
+import { useLang } from '../../../../lang/langContext';
+import { useTheme } from '../../../../theme/themeContext';
 
 export default function Index() {
+
+  const {lang, setLang} = useLang()
+  const {theme, setTheme} = useTheme()
 
   if (!globalThis.bibleBooks) preloadData()
 
@@ -35,7 +39,7 @@ export default function Index() {
             <Intro currentPage="Search" />
 
             <Disclosure defaultOpen>
-              <Disclosure.Button className={`${homeDisclosure}`}>
+              <Disclosure.Button className={`${theme.homeDisclosure}`}>
                 <div className="text-2xl">Bible search results</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
@@ -43,7 +47,7 @@ export default function Index() {
                 <div className="m-10">
 
                   <Link href={"/search?text=" + `${text}`}>
-                    <button className={`${clickableButton}`}>Back to search</button>
+                    <button className={`${theme.clickableButton}`}>Back to search</button>
                   </Link>
 
                   <p className="font-bold">Search "{searchText}" in {text} - {dataVerses.length} verses found</p>

@@ -8,7 +8,6 @@ import { APP_NAME } from '../../../../../lib/constants'
 import { addBookmark, bookmarkExists, getBibleNumberFromName, getBibleTextDir, isMobile, preloadData, range } from '../../../../../lib/util'
 import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, _getCommentaryContent, _getInstantLex, _getLexicon, _getMorphology, _getSearchTool } from '../../../../../lib/api'
 import { useEffect, useRef, useState } from 'react'
-import { chapterDisclosure, clickableButton, homeDisclosure, textStrongs } from '../../../../../lib/styles'
 import { bibleChapters } from '../../../../../data/bibleChapters'
 import { Disclosure } from '@headlessui/react'
 import BasicModal from '../../../../../components/basic-modal'
@@ -22,6 +21,7 @@ import "react-contexify/dist/ReactContexify.css"
 import { toast } from 'react-hot-toast'
 import { useLang } from '../../../../../lang/langContext'
 import { getLang } from '../../../../../lang/langUtil'
+import { useTheme } from '../../../../../theme/themeContext'
 
 const BIBLE_VERSE_POPUP_MENU = "bible-verse-popup-menu"
 
@@ -30,6 +30,7 @@ export default function Index() {
   if (!globalThis.bibleBooks) preloadData()
 
   const {lang, setLang} = useLang()
+  const {theme, setTheme} = useTheme()
 
   const router = useRouter()
   const text = router.query.text as string
@@ -128,14 +129,23 @@ export default function Index() {
   function handleItemClick({ id, event, props, data, triggerEvent }) {
     // console.log(id, event, triggerEvent)
     const targetId = triggerEvent?.srcElement?.id || ''
-    const regex = /t(.*)_(.*)/
+    const regex = /r(.*)_(.*)/
     const matches = regex.exec(targetId)
     const chapter = matches[1]
     const verse = matches[2]
-    if (id == 'copy') {
+    if (id == 'copyLink') {
       const url = window.location.protocol + '//' + window.location.host + `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
       navigator.clipboard.writeText(url)
-      toast(lang.Link_copied_to_clipboard)
+      toast(lang.Copied_to_clipboard)
+    } else if (id == 'copyVerse') {
+      const verseTextElement = document.getElementById("t" + chapter + "_" + verse)
+      console.log(verseTextElement)
+      let contents = book + " " + chapter + ":" + verse + "\n"
+      contents += verseTextElement.innerText + "\n\n"
+      const url = window.location.protocol + '//' + window.location.host + `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
+      contents += url
+      navigator.clipboard.writeText(contents)
+      toast(lang.Copied_to_clipboard)
     } else if (id == 'highlight') {
       const element = document.getElementById("v" + chapter + "_" + verse)
       if (element.style.backgroundColor !== 'lightgoldenrodyellow') {
@@ -288,7 +298,7 @@ export default function Index() {
             <Intro currentPage="Bibles" />
 
             <Disclosure>
-              <Disclosure.Button className={`${homeDisclosure}`}>
+              <Disclosure.Button className={`${theme.homeDisclosure}`}>
                 <div className="text-2xl">{lang.Bibles}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
@@ -297,7 +307,7 @@ export default function Index() {
                     const hash = window?.location?.hash
                     return (
                       <Link href={"/bible/" + text + "/" + book + "/" + chapter + "?commentary=" + hash}>
-                        <button className={`${clickableButton}`}>{text}</button>
+                        <button className={`${theme.clickableButton}`}>{text}</button>
                       </Link>
                     )
                   }
@@ -307,14 +317,14 @@ export default function Index() {
             </Disclosure>
 
             <Disclosure>
-              <Disclosure.Button className={`${homeDisclosure}`}>
+              <Disclosure.Button className={`${theme.homeDisclosure}`}>
                 <div className="text-2xl">{text}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>
                   {bookNames.map((book) => (
                     <Link href={"/bible/" + text + "/" + book + "/1?commentary="}>
-                      <button className={`${clickableButton}`}>{book}</button>
+                      <button className={`${theme.clickableButton}`}>{book}</button>
                     </Link>
                   ))}
                 </div>
@@ -322,19 +332,19 @@ export default function Index() {
             </Disclosure>
 
             <Disclosure>
-              <Disclosure.Button className={`${chapterDisclosure}`}>
+              <Disclosure.Button className={`${theme.chapterDisclosure}`}>
                 <div className="text-xl">{book} {chapter}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 {chapters.map((chapter) => (
                   <Link href={"/bible/" + text + "/" + book + "/" + chapter + "?commentary="}>
-                    <button className={`${clickableButton}`}>{chapter}</button>
+                    <button className={`${theme.clickableButton}`}>{chapter}</button>
                   </Link>
                 ))}
               </Disclosure.Panel>
             </Disclosure>
 
-            <div dir={textDir}>
+            <div dir={textDir} className={`${theme.bibleDivContainer}`}>
               {(mabBible || mibBible || mtbBible || mpbBible) &&
                 data.map((verse) => {
                   let text = verse.t
@@ -347,9 +357,9 @@ export default function Index() {
                   // console.log(text)
                   return (
                     <p id={`v${verse.c}_${verse.v}`}>
-                      <span className="hover:cursor-pointer" onClick={displayMenu} id={`t${verse.c}_${verse.v}`}>{verse.c}:{verse.v}</span>
+                      <span className="hover:cursor-pointer" onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v}</span>
                       {(mtbBible || mpbBible) && <br />}
-                      <span className="text-container" dangerouslySetInnerHTML={{ __html: text }} /></p>
+                      <span id={`t${verse.c}_${verse.v}`} className="text-container " dangerouslySetInnerHTML={{ __html: text }} /></p>
                   )
                 })
               }
@@ -381,7 +391,7 @@ export default function Index() {
                   return (
                     <>
                       <p id={`v${verse.c}_${verse.v}`}>
-                        <span id={`t${verse.c}_${verse.v}`} className="hover:cursor-pointer" onClick={displayMenu} onMouseEnter={() => removeToast()}>{verse.c}:{verse.v} - </span>
+                        <span id={`r${verse.c}_${verse.v}`} className="hover:cursor-pointer" onClick={displayMenu} onMouseEnter={() => removeToast()}>{verse.c}:{verse.v} - </span>
                         {verseContent.map((data) => (
                           <span onMouseEnter={() => instantMorphology(data[0], data[1])} onMouseLeave={() => removeToast()} onClick={() => showMorphology(data[0], data[1])} className="hover:cursor-pointer">{data[2]}</span>
                         ))}
@@ -394,18 +404,18 @@ export default function Index() {
               {rawVerse &&
                 data.map((verse) => (verse.t &&
                   <p id={`v${verse.c}_${verse.v}`}>
-                    <span className="hover:cursor-pointer" onClick={displayMenu} id={`t${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
-                    <span className="text-container" dangerouslySetInnerHTML={{ __html: verse.t }} /></p>
+                    <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
+                    <span id={`t${verse.c}_${verse.v}`} className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: verse.t }} /></p>
                 ))
               }
               {parseVerse &&
                 data.map((verse) => (verse.t &&
                   <p id={`v${verse.c}_${verse.v}`}>
-                    <span className="hover:cursor-pointer" onClick={displayMenu} id={`t${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
+                    <span className="hover:cursor-pointer" onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
                     {verse.t.split(' ').map((word) => (
                       word.match(/[GH][0-9]{1,4}/) ?
-                        <a className={`${textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
-                        : <span dangerouslySetInnerHTML={{ __html: word + " " }} />
+                        <a className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
+                        : <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
                     ))}
                   </p>
                 ))
@@ -416,21 +426,21 @@ export default function Index() {
             <div className="flex justify-center items-center mt-2 mb-5">
               {showPrevious &&
                 <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) - 1)}>
-                  <button className={`${clickableButton}`}>{lang.Previous}</button></Link>}
+                  <button className={`${theme.clickableButton}`}>{lang.Previous}</button></Link>}
               {showNext &&
                 <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) + 1)}>
-                  <button className={`${clickableButton}`}>{lang.Next}</button></Link>}
+                  <button className={`${theme.clickableButton}`}>{lang.Next}</button></Link>}
             </div>
 
             <Disclosure>
-              <Disclosure.Button className={`${chapterDisclosure}`}>
+              <Disclosure.Button className={`${theme.chapterDisclosure}`}>
                 <div className="text-xl">{lang.Commentaries}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>
                   {dataCommentaries.map((commentary) => (
                     <Link href={"/commentary/" + commentary + '/' + book + '/' + chapter + '?text=' + text}>
-                      <button className={`${clickableButton}`}>
+                      <button className={`${theme.clickableButton}`}>
                         {commentary.replaceAll('_', ' ')}
                       </button>
                     </Link>
@@ -444,7 +454,8 @@ export default function Index() {
             <Menu id={BIBLE_VERSE_POPUP_MENU}>
               <Item id="bookmark" onClick={handleItemClick}><span className="text-md">{lang.Add_bookmark}</span></Item>
               <Item id="highlight" onClick={handleItemClick}><span className="text-md">{lang.Toggle_highlight}</span></Item>
-              <Item id="copy" onClick={handleItemClick}><span className="text-md">{lang.Copy_link}</span></Item>
+              <Item id="copyVerse" onClick={handleItemClick}><span className="text-md">{lang.Copy_verse}</span></Item>
+              <Item id="copyLink" onClick={handleItemClick}><span className="text-md">{lang.Copy_link}</span></Item>
               <Item id="xref" onClick={handleItemClick}><span className="text-md">{lang.Cross_references}</span></Item>
               <Item id="compare" onClick={handleItemClick}><span className="text-md">{lang.Compare}</span></Item>
               <Separator />

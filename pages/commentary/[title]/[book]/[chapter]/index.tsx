@@ -7,16 +7,18 @@ import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
 import { getBibleNumberFromName, preloadData, range } from '../../../../../lib/util'
 import { getCommentaries, getCommentaryContent } from '../../../../../lib/api'
-import { chapterDisclosure, clickableButton, homeDisclosure } from '../../../../../lib/styles'
 import { Disclosure } from '@headlessui/react'
 import { bibleChapters } from '../../../../../data/bibleChapters'
 import { useLang } from '../../../../../lang/langContext'
+import { useTheme } from '../../../../../theme/themeContext'
 
 export default function Index() {
 
+    const {lang, setLang} = useLang()
+    const {theme, setTheme} = useTheme()
+
     if (!globalThis.bibleBooks) preloadData()
 
-    const {lang, setLang} = useLang()
     const router = useRouter()
     const title = router.query.title
     const book = router.query.book as string
@@ -43,14 +45,14 @@ export default function Index() {
                         <Intro currentPage="Commentaries" />
 
                         <Disclosure>
-                            <Disclosure.Button className={`${homeDisclosure}`}>
+                            <Disclosure.Button className={`${theme.homeDisclosure}`}>
                                 <div className="text-2xl">{lang.Commentaries}</div>
                             </Disclosure.Button>
                             <Disclosure.Panel className="text-gray-500">
                                 <div>
                                     {dataCommentaries.map((commentary) => (
                                         <Link href={"/commentary/" + commentary + '/' + book + '/' + chapter}>
-                                            <button className={`${clickableButton}`}>
+                                            <button className={`${theme.clickableButton}`}>
                                                 {commentary.replaceAll('_', ' ')}
                                             </button>
                                         </Link>
@@ -60,14 +62,14 @@ export default function Index() {
                         </Disclosure>
 
                         <Disclosure>
-                            <Disclosure.Button className={`${homeDisclosure}`}>
+                            <Disclosure.Button className={`${theme.homeDisclosure}`}>
                                 <div className="text-2xl">{title}</div>
                             </Disclosure.Button>
                             <Disclosure.Panel className="text-gray-500">
                                 <div>
                                     {globalThis.bookNames.map((book) => (
                                         <Link href={"/commentary/" + title + "/" + book}>
-                                            <button className={`${clickableButton}`}>{book}</button>
+                                            <button className={`${theme.clickableButton}`}>{book}</button>
                                         </Link>
                                     ))}
                                 </div>
@@ -75,7 +77,7 @@ export default function Index() {
                         </Disclosure>
 
                         <Disclosure>
-                            <Disclosure.Button className={`${chapterDisclosure}`}>
+                            <Disclosure.Button className={`${theme.chapterDisclosure}`}>
                                 <div className="text-xl">{book} {chapter}</div>
                             </Disclosure.Button>
                             <Disclosure.Panel className="text-gray-500">
@@ -83,7 +85,7 @@ export default function Index() {
 
                                     {chapters.map((chapter) => (
                                         <Link href={"/commentary/" + title + '/' + book + '/' + chapter}>
-                                            <button className={`${clickableButton}`}>{chapter}</button>
+                                            <button className={`${theme.clickableButton}`}>{chapter}</button>
                                         </Link>
                                     ))}
                                 </div>
@@ -99,17 +101,17 @@ export default function Index() {
                         <div className="flex justify-center items-center mt-2 mb-5">
                             {showPrevious && (
                                 <Link href={"/commentary/" + title + '/' + book + '/' + (parseInt(chapter) - 1)}>
-                                    <button className={`${clickableButton}`}>{lang.Previous}</button>
+                                    <button className={`${theme.clickableButton}`}>{lang.Previous}</button>
                                 </Link>)}
                             <Link href={"/commentary/" + title + '/' + book + '/' + (parseInt(chapter) + 1)}>
-                                <button className={`${clickableButton}`}>{lang.Next}</button>
+                                <button className={`${theme.clickableButton}`}>{lang.Next}</button>
                             </Link>
                         </div>
 
                         {text &&
                             <div className="flex justify-center items-center mt-2 mb-5">
                                 <Link href={"/bible/" + text + '/' + book + '/' + chapter}>
-                                    <button className={`${clickableButton}`}>Back to {text}</button>
+                                    <button className={`${theme.clickableButton}`}>Back to {text}</button>
                                 </Link>
                             </div>
                         }

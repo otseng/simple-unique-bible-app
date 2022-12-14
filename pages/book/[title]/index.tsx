@@ -6,16 +6,17 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../lib/constants'
 import { getBookChapters, getBooks } from '../../../lib/api'
-import { clickableButton, homeDisclosure } from '../../../lib/styles'
 import React, { useState } from 'react'
 import { Disclosure } from '@headlessui/react'
 import Input from 'rc-input'
 import { useLang } from '../../../lang/langContext'
+import { useTheme } from '../../../theme/themeContext'
 
 export default function Index() {
 
   const {lang, setLang} = useLang()
-  
+  const {theme, setTheme} = useTheme()
+
   const router = useRouter()
   const title = router.query.title as string
 
@@ -62,14 +63,14 @@ export default function Index() {
             <Intro currentPage="Books" />
 
             <Disclosure>
-              <Disclosure.Button className={`${homeDisclosure}`}>
+              <Disclosure.Button className={`${theme.homeDisclosure}`}>
                 <div className="text-2xl">{lang.Books}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>
                   {dataBooks.map((title) => (
                     <Link href={"/book/" + title}>
-                      <button className={`${clickableButton}`}>
+                      <button className={`${theme.clickableButton}`}>
                         {title.replaceAll('_', ' ')}</button>
                     </Link>
                   ))}
@@ -78,7 +79,7 @@ export default function Index() {
             </Disclosure>
 
             <Disclosure>
-              <Disclosure.Button className={`${homeDisclosure}`}>
+              <Disclosure.Button className={`${theme.homeDisclosure}`}>
                 <div className="text-2xl">{title.replaceAll('_', ' ')}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
@@ -93,7 +94,7 @@ export default function Index() {
             <div>
               {dataChapters.map((chapter) => (
                 <Link id={chapter} href={"/book/" + title + '/' + chapter.replaceAll("/", "_")}>
-                  <button className={`${clickableButton}`}>{chapter.replaceAll("/", "_")}</button>
+                  <button className={`${theme.clickableButton}`}>{chapter.replaceAll("/", "_")}</button>
                 </Link>
               ))}
             </div>

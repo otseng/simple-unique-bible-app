@@ -7,12 +7,14 @@ import Link from 'next/link'
 import { APP_NAME } from '../../../../lib/constants'
 import { getBibleNumberFromName, preloadData, range } from '../../../../lib/util'
 import { bibleChapters } from '../../../../data/bibleChapters'
-import { clickableButton, homeDisclosure, nonclickableButton } from '../../../../lib/styles'
 import { getCommentaries } from '../../../../lib/api'
 import { Disclosure } from '@headlessui/react'
 import { useLang } from '../../../../lang/langContext'
+import { useTheme } from '../../../../theme/themeContext'
 
 export default function Index() {
+
+  const {theme, setTheme} = useTheme()
 
   if (!globalThis.bibleBooks) preloadData()
 
@@ -36,14 +38,14 @@ export default function Index() {
             <Intro currentPage="Commentaries" />
 
             <Disclosure>
-              <Disclosure.Button className={`${homeDisclosure}`}>
+              <Disclosure.Button className={`${theme.homeDisclosure}`}>
                 <div className="text-2xl">{lang.Commentaries}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>
                   {dataCommentaries.map((commentary) => (
                     <Link href={"/commentary/" + commentary}>
-                      <button className={`${clickableButton}`}>
+                      <button className={`${theme.clickableButton}`}>
                         {commentary.replaceAll('_', ' ')}
                       </button>
                     </Link>
@@ -53,14 +55,14 @@ export default function Index() {
             </Disclosure>
 
             <Disclosure>
-              <Disclosure.Button className={`${homeDisclosure}`}>
+              <Disclosure.Button className={`${theme.homeDisclosure}`}>
                 <div className="text-2xl">{title}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>
                   {globalThis.bookNames.map((book) => (
                     <Link href={"/commentary/" + title + "/" + book}>
-                      <button className={`${clickableButton}`}>{book}</button>
+                      <button className={`${theme.clickableButton}`}>{book}</button>
                     </Link>
                   ))}
                 </div>
@@ -68,14 +70,14 @@ export default function Index() {
             </Disclosure>
 
             <Disclosure defaultOpen>
-              <Disclosure.Button className={`${homeDisclosure}`}>
+              <Disclosure.Button className={`${theme.homeDisclosure}`}>
                 <div className="text-2xl">{book}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>
                   {chapters.map((chapter) => (
                     <Link href={"/commentary/" + title + '/' + book + '/' + chapter}>
-                      <button className={`${clickableButton}`}>{chapter}</button>
+                      <button className={`${theme.clickableButton}`}>{chapter}</button>
                     </Link>
                   ))}
                 </div>

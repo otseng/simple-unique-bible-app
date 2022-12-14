@@ -6,16 +6,17 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../lib/constants'
 import { preloadData } from '../../../lib/util'
-import { clickableButton, homeDisclosure, nonclickableButton } from '../../../lib/styles'
 import { getBibles, getBibleTextBooks } from '../../../lib/api'
 import { Disclosure } from '@headlessui/react'
 import { useLang } from '../../../lang/langContext'
+import { useTheme } from '../../../theme/themeContext'
 
 export default function Index() {
 
   if (!globalThis.bibleBooks) preloadData()
 
   const {lang, setLang} = useLang()
+  const {theme, setTheme} = useTheme()
 
   const router = useRouter()
   const text = router.query.text
@@ -40,14 +41,14 @@ export default function Index() {
             <Intro currentPage="Bibles" />
 
             <Disclosure>
-              <Disclosure.Button className={`${homeDisclosure}`}>
+              <Disclosure.Button className={`${theme.homeDisclosure}`}>
                 <div className="text-2xl">{lang.Bibles}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>
                   {dataBibles.map((text) => (
                     <Link href={"/bible/" + text}>
-                      <button className={`${clickableButton}`}>{text}</button>
+                      <button className={`${theme.clickableButton}`}>{text}</button>
                     </Link>
                   ))}
                 </div>
@@ -55,14 +56,14 @@ export default function Index() {
             </Disclosure>
 
             <Disclosure defaultOpen>
-              <Disclosure.Button className={`${homeDisclosure}`}>
+              <Disclosure.Button className={`${theme.homeDisclosure}`}>
                 <div className="text-2xl">{text}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>
                   {bookNames.map((book) => (
                     <Link href={"/bible/" + text + "/" + book + "/1"}>
-                      <button className={`${clickableButton}`}>{book}</button>
+                      <button className={`${theme.clickableButton}`}>{book}</button>
                     </Link>
                   ))}
                 </div>

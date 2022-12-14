@@ -6,16 +6,18 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../lib/constants'
 import { preloadData } from '../../lib/util'
-import { clickableButton, homeDisclosure, nonclickableButton } from '../../lib/styles'
 import { getCommentaries } from '../../lib/api'
 import { Disclosure } from '@headlessui/react'
 import { useLang } from '../../lang/langContext'
+import { useTheme } from '../../theme/themeContext'
 
 export default function Index() {
 
+  const {lang, setLang} = useLang()
+  const {theme, setTheme} = useTheme()
+
   if (!globalThis.bibleBooks) preloadData()
 
-  const {lang, setLang} = useLang()
   const router = useRouter()
   const text = router.query.text
 
@@ -35,14 +37,14 @@ export default function Index() {
             <Intro currentPage="Commentaries" />
 
             <Disclosure defaultOpen>
-              <Disclosure.Button className={`${homeDisclosure}`}>
+              <Disclosure.Button className={`${theme.homeDisclosure}`}>
                 <div className="text-2xl">{lang.Commentaries}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>
                   {dataCommentaries.map((commentary) => (
                     <Link href={"/commentary/" + commentary}>
-                      <button className={`${clickableButton}`}>
+                      <button className={`${theme.clickableButton}`}>
                         {commentary.replaceAll('_', ' ')}
                       </button>
                     </Link>

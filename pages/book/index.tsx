@@ -6,14 +6,15 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../lib/constants'
 import { preloadData } from '../../lib/util'
-import { clickableButton, homeDisclosure, nonclickableButton } from '../../lib/styles'
 import { getBooks } from '../../lib/api'
 import { Disclosure } from '@headlessui/react'
 import { useLang } from '../../lang/langContext'
+import { useTheme } from '../../theme/themeContext'
 
 export default function Index() {
 
   const {lang, setLang} = useLang()
+  const {theme, setTheme} = useTheme()
 
   if (!globalThis.bibleBooks) preloadData()
 
@@ -36,14 +37,14 @@ export default function Index() {
             <Intro currentPage="Books" />
 
             <Disclosure defaultOpen>
-            <Disclosure.Button className={`${homeDisclosure}`}>
+            <Disclosure.Button className={`${theme.homeDisclosure}`}>
               <div className="text-2xl">{lang.Books}</div>
             </Disclosure.Button>
             <Disclosure.Panel className="text-gray-500">
               <div>
               {dataBooks.map((title) => (
               <Link href={"/book/" + title}>
-                <button className={`${clickableButton}`}>
+                <button className={`${theme.clickableButton}`}>
                   {title.replaceAll('_', ' ')}</button>
               </Link>
             ))}

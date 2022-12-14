@@ -6,16 +6,17 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../lib/constants'
 import { deleteBookmark, getBookmarks, isDev, preloadData, setLocalStorage } from '../../lib/util'
-import { clickableButton, homeDisclosure } from '../../lib/styles'
 import { Disclosure } from '@headlessui/react'
 import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import QRCode from 'react-qr-code'
 import { useLang } from '../../lang/langContext'
+import { useTheme } from '../../theme/themeContext'
 
 export default function Index() {
 
   const {lang, setLang} = useLang()
+  const {theme, setTheme} = useTheme()
 
   if (!globalThis.bibleBooks) preloadData()
 
@@ -71,7 +72,7 @@ export default function Index() {
           <Intro currentPage="Bookmarks" />
 
           <Disclosure defaultOpen>
-            <Disclosure.Button className={`${homeDisclosure}`}>
+            <Disclosure.Button className={`${theme.homeDisclosure}`}>
               <div className="text-2xl">{lang.Bookmarks}</div>
             </Disclosure.Button>
             <Disclosure.Panel className="text-gray-500">
@@ -92,9 +93,9 @@ export default function Index() {
                         <>
                           <div className="ml-10 flex justify-left">
                             <Link href={bookmark}>
-                              <button className={`${clickableButton}`}>{text} {book} {chapter}:{verse}</button>
+                              <button className={`${theme.clickableButton}`}>{text} {book} {chapter}:{verse}</button>
                             </Link>
-                            <button id={bookmark} onClick={() => deleteOne(bookmark)} className={`${clickableButton}`}>{lang.Delete}</button>
+                            <button id={bookmark} onClick={() => deleteOne(bookmark)} className={`${theme.clickableButton}`}>{lang.Delete}</button>
                           </div>
                         </>
                       )
@@ -109,9 +110,9 @@ export default function Index() {
                         <>
                           <div className="ml-10 flex justify-left">
                             <Link href={bookmark}>
-                              <button className={`${clickableButton}`}>{book} / {chapter}</button>
+                              <button className={`${theme.clickableButton}`}>{book} / {chapter}</button>
                             </Link>
-                            <button id={bookmark} onClick={() => deleteOne(bookmark)} className={`${clickableButton}`}>{lang.Delete}</button>
+                            <button id={bookmark} onClick={() => deleteOne(bookmark)} className={`${theme.clickableButton}`}>{lang.Delete}</button>
                           </div>
                         </>
                       )
@@ -135,10 +136,10 @@ export default function Index() {
                       </div>
                     </div>
                     <div className="flex justify-center p-1">
-                      <button onClick={copyAll} className={`${clickableButton}`}>Copy to clipboard</button>
+                      <button onClick={copyAll} className={`${theme.clickableButton}`}>Copy to clipboard</button>
                     </div>
                     <div className="flex justify-center p-1">
-                      <button onClick={deleteAll} className={`${clickableButton}`}>{lang.Delete_All}</button>
+                      <button onClick={deleteAll} className={`${theme.clickableButton}`}>{lang.Delete_All}</button>
                     </div>
                   </>
                 }

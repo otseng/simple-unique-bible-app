@@ -6,17 +6,18 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../lib/constants'
 import { getBookChapters, getBookChapterContent, getBooks } from '../../../../lib/api'
-import { chapterDisclosure, clickableButton, homeDisclosure } from '../../../../lib/styles'
 import { Disclosure } from '@headlessui/react'
 import toast from 'react-hot-toast'
 import { bookmarkExists, addBookmark, deleteBookmark, windowExists } from '../../../../lib/util'
 import { useState } from 'react'
 import Input from 'rc-input'
 import { useLang } from '../../../../lang/langContext'
+import { useTheme } from '../../../../theme/themeContext'
 
 export default function Index() {
 
   const {lang, setLang} = useLang()
+  const {theme, setTheme} = useTheme()
 
   const router = useRouter()
   const title = router.query.title as string
@@ -102,14 +103,14 @@ export default function Index() {
             <Intro currentPage="Books" />
 
             <Disclosure>
-              <Disclosure.Button className={`${homeDisclosure}`}>
+              <Disclosure.Button className={`${theme.homeDisclosure}`}>
                 <div className="text-2xl">{lang.Books}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>
                   {dataBooks.map((title) => (
                     <Link href={"/book/" + title}>
-                      <button className={`${clickableButton}`}>{title.replaceAll('_', ' ')}</button>
+                      <button className={`${theme.clickableButton}`}>{title.replaceAll('_', ' ')}</button>
                     </Link>
                   ))}
                 </div>
@@ -117,7 +118,7 @@ export default function Index() {
             </Disclosure>
 
             <Disclosure>
-              <Disclosure.Button className={`${homeDisclosure}`}>
+              <Disclosure.Button className={`${theme.homeDisclosure}`}>
                 <div className="text-2xl">{title.replaceAll('_', ' ')}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
@@ -129,7 +130,7 @@ export default function Index() {
                 <div>
                   {dataChapters.map((chapter) => (
                     <Link id={chapter} href={"/book/" + title + '/' + chapter.replaceAll("/", "_")}>
-                      <button className={`${clickableButton}`}>{chapter.replaceAll("/", "_")}</button>
+                      <button className={`${theme.clickableButton}`}>{chapter.replaceAll("/", "_")}</button>
                     </Link>
                   ))}
                 </div>
@@ -137,19 +138,19 @@ export default function Index() {
             </Disclosure>
 
             <Disclosure>
-              <Disclosure.Button className={`${chapterDisclosure}`}>
+              <Disclosure.Button className={`${theme.chapterDisclosure}`}>
                 <div>{chapter}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 {navigation.previous &&
                   <Link href={"/book/" + title + '/' + navigation.previous}>
-                    <button className={`${clickableButton}`}>{navigation.previous}</button>
+                    <button className={`${theme.clickableButton}`}>{navigation.previous}</button>
                   </Link>}
-                {!bookmarkExist && <button onClick={addChapterBookmark} className={`${clickableButton}`}>{lang.Add_bookmark}</button>}
-                {bookmarkExist && <button onClick={deleteChapterBookmark} className={`${clickableButton}`}>{lang.Delete_bookmark}</button>}
+                {!bookmarkExist && <button onClick={addChapterBookmark} className={`${theme.clickableButton}`}>{lang.Add_bookmark}</button>}
+                {bookmarkExist && <button onClick={deleteChapterBookmark} className={`${theme.clickableButton}`}>{lang.Delete_bookmark}</button>}
                 {navigation.next &&
                   <Link href={"/book/" + title + '/' + navigation.next}>
-                    <button className={`${clickableButton}`}>{navigation.next}</button>
+                    <button className={`${theme.clickableButton}`}>{navigation.next}</button>
                   </Link>}
               </Disclosure.Panel>
             </Disclosure>
@@ -158,11 +159,11 @@ export default function Index() {
 
             {navigation.previous &&
               <Link href={"/book/" + title + '/' + navigation.previous}>
-                <button className={`${clickableButton}`}>{lang.Previous}</button>
+                <button className={`${theme.clickableButton}`}>{lang.Previous}</button>
               </Link>}
             {navigation.next &&
               <Link href={"/book/" + title + '/' + navigation.next}>
-                <button className={`${clickableButton}`}>{lang.Next}</button>
+                <button className={`${theme.clickableButton}`}>{lang.Next}</button>
               </Link>}
 
           </Container>

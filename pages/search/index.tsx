@@ -7,16 +7,17 @@ import Intro from '../../components/intro';
 import Layout from '../../components/layout';
 import { getBibles } from '../../lib/api';
 import { APP_NAME } from '../../lib/constants';
-import { clickableButton, homeDisclosure } from '../../lib/styles';
 import Select from 'react-select'
 import Input from 'rc-input';
 import { useLang } from '../../lang/langContext';
 import { setLocalStorage } from '../../lib/util';
 import toast from 'react-hot-toast';
+import { useTheme } from '../../theme/themeContext';
 
 export default function Index() {
 
   const { lang, setLang } = useLang()
+  const {theme, setTheme} = useTheme()
 
   const router = useRouter()
   let text = router.query.text as string
@@ -83,7 +84,7 @@ export default function Index() {
             <Intro currentPage="Search" />
 
             <Disclosure defaultOpen>
-              <Disclosure.Button className={`${homeDisclosure}`}>
+              <Disclosure.Button className={`${theme.homeDisclosure}`}>
                 <div className="text-2xl">{lang.Search}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
@@ -102,7 +103,7 @@ export default function Index() {
                       onChange={searchTextChange} onKeyPress={searchTextKeyPress} />
                   </div>
                   <div className="flex justify-center items-center">
-                    <button className={`${clickableButton}`} onClick={enterCommand}>{lang.Search}</button>
+                    <button className={`${theme.clickableButton}`} onClick={enterCommand}>{lang.Search}</button>
                   </div>
                 </div>
 

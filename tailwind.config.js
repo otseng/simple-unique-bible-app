@@ -2,6 +2,9 @@
 module.exports = {
   content: ['./components/**/*.tsx', './pages/**/*.tsx', './lib/**/*.tsx'],
   theme: {
+    fontFamily: {
+      'serif': ['ui-serif', 'Georgia', 'Cambria', 'Times New Roman', 'Times'],
+    },
     extend: {
       colors: {
         'accent-1': '#FAFAFA',
