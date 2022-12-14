@@ -34,7 +34,8 @@ export default function Index() {
 
   const router = useRouter()
   const text = router.query.text as string
-  const book = router.query.book as string
+  let book = router.query.book as string
+  if (book) book = book.replaceAll("+", " ")
   const bookNum = getBibleNumberFromName(book)
   const chapter = router.query.chapter as string
   const commentary = router.query.commentary as string
@@ -134,7 +135,8 @@ export default function Index() {
     const chapter = matches[1]
     const verse = matches[2]
     if (id == 'copyLink') {
-      const url = window.location.protocol + '//' + window.location.host + `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
+      let url = window.location.protocol + '//' + window.location.host + `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
+      url = url.replaceAll(" ", "+")
       navigator.clipboard.writeText(url)
       toast(lang.Copied_to_clipboard)
     } else if (id == 'copyVerse') {
@@ -142,7 +144,8 @@ export default function Index() {
       console.log(verseTextElement)
       let contents = book + " " + chapter + ":" + verse + "\n"
       contents += verseTextElement.innerText + "\n\n"
-      const url = window.location.protocol + '//' + window.location.host + `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
+      let url = window.location.protocol + '//' + window.location.host + `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
+      url = url.replaceAll(" ", "+")
       contents += url
       navigator.clipboard.writeText(contents)
       toast(lang.Copied_to_clipboard)
