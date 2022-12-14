@@ -126,9 +126,9 @@ export default function Index() {
                         <sup><a className={`${theme.textStrongs}`} onClick={() => showLexicon(word)}>{word} </a></sup>
                         : <span dangerouslySetInnerHTML={{ __html: word + " " }} />
                     ))
-                    return (<p dir={dir}>{link} - {parsed}</p>)
+                    return (<p className={`${theme.bibleDivContainer}`} dir={dir}>{link} - {parsed}</p>)
                   } else {
-                    return (<p dir={dir}>{link} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
+                    return (<p className={`${theme.bibleDivContainer}`} dir={dir}>{link} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
                   }
                 }
               })

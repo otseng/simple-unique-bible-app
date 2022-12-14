@@ -3,7 +3,7 @@ module.exports = {
   content: ['./components/**/*.tsx', './pages/**/*.tsx', './lib/**/*.tsx'],
   theme: {
     fontFamily: {
-      'serif': ['ui-serif', 'Georgia', 'Cambria', 'Times New Roman', 'Times'],
+      'serif': ['ui-serif', 'Georgia', 'Times', 'Times New Roman', 'Cambria'],
     },
     extend: {
       colors: {

@@ -6,7 +6,7 @@ export const themes = {
         clickableButton: "bg-blue-500 hover:bg-blue-300 text-white font-bold py-2 px-3 rounded m-2",
         nonclickableButton: "hover:cursor-default bg-blue-500 text-white font-bold py-2 px-3 rounded m-2",
      
-        bibleDivContainer: "font-serif text-xl",
+        bibleDivContainer: "text-lg font-serif",
         bibleReferenceContainer: "hover:cursor-pointer",
         bibleTextContainer: "",
         textStrongs: "text-amber-700 hover:cursor-pointer align-super text-sm",

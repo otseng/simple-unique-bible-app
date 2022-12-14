@@ -22,6 +22,7 @@ const Layout = ({ preview, children }: Props) => {
       </div>
       <div className="h-9"></div>
       <Footer />
+      <span className="font-serif font-sans"></span>
     </>
   )
 }

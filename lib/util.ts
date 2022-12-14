@@ -1,33 +1,6 @@
 import { bibleBooks } from "../lang/bibleBooks_en"
 import { getLang } from "../lang/langUtil"
 
-// export function getLang() {
-//     let lang = getLocalStorage("lang")
-//     if (!lang) {
-//         if (windowExists()) {
-//             const host = window.location.host
-//             if (host.startsWith("en.") || host.startsWith("simple.")) {
-//                 lang = "en"
-//             } else if (host.startsWith("zh_HANT.") || host.startsWith("tc.")) {
-//                 lang = "zh_HANT"
-//             } else if (host.startsWith("zh_HANS.") || host.startsWith("sc.")) {
-//                 lang = "zh_HANS"
-//             } else if (host.startsWith("es.")) {
-//                 lang = "es"
-//             } 
-//         } else {
-//             lang = "en"
-//         }
-//     }
-//     if (isDev()) {
-//         // lang = "zh_HANT"
-//         // lang = "zh_HANS"
-//         // lang = "en"
-//     }
-//     setLocalStorage("lang", lang)
-//     return lang
-// }
-
 export async function preloadData() {
 
     let importer = null

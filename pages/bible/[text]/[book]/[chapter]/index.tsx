@@ -343,7 +343,7 @@ export default function Index() {
                 ))}
               </Disclosure.Panel>
             </Disclosure>
-
+            
             <div dir={textDir} className={`${theme.bibleDivContainer}`}>
               {(mabBible || mibBible || mtbBible || mpbBible) &&
                 data.map((verse) => {
