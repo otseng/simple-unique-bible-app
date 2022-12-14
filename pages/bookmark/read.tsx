@@ -59,11 +59,11 @@ export default function Index() {
 
           <Disclosure defaultOpen>
             <Disclosure.Button className={`${theme.homeDisclosure}`}>
-              <div className="text-2xl">Shared bookmarks</div>
+              <div className="text-2xl">{lang.Shared_bookmarks}</div>
             </Disclosure.Button>
             <Disclosure.Panel className="text-gray-500">
               <div>
-                {bookmarks.length == 0 && <p className="ml-10 mt-10 font-lg">No bookmarks</p>}
+                {bookmarks.length == 0 && <p className="ml-10 mt-10 font-lg">{lang.No_bookmarks}</p>}
                 {bookmarks.map((bookmark) => {
                   if (bookmark) {
                     bookmark = bookmark.replaceAll('!', '#')
@@ -81,9 +81,6 @@ export default function Index() {
                           <Link href={bookmark}>
                             <button className={`${theme.clickableButton}`}>{text} {book} {chapter}:{verse}</button>
                           </Link>
-                          {/* <Link target={bookmark} href={bookmark}> 
-                            <button className={`${clickableButton}`}>New tab</button>
-                          </Link> */}
                         </div>
                       </>
                     )
@@ -94,7 +91,7 @@ export default function Index() {
 
               {(bookmarks.length > 0 && typeof window !== 'undefined') &&
                 <>
-                  <div className="flex justify-center p-1 text-lg font-bold text-black">Share bookmarks</div>
+                  <div className="flex justify-center p-1 text-lg font-bold text-black">{lang.Share_bookmarks}</div>
                   <div className="flex justify-center p-1">
                     <div style={{ height: "auto", margin: "0 auto", maxWidth: 300, width: "400" }}>
                       <QRCode
@@ -106,10 +103,10 @@ export default function Index() {
                     </div>
                   </div>
                   <div className="flex justify-center p-1">
-                    <button onClick={copyAll} className={`${theme.clickableButton}`}>Copy to clipboard</button>
+                    <button onClick={copyAll} className={`${theme.clickableButton}`}>{lang.Copy_to_clipboard}</button>
                   </div>
                   <div className="flex justify-center p-1">
-                    <button onClick={addBookmarks} className={`${theme.clickableButton}`}>Save bookmarks</button>
+                    <button onClick={addBookmarks} className={`${theme.clickableButton}`}>{lang.Save_bookmarks}</button>
                   </div>
                 </>
               }

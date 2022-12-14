@@ -30,7 +30,7 @@ export async function preloadData() {
     }, {});
 }
 
-export function getBibleNumberFromName(name) {
+export function getBibleNumberFromName(name: string) {
     let bookNum = 0
     if (typeof globalThis.bibleNameToNumber != "undefined") {
         bookNum = globalThis.bibleNameToNumber[name]

@@ -47,7 +47,7 @@ export default function Index() {
 
             <Disclosure>
               <Disclosure.Button className={`${theme.homeDisclosure}`}>
-                <div className="text-2xl">Cross Reference</div>
+                <div className="text-2xl">{lang.Cross_reference}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>

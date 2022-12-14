@@ -27,7 +27,7 @@ export default function Index() {
 
                     <Disclosure defaultOpen>
                         <Disclosure.Button className={`${theme.homeDisclosure}`}>
-                            <div className="text-2xl">Compare</div>
+                            <div className="text-2xl">{lang.Compare}</div>
                         </Disclosure.Button>
                         <Disclosure.Panel className="text-gray-500">
                             <div>
