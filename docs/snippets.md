@@ -61,3 +61,7 @@ language selection - footer.tsx
 import { toast } from 'react-hot-toast'
 
 toast.dismiss()
+
+# Theme
+
+className={`${theme.bibleDivContainer}`}
