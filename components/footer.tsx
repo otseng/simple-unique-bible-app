@@ -36,7 +36,6 @@ const Footer = () => {
   function handleLanguageItemClick({ id, event, props, data, triggerEvent }) {
     if (isDev()) {
       setLocalStorage("lang", id)
-      console.log("setting to " + id)
       gotoHome()
     } else {
       setLocalStorage("lang", '')
@@ -51,8 +50,8 @@ const Footer = () => {
   }
 
   function handleThemeItemClick({ id, event, props, data, triggerEvent }) {
-    setTheme(id)
     setLocalStorage("theme", id)
+    setTheme(id)
     console.log("setting theme to " + id)
   }
 
@@ -80,7 +79,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="bg-neutral-50 border-t border-neutral-200">
+      <footer className={`${theme.footerStyle}`}>
         <Container>
           <div className="flex justify-center items-center pt-5 pb-5 text-sm font-bold text-slate-400">
             <a href="https://github.com/otseng/simple-unique-bible-viewer/blob/main/CHANGELOG.md" target="new">{lang.Version}: {version}</a>
@@ -98,8 +97,9 @@ const Footer = () => {
         <Item id="zh_HANS" onClick={handleLanguageItemClick}><span className="text-md">zh_HANS</span></Item>
       </Menu>
       <Menu id={THEME_POPUP_MENU}>
-        <Item id="default" onClick={handleThemeItemClick}><span className="text-md">Default</span></Item>
-        <Item id="large" onClick={handleThemeItemClick}><span className="text-md">Large</span></Item>
+        <Item id="default" onClick={handleThemeItemClick}><span className="text-md">default</span></Item>
+        <Item id="large" onClick={handleThemeItemClick}><span className="text-md">large</span></Item>
+        <Item id="dark" onClick={handleThemeItemClick}><span className="text-md">dark</span></Item>
       </Menu>
 
     </>

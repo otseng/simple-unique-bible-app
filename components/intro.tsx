@@ -45,7 +45,7 @@ const Intro = (props) => {
       >
         <Popover.Panel className="absolute z-20">
           <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-            <div className="relative grid gap-1 bg-blue-400 p-3 rounded text-lg text-white font-bold">
+            <div className="relative grid gap-1 bg-blue-400 p-3 rounded text-lg text-neutral-50 font-bold">
               {menuItems.map((item) => {
                 return (
                   <>

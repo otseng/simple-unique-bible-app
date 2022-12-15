@@ -3,15 +3,19 @@ import Intro from '../components/intro'
 import Layout from '../components/layout'
 import Head from 'next/head'
 import { APP_NAME } from '../lib/constants';
-import { clickableButton, nonclickableButton } from '../lib/styles';
 import { useState } from 'react';
 import BasicModal from '../components/basic-modal';
 import { Menu, Item, Separator, Submenu, useContextMenu } from 'react-contexify';
 import "react-contexify/dist/ReactContexify.css"
+import { useLang } from '../lang/langContext';
+import { useTheme } from '../theme/themeContext';
 
 const BIBLE_VERSE_POPUP_MENU = "bible-verse-popup-menu"
 
 export default function Index() {
+
+  const {lang, setLang} = useLang()
+  const {theme, setTheme} = useTheme()
 
   const [showModal, setShowModal] = useState(false);
 
@@ -42,16 +46,16 @@ export default function Index() {
         <Container>
           <Intro currentPage="Playground" />
 
-          <div className="text-xl"><button className={`${nonclickableButton}`}>Playground</button></div>
+          <div className="text-xl"><button className={`${theme.nonclickableButton}`}>Playground</button></div>
 
           <div className="m-10">
 
-            <button className={`${clickableButton}`} onClick={displayModal}>Open Modal</button>
+            <button className={`${theme.clickableButton}`} onClick={displayModal}>Open Modal</button>
 
             <BasicModal show={showModal} setter={setShowModal} title="Test Modal" content="This is my content"></BasicModal>
 
 
-            <button className={`${clickableButton}`} onClick={displayMenu}>Context menu</button>
+            <button className={`${theme.clickableButton}`} onClick={displayMenu}>Context menu</button>
 
           </div>
 

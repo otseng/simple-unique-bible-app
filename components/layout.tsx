@@ -19,7 +19,6 @@ const Layout = ({ preview, children }: Props) => {
 
   setLang(langs[getLang()])
   const currentTheme = getTheme()
-  console.log("Current theme:" + currentTheme)
   setTheme(themes[currentTheme])
 
   return (
@@ -30,7 +29,10 @@ const Layout = ({ preview, children }: Props) => {
       </div>
       <div className="h-9"></div>
       <Footer />
-      <span className="font-serif font-sans"></span>
+      <span className="font-serif font-sans bg-blue-800 bg-blue-700" />
+      <span className="text-purple-400" />
+      <span className="text-neutral-300" />
+      <span className="bg-blue-500" />
     </>
   )
 }

@@ -141,7 +141,6 @@ export default function Index() {
       toast(lang.Copied_to_clipboard)
     } else if (id == 'copyVerse') {
       const verseTextElement = document.getElementById("t" + chapter + "_" + verse)
-      console.log(verseTextElement)
       let contents = book + " " + chapter + ":" + verse + "\n"
       contents += verseTextElement.innerText + "\n\n"
       let url = window.location.protocol + '//' + window.location.host + `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
@@ -357,12 +356,11 @@ export default function Index() {
                   text = text.replaceAll(/ondblclick=".*?"/g, "")
                   text = text.replaceAll(/onmouseover=".*?"/g, "")
                   text = text.replaceAll(/onmouseout=".*?"/g, "")
-                  // console.log(text)
                   return (
                     <p id={`v${verse.c}_${verse.v}`}>
-                      <span className="hover:cursor-pointer" onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v}</span>
+                      <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v}</span>
                       {(mtbBible || mpbBible) && <br />}
-                      <span id={`t${verse.c}_${verse.v}`} className="text-container " dangerouslySetInnerHTML={{ __html: text }} /></p>
+                      <span id={`t${verse.c}_${verse.v}`} className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: text }} /></p>
                   )
                 })
               }
@@ -394,10 +392,12 @@ export default function Index() {
                   return (
                     <>
                       <p id={`v${verse.c}_${verse.v}`}>
-                        <span id={`r${verse.c}_${verse.v}`} className="hover:cursor-pointer" onClick={displayMenu} onMouseEnter={() => removeToast()}>{verse.c}:{verse.v} - </span>
+                        <span id={`r${verse.c}_${verse.v}`} className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} onMouseEnter={() => removeToast()}>{verse.c}:{verse.v} - </span>
+                        <span className={`${theme.bibleTextContainer}`}>
                         {verseContent.map((data) => (
                           <span onMouseEnter={() => instantMorphology(data[0], data[1])} onMouseLeave={() => removeToast()} onClick={() => showMorphology(data[0], data[1])} className="hover:cursor-pointer">{data[2]}</span>
                         ))}
+                        </span>
                       </p>
                     </>
                   )
@@ -414,7 +414,7 @@ export default function Index() {
               {parseVerse &&
                 data.map((verse) => (verse.t &&
                   <p id={`v${verse.c}_${verse.v}`}>
-                    <span className="hover:cursor-pointer" onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
+                    <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
                     {verse.t.split(' ').map((word) => (
                       word.match(/[GH][0-9]{1,4}/) ?
                         <a className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
