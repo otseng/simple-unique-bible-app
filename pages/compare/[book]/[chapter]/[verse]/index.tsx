@@ -128,7 +128,7 @@ export default function Index() {
                     ))
                     return (<p className={`${theme.bibleDivContainer}`} dir={dir}>{link} - {parsed}</p>)
                   } else {
-                    return (<p className={`${theme.bibleDivContainer}`} dir={dir}>{link} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
+                    return (<p className={`${theme.bibleDivContainer}`} dir={dir}>{link} - <span className={`${theme.bibleDivContainer}`} dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
                   }
                 }
               })

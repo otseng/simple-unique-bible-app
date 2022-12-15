@@ -31,6 +31,7 @@ export const langs = {
         Save_bookmarks: 'Save bookmarks',
         Share_bookmarks: 'Share bookmarks',
         Shared_bookmarks: 'Shared bookmarks',
+        Theme: 'Theme',
         Toggle_highlight: 'Toggle highlight',
         Version: 'Version',
     },
@@ -66,6 +67,7 @@ export const langs = {
         Save_bookmarks: '保存書籤',
         Share_bookmarks: '分享書籤',
         Shared_bookmarks: '共享書籤',
+        Theme: '主題',
         Toggle_highlight: '切換高亮',
         Version: '版本',
     },
@@ -101,6 +103,7 @@ export const langs = {
         Search: '搜索',
         Share_bookmarks: '分享书签',
         Shared_bookmarks: '共享书签',
+        Theme: '主题',
         Toggle_highlight: '切换高亮',
         Version: '版本',
     }

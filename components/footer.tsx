@@ -87,7 +87,7 @@ const Footer = () => {
             &nbsp;&bull;&nbsp;
             <span className="hover:cursor-pointer" onClick={displayLanguageMenu}>{lang.Language} ({getLang()})</span>
             &nbsp;&bull;&nbsp;
-            <span className="hover:cursor-pointer" onClick={displayThemeMenu}>Theme ({getTheme()})</span>
+            <span className="hover:cursor-pointer" onClick={displayThemeMenu}>{lang.Theme} ({getTheme()})</span>
           </div>
         </Container>
       </footer>
