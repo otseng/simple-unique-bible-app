@@ -124,7 +124,7 @@ export default function Index() {
                 }
                 {bookmarks.length > 0 &&
                   <>
-                    <div className="flex justify-center p-1 text-lg font-bold text-black">Share bookmarks</div>
+                    <div className="flex justify-center p-1 text-xl font-bold">{lang.Share_bookmarks}</div>
                     <div className="flex justify-center p-1">
                       <div style={{ height: "auto", margin: "0 auto", maxWidth: 300, width: "400" }}>
                         <QRCode
@@ -136,7 +136,7 @@ export default function Index() {
                       </div>
                     </div>
                     <div className="flex justify-center p-1">
-                      <button onClick={copyAll} className={`${theme.clickableButton}`}>Copy to clipboard</button>
+                      <button onClick={copyAll} className={`${theme.clickableButton}`}>{lang.Copy_to_clipboard}</button>
                     </div>
                     <div className="flex justify-center p-1">
                       <button onClick={deleteAll} className={`${theme.clickableButton}`}>{lang.Delete_All}</button>

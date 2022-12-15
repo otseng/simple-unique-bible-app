@@ -29,10 +29,6 @@ const Layout = ({ preview, children }: Props) => {
       </div>
       <div className="h-9"></div>
       <Footer />
-      <span className="font-serif font-sans bg-blue-800 bg-blue-700" />
-      <span className="text-purple-400" />
-      <span className="text-neutral-300" />
-      <span className="bg-blue-500" />
     </>
   )
 }

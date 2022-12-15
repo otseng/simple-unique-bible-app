@@ -155,7 +155,7 @@ export default function Index() {
               </Disclosure.Panel>
             </Disclosure>
 
-            <div className="text-container" dangerouslySetInnerHTML={{ __html: html }} />
+            <div className={`${theme.booksTextContainer}`} dangerouslySetInnerHTML={{ __html: html }} />
 
             {navigation.previous &&
               <Link href={"/book/" + title + '/' + navigation.previous}>

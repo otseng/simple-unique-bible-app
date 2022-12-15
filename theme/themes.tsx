@@ -13,6 +13,10 @@ export const themes = {
         bibleReferenceContainer: "hover:cursor-pointer",
         bibleTextContainer: "",
         textStrongs: "text-amber-700 hover:cursor-pointer align-super text-sm",
+
+        booksTextContainer: "",
+        devotionalTextContainer: "",
+        commentaryTextContainer: "",
     },
     "large": {
         backgroundColor: "rgb(245 245 245)",
@@ -28,6 +32,10 @@ export const themes = {
         bibleReferenceContainer: "hover:cursor-pointer",
         bibleTextContainer: "",
         textStrongs: "text-amber-700 hover:cursor-pointer align-super text-sm",
+
+        booksTextContainer: "text-lg",
+        devotionalTextContainer: "text-lg",
+        commentaryTextContainer: "text-lg",
     },
     "dark": {
         backgroundColor: "rgb(38 38 38)",
@@ -43,5 +51,9 @@ export const themes = {
         bibleReferenceContainer: "hover:cursor-pointer text-neutral-300",
         bibleTextContainer: "text-neutral-300",
         textStrongs: "text-amber-700 hover:cursor-pointer align-super text-sm",
+
+        booksTextContainer: "text-lg text-neutral-300",
+        devotionalTextContainer: "text-lg text-neutral-300",
+        commentaryTextContainer: "text-lg text-neutral-300",
     }
 }

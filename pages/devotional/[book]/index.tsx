@@ -57,9 +57,10 @@ export default function Index() {
                 <div className="text-2xl">{book}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
-                <span className="text-container" dangerouslySetInnerHTML={{ __html: dataContent }} />
               </Disclosure.Panel>
             </Disclosure>
+
+            <span className={`${theme.devotionalTextContainer}`} dangerouslySetInnerHTML={{ __html: dataContent }} />
 
           </Container>
         </Layout>
