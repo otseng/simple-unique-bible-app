@@ -105,7 +105,7 @@ export default function Index() {
 
             <div className="flex justify-center items-center">
               <Link href={"/bible/" + text + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>
-                <button className={`${theme.clickableButton}`}>Return to {book} {chapter}:{verse}</button>
+                <button className={`${theme.clickableButton}`}>{theme.Return_to} {book} {chapter}:{verse}</button>
               </Link>
             </div>
 

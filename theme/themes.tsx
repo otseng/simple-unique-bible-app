@@ -43,7 +43,7 @@ export const themes = {
     },
     "dark": {
         backgroundColor: "rgb(38 38 38)",
-        highlighColor: 'rgb(161 98 7)',
+        highlighColor: 'rgb(63 98 18)',
 
         footerStyle: "bg-neutral-800 border-t border-neutral-800",
 
@@ -56,7 +56,7 @@ export const themes = {
         bibleDivContainer: "text-xl font-serif",
         bibleReferenceContainer: "hover:cursor-pointer text-neutral-300",
         bibleTextContainer: "text-neutral-300",
-        textStrongs: "text-amber-700 hover:cursor-pointer align-super text-sm",
+        textStrongs: "text-amber-400 hover:cursor-pointer align-super text-sm",
 
         booksTextContainer: "text-lg text-neutral-300",
         devotionalTextContainer: "text-lg text-neutral-300",
