@@ -176,25 +176,27 @@ export function getCompareVerses(book, chapter, verse) {
     if (isPowerMode()) {
       address +=
         '&text=ESV&text=NASB&text=NIV&text=AMP&text=TLB&text=TPT&text=MSG'
-      console.log("compare:" + address)
+      console.log(address)
     }
-    address +=
+    address = address +
       '&text=ERV&text=ISV&text=ULT&text=UST&text=2001' +
       '&text=BBE&text=EasyEnglish&text=NHEB&text=PESH' +
       '&text=ASV&text=LEB' +
       '&text=YLT&text=Darby&txt=KJV1611&text=Geneva&text=Wesley&text=Bishops&text=Wycliffe'
-    address +=
+    console.log(address)
+    address = address +
       '&text=TRLIT&text=TRLITx' +
       '&text=KJVx&text=HKJVx' +
       '&text=ASVx&text=LEBx&text=WEBx&text=NETx'
     if (isPowerMode()) {
       address += '&text=NASBx'
     }
-    address +=
+    address = address +
       '&text=OHGB' +
       '&text=Tanakhxx&text=MOB' +
       '&text=Greek%2b&text=TRx' +
       '&text=CUV&text=Pinyin'
+    console.log(address)
   } else if (getLang().startsWith("zh")) {
     address +=
       '&text=CUV&text=CUVs&text=Pinyin' +
