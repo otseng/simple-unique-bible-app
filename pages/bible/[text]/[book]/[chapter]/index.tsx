@@ -135,7 +135,7 @@ export default function Index() {
   });
 
   function handleItemClick({ id, event, props, data, triggerEvent }) {
-    const targetId = triggerEvent?.srcElement?.id || ''
+    const targetId = triggerEvent?.srcElement?.id || event.target.id || ''
     const regex = /r(.*)_(.*)/
     const matches = regex.exec(targetId)
     const chapter = matches[1]
@@ -195,9 +195,11 @@ export default function Index() {
 
   function displayMenu(e) {
     removeToast()
-    show({
-      event: e,
-    })
+    if (e) {
+      show({
+        event: e,
+      })
+    }
   }
 
   function showLexicon(strongs) {
@@ -479,24 +481,13 @@ export default function Index() {
               <Item id="compare" onClick={handleItemClick}><span className="text-md">{lang.Compare}</span></Item>
               {!isMobile() && <Item id="discourse" onClick={handleItemClick}><span className="text-md">{lang.Discourse}</span></Item>}
               {!isMobile() && <Separator />}
-              {!isMobile() && <Submenu label={`${lang.Bibles}`}>
-                {biblesInPopup.map((bible) => {
-                  const bibleId = "bible-" + bible
-                  return <Item id={bibleId} onClick={handleItemClick}><span className="text-md">{bible}</span></Item>
-                })
-                }
-                {bookNum < 40 && <Item id="bible-Tanakhxx" onClick={handleItemClick}><span className="text-md">Tanakhxx</span></Item>}
-                {bookNum > 39 && <Item id="bible-Greek+" onClick={handleItemClick}><span className="text-md">Greek+</span></Item>}
-              </Submenu>}
-              {isMobile() && <>
-                {biblesInPopup.map((bible) => {
-                  const bibleId = "bible-" + bible
-                  return <Item id={bibleId} onClick={handleItemClick}><span className="text-md">{bible}</span></Item>
-                })
-                }
-                {bookNum < 40 && <Item id="bible-Tanakhxx" onClick={handleItemClick}><span className="text-md">Tanakhxx</span></Item>}
-                {bookNum > 39 && <Item id="bible-Greek+" onClick={handleItemClick}><span className="text-md">Greek+</span></Item>}
-              </>}
+              {biblesInPopup.map((bible) => {
+                const bibleId = "bible-" + bible
+                return <Item id={bibleId} onClick={handleItemClick}><span className="text-md">{bible}</span></Item>
+              })
+              }
+              {bookNum < 40 && <Item id="bible-Tanakhxx" onClick={handleItemClick}><span className="text-md">Tanakhxx</span></Item>}
+              {bookNum > 39 && <Item id="bible-Greek+" onClick={handleItemClick}><span className="text-md">Greek+</span></Item>}
             </Menu>
 
           </Container>
