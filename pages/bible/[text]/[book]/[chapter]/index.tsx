@@ -5,8 +5,8 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
-import { addBookmark, bookmarkExists, getBibleNumberFromName, getBibleTextDir, isMobile, preloadData, range } from '../../../../../lib/util'
-import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, _getCommentaryContent, _getInstantLex, _getLexicon, _getMorphology, _getSearchTool } from '../../../../../lib/api'
+import { addBookmark, bookmarkExists, getBibleNumberFromName, getBibleTextDir, isMobile, isPowerMode, preloadData, range } from '../../../../../lib/util'
+import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, _getCommentaryContent, _getDiscourse, _getInstantLex, _getLexicon, _getMorphology, _getSearchTool } from '../../../../../lib/api'
 import { useEffect, useRef, useState } from 'react'
 import { bibleChapters } from '../../../../../data/bibleChapters'
 import { Disclosure } from '@headlessui/react'
@@ -15,7 +15,8 @@ import {
   Menu,
   Item,
   Separator,
-  useContextMenu
+  useContextMenu,
+  Submenu
 } from "react-contexify"
 import "react-contexify/dist/ReactContexify.css"
 import { toast } from 'react-hot-toast'
@@ -30,8 +31,8 @@ export default function Index() {
 
   if (!globalThis.bibleBooks) preloadData()
 
-  const {lang, setLang} = useLang()
-  const {theme, setTheme} = useTheme()
+  const { lang, setLang } = useLang()
+  const { theme, setTheme } = useTheme()
 
   const router = useRouter()
   const text = router.query.text as string
@@ -62,13 +63,16 @@ export default function Index() {
   const menuTheme = (getTheme() == "dark" ? "dark" : "light")
 
   if (getLang() == "en") {
-    biblesInPopup = ['KJV', 'NET', 'WEB', 'TRLITx', 'KJVx', 'MOB', 'MIB']
+    biblesInPopup = ['KJV', 'NET', 'WEB']
+    if (!isMobile() && isPowerMode()) {
+      biblesInPopup.push.apply(biblesInPopup, ['2001', 'UST'])
+    }
+    biblesInPopup.push.apply(biblesInPopup, ['TRLITx', 'KJVx', 'MOB', 'MIB'])
   } else if (getLang().startsWith("zh")) {
     biblesInPopup = ['CUV', 'CUVs', 'KJV', 'KJVx', 'MOB', 'MIB']
   }
   if (!isMobile()) {
-    biblesInPopup.push('MPB')
-    biblesInPopup.push('MAB')
+    biblesInPopup.push.apply(biblesInPopup, ['MPB', 'MAB'])
   }
 
   useEffect(() => {
@@ -131,7 +135,6 @@ export default function Index() {
   });
 
   function handleItemClick({ id, event, props, data, triggerEvent }) {
-    // console.log(id, event, triggerEvent)
     const targetId = triggerEvent?.srcElement?.id || ''
     const regex = /r(.*)_(.*)/
     const matches = regex.exec(targetId)
@@ -174,6 +177,8 @@ export default function Index() {
       router.push(`/compare/${book}/${chapter}/${verse}?text=${text}`)
     } else if (id == 'xref') {
       router.push(`/xref/${book}/${chapter}/${verse}/${text}`)
+    } else if (id == 'discourse') {
+      showDiscourse(bookNum, chapter, verse)
     } else if (id == 'bookmark') {
       const url = `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
       if (bookmarkExists(url)) {
@@ -210,6 +215,16 @@ export default function Index() {
           setShowModal(true)
         })
       }
+    })
+  }
+
+  function showDiscourse(book, chapter, verse) {
+    setModalTitle('Discourse')
+    _getDiscourse(book, chapter, verse).then((resp) => {
+      removeToast()
+      let html = resp
+      setModalContent(html)
+      setShowModal(true)
     })
   }
 
@@ -348,7 +363,7 @@ export default function Index() {
                 ))}
               </Disclosure.Panel>
             </Disclosure>
-            
+
             <div dir={textDir} className={`${theme.bibleDivContainer}`}>
               {(mabBible || mibBible || mtbBible || mpbBible) &&
                 data.map((verse) => {
@@ -375,7 +390,6 @@ export default function Index() {
                   let words = text.matchAll(new RegExp("<" + type + ".*?</" + type + ">", "g"))
                   words = Array.from(words)
                   for (const word of words) {
-                    // console.log(word[0])
                     let portion = ''
                     let wordId = ''
                     let regex = new RegExp("searchWord[(](.*?),(.*?)[)]")
@@ -383,11 +397,9 @@ export default function Index() {
                     if (matches) {
                       portion = matches[1]
                       wordId = matches[2]
-                      // console.log(portion + ":" + wordId)
                     }
                     regex = new RegExp("<" + type + ".*?>(.*?)</" + type + ">")
                     matches = regex.exec(word[0])
-                    // console.log(matches[1])
                     let aword = matches[1].replace("<pm>", "").replace("</pm>", "")
                     if (type == 'grk') aword = aword + ' '
                     verseContent.push([portion, wordId, aword])
@@ -397,9 +409,9 @@ export default function Index() {
                       <p id={`v${verse.c}_${verse.v}`}>
                         <span id={`r${verse.c}_${verse.v}`} className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} onMouseEnter={() => removeToast()}>{verse.c}:{verse.v} - </span>
                         <span className={`${theme.bibleTextContainer}`}>
-                        {verseContent.map((data) => (
-                          <span onMouseEnter={() => instantMorphology(data[0], data[1])} onMouseLeave={() => removeToast()} onClick={() => showMorphology(data[0], data[1])} className="hover:cursor-pointer">{data[2]}</span>
-                        ))}
+                          {verseContent.map((data) => (
+                            <span onMouseEnter={() => instantMorphology(data[0], data[1])} onMouseLeave={() => removeToast()} onClick={() => showMorphology(data[0], data[1])} className="hover:cursor-pointer">{data[2]}</span>
+                          ))}
                         </span>
                       </p>
                     </>
@@ -462,16 +474,29 @@ export default function Index() {
               <Item id="highlight" onClick={handleItemClick}><span className="text-md">{lang.Toggle_highlight}</span></Item>
               <Item id="copyVerse" onClick={handleItemClick}><span className="text-md">{lang.Copy_verse}</span></Item>
               <Item id="copyLink" onClick={handleItemClick}><span className="text-md">{lang.Copy_link}</span></Item>
+              {!isMobile() && <Separator />}
               <Item id="xref" onClick={handleItemClick}><span className="text-md">{lang.Cross_references}</span></Item>
               <Item id="compare" onClick={handleItemClick}><span className="text-md">{lang.Compare}</span></Item>
-              <Separator />
-              {biblesInPopup.map((bible) => {
-                const bibleId = "bible-" + bible
-                return <Item id={bibleId} onClick={handleItemClick}><span className="text-md">{bible}</span></Item>
-              })
-              }
-              {bookNum < 40 && <Item id="bible-Tanakhxx" onClick={handleItemClick}><span className="text-md">Tanakhxx</span></Item>}
-              {bookNum > 39 && <Item id="bible-Greek+" onClick={handleItemClick}><span className="text-md">Greek+</span></Item>}
+              {!isMobile() && <Item id="discourse" onClick={handleItemClick}><span className="text-md">{lang.Discourse}</span></Item>}
+              {!isMobile() && <Separator />}
+              {!isMobile() && <Submenu label={`${lang.Bibles}`}>
+                {biblesInPopup.map((bible) => {
+                  const bibleId = "bible-" + bible
+                  return <Item id={bibleId} onClick={handleItemClick}><span className="text-md">{bible}</span></Item>
+                })
+                }
+                {bookNum < 40 && <Item id="bible-Tanakhxx" onClick={handleItemClick}><span className="text-md">Tanakhxx</span></Item>}
+                {bookNum > 39 && <Item id="bible-Greek+" onClick={handleItemClick}><span className="text-md">Greek+</span></Item>}
+              </Submenu>}
+              {isMobile() && <>
+                {biblesInPopup.map((bible) => {
+                  const bibleId = "bible-" + bible
+                  return <Item id={bibleId} onClick={handleItemClick}><span className="text-md">{bible}</span></Item>
+                })
+                }
+                {bookNum < 40 && <Item id="bible-Tanakhxx" onClick={handleItemClick}><span className="text-md">Tanakhxx</span></Item>}
+                {bookNum > 39 && <Item id="bible-Greek+" onClick={handleItemClick}><span className="text-md">Greek+</span></Item>}
+              </>}
             </Menu>
 
           </Container>

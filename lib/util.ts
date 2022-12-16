@@ -10,7 +10,6 @@ export async function preloadData() {
         try {
             importer = await import("../lang/bibleBooks_" + getLang())
         } catch (error) {
-            console.log("lang/bibleBooks_" + getLang() + " is not available")
             importer = await import("../lang/bibleBooks_en")
         }
 

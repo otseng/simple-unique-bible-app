@@ -24,7 +24,7 @@ export default function Index() {
   }
 
   function handleItemClick({ id, event, props, data, triggerEvent }) {
-    console.log(id, event, triggerEvent)
+    // console.log(id, event, triggerEvent)
   }
 
   const { show } = useContextMenu({

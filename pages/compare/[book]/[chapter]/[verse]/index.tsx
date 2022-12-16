@@ -43,7 +43,6 @@ export default function Index() {
   const { data: dataVerses, loading: loadingVerses, error: errorVerses } = getCompareVerses(bookNum, chapter, verse)
 
   async function getStaticProps({ params: {slug} }) {
-    console.log(`Building slug: ${slug}`)
   }
 
   function showLexicon(strongs) {

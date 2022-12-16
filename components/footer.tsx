@@ -52,7 +52,6 @@ const Footer = () => {
   function handleThemeItemClick({ id, event, props, data, triggerEvent }) {
     setLocalStorage("theme", id)
     setTheme(id)
-    console.log("setting theme to " + id)
   }
 
   function displayLanguageMenu(e) {

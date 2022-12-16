@@ -176,13 +176,11 @@ export function getCompareVerses(book, chapter, verse) {
       address +=
         '&text=ESV&text=NASB&text=NIV&text=AMP&text=TLB&text=TPT&text=MSG'
     }
-    console.log("compare:" + address)
     address +=
       '&text=ERV&text=ISV&text=ULT&text=UST&text=2001' +
       '&text=BBE&text=EasyEnglish&text=NHEB&text=PESH' +
       '&text=ASV&text=LEB' +
       '&text=YLT&text=Darby&txt=KJV1611&text=Geneva&text=Wesley&text=Bishops&text=Wycliffe'
-    console.log("compare:" + address)
     address +=
       '&text=TRLIT&text=TRLITx' +
       '&text=KJVx&text=HKJVx' +
@@ -190,7 +188,6 @@ export function getCompareVerses(book, chapter, verse) {
     if (isPowerMode()) {
       address += '&text=NASBx'
     }
-    console.log("compare: " + address)
     address +=
       '&text=OHGB' +
       '&text=Tanakhxx&text=MOB' +
@@ -312,6 +309,20 @@ export async function _getSearchTool(module, text) {
   return cacheSearchToolmETCBC.get(key)
 }
 
+let cacheDiscourse: Map<string, string> = new Map();
+
+export async function _getDiscourse(book, chapter, verse) {
+
+  const key = book + "_" + chapter + "_" + verse
+  if (!cacheDiscourse.has(key)) {
+    const address = API_SERVER + `/discourse/${book}/${chapter}/${verse}`
+    const res = await axios.get(address, { auth })
+    const data = await res.data.data
+    cacheDiscourse.set(key, data)
+  }
+  return cacheDiscourse.get(key)
+}
+
 function addLang() {
   let lang = getLocalStorage("lang")
   if (!lang) lang = "en"
@@ -328,4 +339,5 @@ export function clearCache() {
   cacheCommentaryContent = new Map()
   cacheMorphology = new Map()
   cacheSearchToolmETCBC = new Map()
+  cacheDiscourse = new Map()
 }

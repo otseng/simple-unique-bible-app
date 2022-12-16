@@ -22,7 +22,6 @@ export default function Index() {
 
   const router = useRouter()
   const bm = router.query.bm
-  console.log(bm)
   let bookmarks = []
 
   if (typeof bm === 'undefined') {

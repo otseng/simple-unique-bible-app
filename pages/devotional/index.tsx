@@ -23,7 +23,6 @@ export default function Index() {
   if (loading) return
 
   if (data) {
-    console.log(data)
     return (
       <>
         <Layout>

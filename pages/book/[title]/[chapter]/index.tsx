@@ -176,10 +176,8 @@ export default function Index() {
 function getNavigation(dataChapters, chapter) {
   let previous = ''
   let next = ''
-  console.log(chapter)
   for (let i = 0; i < dataChapters.length; i++) {
     if (dataChapters[i] == chapter) {
-      console.log(dataChapters[i])
       if (i > 0) {
         previous = dataChapters[i - 1]
       }
