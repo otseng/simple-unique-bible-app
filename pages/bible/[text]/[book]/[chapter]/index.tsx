@@ -64,15 +64,15 @@ export default function Index() {
 
   if (getLang() == "en") {
     biblesInPopup = ['KJV', 'NET', 'WEB']
-    if (!isMobile() && isPowerMode()) {
-      biblesInPopup.push.apply(biblesInPopup, ['2001', 'UST'])
-    }
+    // if (!isMobile() && isPowerMode()) {
+    //   biblesInPopup.push.apply(biblesInPopup, ['2001', 'UST'])
+    // }
     biblesInPopup.push.apply(biblesInPopup, ['TRLITx', 'KJVx', 'MOB', 'MIB'])
   } else if (getLang().startsWith("zh")) {
     biblesInPopup = ['CUV', 'CUVs', 'KJV', 'KJVx', 'MOB', 'MIB']
   }
   if (!isMobile()) {
-    biblesInPopup.push.apply(biblesInPopup, ['MPB', 'MAB'])
+    biblesInPopup.push.apply(biblesInPopup, ['MAB'])
   }
 
   useEffect(() => {
@@ -476,7 +476,6 @@ export default function Index() {
               <Item id="highlight" onClick={handleItemClick}><span className="text-md">{lang.Toggle_highlight}</span></Item>
               <Item id="copyVerse" onClick={handleItemClick}><span className="text-md">{lang.Copy_verse}</span></Item>
               <Item id="copyLink" onClick={handleItemClick}><span className="text-md">{lang.Copy_link}</span></Item>
-              {!isMobile() && <Separator />}
               <Item id="xref" onClick={handleItemClick}><span className="text-md">{lang.Cross_references}</span></Item>
               <Item id="compare" onClick={handleItemClick}><span className="text-md">{lang.Compare}</span></Item>
               {!isMobile() && <Item id="discourse" onClick={handleItemClick}><span className="text-md">{lang.Discourse}</span></Item>}
