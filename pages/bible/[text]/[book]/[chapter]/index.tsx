@@ -153,7 +153,7 @@ export default function Index() {
       toast(lang.Copied_to_clipboard)
     } else if (id == 'highlight') {
       const element = document.getElementById("v" + chapter + "_" + verse)
-      if (element.style.backgroundColor !== theme.highlighColor) {
+      if (element.style.backgroundColor == '') {
         for (const x of Array(150).keys()) {
           const searchElement = "v" + chapter + "_" + (x + 1)
           const element = document.getElementById(searchElement)
