@@ -147,7 +147,7 @@ export default function Index() {
       toast(lang.Copied_to_clipboard)
     } else if (id == 'copyVerse') {
       const verseTextElement = document.getElementById("t" + chapter + "_" + verse)
-      let contents = book + " " + chapter + ":" + verse + "\n"
+      let contents = book + " " + chapter + ":" + verse + " (" + text + ")\n"
       contents += verseTextElement.innerText + "\n\n"
       let url = window.location.protocol + '//' + window.location.host + `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
       url = url.replaceAll(" ", "+")
