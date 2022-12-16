@@ -22,6 +22,7 @@ import { toast } from 'react-hot-toast'
 import { useLang } from '../../../../../lang/langContext'
 import { getLang } from '../../../../../lang/langUtil'
 import { useTheme } from '../../../../../theme/themeContext'
+import { getTheme } from '../../../../../theme/themeUtil'
 
 const BIBLE_VERSE_POPUP_MENU = "bible-verse-popup-menu"
 
@@ -58,6 +59,8 @@ export default function Index() {
 
   let biblesInPopup = []
 
+  const menuTheme = (getTheme() == "dark" ? "dark" : "light")
+
   if (getLang() == "en") {
     biblesInPopup = ['KJV', 'NET', 'WEB', 'TRLITx', 'KJVx', 'MOB', 'MIB']
   } else if (getLang().startsWith("zh")) {
@@ -80,7 +83,7 @@ export default function Index() {
       const id = hash.replace('#', '')
       const element = document.getElementById(id)
       if (element) {
-        element.style.backgroundColor = 'lightgoldenrodyellow'
+        element.style.backgroundColor = theme.highlighColor
         window.scrollTo({
           behavior: 'smooth',
           top:
@@ -150,7 +153,7 @@ export default function Index() {
       toast(lang.Copied_to_clipboard)
     } else if (id == 'highlight') {
       const element = document.getElementById("v" + chapter + "_" + verse)
-      if (element.style.backgroundColor !== 'lightgoldenrodyellow') {
+      if (element.style.backgroundColor !== theme.highlighColor) {
         for (const x of Array(150).keys()) {
           const searchElement = "v" + chapter + "_" + (x + 1)
           const element = document.getElementById(searchElement)
@@ -454,7 +457,7 @@ export default function Index() {
 
             <BasicModal show={showModal} setter={setShowModal} title={modalTitle} content={modalContent}></BasicModal>
 
-            <Menu id={BIBLE_VERSE_POPUP_MENU}>
+            <Menu id={BIBLE_VERSE_POPUP_MENU} theme={menuTheme}>
               <Item id="bookmark" onClick={handleItemClick}><span className="text-md">{lang.Add_bookmark}</span></Item>
               <Item id="highlight" onClick={handleItemClick}><span className="text-md">{lang.Toggle_highlight}</span></Item>
               <Item id="copyVerse" onClick={handleItemClick}><span className="text-md">{lang.Copy_verse}</span></Item>

@@ -1,6 +1,8 @@
 export const themes = {
     "default": {
         backgroundColor: "rgb(245 245 245)",
+        highlighColor: 'rgb(254 240 138)',
+
         footerStyle: "bg-neutral-100 border-t border-neutral-200",
 
         homeDisclosure: "flex w-full justify-between rounded-lg bg-purple-100 px-4 py-2 text-left text-sm font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75 mb-2",
@@ -20,6 +22,8 @@ export const themes = {
     },
     "large": {
         backgroundColor: "rgb(245 245 245)",
+        highlighColor: 'rgb(254 240 138)',
+
         footerStyle: "bg-neutral-100 border-t border-neutral-200",
 
         homeDisclosure: "flex w-full justify-between rounded-lg bg-purple-100 px-4 py-2 text-left text-sm font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75 mb-2",
@@ -39,6 +43,8 @@ export const themes = {
     },
     "dark": {
         backgroundColor: "rgb(38 38 38)",
+        highlighColor: 'rgb(161 98 7)',
+
         footerStyle: "bg-neutral-800 border-t border-neutral-800",
 
         homeDisclosure: "flex w-full justify-between rounded-lg bg-blue-800 hover:bg-blue-700 px-4 py-2 text-left text-sm font-medium text-purple-400 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75 mb-2",

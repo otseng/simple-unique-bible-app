@@ -30,6 +30,7 @@ module.exports = {
     'py-2',
     'rounded-lg',
     'rounded',
+    'text-amber-200',
     'text-amber-700',
     'text-left',
     'text-neutral-300',
@@ -42,7 +43,7 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      'serif': ['ui-serif', 'Georgia', 'Times', 'Times New Roman', 'Cambria'],
+      'serif': ['Georgia', 'Times', 'Times New Roman', 'Cambria', 'ui-serif'],
     },
     extend: {
       colors: {
