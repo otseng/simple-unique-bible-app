@@ -170,11 +170,13 @@ export function getDevotionalContent(book, month, day) {
 export function getCompareVerses(book, chapter, verse) {
 
   let address = API_SERVER + `/compare/${book}/${chapter}/${verse}?` + addLang()
+  console.log(address)
   if (getLang() == "en") {
     address += '&text=KJV&text=WEB&text=NET'
     if (isPowerMode()) {
       address +=
         '&text=ESV&text=NASB&text=NIV&text=AMP&text=TLB&text=TPT&text=MSG'
+      console.log("compare:" + address)
     }
     address +=
       '&text=ERV&text=ISV&text=ULT&text=UST&text=2001' +
