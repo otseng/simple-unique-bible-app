@@ -119,16 +119,16 @@ export default function Index() {
                 const text = data[0]
                 const dir = getBibleTextDir(text, bookNum)
                 if (verseStr) {
-                  const link = <Link href={"/bible/" + data[0] + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>({data[0]}) {data[1][1]}:{data[1][2]}</Link>
+                  const link = <Link className={`${theme.bibleReferenceContainer}`} href={"/bible/" + data[0] + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>({data[0]}) {data[1][1]}:{data[1][2]}</Link>
                   if (text.endsWith('+') || text.endsWith('x')) {
                     const parsed = verseStr.split(' ').map((word) => (
                       word.match(/[GH][0-9]{1,4}/) ?
                         <sup><a className={`${theme.textStrongs}`} onClick={() => showLexicon(word)}>{word} </a></sup>
-                        : <span dangerouslySetInnerHTML={{ __html: word + " " }} />
+                        : <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
                     ))
                     return (<p className={`${theme.bibleDivContainer}`} dir={dir}>{link} - {parsed}</p>)
                   } else {
-                    return (<p className={`${theme.bibleDivContainer}`} dir={dir}>{link} - <span className={`${theme.bibleDivContainer}`} dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
+                    return (<p className={`${theme.bibleDivContainer}`} dir={dir}>{link} - <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
                   }
                 }
               })
