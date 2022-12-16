@@ -168,7 +168,7 @@ export default function Index() {
           if (!element) break;
           element.style.backgroundColor = ''
         }
-        router.push(`/bible/${text}/${book}/${chapter}#`)
+        // router.push(`/bible/${text}/${book}/${chapter}#`)
       }
     } else if (id == 'compare') {
       router.push(`/compare/${book}/${chapter}/${verse}?text=${text}`)
