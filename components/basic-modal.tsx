@@ -49,7 +49,7 @@ export default function BasicModal(props) {
                     </div>
                   </div>
                 </div>
-                <div className={theme.backgroundStyle + " px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6"}>
+                <div className={theme.backgroundStyle + " flex justify-center items-center mt-2 mb-5"}>
                   <button
                     type="button"
                     className={theme.clickableButton}
