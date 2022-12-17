@@ -143,7 +143,8 @@ export default function Index() {
     if (id == 'copyLink') {
       let url = window.location.protocol + '//' + window.location.host + `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
       url = url.replaceAll(" ", "+")
-      navigator.clipboard.writeText(url)
+      let contents = url + "\n"
+      navigator.clipboard.writeText(contents)
       toast(lang.Copied_to_clipboard)
     } else if (id == 'copyVerse') {
       const verseTextElement = document.getElementById("t" + chapter + "_" + verse)
@@ -151,7 +152,7 @@ export default function Index() {
       contents += verseTextElement.innerText + "\n\n"
       let url = window.location.protocol + '//' + window.location.host + `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
       url = url.replaceAll(" ", "+")
-      contents += url
+      contents += url + "\n"
       navigator.clipboard.writeText(contents)
       toast(lang.Copied_to_clipboard)
     } else if (id == 'highlight') {

@@ -47,10 +47,10 @@ export default function Index() {
                 <div className="m-10">
 
                   <Link href={"/search?text=" + `${text}`}>
-                    <button className={`${theme.clickableButton}`}>Back to search</button>
+                    <button className={`${theme.clickableButton}`}>{lang.Back_to_search}</button>
                   </Link>
 
-                  <p className="font-bold">Search "{searchText}" in {text} - {dataVerses.length} verses found</p>
+                  <p className="font-bold text-lg">"{searchText}" ({text}) - {dataVerses.length} {lang.verses_found}</p>
 
                   {dataVerses.map((data) => {
                     const bookNum = data[0]
@@ -62,7 +62,7 @@ export default function Index() {
                     if (verseStr) {
                       const link = <Link href={"/bible/" + text + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>{book} {chapter}:{verse}</Link>
                       verseStr = highlight(verseStr, searchText)
-                      return (<p className="mt-2 color-black" dir={dir}>{link} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
+                      return (<p className={`${theme.bibleDivContainer}`} dir={dir}>{link} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
                     }
                   })
                   }

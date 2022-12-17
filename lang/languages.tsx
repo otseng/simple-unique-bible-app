@@ -2,6 +2,7 @@ export const langs = {
     "en": {
         About: 'About',
         Add_bookmark: 'Add bookmark',
+        Back_to_search: 'Back to search',
         Bibles: 'Bibles',
         Bible: 'Bible',
         Bookmarks: 'Bookmarks',
@@ -34,11 +35,13 @@ export const langs = {
         Shared_bookmarks: 'Shared bookmarks',
         Theme: 'Theme',
         Toggle_highlight: 'Toggle highlight',
+        verses_found: 'verses found',
         Version: 'Version',
     },
     "zh_HANT": {
         About: '關於',
         Add_bookmark: '添加書籤',
+        Back_to_search: '返回搜索',
         Bibles: '聖經',
         Bible: '聖經',
         Bookmarks: '書籤',
@@ -71,11 +74,13 @@ export const langs = {
         Shared_bookmarks: '共享書籤',
         Theme: '主題',
         Toggle_highlight: '切換高亮',
+        verses_found: '經文找到',
         Version: '版本',
     },
     "zh_HANS": {
         About: '关于',
         Add_bookmark: '添加书签',
+        Back_to_search: '返回搜索',
         Bibles: '圣经',
         Bible: '圣经',
         Bookmarks: '书签',
@@ -108,6 +113,7 @@ export const langs = {
         Shared_bookmarks: '共享书签',
         Theme: '主题',
         Toggle_highlight: '切换高亮',
+        verses_found: '经文找到',
         Version: '版本',
     }
 
