@@ -4,7 +4,7 @@
 
 .back-to-top {
     position: fixed;
-    bottom: 20px;
+    bottom: 40px;
     right: 20px;
     font-size: 50px;
     color: rgb(30, 45, 255);
@@ -149,7 +149,7 @@ wgloss {
     direction: ltr;
     display: inline-block;
     font-size: 90%;
-    color: #D35400;
+    color: #fc6500;
 }
 
 wtrans {
