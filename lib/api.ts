@@ -360,5 +360,4 @@ export function clearCache() {
   cacheMorphology = new Map()
   cacheSearchToolmETCBC = new Map()
   cacheDiscourse = new Map()
-  cacheBook2Number = new Map()
 }
