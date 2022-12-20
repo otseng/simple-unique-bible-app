@@ -21,6 +21,9 @@ export const themes = {
         booksTextContainer: "",
         devotionalTextContainer: "",
         commentaryTextContainer: "",
+
+        searchInput: "w-1/2 p-2 border-blue-300 border-2 border-solid",
+        searchDropdown: "",
     },
     "large": {
         backgroundColor: "rgb(245 245 245)",
@@ -44,6 +47,9 @@ export const themes = {
         booksTextContainer: "text-lg",
         devotionalTextContainer: "text-lg",
         commentaryTextContainer: "text-lg",
+
+        searchInput: "w-1/2 p-2 border-blue-300 border-2 border-solid",
+        searchDropdown: "",
     },
     "dark": {
         backgroundColor: "rgb(38 38 38)",
@@ -67,5 +73,8 @@ export const themes = {
         booksTextContainer: "text-lg text-neutral-300",
         devotionalTextContainer: "text-lg text-neutral-300",
         commentaryTextContainer: "text-lg text-neutral-300",
+
+        searchInput: "w-1/2 p-2 border-blue-300 border-2 border-solid bg-neutral-800",
+        searchDropdown: "bg-neutral-800 text-neutral-300",
     }
 }

@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { APP_NAME } from '../../../../lib/constants';
 import { Disclosure } from '@headlessui/react';
 import { useRouter } from 'next/router';
-import { searchBible } from '../../../../lib/api';
+import { searchBible, getBook2Number } from '../../../../lib/api';
 import Link from 'next/link';
 import { getBibleTextDir, preloadData } from '../../../../lib/util';
 import { Spinner } from 'react-bootstrap';

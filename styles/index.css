@@ -135,7 +135,7 @@ wordid {
 wsbl, wphono {
     direction: ltr;
     display: inline-block;
-    color: gray;
+    color: rgb(205, 97, 97);
     font-size: 80%;
 }
 

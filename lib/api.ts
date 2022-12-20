@@ -242,6 +242,21 @@ export function searchBible(searchText, text) {
   }
 }
 
+
+export function getBook2Number() {
+
+  const address = API_SERVER + `/data/bible/book2number`
+  const fetcher = async (url) => await axios.get(url, { auth }).then((res) => res.data.data)
+  const { data, error } = useSWR(address, fetcher)
+
+  return {
+    data: data,
+    loading: !error && !data,
+    error: error
+  }
+}
+
+
 let cacheLexicon: Map<string, string> = new Map();
 
 export async function _getLexicon(lexicon, strongs) {
@@ -345,4 +360,5 @@ export function clearCache() {
   cacheMorphology = new Map()
   cacheSearchToolmETCBC = new Map()
   cacheDiscourse = new Map()
+  cacheBook2Number = new Map()
 }

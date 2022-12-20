@@ -1,20 +1,22 @@
 import { Disclosure } from '@headlessui/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Container from '../../components/container';
 import Intro from '../../components/intro';
 import Layout from '../../components/layout';
-import { getBibles } from '../../lib/api';
+import { getBibles, getBook2Number } from '../../lib/api';
 import { APP_NAME } from '../../lib/constants';
 import Select from 'react-select'
 import Input from 'rc-input';
 import { useLang } from '../../lang/langContext';
-import { setLocalStorage } from '../../lib/util';
+import { preloadData, setLocalStorage } from '../../lib/util';
 import toast from 'react-hot-toast';
 import { useTheme } from '../../theme/themeContext';
 
 export default function Index() {
+
+  if (!globalThis.bibleBooks || !globalThis.bookNames) preloadData()
 
   const { lang, setLang } = useLang()
   const {theme, setTheme} = useTheme()
@@ -23,9 +25,12 @@ export default function Index() {
   let text = router.query.text as string
   if (!text) text = "KJV"
 
-  const [searchText, setSearchText] = useState('');
-  const [selectedBible, setSelectedBible] = useState(text);
+  const [searchText, setSearchText] = useState('')
+  const [selectedBible, setSelectedBible] = useState(text)
+  let books2Number = new Map()
+  
   const { data, loading, error } = getBibles()
+  const { data: book2NumberData, loading: book2NumberLoading, error: book2NumberError } = getBook2Number()
 
   useEffect(() => {
     const element = document.getElementById('search-text')
@@ -38,11 +43,40 @@ export default function Index() {
     setSearchText("")
     if (searchText.startsWith(".")) {
       processCommand(searchText.substring(1))
+    } else if (checkReference()) {
     } else {
       searchBible()
     }
   }
 
+  function checkReference() {
+    if (searchText.includes(":") && searchText.includes(" ")) {
+      const parse1 = searchText.split(" ")
+      let book = parse1[0]
+      const parse2 = parse1[1].split(":")
+      const chapter = parse2[0]
+      const verse = parse2[1]
+      let foundBook = ""
+      if (books2Number.has(book)) {
+        foundBook = books2Number.get(book)
+      }
+      if (foundBook == "") {
+        book = book + "."
+        if (books2Number.has(book)) {
+          foundBook = books2Number.get(book)
+        } 
+      }
+      if (foundBook == "") {
+        return false
+      }
+      const bookName = globalThis.bibleNumberToName[parseInt(foundBook)]
+      const url = `/bible/${selectedBible}/${bookName}/${chapter}#v${chapter}_${verse}`
+      router.push(url)
+      return true
+    }
+    return false
+  }
+  
   function searchBible() {
     const url = `/search/bible/${searchText}?text=${selectedBible}`
     router.push(url)
@@ -68,11 +102,20 @@ export default function Index() {
   if (error) return <div>Failed to load</div>
   if (loading) return
 
-  if (data) {
+  if (data && book2NumberData) {
 
     const bibleOptions = data.map((bible) => (
       { value: bible, label: bible }
     ))
+
+    if (books2Number.size == 0) {
+      for (const rec of book2NumberData) {
+        let book = rec['b']
+        books2Number.set(book, rec['n'])
+        book = book.toLowerCase()
+        books2Number.set(book, rec['n'])
+      }
+    }
 
     return (
       <>
@@ -98,7 +141,7 @@ export default function Index() {
                     />
                   </div>
                   <div className="flex justify-center items-center">
-                    <Input id="search-text" className="w-1/2 p-2 border-blue-300 border-2 border-solid"
+                    <Input id="search-text" className={`${theme.searchInput}`}
                       type="text" value={searchText}
                       onChange={searchTextChange} onKeyPress={searchTextKeyPress} />
                   </div>
