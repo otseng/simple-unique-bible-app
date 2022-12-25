@@ -19,17 +19,17 @@ export default function Index() {
   if (!globalThis.bibleBooks || !globalThis.bookNames) preloadData()
 
   const { lang, setLang } = useLang()
-  const {theme, setTheme} = useTheme()
+  const { theme, setTheme } = useTheme()
 
   const router = useRouter()
   let text = router.query.text as string
   if (!text) text = "KJV"
   let search = router.query.q as string
 
-  const [searchText, setSearchText] = useState()
-  const [selectedBible, setSelectedBible] = useState()
+  const [searchText, setSearchText] = useState('')
+  const [selectedBible, setSelectedBible] = useState('')
   let books2Number = new Map()
-  
+
   const { data, loading, error } = getBibles()
   const { data: book2NumberData, loading: book2NumberLoading, error: book2NumberError } = getBook2Number()
 
@@ -40,11 +40,11 @@ export default function Index() {
     }
   });
 
-  useEffect(()=>{
-    if(!router.isReady) return;
+  useEffect(() => {
+    if (!router.isReady) return;
     setSearchText(search)
     setSelectedBible(text)
-}, [router.isReady]);
+  }, [router.isReady]);
 
   function enterCommand() {
     setSearchText("")
@@ -71,7 +71,7 @@ export default function Index() {
         book = book + "."
         if (books2Number.has(book)) {
           foundBook = books2Number.get(book)
-        } 
+        }
       }
       if (foundBook == "") {
         return false
@@ -83,7 +83,7 @@ export default function Index() {
     }
     return false
   }
-  
+
   function searchBible() {
     const url = `/search/bible/${searchText}?text=${selectedBible}`
     router.push(url)
@@ -175,7 +175,7 @@ function processCommand(text: string) {
       if (cmd.length > 1) {
         if (cmd[1] == "on") enablePowerMode()
         if (cmd[1] == "off") disablePowerMode()
-      } 
+      }
       break;
   }
 }
