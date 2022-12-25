@@ -149,7 +149,7 @@ export default function Index() {
     } else if (id == 'copyVerse') {
       const verseTextElement = document.getElementById("t" + chapter + "_" + verse)
       let contents = book + " " + chapter + ":" + verse + " (" + text + ")\n"
-      contents += verseTextElement.innerText + "\n\n"
+      contents += verseTextElement.innerText + "\n"
       let url = window.location.protocol + '//' + window.location.host + `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
       url = url.replaceAll(" ", "+")
       contents += url + "\n"

@@ -24,9 +24,10 @@ export default function Index() {
   const router = useRouter()
   let text = router.query.text as string
   if (!text) text = "KJV"
+  let search = router.query.q as string
 
-  const [searchText, setSearchText] = useState('')
-  const [selectedBible, setSelectedBible] = useState(text)
+  const [searchText, setSearchText] = useState()
+  const [selectedBible, setSelectedBible] = useState()
   let books2Number = new Map()
   
   const { data, loading, error } = getBibles()
@@ -38,6 +39,12 @@ export default function Index() {
       element.focus()
     }
   });
+
+  useEffect(()=>{
+    if(!router.isReady) return;
+    setSearchText(search)
+    setSelectedBible(text)
+}, [router.isReady]);
 
   function enterCommand() {
     setSearchText("")

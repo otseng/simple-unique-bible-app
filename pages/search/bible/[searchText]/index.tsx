@@ -40,13 +40,13 @@ export default function Index() {
 
             <Disclosure defaultOpen>
               <Disclosure.Button className={`${theme.homeDisclosure}`}>
-                <div className="text-2xl">Bible search results</div>
+                <div className="text-2xl">{lang.Search_results}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
 
                 <div className="m-10">
 
-                  <Link href={"/search?text=" + `${text}`}>
+                  <Link href={`/search?text=${text}&q=${searchText}`}>
                     <button className={`${theme.clickableButton}`}>{lang.Back_to_search}</button>
                   </Link>
 

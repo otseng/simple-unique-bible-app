@@ -5,7 +5,7 @@ module.exports = {
     version: process.env.npm_package_version
   },
   webpack(config) {
-    config.infrastructureLogging = { debug: /PackFileCache/ }
+    // config.infrastructureLogging = { debug: /PackFileCache/ }
     return config;
   },
 };
