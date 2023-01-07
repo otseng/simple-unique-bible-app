@@ -62,7 +62,7 @@ export default function Index() {
                     if (verseStr) {
                       const link = <Link className={`${theme.bibleReferenceContainer}`} href={"/bible/" + text + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>{book} {chapter}:{verse}</Link>
                       verseStr = highlight(verseStr, searchText)
-                      return (<p className={`${theme.bibleDivContainer}`} dir={dir}>{link} - <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
+                      return (<p className={`${theme.bibleDivContainer}` + " mt-2"} dir={dir}>{link} - <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
                     }
                   })
                   }
