@@ -50,7 +50,7 @@ export default function Index() {
                     <button className={`${theme.clickableButton}`}>{lang.Back_to_search}</button>
                   </Link>
 
-                  <p className="font-bold text-lg">"{searchText}" ({text}) - {dataVerses.length} {lang.verses_found}</p>
+                  <p className={`${theme.bibleTextContainer}` + " font-bold text-xl"}>"{searchText}" ({text}) - {dataVerses.length} {lang.verses_found}</p>
 
                   {dataVerses.map((data) => {
                     const bookNum = data[0]
@@ -60,9 +60,9 @@ export default function Index() {
                     let verseStr = data[3]
                     const dir = getBibleTextDir(text, bookNum)
                     if (verseStr) {
-                      const link = <Link href={"/bible/" + text + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>{book} {chapter}:{verse}</Link>
+                      const link = <Link className={`${theme.bibleReferenceContainer}`} href={"/bible/" + text + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>{book} {chapter}:{verse}</Link>
                       verseStr = highlight(verseStr, searchText)
-                      return (<p className={`${theme.bibleDivContainer}`} dir={dir}>{link} - <span className="text-container" dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
+                      return (<p className={`${theme.bibleDivContainer}`} dir={dir}>{link} - <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
                     }
                   })
                   }
