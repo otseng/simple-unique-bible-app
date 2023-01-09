@@ -43,7 +43,7 @@ export default function Index() {
             <Disclosure.Panel className="text-gray-500">
               <div>
               {dataBooks.map((title) => (
-              <Link href={"/book/" + title}>
+              <Link href={"/book/" + title.replaceAll('?', '&quest;')}>
                 <button className={`${theme.clickableButton}`}>
                   {title.replaceAll('_', ' ')}</button>
               </Link>

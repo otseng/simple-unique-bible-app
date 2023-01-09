@@ -21,7 +21,7 @@ export default function Index() {
 
   const router = useRouter()
   const title = router.query.title as string
-  const chapter = router.query.chapter as string
+  let chapter = router.query.chapter as string
 
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState('');
@@ -86,7 +86,7 @@ export default function Index() {
 
   if (data && dataBooks && dataChapters) {
 
-    const navigation = getNavigation(dataChapters, chapter)
+    const navigation = getNavigation(dataChapters, chapter.replaceAll("&quest;", "?"))
 
     let html = data
     if (title.includes('Hymn Lyrics')) {
@@ -129,7 +129,7 @@ export default function Index() {
                 </div>
                 <div>
                   {dataChapters.map((chapter) => (
-                    <Link id={chapter} href={"/book/" + title + '/' + chapter.replaceAll("/", "_")}>
+                    <Link id={chapter} href={"/book/" + title + '/' + chapter.replaceAll("/", "_").replaceAll("?", "&quest;")}>
                       <button className={`${theme.clickableButton}`}>{chapter.replaceAll("/", "_")}</button>
                     </Link>
                   ))}
@@ -139,17 +139,17 @@ export default function Index() {
 
             <Disclosure>
               <Disclosure.Button className={`${theme.chapterDisclosure}`}>
-                <div>{chapter}</div>
+                <div>{chapter.replaceAll("&quest;", "?")}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 {navigation.previous &&
-                  <Link href={"/book/" + title + '/' + navigation.previous}>
+                  <Link href={"/book/" + title + '/' + navigation.previous.replaceAll("?", "&quest;")}>
                     <button className={`${theme.clickableButton}`}>{navigation.previous}</button>
                   </Link>}
                 {!bookmarkExist && <button onClick={addChapterBookmark} className={`${theme.clickableButton}`}>{lang.Add_bookmark}</button>}
                 {bookmarkExist && <button onClick={deleteChapterBookmark} className={`${theme.clickableButton}`}>{lang.Delete_bookmark}</button>}
                 {navigation.next &&
-                  <Link href={"/book/" + title + '/' + navigation.next}>
+                  <Link href={"/book/" + title + '/' + navigation.next.replaceAll("?", "&quest;")}>
                     <button className={`${theme.clickableButton}`}>{navigation.next}</button>
                   </Link>}
               </Disclosure.Panel>

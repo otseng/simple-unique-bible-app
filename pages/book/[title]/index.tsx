@@ -93,7 +93,7 @@ export default function Index() {
 
             <div>
               {dataChapters.map((chapter) => (
-                <Link id={chapter} href={"/book/" + title + '/' + chapter.replaceAll("/", "_")}>
+                <Link id={chapter} href={"/book/" + title + '/' + chapter.replaceAll("/", "_").replaceAll("?", "&quest;")}>
                   <button className={`${theme.clickableButton}`}>{chapter.replaceAll("/", "_")}</button>
                 </Link>
               ))}
