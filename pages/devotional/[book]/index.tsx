@@ -18,7 +18,7 @@ export default function Index() {
   const router = useRouter()
   const book = router.query.book
   const date = new Date();
-  const month = date.getMonth()
+  const month = date.getMonth() + 1
   const day = date.getDate()
 
   const { data: dataDevotionals, loading: loadingDevotionals, error: errorDevotionals } = getDevotionals()
