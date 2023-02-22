@@ -48,7 +48,7 @@ export default function Index() {
               />
             </div>
 
-            <p className="text-xl font-bold mt-10 mb-3">More UBA viewers</p>
+            <p className="text-xl font-bold mt-10 mb-3">UBA viewers</p>
             <ul>
               <li><a href="https://transliteralbible.com/index.html?cmd=.bible">
                 <button className={`${theme.clickableButton}`}>TransliteralBible.com</button></a></li>
@@ -56,6 +56,18 @@ export default function Index() {
                 <button className={`${theme.clickableButton}`}>GospelChurch.uk</button></a></li>
               <li><a href="https://marvelbible.com">
                 <button className={`${theme.clickableButton}`}>MarvelBible.com</button></a></li>
+            </ul>
+
+            <p className="text-xl font-bold mt-10 mb-3">Unique Bible App</p>
+            <ul>
+              <li><a href="https://github.com/eliranwong/UniqueBible">
+                <button className={`${theme.clickableButton}`}>Github</button></a></li>
+            </ul>
+
+            <p className="text-xl font-bold mt-10 mb-3">Development</p>
+            <ul>
+              <li><a href="https://ecodia.com">
+                <button className={`${theme.clickableButton}`}>Ecodia</button></a></li>
             </ul>
 
           </div>
