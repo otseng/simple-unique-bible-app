@@ -487,7 +487,7 @@ export default function Index() {
               })
               }
               {bookNum < 40 && <Item id="bible-Tanakhxx" onClick={handleItemClick}><span className="text-md">Tanakhxx</span></Item>}
-              {bookNum > 39 && <Item id="bible-Greek+" onClick={handleItemClick}><span className="text-md">Greek+</span></Item>}
+              <Item id="bible-Greek+" onClick={handleItemClick}><span className="text-md">Greek+</span></Item>
             </Menu>
 
           </Container>
