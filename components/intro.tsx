@@ -3,11 +3,13 @@ import Link from 'next/link'
 import { useLang } from '../lang/langContext'
 import { getLang, showDevotions } from '../lang/langUtil'
 import { isDev } from '../lib/util'
+import { useTheme } from '../theme/themeContext'
 
 
 const Intro = (props) => {
 
   const {lang, setLang} = useLang()
+  const {theme, setTheme} = useTheme()
 
   let menuItems = [
     [lang.Home, '/'],
@@ -24,10 +26,10 @@ const Intro = (props) => {
   menuItems.push([lang.About, '/about'])
   
   return (
-  <section className="flex-row flex items-center justify-between mt-10 mb-10 sticky top-0 z-50 bg-blue-300 rounded">
+  <section className={theme.fixedHeader + " flex-row flex items-center justify-between mt-10 mb-10 sticky top-0 z-50 rounded"}>  
 
     <Popover className="relative">
-      <Popover.Button className="dropdown-toggle inline-block px-4 py-2.5 bg-blue-300 hover:bg-blue-400 -5text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg active:text-white transition duration-150 ease-in-out flex items-center whitespace-nowrap"
+      <Popover.Button className="dropdown-toggle inline-block px-4 py-2.5 bg-blue-400 hover:bg-blue-300 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg active:text-white transition duration-150 ease-in-out flex items-center whitespace-nowrap"
       >
         <div className="space-y-1 rounded">
           <span className="block w-4 h-1 bg-gray-600"></span>
@@ -76,7 +78,7 @@ const Intro = (props) => {
       </Transition>
     </Popover>
 
-    <div className="text-2xl md:text-3xl font-bold text-blue-400 hover:text-blue-600 mr-10">
+    <div className="text-2xl md:text-3xl font-bold mr-2">
       <Link href="/">
         Simple Unique Bible Viewer
       </Link>

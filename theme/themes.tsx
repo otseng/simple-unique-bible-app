@@ -3,6 +3,8 @@ export const themes = {
         backgroundColor: "rgb(245 245 245)",
         highlighColor: 'rgb(254 240 138)',
 
+        fixedHeader: 'bg-blue-400 text-white',
+
         backgroundStyle: 'bg-neutral-100',
 
         footerStyle: "bg-neutral-100 border-t border-neutral-200",
@@ -29,6 +31,8 @@ export const themes = {
         backgroundColor: "rgb(245 245 245)",
         highlighColor: 'rgb(254 240 138)',
 
+        fixedHeader: 'bg-blue-400 text-white',
+
         backgroundStyle: 'bg-neutral-100',
 
         footerStyle: "bg-neutral-100 border-t border-neutral-200",
@@ -54,6 +58,8 @@ export const themes = {
     "dark": {
         backgroundColor: "rgb(38 38 38)",
         highlighColor: 'rgb(63 98 18)',
+
+        fixedHeader: 'bg-blue-400 text-gray-100',
 
         backgroundStyle: 'bg-neutral-800 text-neutral-300',
 

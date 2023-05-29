@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.11] - 5/29/2023
+
+- Added fixed header
+
 ## [1.10] - 12/14/2022
 
 - Added themes

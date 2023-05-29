@@ -1,6 +1,6 @@
 {
   "name": "simple-unique-bible-viewer",
-  "version": "1.10",
+  "version": "1.11",
   "private": true,
   "license": "Apache2",
   "scripts": {
