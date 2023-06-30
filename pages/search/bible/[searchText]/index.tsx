@@ -7,7 +7,7 @@ import { Disclosure } from '@headlessui/react';
 import { useRouter } from 'next/router';
 import { searchBible, getBook2Number } from '../../../../lib/api';
 import Link from 'next/link';
-import { getBibleTextDir, preloadData } from '../../../../lib/util';
+import { getBibleTextDir, highlight, preloadData } from '../../../../lib/util';
 import { Spinner } from 'react-bootstrap';
 import { useLang } from '../../../../lang/langContext';
 import { useTheme } from '../../../../theme/themeContext';
@@ -77,16 +77,5 @@ export default function Index() {
     )
   }
 }
-function highlight(html: string, searchText: string): any {
-  if (searchText.includes(" ")) {
-    searchText.split(' ').map((word) => {
-      html = html.replace(new RegExp("(" + word + ")", "ig"), "<span style='background-color: rgb(254 240 138);'>$1</span>")
-    })
-  } else {
-    searchText = searchText.replaceAll('"', '')
-    html = html.replace(new RegExp("(" + searchText + ")", "ig"), "<span style='background-color: rgb(254 240 138);'>$1</span>")
-  }
-  return html
 
-}
 

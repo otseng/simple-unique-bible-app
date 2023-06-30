@@ -109,3 +109,16 @@ export function deleteBookmark(key) {
 export function isPowerMode() {
     return getLocalStorage("powerMode") == true
 }
+
+
+export function highlight(html: string, searchText: string): any {
+    if (searchText.includes(" ")) {
+      searchText.split(' ').map((word) => {
+        html = html.replace(new RegExp("(" + word + ")", "ig"), "<span style='background-color: rgb(254 240 138);'>$1</span>")
+      })
+    } else {
+      searchText = searchText.replaceAll('"', '')
+      html = html.replace(new RegExp("(" + searchText + ")", "ig"), "<span style='background-color: rgb(254 240 138);'>$1</span>")
+    }
+    return html
+}

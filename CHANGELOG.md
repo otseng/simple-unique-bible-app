@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.12] - 6/30/2023
+
+- Added reverse lexicon search
+
 ## [1.11] - 5/29/2023
 
 - Added fixed header

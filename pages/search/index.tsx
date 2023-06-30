@@ -30,7 +30,7 @@ export default function Index() {
   const [selectedBible, setSelectedBible] = useState('')
   let books2Number = new Map()
 
-  const { data, loading, error } = getBibles()
+  const { data: bibleData, loading, error } = getBibles()
   const { data: book2NumberData, loading: book2NumberLoading, error: book2NumberError } = getBook2Number()
 
   useEffect(() => {
@@ -54,6 +54,11 @@ export default function Index() {
     } else {
       searchBible()
     }
+  }
+
+  function reverseLexicon() {
+    // setSearchText("")
+    searchLexiconReverse()
   }
 
   function checkReference() {
@@ -89,6 +94,11 @@ export default function Index() {
     router.push(url)
   }
 
+  function searchLexiconReverse() {
+    const url = `/search/lexiconreverse/TRLIT/${searchText}`
+    router.push(url)
+  }
+
   function searchTextChange(event) {
     const text = event.target.value
     if (text.length < 50) {
@@ -109,9 +119,9 @@ export default function Index() {
   if (error) return <div>Failed to load</div>
   if (loading) return
 
-  if (data && book2NumberData) {
+  if (bibleData && book2NumberData) {
 
-    const bibleOptions = data.map((bible) => (
+    const bibleOptions = bibleData.map((bible) => (
       { value: bible, label: bible }
     ))
 
@@ -140,20 +150,23 @@ export default function Index() {
               <Disclosure.Panel className="text-gray-500">
 
                 <div className="m-10">
-                  <div className="flex justify-center items-center mb-5">
-                    <span className="text-lg mr-2">{lang.Bible}:</span>
-                    <Select options={bibleOptions}
-                      value={bibleOptions.filter(obj => obj.value === selectedBible)}
-                      onChange={handleBibleChange}
-                    />
-                  </div>
                   <div className="flex justify-center items-center">
                     <Input id="search-text" className={`${theme.searchInput}`}
                       type="text" value={searchText}
                       onChange={searchTextChange} onKeyPress={searchTextKeyPress} />
                   </div>
+                  <div className="flex justify-center items-center mb-5 mt-5">
+                    <span className="text-lg mr-2">{lang.Bible}:</span>
+                    <Select options={bibleOptions}
+                      value={bibleOptions.filter(obj => obj.value === selectedBible)}
+                      onChange={handleBibleChange}
+                    />
+                    <span className="ml-2">
+                      <button className={`${theme.clickableButton}`} onClick={enterCommand}>{lang.Search}</button>
+                    </span>
+                  </div>
                   <div className="flex justify-center items-center">
-                    <button className={`${theme.clickableButton}`} onClick={enterCommand}>{lang.Search}</button>
+                  <button className={`${theme.clickableButton}`} onClick={reverseLexicon}>{lang.Reverse_Lexicon_Search}</button>
                   </div>
                 </div>
 
