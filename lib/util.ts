@@ -122,3 +122,10 @@ export function highlight(html: string, searchText: string): any {
     }
     return html
 }
+
+export function removeOnEvents(html: string): any {
+    html = html.replace(new RegExp("onmouseover=\".*\"", "ig"), "")
+    html = html.replace(new RegExp("onmouseout=\".*\"", "ig"), "")
+    html = html.replace(new RegExp("onclick=\".*\"", "ig"), "")
+    return html
+}

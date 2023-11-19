@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
-import { addBookmark, bookmarkExists, getBibleNumberFromName, getBibleTextDir, isMobile, isPowerMode, preloadData, range } from '../../../../../lib/util'
+import { addBookmark, bookmarkExists, getBibleNumberFromName, getBibleTextDir, isMobile, isPowerMode, preloadData, range, removeOnEvents } from '../../../../../lib/util'
 import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, _getCommentaryContent, _getDiscourse, _getInstantLex, _getLexicon, _getMorphology, _getSearchTool } from '../../../../../lib/api'
 import { useEffect, useRef, useState } from 'react'
 import { bibleChapters } from '../../../../../data/bibleChapters'
@@ -63,11 +63,11 @@ export default function Index() {
   const menuTheme = (getTheme() == "dark" ? "dark" : "light")
 
   if (getLang() == "en") {
-    biblesInPopup = ['KJV', 'NET', 'WEB']
-    // if (!isMobile() && isPowerMode()) {
-    //   biblesInPopup.push.apply(biblesInPopup, ['2001', 'UST'])
-    // }
-    biblesInPopup.push.apply(biblesInPopup, ['TRLITx', 'KJVx', 'MOB', 'MIB'])
+    biblesInPopup = ['KJV']
+    if (isPowerMode()) {
+      biblesInPopup.push.apply(biblesInPopup, ['ESV', 'NASB', 'NIV'])
+    }
+    biblesInPopup.push.apply(biblesInPopup, ['TRLIT', 'TRLITx', 'KJVx', 'MOB', 'MIB'])
   } else if (getLang().startsWith("zh")) {
     biblesInPopup = ['CUV', 'CUVs', 'KJV', 'KJVx', 'MOB', 'MIB']
   }
@@ -226,6 +226,8 @@ export default function Index() {
     _getDiscourse(book, chapter, verse).then((resp) => {
       removeToast()
       let html = resp
+      html = removeOnEvents(html)
+      console.log(html)
       setModalContent(html)
       setShowModal(true)
     })
@@ -366,6 +368,15 @@ export default function Index() {
                 ))}
               </Disclosure.Panel>
             </Disclosure>
+
+            <div className="flex justify-center items-center mt-2 mb-5">
+              {showPrevious &&
+                <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) - 1)}>
+                  <button className={`${theme.clickableButton}`}>{lang.Previous}</button></Link>}
+              {showNext &&
+                <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) + 1)}>
+                  <button className={`${theme.clickableButton}`}>{lang.Next}</button></Link>}
+            </div>
 
             <div dir={textDir} className={`${theme.bibleDivContainer}`}>
               {(mabBible || mibBible || mtbBible || mpbBible) &&

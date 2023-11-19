@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.13] -11/19/2023
+
+- Added previous/next buttons to top
+
 ## [1.12] - 6/30/2023
 
 - Added reverse lexicon search
