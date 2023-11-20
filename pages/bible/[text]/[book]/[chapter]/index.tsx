@@ -6,7 +6,8 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
 import { addBookmark, bookmarkExists, getBibleNumberFromName, getBibleTextDir, isMobile, isPowerMode, preloadData, range, removeOnEvents } from '../../../../../lib/util'
-import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, _getCommentaryContent, _getDiscourse, _getInstantLex, _getLexicon, _getMorphology, _getSearchTool } from '../../../../../lib/api'
+import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, getSubheadings } from '../../../../../lib/api'
+import { _getCommentaryContent, _getDiscourse, _getInstantLex, _getLexicon, _getMorphology, _getSearchTool } from '../../../../../lib/api'
 import { useEffect, useRef, useState } from 'react'
 import { bibleChapters } from '../../../../../data/bibleChapters'
 import { Disclosure } from '@headlessui/react'
@@ -57,6 +58,7 @@ export default function Index() {
   const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBibleTextBooks(text)
   const { data, loading, error } = getBibleChapter(text, bookNum, chapter)
   const { data: dataCommentaries, loading: loadingCommentaries, error: errorCommentaries } = getCommentaries()
+  const { data: dataSubheadings, loading: loadingSubheadings, error: errorSubheadings } = getSubheadings(bookNum, chapter)
 
   let biblesInPopup = []
 
@@ -297,6 +299,14 @@ export default function Index() {
     toast.dismiss()
   }
 
+  function renderSubheadings(verse) {
+    if (getLang() == "en" && dataSubheadings && dataSubheadings[verse]) {
+      return <p className={`${theme.subheadingText}`}>{dataSubheadings[verse]}<br/></p>
+    } else {
+      return <></>
+    }
+  }
+
   if (error) return <div>Failed to load</div>
   if (loading) return <div>Loading...</div>
 
@@ -435,9 +445,13 @@ export default function Index() {
               }
               {rawVerse &&
                 data.map((verse) => (verse.t &&
+                  <>
+                  {renderSubheadings(`${verse.v}`)}
                   <p id={`v${verse.c}_${verse.v}`}>
-                    <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
-                    <span id={`t${verse.c}_${verse.v}`} className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: verse.t }} /></p>
+                    <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_{verse.v}`}>{verse.c}:{verse.v} - </span>
+                    <span id={`t${verse.c}_${verse.v}`} className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: verse.t }} />
+                  </p>
+                  </>
                 ))
               }
               {parseVerse &&

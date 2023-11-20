@@ -269,6 +269,18 @@ export function getBook2Number() {
   }
 }
 
+export function getSubheadings(book, chapter) {
+
+  const address = API_SERVER + `/subheadings/${book}/${chapter}`
+  const fetcher = async (url) => await axios.get(url, { auth }).then((res) => res.data.data)
+  const { data, error } = useSWR(address, fetcher)
+
+  return {
+    data: data,
+    loading: !error && !data,
+    error: error
+  }
+}
 
 let cacheLexicon: Map<string, string> = new Map();
 

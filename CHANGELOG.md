@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.14] -11/20/2023
+
+- Added chapter subheadings
+
 ## [1.13] -11/19/2023
 
 - Added previous/next buttons to top
