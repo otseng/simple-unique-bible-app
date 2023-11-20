@@ -87,6 +87,6 @@ export const themes = {
         searchInput: "w-1/2 p-2 border-blue-300 border-2 border-solid bg-neutral-800",
         searchDropdown: "bg-neutral-800 text-neutral-300",
 
-        subheadingText: "mt-2 mb-2 font-bold"
+        subheadingText: "mt-2 mb-2 font-bold text-neutral-300"
     }
 }
