@@ -448,7 +448,7 @@ export default function Index() {
                   <>
                   {renderSubheadings(`${verse.v}`)}
                   <p id={`v${verse.c}_${verse.v}`}>
-                    <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_{verse.v}`}>{verse.c}:{verse.v} - </span>
+                    <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
                     <span id={`t${verse.c}_${verse.v}`} className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: verse.t }} />
                   </p>
                   </>
