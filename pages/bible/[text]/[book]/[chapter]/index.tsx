@@ -141,6 +141,7 @@ export default function Index() {
   });
 
   function handleItemClick({ id, event, props, data, triggerEvent }) {
+    setScrolledRef(true)
     const targetId = triggerEvent?.srcElement?.id || event.target.id || ''
     const regex = /r(.*)_(.*)/
     const matches = regex.exec(targetId)
