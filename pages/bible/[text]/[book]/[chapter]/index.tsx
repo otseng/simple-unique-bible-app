@@ -52,7 +52,7 @@ export default function Index() {
   const { show } = useContextMenu({
     id: BIBLE_VERSE_POPUP_MENU
   })
-  const scrolledRef = useRef(false)
+  const [scrolledRef, setScrolledRef] = useState(true)
 
   const { data: dataBibles, loading: loadingBibles, error: errorBibles } = getBibles()
   const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBibleTextBooks(text)
@@ -92,12 +92,14 @@ export default function Index() {
         if (!(text == "MAB" || text == "MIB")) {
           element.style.backgroundColor = theme.highlighColor
         }
-        window.scrollTo({
-          behavior: 'smooth',
-          top:
-            element.getBoundingClientRect().top -
-            document.body.getBoundingClientRect().top - 10,
-        })
+        if (scrolledRef) {
+          window.scrollTo({
+            behavior: 'smooth',
+            top:
+              element.getBoundingClientRect().top -
+              document.body.getBoundingClientRect().top - 10,
+          })
+        }
       }
     }
     if (text == "MIB") {
@@ -208,6 +210,7 @@ export default function Index() {
   }
 
   function showLexicon(strongs) {
+    setScrolledRef(false)
     setModalTitle('Lexicon - ' + strongs)
     _getLexicon('TRLIT', strongs).then((resp) => {
       removeToast()
@@ -226,6 +229,7 @@ export default function Index() {
   }
 
   function showDiscourse(book, chapter, verse) {
+    setScrolledRef(false)
     setModalTitle('Discourse')
     _getDiscourse(book, chapter, verse).then((resp) => {
       removeToast()
@@ -250,6 +254,7 @@ export default function Index() {
   }
 
   function showMorphology(portion, wordId) {
+    setScrolledRef(false)
     _getMorphology(portion, wordId).then((resp) => {
       removeToast()
       const html = resp[5] + " • " + resp[1] + " • " + resp[7] + " • " + resp[8] + "<br/>" + resp[4]
@@ -276,6 +281,7 @@ export default function Index() {
   // mETCBC - OT
   // mRMAC - NT
   function showSearchTool(module, text) {
+    setScrolledRef(false)
     _getSearchTool(module, text).then((resp) => {
       removeToast()
       if (resp) {
