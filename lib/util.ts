@@ -1,5 +1,6 @@
 import { bibleBooks } from "../lang/bibleBooks_en"
 import { getLang } from "../lang/langUtil"
+import { getTheme } from "../theme/themeUtil"
 
 export async function preloadData() {
 
@@ -112,16 +113,21 @@ export function isPowerMode() {
 
 
 export function highlight(html: string, searchText: string): any {
+    let style = "background-color:#f7dc6f; color: black;"
+    if (getTheme() == "dark") {
+      style = "background-color: #f7dc6f; color: black;"
+    }
+
     if (searchText.startsWith('"') && searchText.endsWith('"')) {
         searchText = searchText.replaceAll('"', '')
-        html = html.replace(new RegExp("(" + searchText + ")", "ig"), "<span style='background-color: rgb(254 240 138);'>$1</span>")
+        html = html.replace(new RegExp("(" + searchText + ")", "ig"), "<span style='" + style + "'>$1</span>")
     } else if (searchText.includes(" ")) {
       searchText.split(' ').map((word) => {
-        html = html.replace(new RegExp("(" + word + ")", "ig"), "<span style='background-color: rgb(254 240 138);'>$1</span>")
+        html = html.replace(new RegExp("(" + word + ")", "ig"), "<span style='" + style + "'>$1</span>")
       })
     } else {
       searchText = searchText.replaceAll('"', '')
-      html = html.replace(new RegExp("(" + searchText + ")", "ig"), "<span style='background-color: rgb(254 240 138);'>$1</span>")
+      html = html.replace(new RegExp("(" + searchText + ")", "ig"), "<span style='" + style + "'>$1</span>")
     }
     return html
 }
