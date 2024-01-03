@@ -3,6 +3,11 @@
 ## [1.15] - 1/2/2024
 
 - Added search history
+- Added search clear button
+- Added UBA to menu
+- Fixed scrolling when showing lexicon
+- Fixed highlighting
+- 
 
 ## [1.14] - 11/20/2023
 

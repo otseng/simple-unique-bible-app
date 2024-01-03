@@ -198,6 +198,9 @@ export default function Index() {
     } else if (id.startsWith("bible")) {
       const bible = id.replace("bible-", "")
       router.push(`/bible/${bible}/${book}/${chapter}#v${chapter}_${verse}`)
+    } else if (id == 'uba') {
+      const cmd = `BIBLE:::${text}:::${book} ${chapter}:${verse}`
+      window.open('https://transliteralbible.com/index.html?cmd=' + cmd, '_blank', 'noreferrer');
     }
   }
 
@@ -514,6 +517,7 @@ export default function Index() {
               <Item id="xref" onClick={handleItemClick}><span className="text-md">{lang.Cross_references}</span></Item>
               <Item id="compare" onClick={handleItemClick}><span className="text-md">{lang.Compare}</span></Item>
               {!isMobile() && <Item id="discourse" onClick={handleItemClick}><span className="text-md">{lang.Discourse}</span></Item>}
+              <Item id="uba" onClick={handleItemClick}><span className="text-md">UBA</span></Item>
               {!isMobile() && <Separator />}
               {biblesInPopup.map((bible) => {
                 const bibleId = "bible-" + bible
