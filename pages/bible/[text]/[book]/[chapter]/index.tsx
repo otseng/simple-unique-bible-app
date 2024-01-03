@@ -89,7 +89,9 @@ export default function Index() {
       const id = hash.replace('#', '')
       const element = document.getElementById(id)
       if (element) {
-        element.style.backgroundColor = theme.highlighColor
+        if (!(text == "MAB" || text == "MIB")) {
+          element.style.backgroundColor = theme.highlighColor
+        }
         window.scrollTo({
           behavior: 'smooth',
           top:
