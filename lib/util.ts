@@ -112,7 +112,10 @@ export function isPowerMode() {
 
 
 export function highlight(html: string, searchText: string): any {
-    if (searchText.includes(" ")) {
+    if (searchText.startsWith('"') && searchText.endsWith('"')) {
+        searchText = searchText.replaceAll('"', '')
+        html = html.replace(new RegExp("(" + searchText + ")", "ig"), "<span style='background-color: rgb(254 240 138);'>$1</span>")
+    } else if (searchText.includes(" ")) {
       searchText.split(' ').map((word) => {
         html = html.replace(new RegExp("(" + word + ")", "ig"), "<span style='background-color: rgb(254 240 138);'>$1</span>")
       })

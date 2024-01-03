@@ -61,7 +61,9 @@ export default function Index() {
                       return (
                         <>
                         <p className={`${theme.bibleDivContainer}` + " mt-2"}>
-                          <h3 className="text-center">{strongs}</h3><br/>
+                        <div className={`${theme.chapterDisclosure}`}>
+                          {strongs}
+                        </div>
                           <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: highlightedEntry }} />
                         </p>
                         <div className="mt-5 pl-20 pr-20"><hr/></div>

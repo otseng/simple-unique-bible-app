@@ -10,9 +10,10 @@ import { APP_NAME } from '../../lib/constants';
 import Select from 'react-select'
 import Input from 'rc-input';
 import { useLang } from '../../lang/langContext';
-import { preloadData, setLocalStorage } from '../../lib/util';
+import { getLocalStorage, isDev, preloadData, setLocalStorage } from '../../lib/util';
 import toast from 'react-hot-toast';
 import { useTheme } from '../../theme/themeContext';
+import Link from 'next/link';
 
 export default function Index() {
 
@@ -22,16 +23,20 @@ export default function Index() {
   const { theme, setTheme } = useTheme()
 
   const router = useRouter()
+
   let text = router.query.text as string
   if (!text) text = "KJV"
   let search = router.query.q as string
 
   const [searchText, setSearchText] = useState('')
   const [selectedBible, setSelectedBible] = useState('')
+
   let books2Number = new Map()
 
   const { data: bibleData, loading, error } = getBibles()
   const { data: book2NumberData, loading: book2NumberLoading, error: book2NumberError } = getBook2Number()
+
+  let searches = getSearches()
 
   useEffect(() => {
     const element = document.getElementById('search-text')
@@ -57,17 +62,23 @@ export default function Index() {
   }
 
   function reverseLexicon() {
-    // setSearchText("")
+    setSearchText("")
     searchLexiconReverse()
   }
 
   function checkReference() {
-    if (searchText.includes(":") && searchText.includes(" ")) {
+    if (searchText.includes(" ")) {
       const parse1 = searchText.split(" ")
       let book = parse1[0]
-      const parse2 = parse1[1].split(":")
-      const chapter = parse2[0]
-      const verse = parse2[1]
+      let chapter = 1
+      let verse = 1
+      if (parse1[1].includes(":")) {
+        const parse2 = parse1[1].split(":")
+        chapter = parseInt(parse2[0])
+        verse = parseInt(parse2[1])
+      } else {
+        chapter = parseInt(parse1[1])
+      }
       let foundBook = ""
       if (books2Number.has(book)) {
         foundBook = books2Number.get(book)
@@ -81,6 +92,12 @@ export default function Index() {
       if (foundBook == "") {
         return false
       }
+      if (Number.isNaN(chapter)) {
+        chapter = 1
+      }
+      if (Number.isNaN(verse)) {
+        verse = 1
+      }
       const bookName = globalThis.bibleNumberToName[parseInt(foundBook)]
       const url = `/bible/${selectedBible}/${bookName}/${chapter}#v${chapter}_${verse}`
       router.push(url)
@@ -89,8 +106,50 @@ export default function Index() {
     return false
   }
 
+  function reloadPage() {
+    const url = `/search`
+    router.push(url)
+  }
+
+  function getSearches() {
+    const searches = getLocalStorage('searches') || []
+    return searches
+  }
+
+  function deleteOne(search) {
+    deleteSearch(search)
+    searches = getSearches()
+    setSearchText("")
+    reloadPage()
+  }
+
+  function deleteAll() {
+    setLocalStorage('searches', [])
+    setSearchText("")
+    searches = []
+    reloadPage()
+  }
+
+  function deleteSearch(key) {
+    const updatedSearches = searches.filter((item) => {
+        return item != key
+    })
+    searches = updatedSearches
+    setLocalStorage('searches', updatedSearches)
+  }
+
+  function addSearch(link) {
+    const searches = getLocalStorage('searches') || []
+    if (!searches.includes(link)) {
+      searches.push(link)
+      setLocalStorage('searches', searches)
+    }
+  }
+
   function searchBible() {
+    setSearchText("")
     const url = `/search/bible/${searchText}?text=${selectedBible}`
+    addSearch(url)
     router.push(url)
   }
 
@@ -152,7 +211,7 @@ export default function Index() {
                 <div className="m-10">
                   <div className="flex justify-center items-center">
                     <Input id="search-text" className={`${theme.searchInput}`}
-                      type="text" value={searchText}
+                      type="search" value={searchText}
                       onChange={searchTextChange} onKeyPress={searchTextKeyPress} />
                   </div>
                   <div className="flex justify-center items-center mb-5 mt-5">
@@ -168,6 +227,43 @@ export default function Index() {
                   <div className="flex justify-center items-center">
                   <button className={`${theme.clickableButton}`} onClick={reverseLexicon}>{lang.Reverse_Lexicon_Search}</button>
                   </div>
+                  
+                  {searches.length > 0 && <>
+                    <div className="flex justify-center items-center mt-10 mb-5">
+                      <p className="font-lg font-bold">Previous searches</p>
+                    </div>
+                    </>}
+                  {searches.map((search) => {
+                    let regex = new RegExp("/search/bible/(.*)\\?text=(.*)")
+                    let matches = regex.exec(search)
+                    if (matches) {
+                      const searchText = matches[1]
+                      const bible = matches[2]
+
+                      return (
+                        <>
+                          <div className="flex justify-center items-center ">
+                            <Link href={search}>
+                              <button className={`${theme.clickableButton}`}>{searchText} {bible}</button>
+                            </Link>
+                            <button id={search} onClick={() => deleteOne(search)} className={`${theme.clickableButton}`}>{lang.Delete}</button>
+                          </div>
+                        </>
+                      )
+                    }
+                    return (<>
+                      <div className="flex justify-center items-center">
+                      {search}
+                      </div>
+                    </>)
+                  })}
+
+                  {searches.length > 0 && <>
+                  <div className="flex justify-center p-1">
+                    <button onClick={deleteAll} className={`${theme.clickableButton}`}>{lang.Delete_All}</button>
+                  </div>
+                  </>}
+
                 </div>
 
               </Disclosure.Panel>

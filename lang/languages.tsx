@@ -37,7 +37,7 @@ export const langs = {
         Shared_bookmarks: 'Shared bookmarks',
         Theme: 'Theme',
         Toggle_highlight: 'Toggle highlight',
-        verses_found: 'verses found',
+        verses_found: 'verse(s) found',
         Version: 'Version',
     },
     "zh_HANT": {

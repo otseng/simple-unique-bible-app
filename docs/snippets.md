@@ -9,6 +9,11 @@ yarn run start
 yvm ls
 yvm use 
 
+# Styling
+
+https://tailwindcss.com
+
+
 # Find port in use
 
 lsof -i -P -n | grep 3000
