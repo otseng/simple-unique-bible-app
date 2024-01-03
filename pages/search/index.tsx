@@ -61,6 +61,10 @@ export default function Index() {
     }
   }
 
+  function clearSearchText() {
+    setSearchText("")
+  }
+
   function reverseLexicon() {
     setSearchText("")
     searchLexiconReverse()
@@ -213,6 +217,9 @@ export default function Index() {
                     <Input id="search-text" className={`${theme.searchInput}`}
                       type="search" value={searchText}
                       onChange={searchTextChange} onKeyPress={searchTextKeyPress} />
+
+                    <button className={`${theme.clickableButton}`} onClick={clearSearchText}>X</button>
+
                   </div>
                   <div className="flex justify-center items-center mb-5 mt-5">
                     <span className="text-lg mr-2">{lang.Bible}:</span>
