@@ -292,7 +292,13 @@ function processCommand(text: string) {
         if (cmd[1] == "on") enablePowerMode()
         if (cmd[1] == "off") disablePowerMode()
       }
-      break;
+      break
+    case '...':
+      enablePowerMode()
+      break
+    case ',,,':
+      disablePowerMode()
+      break
   }
 }
 
