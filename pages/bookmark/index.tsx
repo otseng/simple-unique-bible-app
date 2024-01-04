@@ -28,10 +28,8 @@ export default function Index() {
 
   useEffect(() => {
     setBookmarks(getBookmarks())
-    if (bookmarksUrl == '' && bookmarks.length > 0) {
-      const url = buildUrl()
-      setBookmarksUrl(url)
-    }
+    const url = buildUrl()
+    setBookmarksUrl(url)
   }, []);
 
   function deleteOne(bookmark) {
