@@ -179,6 +179,36 @@ export default function Index() {
     setSelectedBible(e.value);
   }
 
+  function processCommand(text: string) {
+    const lowerText = text.toLowerCase()
+    const cmd = lowerText.split(" ")
+    switch (cmd[0]) {
+      case 'power':
+        if (cmd.length > 1) {
+          if (cmd[1] == "on") enablePowerMode()
+          if (cmd[1] == "off") disablePowerMode()
+        }
+        break
+      case '...':
+        enablePowerMode()
+        setTheme('dark')
+        break
+      case ',,,':
+        disablePowerMode()
+        break
+    }
+  }
+
+  function enablePowerMode() {
+    setLocalStorage("powerMode", true)
+    toast("Power mode on")
+  }
+
+  function disablePowerMode() {
+    setLocalStorage("powerMode", false)
+    toast("Power mode off")
+  }
+  
   if (error) return <div>Failed to load</div>
   if (loading) return
 
@@ -283,31 +313,3 @@ export default function Index() {
   }
 }
 
-function processCommand(text: string) {
-  const lowerText = text.toLowerCase()
-  const cmd = lowerText.split(" ")
-  switch (cmd[0]) {
-    case 'power':
-      if (cmd.length > 1) {
-        if (cmd[1] == "on") enablePowerMode()
-        if (cmd[1] == "off") disablePowerMode()
-      }
-      break
-    case '...':
-      enablePowerMode()
-      break
-    case ',,,':
-      disablePowerMode()
-      break
-  }
-}
-
-function enablePowerMode() {
-  setLocalStorage("powerMode", true)
-  toast("Power mode on")
-}
-
-function disablePowerMode() {
-  setLocalStorage("powerMode", false)
-  toast("Power mode off")
-}
