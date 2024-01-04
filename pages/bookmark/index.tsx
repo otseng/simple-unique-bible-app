@@ -67,7 +67,7 @@ export default function Index() {
       navigator.clipboard.readText().then((importString) => {
         console.log(importString)
         setBookmarks(JSON.parse(importString))
-        setLocalStorage('bookmarks', bookmarks)
+        setLocalStorage('bookmarks', JSON.parse(importString))
         buildUrl()
       })
     }
