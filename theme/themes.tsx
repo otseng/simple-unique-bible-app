@@ -29,7 +29,9 @@ export const themes = {
 
         subheadingText: "mt-2 mb-2 font-bold",
 
-        mainMenuBurgerButton: "block w-4 h-1 bg-gray-600"
+        mainMenuBurgerButton: "block w-4 h-1 bg-gray-600",
+
+        textColor: "text-neutral-950"
     },
     "large": {
         backgroundColor: "rgb(245 245 245)",
@@ -61,7 +63,9 @@ export const themes = {
 
         subheadingText: "mt-2 mb-2 font-bold",
 
-        mainMenuBurgerButton: "block w-4 h-1 bg-gray-600"
+        mainMenuBurgerButton: "block w-4 h-1 bg-gray-600",
+
+        textColor: "text-neutral-950"
     },
     "dark": {
         backgroundColor: "rgb(38 38 38)",
@@ -93,6 +97,8 @@ export const themes = {
 
         subheadingText: "mt-2 mb-2 font-bold text-neutral-300",
 
-        mainMenuBurgerButton: "block w-4 h-1 bg-gray-600"
+        mainMenuBurgerButton: "block w-4 h-1 bg-gray-600",
+
+        textColor: "text-neutral-100"
     }
 }
