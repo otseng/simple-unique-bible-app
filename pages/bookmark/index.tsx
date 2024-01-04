@@ -73,6 +73,14 @@ export default function Index() {
     }
   }
 
+  function exportBookmarks() {
+    if (typeof window !== 'undefined') {
+      navigator.clipboard.writeText(JSON.stringify(bookmarks))
+      console.log(JSON.stringify(bookmarks))
+      toast('Exported bookmarks to clipboard')
+    }
+  }
+
   return (
     <>
       <Layout>
@@ -157,7 +165,10 @@ export default function Index() {
                       </div>
                     </div>
                     <div className="flex justify-center p-1">
-                      <button onClick={copyAll} className={`${theme.clickableButton}`}>{lang.Copy_to_clipboard}</button>
+                      <button onClick={copyAll} className={`${theme.clickableButton}`}>Copy link to clipboard</button>
+                    </div>
+                    <div className="flex justify-center p-1">
+                      <button onClick={exportBookmarks} className={`${theme.clickableButton}`}>Export bookmarks to clipboard</button>
                     </div>
                     <div className="flex justify-center p-1">
                       <button onClick={deleteAll} className={`${theme.clickableButton}`}>{lang.Delete_All}</button>
