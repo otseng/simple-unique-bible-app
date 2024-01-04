@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { APP_NAME } from '../../lib/constants'
 import { deleteBookmark, getBookmarks, isDev, preloadData, setLocalStorage } from '../../lib/util'
 import { Disclosure } from '@headlessui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import QRCode from 'react-qr-code'
 import { useLang } from '../../lang/langContext'
@@ -24,22 +24,26 @@ export default function Index() {
 
   const [bookmarksUrl, setBookmarksUrl] = useState('')
 
-  let bookmarks = getBookmarks()
-  if (bookmarksUrl == '' && bookmarks.length > 0) {
-    const url = buildUrl()
-    setBookmarksUrl(url)
-  }
+  const [bookmarks, setBookmarks] = useState([]);
+
+  useEffect(() => {
+    setBookmarks(getBookmarks())
+    if (bookmarksUrl == '' && bookmarks.length > 0) {
+      const url = buildUrl()
+      setBookmarksUrl(url)
+    }
+  }, []);
 
   function deleteOne(bookmark) {
     deleteBookmark(bookmark)
-    bookmarks = getBookmarks()
+    setBookmarks(getBookmarks())
     const url = buildUrl()
     setBookmarksUrl(url)
   }
 
   function deleteAll() {
     setLocalStorage('bookmarks', [])
-    bookmarks = getBookmarks()
+    setBookmarks(getBookmarks())
     const url = buildUrl()
     setBookmarksUrl(url)
   }
@@ -78,7 +82,7 @@ export default function Index() {
             <Disclosure.Panel className="text-gray-500">
               <div>
                 {bookmarks.length == 0 && <p className="ml-10 mt-10 font-lg">No bookmarks</p>}
-                {bookmarks.map((bookmark) => {
+                {bookmarks && bookmarks.map((bookmark) => {
                   if (bookmark) {
                     bookmark = bookmark.replaceAll('!', '#')
                     let regex = new RegExp("/bible/(.*)/(.*)/(.*)#v.*_(.*)")

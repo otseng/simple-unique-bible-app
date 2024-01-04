@@ -6,12 +6,14 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../lib/constants'
-import { addBookmark, bookmarkExists, preloadData } from '../../lib/util'
+import { addBookmark, bookmarkExists, getLocalStorage, preloadData, setLocalStorage } from '../../lib/util'
 import { Disclosure } from '@headlessui/react'
 import QRCode from 'react-qr-code'
 import toast from 'react-hot-toast'
 import { useLang } from '../../lang/langContext'
 import { useTheme } from '../../theme/themeContext'
+import { useEffect, useState } from 'react'
+import NoSsr from "../../components/NoSsr";
 
 export default function Index() {
 
@@ -21,15 +23,23 @@ export default function Index() {
   if (!globalThis.bibleBooks) preloadData()
 
   const router = useRouter()
-  const bm = router.query.bm
-  let bookmarks = []
 
-  if (typeof bm === 'undefined') {
-  } else if (typeof bm === 'string') {
-    bookmarks.push(bm)
-  } else {
-    bookmarks = bookmarks.concat(bm)
-  }
+  const [bookmarks, setBookmarks] = useState([]);
+
+  useEffect(() => {
+    if(router.isReady) {
+      let temp = []
+      const bm = router.query.bm
+      if (typeof bm === 'undefined') {
+      } else if (typeof bm === 'string') {
+        temp.push(bm)
+      } else {
+        temp = temp.concat(bm)
+      }
+      setLocalStorage('bookmarks', temp)
+      setBookmarks(temp)
+    }
+  }, [router.isReady]);
 
   function copyAll() {
     if (typeof window !== 'undefined') {
@@ -61,6 +71,7 @@ export default function Index() {
               <div className="text-2xl">{lang.Shared_bookmarks}</div>
             </Disclosure.Button>
             <Disclosure.Panel className="text-gray-500">
+            <NoSsr>
               <div>
                 {bookmarks.length == 0 && <p className="ml-10 mt-10 font-lg">{lang.No_bookmarks}</p>}
                 {bookmarks.map((bookmark) => {
@@ -104,12 +115,9 @@ export default function Index() {
                   <div className="flex justify-center p-1">
                     <button onClick={copyAll} className={`${theme.clickableButton}`}>{lang.Copy_to_clipboard}</button>
                   </div>
-                  <div className="flex justify-center p-1">
-                    <button onClick={addBookmarks} className={`${theme.clickableButton}`}>{lang.Save_bookmarks}</button>
-                  </div>
                 </>
               }
-
+              </NoSsr>
             </Disclosure.Panel>
           </Disclosure>
 
