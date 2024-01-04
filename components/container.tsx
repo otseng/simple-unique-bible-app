@@ -14,7 +14,7 @@ const Container = ({ children }: Props) => {
   useEffect(() => {
     if (windowExists()) {
       window.addEventListener("scroll", () => {
-        if (window.pageYOffset > 300) {
+        if (window.scrollY > 300) {
           setShowScrollToTopButton(true);
         } else {
           setShowScrollToTopButton(false);
