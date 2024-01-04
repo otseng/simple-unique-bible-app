@@ -48,9 +48,9 @@ export default function Index() {
     let url = ''
     if (typeof window !== 'undefined') {
       if (isDev()) {
-        url = "http://localhost:3000/bookmark/read?bm=" + bookmarks.join("&bm=")
+        url = "http://localhost:3000/bookmark/read?bm=" + getBookmarks().join("&bm=")
       } else {
-        url = "https://simple.uniquebibleapp.com/bookmark/read?bm=" + bookmarks.join("&bm=")
+        url = "https://simple.uniquebibleapp.com/bookmark/read?bm=" + getBookmarks().join("&bm=")
       }
       url = url.replaceAll("#", '!').replaceAll('+', '%2B')
     }
