@@ -208,7 +208,7 @@ export default function Index() {
     setLocalStorage("powerMode", false)
     toast("Power mode off")
   }
-  
+
   if (error) return <div>Failed to load</div>
   if (loading) return
 
@@ -248,7 +248,7 @@ export default function Index() {
                       type="search" value={searchText}
                       onChange={searchTextChange} onKeyPress={searchTextKeyPress} />
 
-                    <button className={`${theme.clickableButton}`} onClick={clearSearchText}>X</button>
+                    <button className={`${theme.clickableButton}`} onClick={clearSearchText}>x</button>
 
                   </div>
                   <div className="flex justify-center items-center mb-5 mt-5">
