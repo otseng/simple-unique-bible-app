@@ -62,6 +62,15 @@ export default function Index() {
     toast('Shared bookmarks link copied to clipboard')
   }
 
+  function importBookmarks() {
+    if (typeof window !== 'undefined') {
+      navigator.clipboard.readText().then((importString) => {
+        console.log(importString)
+        setBookmarks(JSON.parse(importString))
+      })
+    }
+  }
+
   return (
     <>
       <Layout>
@@ -77,7 +86,15 @@ export default function Index() {
             </Disclosure.Button>
             <Disclosure.Panel className="text-gray-500">
               <div>
-                {bookmarks.length == 0 && <p className="ml-10 mt-10 font-lg">No bookmarks</p>}
+                {bookmarks.length == 0 && 
+                  <>
+                  <p className="ml-10 mt-10 font-lg">No bookmarks</p>
+
+                  <div className="flex justify-center p-1 mt-10">
+                    <button onClick={importBookmarks} className={`${theme.clickableButton}`}>Import bookmarks from clipboard</button>
+                  </div>
+                  </>
+                }
                 {bookmarks && bookmarks.map((bookmark) => {
                   if (bookmark) {
                     bookmark = bookmark.replaceAll('!', '#')
