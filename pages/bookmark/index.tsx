@@ -12,6 +12,7 @@ import { toast } from 'react-hot-toast'
 import QRCode from 'react-qr-code'
 import { useLang } from '../../lang/langContext'
 import { useTheme } from '../../theme/themeContext'
+import NoSsr from '../../components/NoSsr'
 
 export default function Index() {
 
@@ -28,22 +29,19 @@ export default function Index() {
 
   useEffect(() => {
     setBookmarks(getBookmarks())
-    const url = buildUrl()
-    setBookmarksUrl(url)
+    buildUrl()
   }, []);
 
   function deleteOne(bookmark) {
     deleteBookmark(bookmark)
     setBookmarks(getBookmarks())
-    const url = buildUrl()
-    setBookmarksUrl(url)
+    buildUrl()
   }
 
   function deleteAll() {
     setLocalStorage('bookmarks', [])
     setBookmarks(getBookmarks())
-    const url = buildUrl()
-    setBookmarksUrl(url)
+    buildUrl()
   }
 
   function buildUrl() {
@@ -56,7 +54,7 @@ export default function Index() {
       }
       url = url.replaceAll("#", '!').replaceAll('+', '%2B')
     }
-    return url
+    setBookmarksUrl(url)
   }
 
   function copyAll() {
@@ -129,12 +127,14 @@ export default function Index() {
                     <div className="flex justify-center p-1 text-xl font-bold">{lang.Share_bookmarks}</div>
                     <div className="flex justify-center p-1">
                       <div style={{ height: "auto", margin: "0 auto", maxWidth: 300, width: "400" }}>
+                        <NoSsr>
                         <QRCode
                           size={256}
                           style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                           value={bookmarksUrl}
                           viewBox={`0 0 256 256`}
                         />
+                        </NoSsr>
                       </div>
                     </div>
                     <div className="flex justify-center p-1">
