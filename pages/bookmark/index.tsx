@@ -151,7 +151,7 @@ export default function Index() {
                 }
                 {bookmarks.length > 0 &&
                   <>
-                    <div className="flex justify-center p-1 text-xl font-bold">{lang.Share_bookmarks}</div>
+                    <div className="flex justify-center p-1 text-xl font-bold `${theme.textColor}`">{lang.Share_bookmarks}</div>
                     <div className="flex justify-center p-1">
                       <div style={{ height: "auto", margin: "0 auto", maxWidth: 300, width: "400" }}>
                         <NoSsr>

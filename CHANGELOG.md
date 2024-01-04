@@ -7,6 +7,7 @@
 - Added UBA to menu
 - Fixed scrolling when showing lexicon
 - Fixed highlighting
+- Added export/import bookmarks
 
 ## [1.14] - 11/20/2023
 

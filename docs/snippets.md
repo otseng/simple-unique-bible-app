@@ -13,6 +13,8 @@ yvm use
 
 https://tailwindcss.com
 
+https://tailwindcss.com/docs/text-color
+
 
 # Find port in use
 
