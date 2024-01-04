@@ -4,7 +4,7 @@ import Layout from '../../components/layout'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { APP_NAME } from '../../lib/constants'
+import { APP_NAME, DOMAIN } from '../../lib/constants'
 import { deleteBookmark, getBookmarks, isDev, preloadData, setLocalStorage } from '../../lib/util'
 import { Disclosure } from '@headlessui/react'
 import { useEffect, useState } from 'react'
@@ -50,7 +50,7 @@ export default function Index() {
       if (isDev()) {
         url = "http://localhost:3000/bookmark/read?bm=" + getBookmarks().join("&bm=")
       } else {
-        url = "https://simple.uniquebibleapp.com/bookmark/read?bm=" + getBookmarks().join("&bm=")
+        url = DOMAIN + "/bookmark/read?bm=" + getBookmarks().join("&bm=")
       }
       url = url.replaceAll("#", '!').replaceAll('+', '%2B')
     }

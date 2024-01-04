@@ -46,6 +46,7 @@ export default function Index() {
                 value={DOMAIN}
                 viewBox={`0 0 256 256`}
               />
+              <div className="mt-5 justify-center"><a href={`${DOMAIN}`} target="_new">{DOMAIN}</a></div>
             </div>
 
             <p className="text-xl font-bold mt-10 mb-3">UBA viewers</p>
