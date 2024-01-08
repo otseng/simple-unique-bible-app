@@ -2,7 +2,7 @@ import { Menu, Popover, Transition } from '@headlessui/react'
 import Link from 'next/link'
 import { useLang } from '../lang/langContext'
 import { getLang, showDevotions } from '../lang/langUtil'
-import { isDev } from '../lib/util'
+import { isDev, isPowerMode } from '../lib/util'
 import { useTheme } from '../theme/themeContext'
 
 
@@ -18,6 +18,12 @@ const Intro = (props) => {
 
   if (showDevotions()) {
     menuItems.push([lang.Devotionals, '/devotional'])
+  }
+  
+  let topBarUrl = "/"
+
+  if (isPowerMode()) {
+    topBarUrl = "/bookmark"
   }
   
   menuItems.push([lang.Books, '/book'])
@@ -79,7 +85,7 @@ const Intro = (props) => {
     </Popover>
 
     <div className="text-2xl md:text-3xl font-bold mr-2">
-      <Link href="/">
+      <Link href={topBarUrl}>
         Simple Unique Bible Viewer
       </Link>
     </div>
