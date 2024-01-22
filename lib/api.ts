@@ -65,6 +65,18 @@ export function getBibleChapter(text, bookNumber, chapter) {
   }
 }
 
+export function getBibleVerse(text, bookNumber, chapter, verse) {
+  const address = API_SERVER + `/bible/${text}/${bookNumber}/${chapter}/${verse}?` + addLang()
+  const fetcher = async (url) => await axios.get(url, { auth }).then((res) => res.data.data)
+  const { data, error } = useSWR(address, fetcher)
+
+  return {
+    data: data,
+    loading: !error && !data,
+    error: error
+  }
+}
+
 export function getBooks() {
 
   const address = API_SERVER + '/book?' + addLang()

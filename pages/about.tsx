@@ -51,8 +51,8 @@ export default function Index() {
 
             <p className="text-xl font-bold mt-10 mb-3">UBA viewers</p>
             <ul>
-              <li><a href="https://transliteralbible.com/index.html?cmd=.bible">
-                <button className={`${theme.clickableButton}`}>TransliteralBible.com</button></a></li>
+              <li><a href="https://uniquebibleapp.net/index.html?cmd=.bible">
+                <button className={`${theme.clickableButton}`}>UniqueBibleApp.net</button></a></li>
               <li><a href="https://bible.gospelchurch.uk">
                 <button className={`${theme.clickableButton}`}>GospelChurch.uk</button></a></li>
               <li><a href="https://marvelbible.com">

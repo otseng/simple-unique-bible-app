@@ -200,7 +200,7 @@ export default function Index() {
       router.push(`/bible/${bible}/${book}/${chapter}#v${chapter}_${verse}`)
     } else if (id == 'uba') {
       const cmd = `BIBLE:::${text}:::${book} ${chapter}:${verse}`
-      window.open('https://transliteralbible.com/index.html?cmd=' + cmd, '_blank', 'noreferrer');
+      window.open('https://uniquebibleapp.net/index.html?cmd=' + cmd, '_blank', 'noreferrer');
     }
   }
 
