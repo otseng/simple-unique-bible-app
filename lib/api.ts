@@ -24,8 +24,6 @@ export function getBibles() {
 
   if (data && data.indexOf("KJV-TRLITx") < 0) data.unshift("KJV-TRLITx")
 
-  console.log(data)
-
   return {
     data: data,
     loading: !error && !data,
