@@ -39,6 +39,10 @@ export default function Index() {
   const text = router.query.text as string
   let book = router.query.book as string
   if (book) book = book.replaceAll("+", " ")
+  var parallel = router.query.parallel as string
+  if (parallel === undefined) {
+    parallel = text
+  } 
   const bookNum = getBibleNumberFromName(book)
   const chapter = router.query.chapter as string
   const commentary = router.query.commentary as string
@@ -57,6 +61,7 @@ export default function Index() {
   const { data: dataBibles, loading: loadingBibles, error: errorBibles } = getBibles()
   const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBibleTextBooks(text)
   const { data, loading, error } = getBibleChapter(text, bookNum, chapter)
+  const { data: dataParallel, loading: loadingParallel, error: errorParallel } = getBibleChapter(parallel, bookNum, chapter)
   const { data: dataCommentaries, loading: loadingCommentaries, error: errorCommentaries } = getCommentaries()
   const { data: dataSubheadings, loading: loadingSubheadings, error: errorSubheadings } = getSubheadings(bookNum, chapter)
 
@@ -165,21 +170,10 @@ export default function Index() {
     } else if (id == 'highlight') {
       const element = document.getElementById("v" + chapter + "_" + verse)
       if (element.style.backgroundColor == '') {
-        for (const x of Array(150).keys()) {
-          const searchElement = "v" + chapter + "_" + (x + 1)
-          const element = document.getElementById(searchElement)
-          if (!element) break;
-          element.style.backgroundColor = ''
-        }
+        clearHighlights()
         router.push(`/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`)
       } else {
-        for (const x of Array(150).keys()) {
-          const searchElement = "v" + chapter + "_" + (x + 1)
-          const element = document.getElementById(searchElement)
-          if (!element) break;
-          element.style.backgroundColor = ''
-        }
-        // router.push(`/bible/${text}/${book}/${chapter}#`)
+        clearHighlights()
       }
     } else if (id == 'compare') {
       router.push(`/compare/${book}/${chapter}/${verse}?text=${text}`)
@@ -198,9 +192,22 @@ export default function Index() {
     } else if (id.startsWith("bible")) {
       const bible = id.replace("bible-", "")
       router.push(`/bible/${bible}/${book}/${chapter}#v${chapter}_${verse}`)
+    } else if (id.startsWith("parallel")) {
+      clearHighlights()
+      const bibles = id.replace("parallel-", "").split("-")
+      router.push(`/bible/${bibles[0]}/${book}/${chapter}?parallel=${bibles[1]}#v${chapter}_${verse}`)
     } else if (id == 'uba') {
       const cmd = `BIBLE:::${text}:::${book} ${chapter}:${verse}`
       window.open('https://uniquebibleapp.net/index.html?cmd=' + cmd, '_blank', 'noreferrer');
+    }
+  }
+
+  function clearHighlights() {
+    for (const x of Array(150).keys()) {
+      const searchElement = "v" + chapter + "_" + (x + 1)
+      const element = document.getElementById(searchElement)
+      if (!element) break;
+      element.style.backgroundColor = ''
     }
   }
 
@@ -329,6 +336,8 @@ export default function Index() {
     const mibBible = text == 'MIB'
     const mpbBible = text == 'MPB'
     const mtbBible = text == 'MTB'
+    const marvelBible = mabBible || mobBible || mibBible || mpbBible || mtbBible
+    const trlitxBible = text == 'TRLITx'
     const parseVerse = text.endsWith('x') || text.endsWith('+')
     const rawVerse = !mobBible && !mibBible && !parseVerse
     const bookNames = dataBooks.map((number) => globalThis.bibleNumberToName[number])
@@ -519,6 +528,7 @@ export default function Index() {
               {!isMobile() && <Item id="discourse" onClick={handleItemClick}><span className="text-md">{lang.Discourse}</span></Item>}
               <Item id="uba" onClick={handleItemClick}><span className="text-md">UBA</span></Item>
               {!isMobile() && <Separator />}
+              {!marvelBible && !trlitxBible && <Item id={`parallel-${text}-TRLITx`} onClick={handleItemClick}><span className="text-md">{text}/TRLITx</span></Item>}
               {biblesInPopup.map((bible) => {
                 const bibleId = "bible-" + bible
                 return <Item id={bibleId} onClick={handleItemClick}><span className="text-md">{bible}</span></Item>
