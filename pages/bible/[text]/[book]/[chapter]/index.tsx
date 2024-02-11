@@ -473,9 +473,9 @@ export default function Index() {
                   <p id={`v${verse.c}_${verse.v}`}>
                     <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v}</span>
                     {!parallelMode && <> - </>}
-                    {parallelMode && <><br/><br/>{text}: </>}
+                    {parallelMode && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{text}:</span> </>}
                     <span id={`t${verse.c}_${verse.v}`} className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: verse.t }} />
-                    {parallelMode && <><br/><br/>{parallel}: </>}
+                    {parallelMode && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{parallel}:</span> </>}
                     {parallelMode && dataParallel[i].t.split(' ').map((word) => (
                       word.match(/[GH][0-9]{1,4}/) ?
                         <a className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
@@ -491,13 +491,13 @@ export default function Index() {
                   <p id={`v${verse.c}_${verse.v}`}>
                     <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v}</span>
                     {!parallelMode && <> - </>}
-                    {parallelMode && <><br/><br/>{text}: </>}
+                    {parallelMode && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{text}:</span></>}
                     {verse.t.split(' ').map((word) => (
                       word.match(/[GH][0-9]{1,4}/) ?
                         <a className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
                         : <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
                     ))}
-                    {parallelMode && <><br/><br/>{parallel}: </>}
+                    {parallelMode && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{parallel}:</span> </>}
                     {parallelMode && dataParallel[i].t.split(' ').map((word) => (
                       word.match(/[GH][0-9]{1,4}/) ?
                         <a className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
