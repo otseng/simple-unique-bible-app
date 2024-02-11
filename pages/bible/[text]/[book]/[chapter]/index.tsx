@@ -158,7 +158,7 @@ export default function Index() {
     const chapter = matches[1]
     const verse = matches[2]
     if (id == 'copyLink') {
-      let url = window.location.protocol + '//' + window.location.host + `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
+      let url = window.location.protocol + '//' + window.location.host + `/bible/${fullText}/${book}/${chapter}#v${chapter}_${verse}`
       url = url.replaceAll(" ", "+")
       let contents = url + "\n"
       navigator.clipboard.writeText(contents)
@@ -176,12 +176,12 @@ export default function Index() {
       const element = document.getElementById("v" + chapter + "_" + verse)
       if (element.style.backgroundColor == '') {
         clearHighlights()
-        router.push(`/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`)
+        router.push(`/bible/${fullText}/${book}/${chapter}#v${chapter}_${verse}`)
       } else {
         clearHighlights()
       }
     } else if (id == 'compare') {
-      router.push(`/compare/${book}/${chapter}/${verse}?text=${text}`)
+      router.push(`/compare/${book}/${chapter}/${verse}?text=${fullText}`)
     } else if (id == 'xref') {
       router.push(`/xref/${book}/${chapter}/${verse}/${text}`)
     } else if (id == 'discourse') {
