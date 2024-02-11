@@ -328,7 +328,7 @@ export default function Index() {
     }
   }
 
-  if (error) return <div>Failed to load</div>
+  if (error || errorParallel) return <div className={`${theme.bibleReferenceContainer}`}>Failed to load</div>
   if (loading) return <div>Loading...</div>
 
   if (data && dataParallel && dataBooks && dataBibles && dataCommentaries) {
@@ -476,7 +476,7 @@ export default function Index() {
                     {parallelMode && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{text}:</span> </>}
                     <span id={`t${verse.c}_${verse.v}`} className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: verse.t }} />
                     {parallelMode && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{parallel}:</span> </>}
-                    {parallelMode && dataParallel[i].t.split(' ').map((word) => (
+                    {parallelMode && dataParallel && dataParallel[i].t.split(' ').map((word) => (
                       word.match(/[GH][0-9]{1,4}/) ?
                         <a className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
                         : <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
@@ -498,7 +498,7 @@ export default function Index() {
                         : <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
                     ))}
                     {parallelMode && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{parallel}:</span> </>}
-                    {parallelMode && dataParallel[i].t.split(' ').map((word) => (
+                    {parallelMode && dataParallel && dataParallel[i].t.split(' ').map((word) => (
                       word.match(/[GH][0-9]{1,4}/) ?
                         <a className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
                         : <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
