@@ -55,7 +55,7 @@ export default function Index() {
   }
 
   if (error || errorVerses) return <div>Failed to load</div>
-  if (loadingVerses) return <div>Loading...</div>
+  if (loadingVerses) return <div className={`${theme.bibleReferenceContainer}`}>Loading...</div>
 
   if (texts && dataVerses) {
     return (

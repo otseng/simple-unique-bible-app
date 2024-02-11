@@ -548,7 +548,7 @@ export default function Index() {
               {!isMobile() && <Item id="discourse" onClick={handleItemClick}><span className="text-md">{lang.Discourse}</span></Item>}
               <Item id="uba" onClick={handleItemClick}><span className="text-md">UBA</span></Item>
               {!isMobile() && <Separator />}
-              {!marvelBible && !trlitxBible && text != "KJV" && <Item id={`bible-${text}-TRLITx`} onClick={handleItemClick}><span className="text-md">{text}-TRLITx</span></Item>}
+              {!marvelBible && !trlitxBible && text != "KJVx" && <Item id={`bible-${text}-KJVx`} onClick={handleItemClick}><span className="text-md">{text}-KJVx</span></Item>}
               <Item id={`bible-KJV-TRLITx`} onClick={handleItemClick}><span className="text-md">KJV-TRLITx</span></Item>
               {biblesInPopup.map((bible) => {
                 const bibleId = "bible-" + bible
