@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.16] - 2/10/2024
+
+- Added KJV-TRLITx parallel mode
+
 ## [1.15] - 1/2/2024
 
 - Added search history

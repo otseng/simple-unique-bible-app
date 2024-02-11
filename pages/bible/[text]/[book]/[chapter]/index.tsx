@@ -36,13 +36,18 @@ export default function Index() {
   const { theme, setTheme } = useTheme()
 
   const router = useRouter()
-  const text = router.query.text as string
+  const fullText = router.query.text as string
+  let text = fullText
+  let parallel = fullText
+  let parallelMode = false
+  if (fullText && fullText.indexOf("-") > -1) {
+    const texts = text.split("-")
+    text = texts[0]
+    parallel = texts[1]
+    parallelMode = true
+  }
   let book = router.query.book as string
   if (book) book = book.replaceAll("+", " ")
-  var parallel = router.query.parallel as string
-  if (parallel === undefined) {
-    parallel = text
-  } 
   const bookNum = getBibleNumberFromName(book)
   const chapter = router.query.chapter as string
   const commentary = router.query.commentary as string
@@ -182,7 +187,7 @@ export default function Index() {
     } else if (id == 'discourse') {
       showDiscourse(bookNum, chapter, verse)
     } else if (id == 'bookmark') {
-      const url = `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
+      const url = `/bible/${fullText}/${book}/${chapter}#v${chapter}_${verse}`
       if (bookmarkExists(url)) {
         toast(lang.Bookmark_already_exists)
       } else {
@@ -190,12 +195,9 @@ export default function Index() {
         toast('Bookmark added')
       }
     } else if (id.startsWith("bible")) {
+      clearHighlights()
       const bible = id.replace("bible-", "")
       router.push(`/bible/${bible}/${book}/${chapter}#v${chapter}_${verse}`)
-    } else if (id.startsWith("parallel")) {
-      clearHighlights()
-      const bibles = id.replace("parallel-", "").split("-")
-      router.push(`/bible/${bibles[0]}/${book}/${chapter}?parallel=${bibles[1]}#v${chapter}_${verse}`)
     } else if (id == 'uba') {
       const cmd = `BIBLE:::${text}:::${book} ${chapter}:${verse}`
       window.open('https://uniquebibleapp.net/index.html?cmd=' + cmd, '_blank', 'noreferrer');
@@ -329,7 +331,7 @@ export default function Index() {
   if (error) return <div>Failed to load</div>
   if (loading) return <div>Loading...</div>
 
-  if (data && dataBooks && dataBibles && dataCommentaries) {
+  if (data && dataParallel && dataBooks && dataBibles && dataCommentaries) {
 
     const mabBible = text == 'MAB'
     const mobBible = text == 'MOB'
@@ -374,12 +376,12 @@ export default function Index() {
 
             <Disclosure>
               <Disclosure.Button className={`${theme.homeDisclosure}`}>
-                <div className="text-2xl">{text}</div>
+                <div className="text-2xl">{fullText}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>
                   {bookNames.map((book) => (
-                    <Link href={"/bible/" + text + "/" + book + "/1?commentary="}>
+                    <Link href={"/bible/" + fullText + "/" + book + "/1?commentary="}>
                       <button className={`${theme.clickableButton}`}>{book}</button>
                     </Link>
                   ))}
@@ -393,7 +395,7 @@ export default function Index() {
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 {chapters.map((chapter) => (
-                  <Link href={"/bible/" + text + "/" + book + "/" + chapter + "?commentary="}>
+                  <Link href={"/bible/" + fullText + "/" + book + "/" + chapter + "?commentary="}>
                     <button className={`${theme.clickableButton}`}>{chapter}</button>
                   </Link>
                 ))}
@@ -402,10 +404,10 @@ export default function Index() {
 
             <div className="flex justify-center items-center mt-2 mb-5">
               {showPrevious &&
-                <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) - 1)}>
+                <Link href={"/bible/" + fullText + '/' + book + '/' + (parseInt(chapter) - 1)}>
                   <button className={`${theme.clickableButton}`}>{lang.Previous}</button></Link>}
               {showNext &&
-                <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) + 1)}>
+                <Link href={"/bible/" + fullText + '/' + book + '/' + (parseInt(chapter) + 1)}>
                   <button className={`${theme.clickableButton}`}>{lang.Next}</button></Link>}
             </div>
 
@@ -465,25 +467,43 @@ export default function Index() {
                 )
               }
               {rawVerse &&
-                data.map((verse) => (verse.t &&
+                data.map((verse, i) => (verse.t &&
                   <>
                   {renderSubheadings(`${verse.v}`)}
                   <p id={`v${verse.c}_${verse.v}`}>
-                    <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
+                    <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v}</span>
+                    {!parallelMode && <> - </>}
+                    {parallelMode && <><br/><br/>{text}: </>}
                     <span id={`t${verse.c}_${verse.v}`} className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: verse.t }} />
+                    {parallelMode && <><br/><br/>{parallel}: </>}
+                    {parallelMode && dataParallel[i].t.split(' ').map((word) => (
+                      word.match(/[GH][0-9]{1,4}/) ?
+                        <a className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
+                        : <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
+                    ))}
+                    {parallelMode && <><br/><br/></>}
                   </p>
                   </>
                 ))
               }
               {parseVerse &&
-                data.map((verse) => (verse.t &&
+                data.map((verse, i) => (verse.t &&
                   <p id={`v${verse.c}_${verse.v}`}>
-                    <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>
+                    <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v}</span>
+                    {!parallelMode && <> - </>}
+                    {parallelMode && <><br/><br/>{text}: </>}
                     {verse.t.split(' ').map((word) => (
                       word.match(/[GH][0-9]{1,4}/) ?
                         <a className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
                         : <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
                     ))}
+                    {parallelMode && <><br/><br/>{parallel}: </>}
+                    {parallelMode && dataParallel[i].t.split(' ').map((word) => (
+                      word.match(/[GH][0-9]{1,4}/) ?
+                        <a className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
+                        : <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
+                    ))}
+                    {parallelMode && <><br/><br/></>}
                   </p>
                 ))
               }
@@ -492,10 +512,10 @@ export default function Index() {
 
             <div className="flex justify-center items-center mt-2 mb-5">
               {showPrevious &&
-                <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) - 1)}>
+                <Link href={"/bible/" + fullText + '/' + book + '/' + (parseInt(chapter) - 1)}>
                   <button className={`${theme.clickableButton}`}>{lang.Previous}</button></Link>}
               {showNext &&
-                <Link href={"/bible/" + text + '/' + book + '/' + (parseInt(chapter) + 1)}>
+                <Link href={"/bible/" + fullText + '/' + book + '/' + (parseInt(chapter) + 1)}>
                   <button className={`${theme.clickableButton}`}>{lang.Next}</button></Link>}
             </div>
 
@@ -528,7 +548,8 @@ export default function Index() {
               {!isMobile() && <Item id="discourse" onClick={handleItemClick}><span className="text-md">{lang.Discourse}</span></Item>}
               <Item id="uba" onClick={handleItemClick}><span className="text-md">UBA</span></Item>
               {!isMobile() && <Separator />}
-              {!marvelBible && !trlitxBible && <Item id={`parallel-${text}-TRLITx`} onClick={handleItemClick}><span className="text-md">{text}/TRLITx</span></Item>}
+              {!marvelBible && !trlitxBible && text != "KJV" && <Item id={`bible-${text}-TRLITx`} onClick={handleItemClick}><span className="text-md">{text}-TRLITx</span></Item>}
+              <Item id={`bible-KJV-TRLITx`} onClick={handleItemClick}><span className="text-md">KJV-TRLITx</span></Item>
               {biblesInPopup.map((bible) => {
                 const bibleId = "bible-" + bible
                 return <Item id={bibleId} onClick={handleItemClick}><span className="text-md">{bible}</span></Item>

@@ -22,6 +22,10 @@ export function getBibles() {
   const fetcher = async (url) => await axios.get(url, { auth }).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 
+  if (data && data.indexOf("KJV-TRLITx") < 0) data.unshift("KJV-TRLITx")
+
+  console.log(data)
+
   return {
     data: data,
     loading: !error && !data,
