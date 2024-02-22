@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.17] - 2/22/2024
+
+- Added lexicon single entry display 
+
 ## [1.16] - 2/10/2024
 
 - Added KJV-TRLITx parallel mode
