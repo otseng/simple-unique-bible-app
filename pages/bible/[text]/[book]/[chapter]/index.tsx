@@ -471,8 +471,9 @@ export default function Index() {
                   <>
                   {renderSubheadings(`${verse.v}`)}
                   <p id={`v${verse.c}_${verse.v}`}>
-                    <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v}</span>
-                    {!parallelMode && <> - </>}
+                    {!parallelMode && <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>}
+                    {parallelMode && <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{book} {verse.c}:{verse.v}</span>}
+                    
                     {parallelMode && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{text}:</span> </>}
                     <span id={`t${verse.c}_${verse.v}`} className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: verse.t }} />
                     {parallelMode && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{parallel}:</span> </>}
@@ -489,8 +490,9 @@ export default function Index() {
               {parseVerse &&
                 data.map((verse, i) => (verse.t &&
                   <p id={`v${verse.c}_${verse.v}`}>
-                    <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v}</span>
-                    {!parallelMode && <> - </>}
+                    {!parallelMode && <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v} - </span>}
+                    {parallelMode && <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{book} {verse.c}:{verse.v}</span>}
+                    
                     {parallelMode && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{text}:</span></>}
                     {verse.t.split(' ').map((word) => (
                       word.match(/[GH][0-9]{1,4}/) ?
