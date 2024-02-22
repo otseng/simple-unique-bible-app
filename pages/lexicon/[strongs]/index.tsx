@@ -28,7 +28,7 @@ export default function Index() {
         setLexiconData(data)
       })
     }
-  }, []);
+  }, [router.isReady]);
 
   return (
     <>
