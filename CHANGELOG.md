@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.18] - 5/13/2024
+
+- Modified compare list 
+
 ## [1.17] - 2/22/2024
 
 - Added lexicon single entry display 
