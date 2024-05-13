@@ -77,11 +77,11 @@ export default function Index() {
   if (getLang() == "en") {
     biblesInPopup = ['KJV']
     if (isPowerMode()) {
-      biblesInPopup.push.apply(biblesInPopup, ['ESV', 'NASB', 'NIV'])
+      biblesInPopup.push.apply(biblesInPopup, ['ESV', 'NASB', 'NIV', 'NRSV'])
     }
-    biblesInPopup.push.apply(biblesInPopup, ['TRLIT', 'TRLITx', 'KJVx', 'MIB'])
+    biblesInPopup.push.apply(biblesInPopup, ['TRLIT', 'TRLITx', 'MIB'])
   } else if (getLang().startsWith("zh")) {
-    biblesInPopup = ['CUV', 'CUVs', 'KJV', 'KJVx', 'MIB']
+    biblesInPopup = ['CUV', 'CUVs', 'KJV', 'MIB']
   }
   if (!isMobile()) {
     biblesInPopup.push.apply(biblesInPopup, ['MAB'])
