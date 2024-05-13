@@ -2,7 +2,8 @@
 
 ## [1.18] - 5/13/2024
 
-- Modified compare list 
+- Modified compare list
+- Add Strongs Bibles in menu 
 
 ## [1.17] - 2/22/2024
 

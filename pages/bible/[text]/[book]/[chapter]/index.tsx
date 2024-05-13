@@ -550,7 +550,14 @@ export default function Index() {
               {!isMobile() && <Item id="discourse" onClick={handleItemClick}><span className="text-md">{lang.Discourse}</span></Item>}
               <Item id="uba" onClick={handleItemClick}><span className="text-md">UBA</span></Item>
               {!isMobile() && <Separator />}
-              {!marvelBible && !trlitxBible && text != "KJVx" && <Item id={`bible-${text}-KJVx`} onClick={handleItemClick}><span className="text-md">{text}-KJVx</span></Item>}
+              {/* {!marvelBible && !trlitxBible && text != "KJVx" && <Item id={`bible-${text}-KJVx`} onClick={handleItemClick}><span className="text-md">{text}-KJVx</span></Item>} */}
+              {isPowerMode() && text == "ASV" && <Item id={`bible-ASV-ASVx`} onClick={handleItemClick}><span className="text-md">ASV-ASVx</span></Item>}
+              {isPowerMode() && text == "ESV" && <Item id={`bible-ESV-ESV2016x`} onClick={handleItemClick}><span className="text-md">ESV-ESV2016x</span></Item>}
+              {isPowerMode() && text == "KJV" && <Item id={`bible-KJV-KJVx`} onClick={handleItemClick}><span className="text-md">KJV-KJVx</span></Item>}
+              {isPowerMode() && text == "NASB" && <Item id={`bible-NASB-NASBx`} onClick={handleItemClick}><span className="text-md">NASB-NASBx</span></Item>}
+              {isPowerMode() && text == "NET" && <Item id={`bible-NET-NETx`} onClick={handleItemClick}><span className="text-md">NET-NETx</span></Item>}
+              {isPowerMode() && text == "NIV" && <Item id={`bible-NIV-NIV2011x`} onClick={handleItemClick}><span className="text-md">NIV-NIV2011x</span></Item>}
+              {isPowerMode() && text == "NRSV" && <Item id={`bible-NRSV-NRSVx`} onClick={handleItemClick}><span className="text-md">NRSV-NRSVx</span></Item>}
               <Item id={`bible-KJV-TRLITx`} onClick={handleItemClick}><span className="text-md">KJV-TRLITx</span></Item>
               {biblesInPopup.map((bible) => {
                 const bibleId = "bible-" + bible
