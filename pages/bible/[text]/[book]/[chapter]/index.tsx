@@ -79,7 +79,7 @@ export default function Index() {
   if (getLang() == "en") {
     biblesInPopup = ['KJV']
     if (isPowerMode()) {
-      biblesInPopup.push.apply(biblesInPopup, ['ESV', 'NASB', 'NIV', 'NRSV'])
+      biblesInPopup.push.apply(biblesInPopup, ['ESV', 'NASB', 'NIV', 'NRSV', 'NLT'])
     }
     biblesInPopup.push.apply(biblesInPopup, ['TRLIT', 'TRLITx', 'MIB'])
   } else if (getLang().startsWith("zh")) {
