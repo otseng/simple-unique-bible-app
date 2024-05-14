@@ -92,6 +92,14 @@ export default function Index() {
                             </Disclosure.Panel>
                         </Disclosure>
 
+                        {text &&
+                            <div className="flex justify-center items-center mt-2 mb-5">
+                                <Link href={"/bible/" + text + '/' + book + '/' + chapter}>
+                                    <button className={`${theme.clickableButton}`}>Back to {text}</button>
+                                </Link>
+                            </div>
+                        }
+
                         <span className={`${theme.commentaryTextContainer}`}>
                         {data.map((data) => (
                             <p><span className="title-container" dangerouslySetInnerHTML={{ __html: data }} /></p>

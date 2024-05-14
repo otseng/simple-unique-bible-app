@@ -256,6 +256,19 @@ export function searchBible(searchText, text) {
   }
 }
 
+export function concordanceSearch(strongs, text) {
+
+  const address = API_SERVER + '/concordance/' + text + '/' + strongs
+  const fetcher = async (url) => await axios.get(url, { auth }).then((res) => res.data.data)
+  const { data, error } = useSWR(address, fetcher)
+
+  return {
+    data: data,
+    loading: !error && !data,
+    error: error
+  }
+}
+
 export function lexiconReverse(searchText, lexicon) {
 
   const address = API_SERVER + `/lexiconreverse/` + lexicon + '/' + searchText

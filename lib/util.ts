@@ -123,6 +123,8 @@ export function highlight(html: string, searchText: string): any {
     if (searchText.startsWith('"') && searchText.endsWith('"')) {
         searchText = searchText.replaceAll('"', '')
         html = html.replace(new RegExp("(" + searchText + ")", "ig"), "<span style='" + style + "'>$1</span>")
+    } else if (searchText.endsWith(' ')) {
+        html = html.replace(new RegExp("(" + searchText + ")", "ig"), "<span style='" + style + "'>$1</span>")
     } else if (searchText.includes(" ")) {
       searchText.split(' ').map((word) => {
         html = html.replace(new RegExp("(" + word + ")", "ig"), "<span style='" + style + "'>$1</span>")
@@ -131,6 +133,18 @@ export function highlight(html: string, searchText: string): any {
       searchText = searchText.replaceAll('"', '')
       html = html.replace(new RegExp("(" + searchText + ")", "ig"), "<span style='" + style + "'>$1</span>")
     }
+    return html
+}
+
+export function highlightStrongs(html: string, searchText: string): any {
+    let style = "background-color:#f7dc6f; color: black;"
+    if (getTheme() == "dark") {
+      style = "background-color: #f7dc6f; color: black;"
+    }
+
+    searchText = searchText.replaceAll('"', '')
+    html = html.replace(new RegExp("(\\w+ " + searchText + ")", "ig"), "<span style='" + style + "'>$1</span>")
+    
     return html
 }
 

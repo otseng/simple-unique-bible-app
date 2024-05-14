@@ -70,6 +70,11 @@ export default function Index() {
     searchLexiconReverse()
   }
 
+  function concordance() {
+    setSearchText("")
+    concordanceSearch()
+  }
+
   function checkReference() {
     if (searchText.includes(" ")) {
       const parse1 = searchText.split(" ")
@@ -159,6 +164,17 @@ export default function Index() {
 
   function searchLexiconReverse() {
     const url = `/search/lexiconreverse/TRLIT/${searchText}`
+    router.push(url)
+  }
+
+  function concordanceSearch() {
+    let bible = selectedBible
+    let text = searchText.toUpperCase()
+    if (!bible.endsWith('x')) {
+      bible = 'KJVx'
+    }
+    const url = `/search/concordance/${bible}/${text}`
+    addSearch(url)
     router.push(url)
   }
 
@@ -262,6 +278,7 @@ export default function Index() {
                     </span>
                   </div>
                   <div className="flex justify-center items-center">
+                  <button className={`${theme.clickableButton}`} onClick={concordance}>{lang.Strongs}</button>
                   <button className={`${theme.clickableButton}`} onClick={reverseLexicon}>{lang.Reverse_Lexicon_Search}</button>
                   </div>
                   
@@ -288,11 +305,23 @@ export default function Index() {
                         </>
                       )
                     }
-                    return (<>
-                      <div className="flex justify-center items-center">
-                      {search}
-                      </div>
-                    </>)
+                    regex = new RegExp("/search/concordance/(.*)/(.*)")
+                    matches = regex.exec(search)
+                    if (matches) {
+                      const text = matches[1]
+                      const strongs = matches[2]
+
+                      return (
+                        <>
+                          <div className="flex justify-center items-center ">
+                            <Link href={search}>
+                              <button className={`${theme.clickableButton}`}>{strongs} {text}</button>
+                            </Link>
+                            <button id={search} onClick={() => deleteOne(search)} className={`${theme.clickableButton}`}>{lang.Delete}</button>
+                          </div>
+                        </>
+                      )
+                    }
                   })}
 
                   {searches.length > 0 && <>
