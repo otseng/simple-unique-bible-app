@@ -11,6 +11,7 @@ import { getBibleTextDir, highlightStrongs, preloadData } from '../../../../../l
 import { useLang } from '../../../../../lang/langContext';
 import { useTheme } from '../../../../../theme/themeContext';
 import { useState } from 'react';
+import BasicModal from '../../../../../components/basic-modal';
 
 export default function Index() {
 
@@ -30,10 +31,12 @@ export default function Index() {
   const [modalTitle, setModalTitle] = useState('')
   const [modalContent, setModalContent] = useState('')
 
-  function showLexicon(strongs) {
+  function showLexicon() {
+    
     setModalTitle('Lexicon - ' + strongs)
     _getLexicon('TRLIT', strongs).then((resp) => {
       const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
+      console.log(html)
       if (!html.includes("[Not found]")) {
         setModalContent(html)
         setShowModal(true)
@@ -77,6 +80,9 @@ export default function Index() {
                     <button className={`${theme.clickableButton}`}>{lang.Back_to_Bible}</button>
                   </Link>
                   }
+                  {returnLink && 
+                    <button onClick={showLexicon} className={`${theme.clickableButton}`}>{strongs}</button>
+                  }
                   <p className={`${theme.bibleTextContainer}` + " font-bold text-xl"}>"{strongs}" ({text}) - {dataVerses.length} {lang.verses_found}</p>
 
                   {dataVerses.map((data) => {
@@ -97,6 +103,8 @@ export default function Index() {
 
               </Disclosure.Panel>
             </Disclosure>
+
+            <BasicModal show={showModal} setter={setShowModal} title={modalTitle} content={modalContent}></BasicModal>
 
           </Container>
         </Layout>
