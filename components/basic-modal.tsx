@@ -50,13 +50,23 @@ export default function BasicModal(props) {
                   </div>
                 </div>
                 <div className={theme.backgroundStyle + " flex justify-center items-center mt-2 mb-5"}>
+                  {props.strongsModal && 
+                    <button
+                      type="button"
+                      className={theme.clickableButton}
+                      onClick={() => props.searchStrongs()}
+                      ref={buttonRef}
+                    >
+                      {lang.Search}
+                    </button>
+                  }
                   <button
                     type="button"
                     className={theme.clickableButton}
                     onClick={() => props.setter(false)}
                     ref={buttonRef}
                   >
-                    OK
+                    {lang.Close}
                   </button>
                 </div>
               </Dialog.Panel>

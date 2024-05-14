@@ -23,10 +23,13 @@ export default function Index() {
     const title = router.query.title
     const book = router.query.book as string
     let bookNum = getBibleNumberFromName(book)
-    const chapter = router.query.chapter as string
+    let chapter = router.query.chapter as string
+    if (!chapter) chapter = '1'
     const showPrevious = parseInt(chapter) > 1
     const chapters = range(bibleChapters[bookNum], 1)
-    const text = router.query.text as string
+    let text = router.query.text as string
+
+    if (!text) text = 'KJV'
 
     const { data: dataCommentaries, loading: loadingCommentaries, error: errorCommentaries } = getCommentaries()
     const { data, loading, error } = getCommentaryContent(title, bookNum, chapter)
@@ -51,7 +54,7 @@ export default function Index() {
                             <Disclosure.Panel className="text-gray-500">
                                 <div>
                                     {dataCommentaries.map((commentary) => (
-                                        <Link href={"/commentary/" + commentary + '/' + book + '/' + chapter}>
+                                        <Link href={"/commentary/" + commentary + '/' + book + '/' + chapter + '?text=' + text}>
                                             <button className={`${theme.clickableButton}`}>
                                                 {commentary.replaceAll('_', ' ')}
                                             </button>
@@ -68,7 +71,7 @@ export default function Index() {
                             <Disclosure.Panel className="text-gray-500">
                                 <div>
                                     {globalThis.bookNames.map((book) => (
-                                        <Link href={"/commentary/" + title + "/" + book}>
+                                        <Link href={"/commentary/" + title + "/" + book + '/1?text=' + text}>
                                             <button className={`${theme.clickableButton}`}>{book}</button>
                                         </Link>
                                     ))}
@@ -84,7 +87,7 @@ export default function Index() {
                                 <div>
 
                                     {chapters.map((chapter) => (
-                                        <Link href={"/commentary/" + title + '/' + book + '/' + chapter}>
+                                        <Link href={"/commentary/" + title + '/' + book + '/' + chapter + '?text=' + text}>
                                             <button className={`${theme.clickableButton}`}>{chapter}</button>
                                         </Link>
                                     ))}

@@ -58,6 +58,8 @@ export default function Index() {
   const [showModal, setShowModal] = useState(false)
   const [modalTitle, setModalTitle] = useState('')
   const [modalContent, setModalContent] = useState('')
+  const [strongsModal, setStrongsModal] = useState('')
+
   const { show } = useContextMenu({
     id: BIBLE_VERSE_POPUP_MENU
   })
@@ -224,6 +226,7 @@ export default function Index() {
 
   function showLexicon(strongs) {
     setScrolledRef(false)
+    setStrongsModal(strongs)
     setModalTitle('Lexicon - ' + strongs)
     _getLexicon('TRLIT', strongs).then((resp) => {
       removeToast()
@@ -326,6 +329,17 @@ export default function Index() {
     } else {
       return <></>
     }
+  }
+
+  function searchStrongs() {
+    let bible = text
+    let strongs = strongsModal
+    if (!bible.endsWith('x')) {
+      bible = 'KJVx'
+    }
+    const url = `/search/concordance/${bible}/${strongs}?return=/bible/${fullText}/${book}/${chapter}`
+
+    router.push(url)
   }
 
   if (error || errorParallel) return <div className={`${theme.bibleReferenceContainer}`}>Failed to load</div>
@@ -538,7 +552,7 @@ export default function Index() {
               </Disclosure.Panel>
             </Disclosure>
 
-            <BasicModal show={showModal} setter={setShowModal} title={modalTitle} content={modalContent}></BasicModal>
+            <BasicModal show={showModal} setter={setShowModal} title={modalTitle} content={modalContent} strongsModal={strongsModal} searchStrongs={searchStrongs}></BasicModal>
 
             <Menu id={BIBLE_VERSE_POPUP_MENU} theme={menuTheme}>
               <Item id="bookmark" onClick={handleItemClick}><span className="text-md">{lang.Add_bookmark}</span></Item>

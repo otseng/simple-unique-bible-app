@@ -22,6 +22,8 @@ export default function Index() {
   const router = useRouter()
   const strongs = router.query.strongs as string
   let text = router.query.text as string
+  const returnLink = router.query.return as string
+
   const { data: dataVerses, loading, error } = concordanceSearch(strongs, text)
 
   const [showModal, setShowModal] = useState(false)
@@ -62,14 +64,19 @@ export default function Index() {
               <Disclosure.Button className={`${theme.homeDisclosure}`}>
                 <div className="text-2xl">{lang.Search_results}</div>
               </Disclosure.Button>
+              
               <Disclosure.Panel className="text-gray-500">
 
                 <div className="m-10">
 
                   <Link href={`/search`}>
-                    <button className={`${theme.clickableButton}`}>{lang.Back_to_search}</button>
+                    <button className={`${theme.clickableButton}`}>{lang.Search}</button>
                   </Link>
-
+                  {returnLink && 
+                  <Link href={`/${returnLink}`}>
+                    <button className={`${theme.clickableButton}`}>{lang.Back_to_Bible}</button>
+                  </Link>
+                  }
                   <p className={`${theme.bibleTextContainer}` + " font-bold text-xl"}>"{strongs}" ({text}) - {dataVerses.length} {lang.verses_found}</p>
 
                   {dataVerses.map((data) => {
