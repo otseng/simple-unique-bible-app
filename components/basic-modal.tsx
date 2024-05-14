@@ -2,6 +2,7 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { useLang } from '../lang/langContext'
 import { useTheme } from '../theme/themeContext'
+import { isPowerMode } from '../lib/util'
 
 export default function BasicModal(props) {
 
@@ -50,7 +51,7 @@ export default function BasicModal(props) {
                   </div>
                 </div>
                 <div className={theme.backgroundStyle + " flex justify-center items-center mt-2 mb-5"}>
-                  {props.strongsModal && 
+                  {isPowerMode() && props.strongsModal && 
                     <button
                       type="button"
                       className={theme.clickableButton}
