@@ -190,7 +190,8 @@ export function getCompareVerses(book, chapter, verse) {
     address += '&text=KJV&text=WEB&text=NET'
     if (powerMode) {
       address +=
-        '&text=ESV&text=NASB&text=NIV&text=NRSV&text=AMP&text=TLB&text=TPT&text=MSG'
+        '&text=ESV&text=NASB&text=NIV&text=NRSV' +
+        '&text=TLB&text=AMP&text=MSG&text=EXB&text=TPT'
       console.log(address)
     }
     address = address +
