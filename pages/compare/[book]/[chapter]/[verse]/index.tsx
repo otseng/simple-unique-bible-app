@@ -25,12 +25,17 @@ export default function Index() {
   const [showModal, setShowModal] = useState(false)
   const [modalTitle, setModalTitle] = useState('')
   const [modalContent, setModalContent] = useState('')
+  const [strongsModal, setStrongsModal] = useState('')
 
   const router = useRouter()
   let book = router.query.book as string
   const chapter = router.query.chapter as string
   const verse = router.query.verse as string
   let text = router.query.text as string
+  if (text && text.indexOf("-") > -1) {
+    const texts = text.split("-")
+    text = texts[0]
+  }
   if (!text) {
     text = "KJV"
   }
@@ -47,11 +52,23 @@ export default function Index() {
 
   function showLexicon(strongs) {
     setModalTitle('Lexicon - ' + strongs)
+    setStrongsModal(strongs)
     const data = _getLexicon('TRLIT', strongs).then((resp) => {
-      const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
+      let html = resp[0]?.replaceAll('<a href', '<a target="new" href')
       setModalContent(html)
       setShowModal(true)
     })
+  }
+
+  function searchStrongs() {
+    let bible = text
+    let strongs = strongsModal
+    if (!bible.endsWith('x')) {
+      bible = 'KJVx'
+    }
+    const url = `/search/concordance/${bible}/${strongs}?return=/bible/${text}/${book}/${chapter}`
+
+    router.push(url)
   }
 
   if (error || errorVerses) return <div>Failed to load</div>
@@ -127,7 +144,7 @@ export default function Index() {
                     ))
                     return (<p className={`${theme.bibleDivContainer}`} dir={dir}>{link} - {parsed}</p>)
                   } else {
-                    return (<p className={`${theme.bibleDivContainer}`} dir={dir}>{link} - <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
+                    return (<p className={`${theme.bibleDivContainer}`} dir={dir}>{link} <span className={`${theme.bibleTextContainer}`}>-</span> <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
                   }
                 }
               })
@@ -140,7 +157,8 @@ export default function Index() {
               </Link>
             </div>
 
-            <BasicModal show={showModal} setter={setShowModal} title={modalTitle} content={modalContent}></BasicModal>
+            <BasicModal show={showModal} setter={setShowModal} title={modalTitle} content={modalContent}
+             strongsModal={strongsModal} searchStrongs={searchStrongs}></BasicModal>
 
           </Container>
         </Layout>

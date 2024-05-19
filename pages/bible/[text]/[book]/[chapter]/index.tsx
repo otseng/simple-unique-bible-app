@@ -224,13 +224,23 @@ export default function Index() {
     }
   }
 
+  function clickInModal(e) {
+    const el = e.target
+    console.log(el)
+  }
+
   function showLexicon(strongs) {
     setScrolledRef(false)
     setStrongsModal(strongs)
     setModalTitle('Lexicon - ' + strongs)
     _getLexicon('TRLIT', strongs).then((resp) => {
       removeToast()
-      const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
+      let html = resp[0]?.replaceAll('<a href', '<a target="new" href')
+
+      // "<ref onclick="lex('H4761')">mar'āšôṯ</ref>"
+      // https://stackoverflow.com/questions/30523800/call-react-component-function-from-onclick-in-dangerouslysetinnerhtml
+      html = html.replace(new RegExp("<ref onclick=\"lex\\('(.*?)'\\)\">(.*?)</ref>", "ig"), "<a id='$1' href='#'>$2</a>")
+
       if (!html.includes("[Not found]")) {
         setModalContent(html)
         setShowModal(true)
@@ -552,7 +562,8 @@ export default function Index() {
               </Disclosure.Panel>
             </Disclosure>
 
-            <BasicModal show={showModal} setter={setShowModal} title={modalTitle} content={modalContent} strongsModal={strongsModal} searchStrongs={searchStrongs}></BasicModal>
+            <BasicModal show={showModal} setter={setShowModal} title={modalTitle} onClick={clickInModal}
+            content={modalContent} strongsModal={strongsModal} searchStrongs={searchStrongs}></BasicModal>
 
             <Menu id={BIBLE_VERSE_POPUP_MENU} theme={menuTheme}>
               <Item id="bookmark" onClick={handleItemClick}><span className="text-md">{lang.Add_bookmark}</span></Item>
