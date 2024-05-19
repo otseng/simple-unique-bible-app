@@ -200,7 +200,7 @@ export function getCompareVerses(book, chapter, verse) {
       '&text=YLT&text=Darby&text=KJV1611&text=Geneva&text=Bishops&text=Coverdale&text=Tyndale&text=Wycliffe'
     console.log(address)
     address = address +
-      '&text=text=TRLITx&text=KJVx'
+      '&text=TRLITx&text=KJVx'
       // '&text=ASVx&text=LEBx&text=WEBx&text=NETx'
     // if (powerMode) {
     //   address += '&text=NASBx'
