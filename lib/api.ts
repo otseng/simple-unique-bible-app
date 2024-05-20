@@ -189,15 +189,14 @@ export function getCompareVerses(book, chapter, verse) {
   if (getLang() == "en") {
     address += '&text=KJV&text=WEB&text=NET'
     if (powerMode) {
-      address +=
-        '&text=ESV&text=NASB&text=NIV&text=NRSV' +
+      address += '&text=ESV&text=NASB&text=NIV&text=NRSV' +
         '&text=TLB&text=AMP&text=MSG&text=EXB&text=TPT'
-      console.log(address)
     }
-    address = address +
-      '&text=ERV&text=ISV&text=ULT&text=UST&text=2001' +
-      '&text=BBE&text=EasyEnglish&text=NHEB&text=PESH' +
-      '&text=ASV&text=LEB&text=DRB' +
+    address += '&text=ERV&text=ISV&text=ULT&text=2001'
+    if (powerMode) {
+      address += '&text=NHEB&text=PESH&text=CJB'
+    }
+    address += '&text=ASV&text=LEB&text=DRB' +
       '&text=YLT&text=Darby&text=KJV1611&text=Geneva&text=Bishops&text=Coverdale&text=Tyndale&text=Wycliffe'
     console.log(address)
     address = address +
