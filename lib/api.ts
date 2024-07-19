@@ -195,9 +195,10 @@ export function getCompareVerses(book, chapter, verse) {
     if (powerMode) {
       address = address + '&text=NHEB&text=PESH&text=CJB'
     }
-    address = address + '&text=ASV&text=LEB&text=DRB'
-    address = address + '&text=YLT&text=Darby&text=KJV1611&text=Geneva&text=Bishops&text=Tyndale&text=Wycliffe'
-    address = address + '&text=TRLITx&text=KJVx'
+    address = address + '&text=ASV&text=LEB&text=DRB' +
+        '&text=YLT&text=Darby&text=KJV1611&text=Geneva' +
+        '&text=Bishops&text=Tyndale&text=Wycliffe' +
+        '&text=TRLITx&text=KJVx'
 
   } else if (getLang().startsWith("zh")) {
     address = address +
