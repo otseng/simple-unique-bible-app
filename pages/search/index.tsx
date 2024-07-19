@@ -109,6 +109,7 @@ export default function Index() {
       }
       const bookName = globalThis.bibleNumberToName[parseInt(foundBook)]
       const url = `/bible/${selectedBible}/${bookName}/${chapter}#v${chapter}_${verse}`
+      addSearch(url)
       router.push(url)
       return true
     }
@@ -316,6 +317,25 @@ export default function Index() {
                           <div className="flex justify-center items-center ">
                             <Link href={search}>
                               <button className={`${theme.clickableButton}`}>{strongs} {text}</button>
+                            </Link>
+                            <button id={search} onClick={() => deleteOne(search)} className={`${theme.clickableButton}`}>{lang.Delete}</button>
+                          </div>
+                        </>
+                      )
+                    }
+                    regex = new RegExp("/bible/(.*)/(.*)/(.*)#v(.*)_(.*)")
+                    matches = regex.exec(search)
+                    if (matches) {
+                      const text = matches[1]
+                      const book = matches[2]
+                      const chapter = matches[3]
+                      const verse = matches[5]
+
+                      return (
+                        <>
+                          <div className="flex justify-center items-center ">
+                            <Link href={search}>
+                              <button className={`${theme.clickableButton}`}>{book} {chapter}:{verse} ({text})</button>
                             </Link>
                             <button id={search} onClick={() => deleteOne(search)} className={`${theme.clickableButton}`}>{lang.Delete}</button>
                           </div>
