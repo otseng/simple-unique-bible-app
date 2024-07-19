@@ -183,9 +183,8 @@ export function getDevotionalContent(book, month, day) {
 
 export function getCompareVerses(book, chapter, verse) {
 
-  const powerMode = isPowerMode()
   let address = API_SERVER + `/compare/${book}/${chapter}/${verse}?` + addLang()
-  console.log(address)
+  const powerMode = isPowerMode()
   if (getLang() == "en") {
     address += '&text=KJV&text=WEB&text=NET'
     if (powerMode) {
@@ -198,10 +197,8 @@ export function getCompareVerses(book, chapter, verse) {
     }
     address += '&text=ASV&text=LEB&text=DRB' +
       '&text=YLT&text=Darby&text=KJV1611&text=Geneva&text=Bishops&text=Coverdale&text=Tyndale&text=Wycliffe'
-    address = address +
-      '&text=TRLITx&text=KJVx'
+    address += '&text=TRLITx&text=KJVx'
 
-      console.log(address)
   } else if (getLang().startsWith("zh")) {
     address +=
       '&text=CUV&text=CUVs&text=Pinyin' +
@@ -209,6 +206,7 @@ export function getCompareVerses(book, chapter, verse) {
       '&text=Tanakhxx&text=MOB' +
       '&text=Greek%2b'
   }
+  console.log(address)
   const fetcher = async (url) => await axios.get(url, { auth }).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 
