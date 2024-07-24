@@ -20,12 +20,6 @@ const Intro = (props) => {
     menuItems.push([lang.Devotionals, '/devotional'])
   }
   
-  let topBarUrl = "/"
-
-  if (isPowerMode()) {
-    topBarUrl = "/bookmark"
-  }
-  
   menuItems.push([lang.Books, '/book'])
   menuItems.push([lang.Commentaries, '/commentary'])
   menuItems.push([lang.Bookmarks, '/bookmark'])
@@ -85,9 +79,10 @@ const Intro = (props) => {
     </Popover>
 
     <div className="text-2xl md:text-3xl font-bold mr-2">
-      <Link href={topBarUrl}>
-        Simple Unique Bible Viewer
-      </Link>
+      <Link href="/search">Simple</Link>&nbsp;
+      <Link href="/book">Unique</Link>&nbsp;
+      <Link href="/bible">Bible</Link>&nbsp; 
+      <Link href="/bookmark">Viewer</Link> 
     </div>
 
   </section>)
