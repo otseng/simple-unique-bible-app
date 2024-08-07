@@ -13,6 +13,7 @@ import { useState } from 'react'
 import Input from 'rc-input'
 import { useLang } from '../../../../lang/langContext'
 import { useTheme } from '../../../../theme/themeContext'
+import { getTheme } from '../../../../theme/themeUtil'
 
 export default function Index() {
 
@@ -92,7 +93,11 @@ export default function Index() {
     if (title.includes('Hymn Lyrics')) {
       html = data.replace(/<ref.*\/ref>/, '')
     }
-    html = "<article class='prose'>" + html + "</article>"
+    if (getTheme() == "dark") {
+      html = "<article class='prose dark:prose-invert'>" + html + "</article>"
+    } else {
+      html = "<article class='prose'>" + html + "</article>"
+    }
 
     return (
       <>
