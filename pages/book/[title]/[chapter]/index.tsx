@@ -92,6 +92,7 @@ export default function Index() {
     if (title.includes('Hymn Lyrics')) {
       html = data.replace(/<ref.*\/ref>/, '')
     }
+    html = "<article class='prose'>" + html + "</article>"
 
     return (
       <>

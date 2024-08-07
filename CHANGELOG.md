@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.19] - 8/6/2024
+
+- Add prose formatting to books
+
 ## [1.18] - 5/13/2024
 
 - Modified compare list
