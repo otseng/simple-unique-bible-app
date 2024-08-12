@@ -169,9 +169,9 @@ export default function Index() {
       const verseTextElement = document.getElementById("t" + chapter + "_" + verse)
       let contents = book + " " + chapter + ":" + verse + " (" + text + ")\n"
       contents += verseTextElement.innerText + "\n"
-      let url = window.location.protocol + '//' + window.location.host + `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
-      url = url.replaceAll(" ", "+")
-      contents += url + "\n"
+      // let url = window.location.protocol + '//' + window.location.host + `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
+      // url = url.replaceAll(" ", "+")
+      // contents += url + "\n"
       navigator.clipboard.writeText(contents)
       toast(lang.Copied_to_clipboard)
     } else if (id == 'highlight') {
