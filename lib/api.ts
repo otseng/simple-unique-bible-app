@@ -193,12 +193,12 @@ export function getCompareVerses(book, chapter, verse) {
     }
     address = address + '&text=ERV&text=ISV&text=ULT&text=2001'
     if (powerMode) {
-      address = address + '&text=NHEB&text=PESH&text=CJB'
+      address = address + '&text=PESH&text=CJB'
     }
     address = address + '&text=ASV&text=LEB&text=DRB' +
         '&text=YLT&text=KJV1611&text=Geneva' +
         '&text=Bishops&text=Tyndale&text=Wycliffe' +
-        '&text=TRLITx&text=KJVx&text=CUV&text=Pinyin'
+        '&text=LXXE&text=TRLITx&text=KJVx&text=CUV&text=Pinyin'
   } else if (getLang().startsWith("zh")) {
     address = address +
       '&text=CUV&text=CUVs&text=Pinyin' +

@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
-import { addBookmark, bookmarkExists, getBibleNumberFromName, getBibleTextDir, isMobile, isPowerMode, preloadData, range, removeOnEvents } from '../../../../../lib/util'
+import { addBookmark, bookmarkExists, deleteBookmark, getBibleNumberFromName, getBibleTextDir, isMobile, isPowerMode, preloadData, range, removeOnEvents } from '../../../../../lib/util'
 import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, getSubheadings } from '../../../../../lib/api'
 import { _getCommentaryContent, _getDiscourse, _getInstantLex, _getLexicon, _getMorphology, _getSearchTool } from '../../../../../lib/api'
 import { useEffect, useRef, useState } from 'react'
@@ -185,13 +185,14 @@ export default function Index() {
     } else if (id == 'compare') {
       router.push(`/compare/${book}/${chapter}/${verse}?text=${fullText}`)
     } else if (id == 'xref') {
-      router.push(`/xref/${book}/${chapter}/${verse}/${text}`)
+      router.push(`/xref/${book}/${chapter}/${verse}/${fullText}`)
     } else if (id == 'discourse') {
       showDiscourse(bookNum, chapter, verse)
     } else if (id == 'bookmark') {
       const url = `/bible/${fullText}/${book}/${chapter}#v${chapter}_${verse}`
       if (bookmarkExists(url)) {
-        toast(lang.Bookmark_already_exists)
+        deleteBookmark(url)
+        toast('Bookmark removed')
       } else {
         addBookmark(url)
         toast('Bookmark added')
@@ -566,7 +567,7 @@ export default function Index() {
             content={modalContent} strongsModal={strongsModal} searchStrongs={searchStrongs}></BasicModal>
 
             <Menu id={BIBLE_VERSE_POPUP_MENU} theme={menuTheme}>
-              <Item id="bookmark" onClick={handleItemClick}><span className="text-md">{lang.Add_bookmark}</span></Item>
+              <Item id="bookmark" onClick={handleItemClick}><span className="text-md">{lang.Toggle_bookmark}</span></Item>
               <Item id="highlight" onClick={handleItemClick}><span className="text-md">{lang.Toggle_highlight}</span></Item>
               <Item id="copyVerse" onClick={handleItemClick}><span className="text-md">{lang.Copy_verse}</span></Item>
               <Item id="copyLink" onClick={handleItemClick}><span className="text-md">{lang.Copy_link}</span></Item>
@@ -576,13 +577,13 @@ export default function Index() {
               <Item id="uba" onClick={handleItemClick}><span className="text-md">UBA</span></Item>
               {!isMobile() && <Separator />}
               {/* {!marvelBible && !trlitxBible && text != "KJVx" && <Item id={`bible-${text}-KJVx`} onClick={handleItemClick}><span className="text-md">{text}-KJVx</span></Item>} */}
-              {isPowerMode() && text == "ASV" && <Item id={`bible-ASV-ASVx`} onClick={handleItemClick}><span className="text-md">ASV-ASVx</span></Item>}
+              {/* {isPowerMode() && text == "ASV" && <Item id={`bible-ASV-ASVx`} onClick={handleItemClick}><span className="text-md">ASV-ASVx</span></Item>}
               {isPowerMode() && text == "ESV" && <Item id={`bible-ESV-ESV2016x`} onClick={handleItemClick}><span className="text-md">ESV-ESV2016x</span></Item>}
               {isPowerMode() && text == "KJV" && <Item id={`bible-KJV-KJVx`} onClick={handleItemClick}><span className="text-md">KJV-KJVx</span></Item>}
               {isPowerMode() && text == "NASB" && <Item id={`bible-NASB-NASBx`} onClick={handleItemClick}><span className="text-md">NASB-NASBx</span></Item>}
               {isPowerMode() && text == "NET" && <Item id={`bible-NET-NETx`} onClick={handleItemClick}><span className="text-md">NET-NETx</span></Item>}
               {isPowerMode() && text == "NIV" && <Item id={`bible-NIV-NIV2011x`} onClick={handleItemClick}><span className="text-md">NIV-NIV2011x</span></Item>}
-              {isPowerMode() && text == "NRSV" && <Item id={`bible-NRSV-NRSVx`} onClick={handleItemClick}><span className="text-md">NRSV-NRSVx</span></Item>}
+              {isPowerMode() && text == "NRSV" && <Item id={`bible-NRSV-NRSVx`} onClick={handleItemClick}><span className="text-md">NRSV-NRSVx</span></Item>} */}
               <Item id={`bible-KJV-TRLITx`} onClick={handleItemClick}><span className="text-md">KJV-TRLITx</span></Item>
               {biblesInPopup.map((bible) => {
                 const bibleId = "bible-" + bible
@@ -599,3 +600,4 @@ export default function Index() {
     )
   }
 }
+

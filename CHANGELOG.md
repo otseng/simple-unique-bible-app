@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.20] - 8/19/2024
+
+- Fix return to KJV-TRLITx
+
 ## [1.19] - 8/6/2024
 
 - Add prose formatting to books

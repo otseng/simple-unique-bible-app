@@ -31,7 +31,8 @@ export default function Index() {
   let book = router.query.book as string
   const chapter = router.query.chapter as string
   const verse = router.query.verse as string
-  let text = router.query.text as string
+  let fulltext = router.query.text as string
+  let text = fulltext
   if (text && text.indexOf("-") > -1) {
     const texts = text.split("-")
     text = texts[0]
@@ -155,7 +156,7 @@ export default function Index() {
             </div>
 
             <div className="flex justify-center items-center">
-              <Link href={"/bible/" + text + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>
+              <Link href={"/bible/" + fulltext + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>
                 <button className={`${theme.clickableButton}`}>{lang.Return_to} {book} {chapter}:{verse}</button>
               </Link>
             </div>
