@@ -203,7 +203,11 @@ export default function Index() {
       router.push(`/bible/${bible}/${book}/${chapter}#v${chapter}_${verse}`)
     } else if (id == 'uba') {
       const cmd = `BIBLE:::${text}:::${book} ${chapter}:${verse}`
-      window.open('https://uniquebibleapp.net/index.html?cmd=' + cmd, '_blank', 'noreferrer');
+      if (isPowerMode()) {
+        window.open('https://uniquebibleapp.net/ubaTeamOnLY.html?cmd=' + cmd, '_blank', 'noreferrer');
+      } else {
+        window.open('https://uniquebibleapp.net/index.html?cmd=' + cmd, '_blank', 'noreferrer');
+      }
     }
   }
 
