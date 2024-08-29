@@ -208,6 +208,9 @@ export default function Index() {
       } else {
         window.open('https://uniquebibleapp.net/index.html?cmd=' + cmd, '_blank', 'noreferrer');
       }
+    } else if (id == 'greeklab') {
+      const book1 = book.replace(" ", "_")
+      window.open(`https://www.greeklab.org/interlinear.php?book=${book1}&cap=${chapter}&verse=${verse}`, '_blank', 'noreferrer');
     }
   }
 
@@ -579,6 +582,7 @@ export default function Index() {
               <Item id="compare" onClick={handleItemClick}><span className="text-md">{lang.Compare}</span></Item>
               {!isMobile() && <Item id="discourse" onClick={handleItemClick}><span className="text-md">{lang.Discourse}</span></Item>}
               <Item id="uba" onClick={handleItemClick}><span className="text-md">UBA</span></Item>
+              <Item id="greeklab" onClick={handleItemClick}><span className="text-md">Greeklab</span></Item>
               {!isMobile() && <Separator />}
               {/* {!marvelBible && !trlitxBible && text != "KJVx" && <Item id={`bible-${text}-KJVx`} onClick={handleItemClick}><span className="text-md">{text}-KJVx</span></Item>} */}
               {/* {isPowerMode() && text == "ASV" && <Item id={`bible-ASV-ASVx`} onClick={handleItemClick}><span className="text-md">ASV-ASVx</span></Item>}

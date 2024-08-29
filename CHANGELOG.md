@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.21] - 8/29/2024
+
+- Add Greeklab link
+
 ## [1.20] - 8/19/2024
 
 - Fix return to KJV-TRLITx
