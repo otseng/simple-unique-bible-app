@@ -15,13 +15,15 @@ export default function BasicModal(props) {
     let data = ""
     let lines = content.split("\n")
     return (lines.map((line) => {
-      if (line.startsWith("Hebrew:") || line.startsWith("Greek:") || line.startsWith("Names:")) {
+      if (line.startsWith("Hebrew:") || line.startsWith("Greek:") || line.startsWith("Names:") || line.startsWith("Places:")) {
         const lang = line.split(":")[0]
+        const words = line.split(":")[1].split(",")
         return (<span>{lang}:&nbsp;
-        {line.split(":")[1].split(",").map((word) => {
+        {words.map((word, i) => {
           let regex = new RegExp("\('(.*?)'\).*>(.*?)<")
           let matches = regex.exec(word)
-          return <a href="#" onClick={() => props.showLexicon(matches[2])}>{matches[3]}</a>
+          let comma = i < words.length - 1 ? ", " : ""
+          return <a href="#" onClick={() => props.showLexicon(matches[2])}>{matches[3]}{comma}</a>
         })}</span>)
       } else {
         return <span dangerouslySetInnerHTML={{__html: line}} />
