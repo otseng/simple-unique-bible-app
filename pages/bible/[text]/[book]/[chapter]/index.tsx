@@ -247,8 +247,7 @@ export default function Index() {
 
       // "<ref onclick="lex('H4761')">mar'āšôṯ</ref>"
       // https://stackoverflow.com/questions/30523800/call-react-component-function-from-onclick-in-dangerouslysetinnerhtml
-      html = html.replace(new RegExp("<ref onclick=\"lex\\('(.*?)'\\)\">(.*?)</ref>", "ig"), "<a id='$1' href='#'>$2</a>")
-
+      // html = html.replace(new RegExp("<ref onclick=\"lex\\('(.*?)'\\)\">(.*?)</ref>", "ig"), "<a onclick=\"showLexicon('$1')\">$2</a>")
       if (!html.includes("[Not found]")) {
         setModalContent(html)
         setShowModal(true)
@@ -570,8 +569,8 @@ export default function Index() {
               </Disclosure.Panel>
             </Disclosure>
 
-            <BasicModal show={showModal} setter={setShowModal} title={modalTitle} onClick={clickInModal}
-            content={modalContent} strongsModal={strongsModal} searchStrongs={searchStrongs}></BasicModal>
+            <BasicModal show={showModal} setter={setShowModal} title={modalTitle} onclick={clickInModal}
+            content={modalContent} strongsModal={strongsModal} searchStrongs={searchStrongs} showLexicon={showLexicon}></BasicModal>
 
             <Menu id={BIBLE_VERSE_POPUP_MENU} theme={menuTheme}>
               <Item id="bookmark" onClick={handleItemClick}><span className="text-md">{lang.Toggle_bookmark}</span></Item>

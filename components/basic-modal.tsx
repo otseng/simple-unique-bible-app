@@ -11,6 +11,24 @@ export default function BasicModal(props) {
 
   const buttonRef = useRef(null)
 
+  function renderHtml(content) {
+    let data = ""
+    let lines = content.split("\n")
+    return (lines.map((line) => {
+      if (line.startsWith("Hebrew:") || line.startsWith("Greek:") || line.startsWith("Names:")) {
+        const lang = line.split(":")[0]
+        return (<span>{lang}:&nbsp;
+        {line.split(":")[1].split(",").map((word) => {
+          let regex = new RegExp("\('(.*?)'\).*>(.*?)<")
+          let matches = regex.exec(word)
+          return <a href="#" onClick={() => props.showLexicon(matches[2])}>{matches[3]}</a>
+        })}</span>)
+      } else {
+        return <span dangerouslySetInnerHTML={{__html: line}} />
+      }
+    }))
+  }
+
   return (
     <Transition.Root show={props.show} as={Fragment}>
       <Dialog as="div" className="relative z-10" open={props.show} initialFocus={buttonRef} onClose={props.setter}>
@@ -44,8 +62,10 @@ export default function BasicModal(props) {
                       <Dialog.Title as="h3" className={theme.backgroundStyle + " text-lg font-medium leading-6"}>
                         {props.title}
                       </Dialog.Title>
-                      <div className="mt-2">
-                        <div className={`${theme.backgroundStyle}`} dangerouslySetInnerHTML={{ __html: props.content }} />
+                      <div className={theme.backgroundStyle + "mt-2"}>
+                        {
+                          renderHtml(props.content)
+                        }
                       </div>
                     </div>
                   </div>
