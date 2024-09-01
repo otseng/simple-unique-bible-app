@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.22] - 8/31/2024
+
+- Make lexicon entries clickable
+
 ## [1.21] - 8/29/2024
 
 - Add Greeklab link
