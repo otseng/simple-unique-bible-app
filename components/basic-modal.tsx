@@ -23,7 +23,13 @@ export default function BasicModal(props) {
           let regex = new RegExp("\('(.*?)'\).*>(.*?)<")
           let matches = regex.exec(word)
           let comma = i < words.length - 1 ? ", " : ""
-          return <a href="#" onClick={() => props.showLexicon(matches[2])}>{matches[3]}{comma}</a>
+          console.log(word)
+          console.log(matches)
+          if (matches) {
+            return <a href="#" onClick={() => props.showLexicon(matches[2])}>{matches[3]}{comma}</a>
+          } else {
+            return <span>{word}{comma}</span>
+          }
         })}</span>)
       } else {
         return <span dangerouslySetInnerHTML={{__html: line}} />
