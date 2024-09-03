@@ -39,7 +39,7 @@ export default function BasicModal(props) {
 
   return (
     <Transition.Root show={props.show} as={Fragment}>
-      <Dialog as="div" className="relative z-10" open={props.show} initialFocus={buttonRef} onClose={props.setter}>
+      <Dialog as="div" className="relative z-60" open={props.show} initialFocus={buttonRef} onClose={props.setter}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"

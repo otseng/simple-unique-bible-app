@@ -384,7 +384,8 @@ export default function Index() {
             <title>{APP_NAME}</title>
           </Head>
           <Container>
-            <Intro currentPage="Bibles" />
+            {showModal && <Intro currentPage="Bibles" visibility="invisible"/>}
+            {!showModal && <Intro currentPage="Bibles"/>}
 
             <Disclosure>
               <Disclosure.Button className={`${theme.homeDisclosure}`}>

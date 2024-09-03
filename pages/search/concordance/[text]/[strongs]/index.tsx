@@ -61,7 +61,8 @@ export default function Index() {
             <title>{APP_NAME}</title>
           </Head>
           <Container>
-            <Intro currentPage="Concordance" />
+            {showModal && <Intro currentPage="Concordance" visibility="invisible"/>}
+            {!showModal && <Intro currentPage="Concordance"/>}
 
             <Disclosure defaultOpen>
               <Disclosure.Button className={`${theme.homeDisclosure}`}>

@@ -26,7 +26,7 @@ const Intro = (props) => {
   menuItems.push([lang.About, '/about'])
   
   return (
-  <section className={theme.fixedHeader + " flex-row flex items-center justify-between mt-10 mb-10 sticky top-0 z-50 rounded"}>  
+  <section className={theme.fixedHeader + " " + props.visibility + " flex-row flex items-center justify-between mt-10 mb-10 sticky top-0 z-50 rounded"}>  
 
     <Popover className="relative">
       <Popover.Button className="dropdown-toggle inline-block px-4 py-2.5 bg-blue-400 hover:bg-blue-300 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg active:text-white transition duration-150 ease-in-out flex items-center whitespace-nowrap"

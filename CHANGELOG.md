@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.23] - 9/3/2024
+
+- Hide top bar when showing lexicon
+
 ## [1.22] - 8/31/2024
 
 - Make lexicon entries clickable

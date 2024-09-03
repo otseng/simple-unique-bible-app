@@ -85,7 +85,8 @@ export default function Index() {
             <title>{APP_NAME}</title>
           </Head>
           <Container>
-            <Intro currentPage="Compare" />
+            {showModal && <Intro currentPage="Compare" visibility="invisible"/>}
+            {!showModal && <Intro currentPage="Compare"/>}
 
             <Disclosure>
               <Disclosure.Button className={`${theme.homeDisclosure}`}>
