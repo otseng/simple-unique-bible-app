@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
-import { addBookmark, bookmarkExists, deleteBookmark, getBibleNumberFromName, getBibleTextDir, isMobile, isPowerMode, preloadData, range, removeOnEvents } from '../../../../../lib/util'
+import { addBookmark, bookmarkExists, deleteBookmark, getBibleNumberFromName, getBibleTextDir, isMobile, isPowerMode, preloadData, processLexiconData, range, removeOnEvents } from '../../../../../lib/util'
 import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, getSubheadings } from '../../../../../lib/api'
 import { _getCommentaryContent, _getDiscourse, _getInstantLex, _getLexicon, _getMorphology, _getSearchTool } from '../../../../../lib/api'
 import { useEffect, useRef, useState } from 'react'
@@ -243,7 +243,7 @@ export default function Index() {
     setModalTitle('Lexicon - ' + strongs)
     _getLexicon('TRLIT', strongs).then((resp) => {
       removeToast()
-      let html = resp[0]?.replaceAll('<a href', '<a target="new" href')
+      const html = processLexiconData(resp[0])
 
       // "<ref onclick="lex('H4761')">mar'āšôṯ</ref>"
       // https://stackoverflow.com/questions/30523800/call-react-component-function-from-onclick-in-dangerouslysetinnerhtml

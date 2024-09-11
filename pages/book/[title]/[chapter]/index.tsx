@@ -8,7 +8,7 @@ import { APP_NAME } from '../../../../lib/constants'
 import { getBookChapters, getBookChapterContent, getBooks, _getLexicon } from '../../../../lib/api'
 import { Disclosure } from '@headlessui/react'
 import toast from 'react-hot-toast'
-import { bookmarkExists, addBookmark, deleteBookmark, windowExists } from '../../../../lib/util'
+import { bookmarkExists, addBookmark, deleteBookmark, windowExists, processLexiconData } from '../../../../lib/util'
 import { useState } from 'react'
 import Input from 'rc-input'
 import { useLang } from '../../../../lang/langContext'
@@ -102,7 +102,7 @@ export default function Index() {
     setStrongsModal(strongs)
     setModalTitle('Lexicon - ' + strongs)
     _getLexicon('TRLIT', strongs).then((resp) => {
-      let html = resp[0]?.replaceAll('<a href', '<a target="new" href')
+      const html = processLexiconData(resp[0])
 
       if (!html.includes("[Not found]")) {
         setModalContent(html)

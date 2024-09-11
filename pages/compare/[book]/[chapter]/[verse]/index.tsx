@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
-import { getBibleNumberFromName, getBibleTextDir, preloadData, range } from '../../../../../lib/util'
+import { getBibleNumberFromName, getBibleTextDir, preloadData, processLexiconData, range } from '../../../../../lib/util'
 import { getBibleBooks, getCompareVerses, _getLexicon } from '../../../../../lib/api'
 import { Disclosure } from '@headlessui/react'
 import { bibleChapters } from '../../../../../data/bibleChapters'
@@ -57,7 +57,7 @@ export default function Index() {
     setModalTitle('Lexicon - ' + strongs)
     setStrongsModal(strongs)
     const data = _getLexicon('TRLIT', strongs).then((resp) => {
-      let html = resp[0]?.replaceAll('<a href', '<a target="new" href')
+      const html = processLexiconData(resp[0])
       setModalContent(html)
       setShowModal(true)
     })

@@ -154,3 +154,9 @@ export function removeOnEvents(html: string): any {
     html = html.replace(new RegExp("onclick=\".*\"", "ig"), "")
     return html
 }
+
+export function processLexiconData(html: string): any {
+    html = html.replaceAll('\nTransliteration:', '<br/>\nTransliteration:')
+    html = html.replaceAll('<a href', '<a target="new" href')
+    return html
+}
