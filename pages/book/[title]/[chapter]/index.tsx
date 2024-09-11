@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../lib/constants'
-import { getBookChapters, getBookChapterContent, getBooks } from '../../../../lib/api'
+import { getBookChapters, getBookChapterContent, getBooks, _getLexicon } from '../../../../lib/api'
 import { Disclosure } from '@headlessui/react'
 import toast from 'react-hot-toast'
 import { bookmarkExists, addBookmark, deleteBookmark, windowExists } from '../../../../lib/util'
@@ -14,6 +14,7 @@ import Input from 'rc-input'
 import { useLang } from '../../../../lang/langContext'
 import { useTheme } from '../../../../theme/themeContext'
 import { getTheme } from '../../../../theme/themeUtil'
+import BasicModal from '../../../../components/basic-modal'
 
 export default function Index() {
 
@@ -40,6 +41,12 @@ export default function Index() {
   const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBooks()
   const { data: dataChapters, loading: loadingChapters, error: errorChapters } = getBookChapters(title)
   const { data, loading, error } = getBookChapterContent(title, chapter)
+
+  const [scrolledRef, setScrolledRef] = useState(true)
+  const [showModal, setShowModal] = useState(false)
+  const [modalTitle, setModalTitle] = useState('')
+  const [modalContent, setModalContent] = useState('')
+  const [strongsModal, setStrongsModal] = useState('')
 
   function searchTextChange(event) {
     if (event.target.value.length <= 2) {
@@ -80,6 +87,55 @@ export default function Index() {
     deleteBookmark(url)
     setChapterBookmarked(false)
     toast('Bookmark deleted')
+  }
+
+  function searchStrongs() {
+    let strongs = strongsModal
+    let bible = 'KJVx'
+    const url = `/search/concordance/${bible}/${strongs}?return=/book/${title}/${chapter}`
+
+    router.push(url)
+  }
+
+  function showLexicon(strongs) {
+    setScrolledRef(false)
+    setStrongsModal(strongs)
+    setModalTitle('Lexicon - ' + strongs)
+    _getLexicon('TRLIT', strongs).then((resp) => {
+      let html = resp[0]?.replaceAll('<a href', '<a target="new" href')
+
+      if (!html.includes("[Not found]")) {
+        setModalContent(html)
+        setShowModal(true)
+      } else {
+        _getLexicon('SECE', strongs).then((resp) => {
+          const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
+          setModalContent(html)
+          setShowModal(true)
+        })
+      }
+    })
+  }
+
+  function renderHtml(content) {
+    return <span dangerouslySetInnerHTML={{__html: content}} />
+    
+    let lines = content.split("\n")
+    return (lines.map((line) => {
+      if (false && line.includes("onclick=\"lex(")) {
+          let regex = new RegExp("(.*?)<ref onclick=\"lex\('(.*?)'\)\">(.*?)<\/ref>(.*?)$")
+          let matches = regex.exec(line)
+          console.log(line)
+          console.log(matches)
+          if (matches) {
+            return <span>{matches[1]}<a href="#" onClick={() => showLexicon(matches[2])}>{matches[3]}</a>{matches[4]}</span>
+          } else {
+            return <span dangerouslySetInnerHTML={{__html: line}} />
+          }
+      } else {
+        return <span dangerouslySetInnerHTML={{__html: line}} />
+      }
+    }))
   }
 
   if (error) return <div>Failed to load</div>
@@ -161,7 +217,11 @@ export default function Index() {
               </Disclosure.Panel>
             </Disclosure>
 
-            <div className={`${theme.booksTextContainer}`} dangerouslySetInnerHTML={{ __html: html }} />
+            <div className={`${theme.booksTextContainer}`}>
+              {
+                renderHtml(html)
+              }
+            </div>
 
             {navigation.previous &&
               <Link href={"/book/" + title + '/' + navigation.previous}>
@@ -172,6 +232,10 @@ export default function Index() {
                 <button className={`${theme.clickableButton}`}>{lang.Next}</button>
               </Link>}
 
+            <BasicModal show={showModal} setter={setShowModal} title={modalTitle} 
+            content={modalContent} strongsModal={strongsModal} searchStrongs={searchStrongs} showLexicon={showLexicon}></BasicModal>
+
+              
           </Container>
         </Layout>
       </>

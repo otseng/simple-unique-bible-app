@@ -11,8 +11,8 @@ const auth = {
 }
 
 function getPassword() {
-  let pass = "uniquebibleapp" + (new Date().getUTCMonth() + 1)
-  pass = md5(pass)
+  const secret = "uniquebibleapp" + (new Date().getUTCMonth() + 1)
+  const pass = md5(secret)
   return pass
 }
 

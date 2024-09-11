@@ -82,7 +82,7 @@ const Intro = (props) => {
       <Link href="/search">Simple</Link>&nbsp;
       <Link href="/book">Unique</Link>&nbsp;
       <Link href="/bible">Bible</Link>&nbsp; 
-      <Link href="/bookmark">Viewer</Link> 
+      <Link href="/bookmark">App</Link> 
     </div>
 
   </section>)
