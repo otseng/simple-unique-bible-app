@@ -85,9 +85,6 @@ export default function Index() {
   } else if (getLang().startsWith("zh")) {
     biblesInPopup = ['CUV', 'CUVs', 'KJV', 'MIB']
   }
-  if (!isMobile()) {
-    biblesInPopup.push.apply(biblesInPopup, ['MAB'])
-  }
 
   useEffect(() => {
     window.addEventListener('scroll', function (event) { removeToast() });
@@ -598,8 +595,8 @@ export default function Index() {
                 return <Item id={bibleId} onClick={handleItemClick}><span className="text-md">{bible}</span></Item>
               })
               }
-              {bookNum < 40 && <Item id="bible-Tanakhxx" onClick={handleItemClick}><span className="text-md">Tanakhxx</span></Item>}
-              <Item id="bible-Greek+" onClick={handleItemClick}><span className="text-md">Greek+</span></Item>
+              {/* {bookNum < 40 && <Item id="bible-Tanakhxx" onClick={handleItemClick}><span className="text-md">Tanakhxx</span></Item>} */}
+              {/* <Item id="bible-Greek+" onClick={handleItemClick}><span className="text-md">Greek+</span></Item> */}
             </Menu>
 
           </Container>
