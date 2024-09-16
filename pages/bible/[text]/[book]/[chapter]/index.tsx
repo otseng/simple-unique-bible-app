@@ -25,7 +25,6 @@ import { useLang } from '../../../../../lang/langContext'
 import { getLang } from '../../../../../lang/langUtil'
 import { useTheme } from '../../../../../theme/themeContext'
 import { getTheme } from '../../../../../theme/themeUtil'
-import { useLocation } from 'react-router-dom';
 
 const BIBLE_VERSE_POPUP_MENU = "bible-verse-popup-menu"
 
