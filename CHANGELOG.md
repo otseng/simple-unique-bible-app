@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.24] - 9/16/2024
+
+- Fix hash in lexicon
+
 ## [1.23] - 9/3/2024
 
 - Hide top bar when showing lexicon

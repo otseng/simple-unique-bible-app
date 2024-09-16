@@ -25,6 +25,7 @@ import { useLang } from '../../../../../lang/langContext'
 import { getLang } from '../../../../../lang/langUtil'
 import { useTheme } from '../../../../../theme/themeContext'
 import { getTheme } from '../../../../../theme/themeUtil'
+import { useLocation } from 'react-router-dom';
 
 const BIBLE_VERSE_POPUP_MENU = "bible-verse-popup-menu"
 
@@ -40,6 +41,7 @@ export default function Index() {
   let text = fullText
   let parallel = fullText
   let parallelMode = false
+  let locationHash = useRef('')
   if (fullText && fullText.indexOf("-") > -1) {
     const texts = text.split("-")
     text = texts[0]
@@ -77,25 +79,26 @@ export default function Index() {
   const menuTheme = (getTheme() == "dark" ? "dark" : "light")
 
   if (getLang() == "en") {
-    biblesInPopup = ['KJV']
+    biblesInPopup = []
     if (isPowerMode()) {
-      biblesInPopup.push.apply(biblesInPopup, ['ESV', 'NASB', 'NIV', 'NRSV', 'NLT'])
+      biblesInPopup.push.apply(biblesInPopup, ['KJV', 'ESV', 'NASB', 'NET', 'NIV', 'NLT', 'NRSV', 'MIB'])
+    } else {
+      biblesInPopup.push.apply(biblesInPopup, ['KJV', 'TRLITx', 'KJV-TRLITx', 'NET', 'WEB', 'MOB', 'MAB', 'MTB', 'MIB'])
     }
-    biblesInPopup.push.apply(biblesInPopup, ['KJVx', 'TRLITx', 'MIB'])
   } else if (getLang().startsWith("zh")) {
     biblesInPopup = ['CUV', 'CUVs', 'KJV', 'MIB']
   }
 
   useEffect(() => {
     window.addEventListener('scroll', function (event) { removeToast() });
-    const hash = window?.location?.hash
+    locationHash.current = window?.location?.hash
     if (commentary) {
       const element = document.getElementById('commentary-content')
       if (element) {
         element.scrollIntoView()
       }
-    } else if (hash) {
-      const id = hash.replace('#', '')
+    } else if (locationHash.current) {
+      const id = locationHash.current.replace('#', '')
       const element = document.getElementById(id)
       if (element) {
         if (!(text == "MAB" || text == "MIB")) {
@@ -175,6 +178,7 @@ export default function Index() {
       const element = document.getElementById("v" + chapter + "_" + verse)
       if (element.style.backgroundColor == '') {
         clearHighlights()
+        locationHash.current = `#v${chapter}_${verse}`
         router.push(`/bible/${fullText}/${book}/${chapter}#v${chapter}_${verse}`)
       } else {
         clearHighlights()
@@ -568,7 +572,8 @@ export default function Index() {
             </Disclosure>
 
             <BasicModal show={showModal} setter={setShowModal} title={modalTitle} onclick={clickInModal}
-            content={modalContent} strongsModal={strongsModal} searchStrongs={searchStrongs} showLexicon={showLexicon}></BasicModal>
+            content={modalContent} hash={locationHash.current} strongsModal={strongsModal} searchStrongs={searchStrongs} 
+            showLexicon={showLexicon}></BasicModal>
 
             <Menu id={BIBLE_VERSE_POPUP_MENU} theme={menuTheme}>
               <Item id="bookmark" onClick={handleItemClick}><span className="text-md">{lang.Toggle_bookmark}</span></Item>
@@ -588,8 +593,12 @@ export default function Index() {
               {isPowerMode() && text == "NASB" && <Item id={`bible-NASB-NASBx`} onClick={handleItemClick}><span className="text-md">NASB-NASBx</span></Item>}
               {isPowerMode() && text == "NET" && <Item id={`bible-NET-NETx`} onClick={handleItemClick}><span className="text-md">NET-NETx</span></Item>}
               {isPowerMode() && text == "NIV" && <Item id={`bible-NIV-NIV2011x`} onClick={handleItemClick}><span className="text-md">NIV-NIV2011x</span></Item>}
+              {isPowerMode() && text == "NLT" && <Item id={`bible-NLT-NLT2015x`} onClick={handleItemClick}><span className="text-md">NLT-NLT2015x</span></Item>}
               {isPowerMode() && text == "NRSV" && <Item id={`bible-NRSV-NRSVx`} onClick={handleItemClick}><span className="text-md">NRSV-NRSVx</span></Item>} 
-              <Item id={`bible-KJV-TRLITx`} onClick={handleItemClick}><span className="text-md">KJV-TRLITx</span></Item>
+              {isPowerMode() && text == "WEB" && <Item id={`bible-WEB-WEBx`} onClick={handleItemClick}><span className="text-md">WEB-WEBx</span></Item>} 
+              {isPowerMode() && ["MSG", "NWT", "PESH", "Recovery", "TPT"].indexOf(text) > -1 
+                && <Item id={`bible-${text}-TRLITx`} onClick={handleItemClick}><span className="text-md">{text}-TRLITx</span></Item>} 
+              {isPowerMode() && <Item id={`bible-KJV-TRLITx`} onClick={handleItemClick}><span className="text-md">KJV-TRLITx</span></Item>}
               {biblesInPopup.map((bible) => {
                 const bibleId = "bible-" + bible
                 return <Item id={bibleId} onClick={handleItemClick}><span className="text-md">{bible}</span></Item>
