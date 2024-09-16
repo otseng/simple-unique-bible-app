@@ -165,8 +165,9 @@ export default function Index() {
       navigator.clipboard.writeText(contents)
       toast(lang.Copied_to_clipboard)
     } else if (id == 'copyVerse') {
-      const verseTextElement = document.getElementById("t" + chapter + "_" + verse)
-      let contents = book + " " + chapter + ":" + verse + " (" + text + ")\n"
+      const type = parallelMode ? "v": "t"
+      const verseTextElement = document.getElementById(type + chapter + "_" + verse)
+      let contents = parallelMode ? "" : book + " " + chapter + ":" + verse + " (" + text + ")\n"
       contents += verseTextElement.innerText + "\n"
       // let url = window.location.protocol + '//' + window.location.host + `/bible/${text}/${book}/${chapter}#v${chapter}_${verse}`
       // url = url.replaceAll(" ", "+")
@@ -514,8 +515,8 @@ export default function Index() {
                         <a className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
                         : <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
                     ))}
-                    {parallelMode && <><br/><br/></>}
                   </p>
+                  {parallelMode && <><br/><br/></>}
                   </>
                 ))
               }
