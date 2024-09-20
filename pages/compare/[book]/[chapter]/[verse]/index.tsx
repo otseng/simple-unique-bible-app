@@ -45,8 +45,6 @@ export default function Index() {
   const verseList = bibleChapterVerses[bookNum]
   const verses = (chapter && verseList) ? range(verseList[chapter], 1) : []
 
-  console.log("bookNum:" + bookNum + " chapter:" + chapter + " verse:" + verse)
-
   const { data: texts, loading, error } = getBibleBooks()
   const { data: dataVerses, loading: loadingVerses, error: errorVerses } = getCompareVerses(bookNum, chapter, verse)
 

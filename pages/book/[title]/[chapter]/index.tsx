@@ -125,8 +125,6 @@ export default function Index() {
       if (false && line.includes("onclick=\"lex(")) {
           let regex = new RegExp("(.*?)<ref onclick=\"lex\('(.*?)'\)\">(.*?)<\/ref>(.*?)$")
           let matches = regex.exec(line)
-          console.log(line)
-          console.log(matches)
           if (matches) {
             return <span>{matches[1]}<a href="#" onClick={() => showLexicon(matches[2])}>{matches[3]}</a>{matches[4]}</span>
           } else {

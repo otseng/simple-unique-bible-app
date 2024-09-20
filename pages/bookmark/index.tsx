@@ -65,7 +65,6 @@ export default function Index() {
   function importBookmarks() {
     if (typeof window !== 'undefined') {
       navigator.clipboard.readText().then((importString) => {
-        console.log(importString)
         setBookmarks(JSON.parse(importString))
         setLocalStorage('bookmarks', JSON.parse(importString))
         buildUrl()
@@ -76,7 +75,7 @@ export default function Index() {
   function exportBookmarks() {
     if (typeof window !== 'undefined') {
       navigator.clipboard.writeText(JSON.stringify(bookmarks))
-      console.log(JSON.stringify(bookmarks))
+      // console.log(JSON.stringify(bookmarks))
       toast('Exported bookmarks to clipboard')
     }
   }

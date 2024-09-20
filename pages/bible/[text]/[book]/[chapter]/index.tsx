@@ -235,7 +235,6 @@ export default function Index() {
 
   function clickInModal(e) {
     const el = e.target
-    console.log(el)
   }
 
   function showLexicon(strongs) {
@@ -269,7 +268,6 @@ export default function Index() {
       removeToast()
       let html = resp
       html = removeOnEvents(html)
-      console.log(html)
       setModalContent(html)
       setShowModal(true)
     })
@@ -355,8 +353,8 @@ export default function Index() {
     if (!bible.endsWith('x')) {
       bible = 'KJVx'
     }
-    const url = `/search/concordance/${bible}/${strongs}?return=/bible/${fullText}/${book}/${chapter}`
-
+    const codedHash = encodeURIComponent(locationHash.current)
+    const url = `/search/concordance/${bible}/${strongs}?return=/bible/${fullText}/${book}/${chapter}${codedHash}`
     router.push(url)
   }
 

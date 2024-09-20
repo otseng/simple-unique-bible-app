@@ -51,7 +51,6 @@ export default function Index() {
   function exportBookmarks() {
     if (typeof window !== 'undefined') {
       navigator.clipboard.writeText(JSON.stringify(bookmarks))
-      console.log(JSON.stringify(bookmarks))
       toast('Exported bookmarks to clipboard')
     }
   }

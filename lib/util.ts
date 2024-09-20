@@ -100,12 +100,10 @@ export function getBookmarks() {
 }
 
 export function deleteBookmark(key) {
-    console.log(key)
     const bookmarks = getLocalStorage('bookmarks') || []
     const updatedBookmarks = bookmarks.filter((item) => {
         return item.replace("#", "!") != key.replace("#", "!")
     })
-    console.log(updatedBookmarks)
     setLocalStorage('bookmarks', updatedBookmarks)
 }
 

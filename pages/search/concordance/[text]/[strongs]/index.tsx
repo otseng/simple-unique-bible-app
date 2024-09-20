@@ -36,7 +36,6 @@ export default function Index() {
     setModalTitle('Lexicon - ' + strongs)
     _getLexicon('TRLIT', strongs).then((resp) => {
       const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
-      console.log(html)
       if (!html.includes("[Not found]")) {
         setModalContent(html)
         setShowModal(true)
