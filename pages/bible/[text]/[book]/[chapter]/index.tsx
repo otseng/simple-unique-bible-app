@@ -38,13 +38,21 @@ export default function Index() {
   const router = useRouter()
   const fullText = router.query.text as string
   let text = fullText
-  let parallel = fullText
+  let parallel1 = fullText
+  let parallel2 = ''
+  let parallel3 = ''
   let parallelMode = false
   let locationHash = useRef('')
   if (fullText && fullText.indexOf("-") > -1) {
     const texts = text.split("-")
     text = texts[0]
-    parallel = texts[1]
+    parallel1 = texts[1]
+    if (texts.length > 2) {
+      parallel2 = texts[2]
+    }
+    if (texts.length > 3) {
+      parallel3 = texts[3]
+    }
     parallelMode = true
   }
   let book = router.query.book as string
@@ -67,12 +75,14 @@ export default function Index() {
   const [scrolledRef, setScrolledRef] = useState(true)
 
   const { data: dataBibles, loading: loadingBibles, error: errorBibles } = getBibles()
-  const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBibleTextBooks(text)
-  const { data, loading, error } = getBibleChapter(text, bookNum, chapter)
-  const { data: dataParallel, loading: loadingParallel, error: errorParallel } = getBibleChapter(parallel, bookNum, chapter)
   const { data: dataCommentaries, loading: loadingCommentaries, error: errorCommentaries } = getCommentaries()
   const { data: dataSubheadings, loading: loadingSubheadings, error: errorSubheadings } = getSubheadings(bookNum, chapter)
-
+  const { data: dataBooks, loading: loadingBooks, error: errorBooks } = getBibleTextBooks(text)
+  const { data, loading, error } = getBibleChapter(text, bookNum, chapter)
+  const { data: dataParallel1, loading: loadingParallel1, error: errorParallel1 } = getBibleChapter(parallel1, bookNum, chapter)
+  const { data: dataParallel2, loading: loadingParallel2, error: errorParallel2 } = getBibleChapter(parallel2, bookNum, chapter)
+  const { data: dataParallel3, loading: loadingParallel3, error: errorParallel3 } = getBibleChapter(parallel3, bookNum, chapter)
+  
   let biblesInPopup = []
 
   const menuTheme = (getTheme() == "dark" ? "dark" : "light")
@@ -80,7 +90,7 @@ export default function Index() {
   if (getLang() == "en") {
     biblesInPopup = []
     if (isPowerMode()) {
-      biblesInPopup.push.apply(biblesInPopup, ['KJV', 'ESV', 'NASB', 'NET', 'NIV', 'NLT', 'NRSV', 'MIB'])
+      biblesInPopup.push.apply(biblesInPopup, ['CUVs-CUVx-Pinyin-KJV', 'KJV', 'ESV', 'NASB', 'NET', 'NIV', 'NLT', 'NRSV', 'NKJV', 'MIB'])
     } else {
       biblesInPopup.push.apply(biblesInPopup, ['KJV', 'TRLITx', 'KJV-TRLITx', 'NET', 'WEB', 'MOB', 'MAB', 'MTB', 'MIB'])
     }
@@ -203,7 +213,10 @@ export default function Index() {
       const bible = id.replace("bible-", "")
       router.push(`/bible/${bible}/${book}/${chapter}#v${chapter}_${verse}`)
     } else if (id == 'uba') {
-      const cmd = `BIBLE:::${text}:::${book} ${chapter}:${verse}`
+      let bible = text
+      if (bible == "CUVx")
+        bible = "CUVs"
+      const cmd = `BIBLE:::${bible}:::${book} ${chapter}:${verse}`
       if (isPowerMode()) {
         window.open('https://uniquebibleapp.net/ubaTeamOnLY.html?cmd=' + cmd, '_blank', 'noreferrer');
       } else {
@@ -358,10 +371,10 @@ export default function Index() {
     router.push(url)
   }
 
-  if (error || errorParallel) return <div className={`${theme.bibleReferenceContainer}`}>Failed to load</div>
-  if (loading) return <div>Loading...</div>
+  if (error || errorParallel1) return <div className={`${theme.bibleReferenceContainer}`}>Failed to load</div>
+  if (loading && loadingParallel1) return <div>Loading...</div>
 
-  if (data && dataParallel && dataBooks && dataBibles && dataCommentaries) {
+  if (data && dataBooks && dataBibles && dataCommentaries) {
 
     const mabBible = text == 'MAB'
     const mobBible = text == 'MOB'
@@ -507,8 +520,20 @@ export default function Index() {
                     
                     {parallelMode && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{text}:</span> </>}
                     <span id={`t${verse.c}_${verse.v}`} className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: verse.t }} />
-                    {parallelMode && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{parallel}:</span> </>}
-                    {parallelMode && dataParallel && dataParallel[i].t.split(' ').map((word) => (
+                    {parallelMode && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{parallel1}:</span> </>}
+                    {parallelMode && dataParallel1 && dataParallel1[i].t.split(' ').map((word) => (
+                      word.match(/[GH][0-9]{1,4}/) ?
+                        <a className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
+                        : <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
+                    ))}
+                    {parallelMode && parallel2 && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{parallel2}:</span> </>}
+                    {parallelMode && dataParallel2 && dataParallel2[i].t.split(' ').map((word) => (
+                      word.match(/[GH][0-9]{1,4}/) ?
+                        <a className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
+                        : <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
+                    ))}
+                    {parallelMode && parallel3 && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{parallel3}:</span> </>}
+                    {parallelMode && dataParallel3 && dataParallel3[i].t.split(' ').map((word) => (
                       word.match(/[GH][0-9]{1,4}/) ?
                         <a className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
                         : <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
@@ -530,8 +555,20 @@ export default function Index() {
                         <a className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
                         : <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
                     ))}
-                    {parallelMode && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{parallel}:</span> </>}
-                    {parallelMode && dataParallel && dataParallel[i].t.split(' ').map((word) => (
+                    {parallelMode && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{parallel1}:</span> </>}
+                    {parallelMode && dataParallel1 && dataParallel1[i].t.split(' ').map((word) => (
+                      word.match(/[GH][0-9]{1,4}/) ?
+                        <a className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
+                        : <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
+                    ))}
+                    {parallelMode && parallel2 && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{parallel2}:</span> </>}
+                    {parallelMode && dataParallel2 && dataParallel2[i].t.split(' ').map((word) => (
+                      word.match(/[GH][0-9]{1,4}/) ?
+                        <a className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
+                        : <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
+                    ))}
+                    {parallelMode && parallel3 && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{parallel3}:</span> </>}
+                    {parallelMode && dataParallel3 && dataParallel3[i].t.split(' ').map((word) => (
                       word.match(/[GH][0-9]{1,4}/) ?
                         <a className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
                         : <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
@@ -582,7 +619,7 @@ export default function Index() {
               <Item id="compare" onClick={handleItemClick}><span className="text-md">{lang.Compare}</span></Item>
               {!isMobile() && <Item id="discourse" onClick={handleItemClick}><span className="text-md">{lang.Discourse}</span></Item>}
               <Item id="uba" onClick={handleItemClick}><span className="text-md">UBA</span></Item>
-              <Item id="greeklab" onClick={handleItemClick}><span className="text-md">Greeklab</span></Item>
+              {!isMobile() && <Item id="greeklab" onClick={handleItemClick}><span className="text-md">Greeklab</span></Item>}
               {!isMobile() && <Separator />}
               {/* {!marvelBible && !trlitxBible && text != "KJVx" && <Item id={`bible-${text}-KJVx`} onClick={handleItemClick}><span className="text-md">{text}-KJVx</span></Item>} */}
               {isPowerMode() && text == "ASV" && <Item id={`bible-ASV-ASVx`} onClick={handleItemClick}><span className="text-md">ASV-ASVx</span></Item>}

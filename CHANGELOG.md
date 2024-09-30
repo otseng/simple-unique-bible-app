@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.25] - 9/30/2024
+
+- Add multiple parallel versions
+
 ## [1.24] - 9/16/2024
 
 - Fix hash in lexicon

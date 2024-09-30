@@ -22,6 +22,9 @@ export function getBibles() {
   const fetcher = async (url) => await axios.get(url, { auth }).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 
+  const powerMode = isPowerMode()
+
+  if (powerMode && data && data.indexOf("CUVs-CUVx-Pinyin-KJV") < 0) data.unshift("CUVs-CUVx-Pinyin-KJV")
   if (data && data.indexOf("KJV-TRLITx") < 0) data.unshift("KJV-TRLITx")
 
   return {
@@ -56,6 +59,9 @@ export function getBibleTextBooks(text) {
 }
 
 export function getBibleChapter(text, bookNumber, chapter) {
+  if (text == '') {
+    text = 'KJV'
+  }
   const address = API_SERVER + `/bible/${text}/${bookNumber}/${chapter}?` + addLang()
   const fetcher = async (url) => await axios.get(url, { auth }).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
