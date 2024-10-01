@@ -93,7 +93,7 @@ export default function Index() {
   if (getLang() == "en") {
     biblesInPopup = []
     if (isPowerMode()) {
-      biblesInPopup.push.apply(biblesInPopup, ['CUVs-CUVx-Pinyin-KJV', 'KJV', 'ESV', 'NASB', 'NET', 'NIV', 'NLT', 'NRSV', 'NKJV', 'MIB'])
+      biblesInPopup.push.apply(biblesInPopup, ['CUVs-CUVx-Pinyin-KJV', 'KJV', 'ESV', 'NASB', 'NET', 'NIV', 'NKJV', 'NLT', 'NRSV', 'MIB'])
     } else {
       biblesInPopup.push.apply(biblesInPopup, ['KJV', 'TRLITx', 'KJV-TRLITx', 'NET', 'WEB', 'MOB', 'MAB', 'MTB', 'MIB'])
     }
@@ -620,10 +620,10 @@ export default function Index() {
               <Item id="copyLink" onClick={handleItemClick}><span className="text-md">{lang.Copy_link}</span></Item>
               <Item id="xref" onClick={handleItemClick}><span className="text-md">{lang.Cross_references}</span></Item>
               <Item id="compare" onClick={handleItemClick}><span className="text-md">{lang.Compare}</span></Item>
-              {!isMobile() && <Item id="discourse" onClick={handleItemClick}><span className="text-md">{lang.Discourse}</span></Item>}
+              {/*!isMobile() && <Item id="discourse" onClick={handleItemClick}><span className="text-md">{lang.Discourse}</span></Item>*/}
               <Item id="uba" onClick={handleItemClick}><span className="text-md">UBA</span></Item>
               {!isMobile() && <Item id="greeklab" onClick={handleItemClick}><span className="text-md">Greeklab</span></Item>}
-              {!isMobile() && <Separator />}
+              {/*!isMobile() && <Separator />*/}
               {/* {!marvelBible && !trlitxBible && text != "KJVx" && <Item id={`bible-${text}-KJVx`} onClick={handleItemClick}><span className="text-md">{text}-KJVx</span></Item>} */}
               {isPowerMode() && text == "ASV" && <Item id={`bible-ASV-ASVx`} onClick={handleItemClick}><span className="text-md">ASV-ASVx</span></Item>}
               {isPowerMode() && text == "ESV" && <Item id={`bible-ESV-ESV2016x`} onClick={handleItemClick}><span className="text-md">ESV-ESV2016x</span></Item>}
