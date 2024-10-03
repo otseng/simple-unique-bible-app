@@ -43,6 +43,7 @@ export default function Index() {
   let parallel3 = ''
   let parallelMode = false
   let parallelCount = 0
+  let chineseLexicon = false
   let locationHash = useRef('')
   if (fullText && fullText.indexOf("-") > -1) {
     const texts = text.split("-")
@@ -50,6 +51,7 @@ export default function Index() {
     console.log(parallelCount)
     text = texts[0]
     parallel1 = texts[1]
+    if (parallel1 == "CUVl") chineseLexicon = true
     if (texts.length > 2) {
       parallel2 = texts[2]
     }
@@ -93,7 +95,7 @@ export default function Index() {
   if (getLang() == "en") {
     biblesInPopup = []
     if (isPowerMode()) {
-      biblesInPopup.push.apply(biblesInPopup, ['CUVs-CUVx-Pinyin-KJV', 'KJV', 'ESV', 'NASB', 'NET', 'NIV', 'NKJV', 'NLT', 'NRSV', 'MIB'])
+      biblesInPopup.push.apply(biblesInPopup, ['KJV-CUVl-Pinyin-CUVx', 'KJV', 'ESV', 'NASB', 'NET', 'NIV', 'NKJV', 'NLT', 'NRSV', 'MIB'])
     } else {
       biblesInPopup.push.apply(biblesInPopup, ['KJV', 'TRLITx', 'KJV-TRLITx', 'NET', 'WEB', 'MOB', 'MAB', 'MTB', 'MIB'])
     }
@@ -269,7 +271,30 @@ export default function Index() {
         setShowModal(true)
       } else {
         _getLexicon('SECE', strongs).then((resp) => {
-          const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
+          if (resp[0] != "[Not found]") {
+            const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
+            setModalContent(html)
+            setShowModal(true)
+          }
+        })
+      }
+    })
+  }
+
+  function showChineseLexicon(chinese) {
+    setScrolledRef(false)
+    setStrongsModal(chinese)
+    setModalTitle('CEDICT - ' + chinese)
+    _getLexicon('CEDICT', chinese).then((resp) => {
+      removeToast()
+      const html = resp[0]
+      if (!html.includes("[Not found]")) {
+        setModalContent(html)
+        setShowModal(true)
+      } else {
+        _getLexicon('CEDICT', chinese[0]).then((resp) => {
+          setModalTitle('CEDICT - ' + chinese[0])
+          const html = resp[0]
           setModalContent(html)
           setShowModal(true)
         })
@@ -295,6 +320,18 @@ export default function Index() {
         removeToast()
         if (resp) {
           const info = strongs + " • " + resp[0] + " • " + resp[1] + " • " + resp[2] + " • " + resp[3]
+          toast(info, { duration: 5000 })
+        }
+      })
+    }
+  }
+
+  function instantChineseLexicon(strongs) {
+    if (!isMobile()) {
+      _getLexicon('CEDICT', strongs).then((resp) => {
+        removeToast()
+        if (resp && resp[0] != "[Not found]") {
+          const info = resp[0].split('<br/>', 1)[0]
           toast(info, { duration: 5000 })
         }
       })
@@ -524,10 +561,19 @@ export default function Index() {
                     {parallelMode && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{text}:</span> </>}
                     <span id={`t${verse.c}_${verse.v}`} className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: verse.t }} />
                     {parallelMode && parallelCount >= 2 && dataParallel1 && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{parallel1}:</span> </>}
-                    {parallelMode && parallelCount >= 2 && dataParallel1 && dataParallel1[i].t.split(' ').map((word) => (
+                    {!chineseLexicon && parallelMode && parallelCount >= 2 && dataParallel1 && dataParallel1[i].t.split(' ').map((word) => (
                       word.match(/[GH][0-9]{1,4}/) ?
-                        <a className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
+                        <a className={`${theme.textStrongs}`} 
+                        onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} 
+                        onClick={() => showLexicon(word)}>{word} </a>
                         : <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
+                    ))}
+                    {chineseLexicon && parallelMode && parallelCount >= 2 && dataParallel1 && dataParallel1[i].t.split(' ').map((word) => (
+                      word.match(/[：；。「 」，？]/) ?
+                      <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} /> :
+                      <a className={`${theme.bibleReferenceContainer}`} 
+                      onMouseEnter={() => instantChineseLexicon(word)} onMouseLeave={() => removeToast()} 
+                      onClick={() => showChineseLexicon(word)}>{word}</a>
                     ))}
                     {parallelMode && parallelCount >= 3 && dataParallel2 && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{parallel2}:</span> </>}
                     {parallelMode && parallelCount >= 3 && dataParallel2 && dataParallel2[i].t.split(' ').map((word) => (

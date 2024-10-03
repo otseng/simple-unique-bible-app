@@ -24,7 +24,7 @@ export function getBibles() {
 
   const powerMode = isPowerMode()
 
-  if (powerMode && data && data.indexOf("CUVs-CUVx-Pinyin-KJV") < 0) data.unshift("CUVs-CUVx-Pinyin-KJV")
+  if (powerMode && data && data.indexOf("KJV-CUVl-Pinyin-CUVx") < 0) data.unshift("KJV-CUVl-Pinyin-CUVx")
   if (data && data.indexOf("KJV-TRLITx") < 0) data.unshift("KJV-TRLITx")
 
   return {
