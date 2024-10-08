@@ -48,15 +48,15 @@ const Intro = (props) => {
         <Popover.Panel className="absolute z-20">
           <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
             <div className="relative grid gap-1 bg-blue-400 p-3 rounded text-lg text-neutral-50 font-bold">
-              {menuItems.map((item) => {
+              {menuItems.map((item, i) => {
                 return (
                   <>
                     {props.currentPage != item[0] &&
-                      <Link href={item[1]}><Popover.Button className="hover:bg-indigo-400 p-1 whitespace-nowrap">
+                      <Link key={1} href={item[1]}><Popover.Button className="hover:bg-indigo-400 p-1 whitespace-nowrap">
                         {item[0]}
                       </Popover.Button></Link>}
                     {props.currentPage == item[0] &&
-                      <Popover.Button className="text-left ml-1 text-yellow-400 whitespace-nowrap">
+                      <Popover.Button key={1} className="text-left ml-1 text-yellow-400 whitespace-nowrap">
                         {item[0]}
                       </Popover.Button>}
                   </>

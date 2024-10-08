@@ -9,6 +9,10 @@ yarn run start
 yvm ls
 yvm use 
 
+# React Next
+
+https://nextjs.org/
+
 # Styling
 
 https://tailwindcss.com
@@ -42,6 +46,10 @@ onClick={() => showLexicon(word)}>
  <span dangerouslySetInnerHTML={{ __html: verse.t }} />
  
 https://stackoverflow.com/questions/30523800/call-react-component-function-from-onclick-in-dangerouslysetinnerhtml
+
+## Add click handler to dangerous HTML
+
+https://stackoverflow.com/questions/54109790/how-to-add-onclick-event-to-a-string-rendered-by-dangerouslysetinnerhtml-in-reac
 
 # Center content
 

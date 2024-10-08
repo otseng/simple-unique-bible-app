@@ -14,19 +14,19 @@ export default function BasicModal(props) {
   function renderHtml(content) {
     let data = ""
     let lines = content.split("\n")
-    return (lines.map((line) => {
+    return (lines.map((line, key) => {
       if (line.startsWith("Hebrew:") || line.startsWith("Greek:") || line.startsWith("Names:") || line.startsWith("Places:")) {
         const lang = line.split(":")[0]
         const words = line.split(":")[1].split(",")
-        return (<span>{lang}:&nbsp;
+        return (<span key={key}>{lang}:&nbsp;
         {words.map((word, i) => {
           let regex = new RegExp("\('(.*?)'\).*>(.*?)<")
           let matches = regex.exec(word)
           let comma = i < words.length - 1 ? ", " : ""
           if (matches) {
-            return <a href={`${props.hash}`} onClick={() => props.showLexicon(matches[2])}>{matches[3]}{comma}</a>
+            return <a key={i} href={`${props.hash}`} onClick={() => props.showLexicon(matches[2])}>{matches[3]}{comma}</a>
           } else {
-            return <span>{word}{comma}</span>
+            return <span key={i} >{word}{comma}</span>
           }
         })}</span>)
       } else {

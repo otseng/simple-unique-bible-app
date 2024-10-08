@@ -259,31 +259,30 @@ export default function Index() {
     setScrolledRef(false)
     setStrongsModal(strongs)
     setModalTitle('Lexicon - ' + strongs)
-    _getLexicon('TRLIT', strongs).then((resp) => {
-      removeToast()
-      const html = processLexiconData(resp[0])
-
-      // "<ref onclick="lex('H4761')">mar'āšôṯ</ref>"
-      // https://stackoverflow.com/questions/30523800/call-react-component-function-from-onclick-in-dangerouslysetinnerhtml
-      // html = html.replace(new RegExp("<ref onclick=\"lex\\('(.*?)'\\)\">(.*?)</ref>", "ig"), "<a onclick=\"showLexicon('$1')\">$2</a>")
-      if (!html.includes("[Not found]")) {
-        setModalContent(html)
-        setShowModal(true)
-      } else {
-        _getLexicon('SECE', strongs).then((resp) => {
-          if (resp[0] != "[Not found]") {
-            const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
-            setModalContent(html)
-            setShowModal(true)
-          }
-        })
-      }
-    })
+    try {
+      _getLexicon('TRLIT', strongs).then((resp) => {
+        removeToast()
+        const html = processLexiconData(resp[0])
+        if (!html.includes("[Not found]")) {
+          setModalContent(html)
+          setShowModal(true)
+        } else {
+          _getLexicon('SECE', strongs).then((resp) => {
+            if (resp[0] != "[Not found]") {
+              const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
+              setModalContent(html)
+              setShowModal(true)
+            }
+          })
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   function showChineseLexicon(chinese) {
     setScrolledRef(false)
-    setStrongsModal(chinese)
     setModalTitle('CEDICT - ' + chinese)
     _getLexicon('CEDICT', chinese).then((resp) => {
       removeToast()
@@ -445,10 +444,10 @@ export default function Index() {
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>
-                  {dataBibles.map((text) => {
+                  {dataBibles.map((text, i) => {
                     const hash = window?.location?.hash
                     return (
-                      <Link href={"/bible/" + text + "/" + book + "/" + chapter + "?commentary=" + hash}>
+                      <Link key={i} href={"/bible/" + text + "/" + book + "/" + chapter + "?commentary=" + hash}>
                         <button className={`${theme.clickableButton}`}>{text}</button>
                       </Link>
                     )
@@ -464,8 +463,8 @@ export default function Index() {
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>
-                  {bookNames.map((book) => (
-                    <Link href={"/bible/" + fullText + "/" + book + "/1?commentary="}>
+                  {bookNames.map((book, i) => (
+                    <Link key={i} href={"/bible/" + fullText + "/" + book + "/1?commentary="}>
                       <button className={`${theme.clickableButton}`}>{book}</button>
                     </Link>
                   ))}
@@ -478,8 +477,8 @@ export default function Index() {
                 <div className="text-xl">{book} {chapter}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
-                {chapters.map((chapter) => (
-                  <Link href={"/bible/" + fullText + "/" + book + "/" + chapter + "?commentary="}>
+                {chapters.map((chapter, i) => (
+                  <Link key={i} href={"/bible/" + fullText + "/" + book + "/" + chapter + "?commentary="}>
                     <button className={`${theme.clickableButton}`}>{chapter}</button>
                   </Link>
                 ))}
@@ -497,7 +496,7 @@ export default function Index() {
 
             <div dir={textDir} className={`${theme.bibleDivContainer}`}>
               {(mabBible || mibBible || mtbBible || mpbBible) &&
-                data.map((verse) => {
+                data.map((verse, i) => {
                   let text = verse.t
                   text = text.replaceAll(/<vid.*?<\/vid>/g, "")
                   text = text.replaceAll(/^(<br>)*/g, "")
@@ -506,7 +505,7 @@ export default function Index() {
                   text = text.replaceAll(/onmouseover=".*?"/g, "")
                   text = text.replaceAll(/onmouseout=".*?"/g, "")
                   return (
-                    <p id={`v${verse.c}_${verse.v}`}>
+                    <p key={i} id={`v${verse.c}_${verse.v}`}>
                       <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v}</span>
                       {(mtbBible || mpbBible) && <br />}
                       <span id={`t${verse.c}_${verse.v}`} className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: text }} /></p>
@@ -644,8 +643,8 @@ export default function Index() {
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div>
-                  {dataCommentaries.map((commentary) => (
-                    <Link href={"/commentary/" + commentary + '/' + book + '/' + chapter + '?text=' + text}>
+                  {dataCommentaries.map((commentary, i) => (
+                    <Link key={i} href={"/commentary/" + commentary + '/' + book + '/' + chapter + '?text=' + text}>
                       <button className={`${theme.clickableButton}`}>
                         {commentary.replaceAll('_', ' ')}
                       </button>
@@ -655,7 +654,7 @@ export default function Index() {
               </Disclosure.Panel>
             </Disclosure>
 
-            <BasicModal show={showModal} setter={setShowModal} title={modalTitle} onclick={clickInModal}
+            <BasicModal show={showModal} setter={setShowModal} title={modalTitle}
             content={modalContent} hash={locationHash.current} strongsModal={strongsModal} searchStrongs={searchStrongs} 
             showLexicon={showLexicon}></BasicModal>
 
@@ -683,9 +682,9 @@ export default function Index() {
               {isPowerMode() && ["MSG", "NWT", "PESH", "Recovery", "TPT"].indexOf(text) > -1 
                 && <Item id={`bible-${text}-TRLITx`} onClick={handleItemClick}><span className="text-md">{text}-TRLITx</span></Item>} 
               {isPowerMode() && <Item id={`bible-KJV-TRLITx`} onClick={handleItemClick}><span className="text-md">KJV-TRLITx</span></Item>}
-              {biblesInPopup.map((bible) => {
+              {biblesInPopup.map((bible, i) => {
                 const bibleId = "bible-" + bible
-                return <Item id={bibleId} onClick={handleItemClick}><span className="text-md">{bible}</span></Item>
+                return <Item key={i} id={bibleId} onClick={handleItemClick}><span className="text-md">{bible}</span></Item>
               })
               }
               {/* {bookNum < 40 && <Item id="bible-Tanakhxx" onClick={handleItemClick}><span className="text-md">Tanakhxx</span></Item>} */}

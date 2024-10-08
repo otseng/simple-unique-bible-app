@@ -17,9 +17,9 @@ const Layout = ({ preview, children }: Props) => {
   const {lang, setLang} = useLang()
   const {theme, setTheme} = useTheme()
 
-  setLang(langs[getLang()])
-  const currentTheme = getTheme()
-  setTheme(themes[currentTheme])
+  // setLang(langs[getLang()])
+  // const currentTheme = getTheme()
+  // setTheme(themes[currentTheme])
 
   return (
     <>
