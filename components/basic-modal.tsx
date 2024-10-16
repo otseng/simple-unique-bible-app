@@ -18,15 +18,15 @@ export default function BasicModal(props) {
       if (line.startsWith("Hebrew:") || line.startsWith("Greek:") || line.startsWith("Names:") || line.startsWith("Places:")) {
         const lang = line.split(":")[0]
         const words = line.split(":")[1].split(",")
-        return (<span key={key}>{lang}:&nbsp;
+        return (<span>{lang}:&nbsp;
         {words.map((word, i) => {
           let regex = new RegExp("\('(.*?)'\).*>(.*?)<")
           let matches = regex.exec(word)
           let comma = i < words.length - 1 ? ", " : ""
           if (matches) {
-            return <a key={i} href={`${props.hash}`} onClick={() => props.showLexicon(matches[2])}>{matches[3]}{comma}</a>
+            return <a key={word} href={`${props.hash}`} onClick={() => props.showLexicon(matches[2])}>{matches[3]}{comma}</a>
           } else {
-            return <span key={i} >{word}{comma}</span>
+            return <span key={word} >{word}{comma}</span>
           }
         })}</span>)
       } else {

@@ -52,11 +52,11 @@ const Intro = (props) => {
                 return (
                   <>
                     {props.currentPage != item[0] &&
-                      <Link key={1} href={item[1]}><Popover.Button className="hover:bg-indigo-400 p-1 whitespace-nowrap">
+                      <Link key={i} href={item[1]}><Popover.Button className="hover:bg-indigo-400 p-1 whitespace-nowrap">
                         {item[0]}
                       </Popover.Button></Link>}
                     {props.currentPage == item[0] &&
-                      <Popover.Button key={1} className="text-left ml-1 text-yellow-400 whitespace-nowrap">
+                      <Popover.Button key={i} className="text-left ml-1 text-yellow-400 whitespace-nowrap">
                         {item[0]}
                       </Popover.Button>}
                   </>
