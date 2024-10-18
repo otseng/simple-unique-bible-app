@@ -308,10 +308,14 @@ export async function _getLexicon(lexicon, strongs) {
 
   const key = lexicon + "-" + strongs
   if (!cacheLexicon.has(key)) {
-    const address = API_SERVER + `/lexicon/${lexicon}/${strongs}?` + addLang()
-    const res = await axios.get(address, { auth })
-    const data = await res.data.data
-    cacheLexicon.set(key, data)
+    try {
+      const address = API_SERVER + `/lexicon/${lexicon}/${strongs}?` + addLang()
+      const res = await axios.get(address, { auth })
+      const data = await res.data.data
+      cacheLexicon.set(key, data)
+    } catch (error) {
+      console.log(error)
+    }
   }
   return cacheLexicon.get(key)
 }

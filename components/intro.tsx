@@ -50,16 +50,16 @@ const Intro = (props) => {
             <div className="relative grid gap-1 bg-blue-400 p-3 rounded text-lg text-neutral-50 font-bold">
               {menuItems.map((item, i) => {
                 return (
-                  <>
+                  <span key={i}>
                     {props.currentPage != item[0] &&
-                      <Link key={i} href={item[1]}><Popover.Button className="hover:bg-indigo-400 p-1 whitespace-nowrap">
+                      <Link href={item[1]}><Popover.Button className="hover:bg-indigo-400 p-1 whitespace-nowrap">
                         {item[0]}
                       </Popover.Button></Link>}
                     {props.currentPage == item[0] &&
-                      <Popover.Button key={i} className="text-left ml-1 text-yellow-400 whitespace-nowrap">
+                      <Popover.Button className="text-left ml-1 text-yellow-400 whitespace-nowrap">
                         {item[0]}
                       </Popover.Button>}
-                  </>
+                  </span>
                 )
               })
               }
