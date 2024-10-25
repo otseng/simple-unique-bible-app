@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.26] - 10/25/2024
+
+- Fix lexicon modal
+
 ## [1.25] - 9/30/2024
 
 - Add multiple parallel versions

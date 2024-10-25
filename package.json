@@ -1,6 +1,6 @@
 {
   "name": "simple-unique-bible-app",
-  "version": "1.25",
+  "version": "1.26",
   "private": true,
   "license": "Apache2",
   "scripts": {

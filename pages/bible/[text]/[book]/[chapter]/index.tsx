@@ -11,7 +11,12 @@ import { _getCommentaryContent, _getDiscourse, _getInstantLex, _getLexicon, _get
 import { useEffect, useRef, useState } from 'react'
 import { bibleChapters } from '../../../../../data/bibleChapters'
 import { Disclosure } from '@headlessui/react'
-import BasicModal from '../../../../../components/basic-modal'
+
+import dynamic from 'next/dynamic';
+const BasicModal = dynamic(() => import('../../../../../components/basic-modal'), {
+  ssr: false
+});
+
 import {
   Menu,
   Item,
@@ -25,6 +30,7 @@ import { useLang } from '../../../../../lang/langContext'
 import { getLang } from '../../../../../lang/langUtil'
 import { useTheme } from '../../../../../theme/themeContext'
 import { getTheme } from '../../../../../theme/themeUtil'
+import NoSsr from '../../../../../components/NoSsr'
 
 const BIBLE_VERSE_POPUP_MENU = "bible-verse-popup-menu"
 
@@ -493,6 +499,7 @@ export default function Index() {
                   <button className={`${theme.clickableButton}`}>{lang.Next}</button></Link>}
             </div>
 
+            <NoSsr>
             <div dir={textDir} className={`${theme.bibleDivContainer}`}>
               {(mabBible || mibBible || mtbBible || mpbBible) &&
                 data.map((verse, i) => {
@@ -626,7 +633,8 @@ export default function Index() {
               }
 
             </div>
-
+            </NoSsr>
+            
             <div className="flex justify-center items-center mt-2 mb-5">
               {showPrevious &&
                 <Link href={"/bible/" + fullText + '/' + book + '/' + (parseInt(chapter) - 1)}>

@@ -305,32 +305,34 @@ export function getSubheadings(book, chapter) {
 let cacheLexicon: Map<string, string> = new Map();
 
 export async function _getLexicon(lexicon, strongs) {
-
-  const key = lexicon + "-" + strongs
-  if (!cacheLexicon.has(key)) {
-    try {
-      const address = API_SERVER + `/lexicon/${lexicon}/${strongs}?` + addLang()
-      const res = await axios.get(address, { auth })
-      const data = await res.data.data
-      cacheLexicon.set(key, data)
-    } catch (error) {
-      console.log(error)
+  if (window !== undefined) {
+    const key = lexicon + "-" + strongs
+    if (!cacheLexicon.has(key)) {
+      try {
+        const address = API_SERVER + `/lexicon/${lexicon}/${strongs}?` + addLang()
+        const res = await axios.get(address, { auth })
+        const data = await res.data.data
+        cacheLexicon.set(key, data)
+      } catch (error) {
+        console.log(error)
+      }
     }
+    return cacheLexicon.get(key)
   }
-  return cacheLexicon.get(key)
 }
 
 let cacheInstantLex: Map<string, string> = new Map();
 
 export async function _getInstantLex(strongs) {
-
-  if (!cacheInstantLex.has(strongs)) {
-    const address = API_SERVER + `/data/lex/${strongs}?` + addLang()
-    const res = await axios.get(address, { auth })
-    const data = await res.data.data
-    cacheInstantLex.set(strongs, data)
+  if (window !== undefined) {
+    if (!cacheInstantLex.has(strongs)) {
+      const address = API_SERVER + `/data/lex/${strongs}?` + addLang()
+      const res = await axios.get(address, { auth })
+      const data = await res.data.data
+      cacheInstantLex.set(strongs, data)
+    }
+    return cacheInstantLex.get(strongs)
   }
-  return cacheInstantLex.get(strongs)
 }
 
 let cacheCommentaryContent: Map<string, string> = new Map();

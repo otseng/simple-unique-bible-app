@@ -93,7 +93,14 @@ export default function Index() {
         foundBook = books2Number.get(book)
       }
       if (foundBook == "") {
-        book = book + "."
+        if (books2Number.has(book + ".")) {
+          foundBook = books2Number.get(book)
+        }
+      }
+      if (foundBook == "") {
+        book = book.replace("1", "1 ")
+        book = book.replace("2", "2 ")
+        book = book.replace("3", "3 ")
         if (books2Number.has(book)) {
           foundBook = books2Number.get(book)
         }
