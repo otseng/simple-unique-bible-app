@@ -83,7 +83,7 @@ export default function BasicModal(props) {
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
               <Dialog.Panel className={theme.backgroundStyle + " relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"}>
                 <NoSsr>
-                <div className={theme.backgroundStyle + " px-4 pt-5 sm:p-6 overflow-y-scroll border-2 border-solid border-white"}>
+                <div className={theme.backgroundStyle + " px-4 pt-5 sm:p-6 overflow-y-scroll border-2 border-solid border-neutral"}>
                   <div className="sm:flex sm:items-start">
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                       <Dialog.Title as="h3" className={theme.backgroundStyle + " text-lg font-medium leading-6"}>
@@ -95,7 +95,7 @@ export default function BasicModal(props) {
                     </div>
                   </div>
                 </div>
-                <div className={theme.backgroundStyle + " flex justify-center items-center mb-5 border-2 border-solid border-white"}>
+                <div className={theme.backgroundStyle + " flex justify-center items-center mb-5 border-2 border-solid border-neutral"}>
                   {isPowerMode() && props.strongsModal && 
                     <button
                       type="button"
