@@ -224,8 +224,9 @@ export default function Index() {
       router.push(`/bible/${bible}/${book}/${chapter}#v${chapter}_${verse}`)
     } else if (id == 'uba') {
       let bible = text
-      if (bible == "CUVx")
+      if (bible == "CUVx" || parallel1 == "CUVl") {
         bible = "CUVs"
+      }
       const cmd = `BIBLE:::${bible}:::${book} ${chapter}:${verse}`
       if (isPowerMode()) {
         window.open('https://uniquebibleapp.net/ubaTeamOnLY.html?cmd=' + cmd, '_blank', 'noreferrer');
