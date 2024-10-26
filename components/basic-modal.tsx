@@ -78,16 +78,16 @@ export default function BasicModal(props) {
     <Transition.Root show={props.show} as={Fragment}>
       <Dialog as="div" className="relative z-60 " open={props.show} initialFocus={buttonRef} onClose={props.setter}>
         <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div className="flex min-h-full items-end justify-center p-4 text-left sm:items-center sm:p-0">
               <Dialog.Panel className={theme.backgroundStyle + " relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"}>
                 <NoSsr>
                 <div className={theme.backgroundStyle + " px-4 pt-5 sm:p-6 overflow-y-scroll border-t-2 border-l-2 border-r-2 border-solid border-neutral"}>
                   <div className="sm:flex sm:items-start">
-                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                    <div className="mt-3 text-left sm:mt-0 sm:ml-4 sm:text-left">
                       <Dialog.Title as="h3" className={theme.backgroundStyle + " text-lg font-medium leading-6"}>
                         {title}
                       </Dialog.Title>
-                      <div className={theme.backgroundStyle + "mt-2"}>
+                      <div className={theme.backgroundStyle + " mt-2 pb-5"}>
                         {generatedHtml}
                       </div>
                     </div>
