@@ -78,12 +78,12 @@ export default function BasicModal(props) {
 
   return (
     <Transition.Root show={props.show} as={Fragment}>
-      <Dialog as="div" className="relative z-60" open={props.show} initialFocus={buttonRef} onClose={props.setter}>
+      <Dialog as="div" className="relative z-60 " open={props.show} initialFocus={buttonRef} onClose={props.setter}>
         <div className="fixed inset-0 z-10 overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
               <Dialog.Panel className={theme.backgroundStyle + " relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"}>
                 <NoSsr>
-                <div className={theme.backgroundStyle + " px-4 pt-5 pb-4 sm:p-6 sm:pb-4 overflow-y-scroll"}>
+                <div className={theme.backgroundStyle + " px-4 pt-5 sm:p-6 overflow-y-scroll border-2 border-solid border-white"}>
                   <div className="sm:flex sm:items-start">
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                       <Dialog.Title as="h3" className={theme.backgroundStyle + " text-lg font-medium leading-6"}>
@@ -95,7 +95,7 @@ export default function BasicModal(props) {
                     </div>
                   </div>
                 </div>
-                <div className={theme.backgroundStyle + " flex justify-center items-center mt-2 mb-5"}>
+                <div className={theme.backgroundStyle + " flex justify-center items-center mb-5 border-2 border-solid border-white"}>
                   {isPowerMode() && props.strongsModal && 
                     <button
                       type="button"
