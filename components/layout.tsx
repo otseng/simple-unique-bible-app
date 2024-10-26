@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useLang } from '../lang/langContext'
 import { langs } from '../lang/languages'
 import { getLang } from '../lang/langUtil'
@@ -17,10 +18,12 @@ const Layout = ({ preview, children }: Props) => {
   const {lang, setLang} = useLang()
   const {theme, setTheme} = useTheme()
 
-  setLang(langs[getLang()])
-  const currentTheme = getTheme()
-  setTheme(themes[currentTheme])
-
+  useEffect(() => {
+    setLang(langs[getLang()])
+    const currentTheme = getTheme()
+    setTheme(themes[currentTheme])
+  });
+  
   return (
     <>
       <Meta />

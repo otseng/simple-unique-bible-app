@@ -263,7 +263,7 @@ export default function Index() {
   function showLexicon(strongs) {
     setScrolledRef(false)
     setStrongsModal(strongs)
-    setModalTitle('Lexicon - ' + strongs)
+    setModalTitle(strongs)
     try {
       _getLexicon('TRLIT', strongs).then((resp) => {
         removeToast()

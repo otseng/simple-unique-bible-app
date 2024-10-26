@@ -2,21 +2,29 @@ import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { useLang } from '../lang/langContext'
 import { useTheme } from '../theme/themeContext'
-import { isPowerMode } from '../lib/util'
+import { isPowerMode, processLexiconData } from '../lib/util'
 import NoSsr from './NoSsr'
+import { _getLexicon } from '../lib/api'
 
 export default function BasicModal(props) {
 
   const {lang, setLang} = useLang()
   const {theme, setTheme} = useTheme()
 
+  const [title, setTitle] = useState('')
   const [generatedHtml, setGeneratedHtml] = useState('')
+  const [localRefresh, setLocalRefresh] = useState(false)
   
   const buttonRef = useRef(null)
 
   useEffect(() => {
-    setHtmlContent(props.content)
+    if (!localRefresh) {
+      setTitle(props.title)
+      setHtmlContent(props.content)
+    }
   });
+
+  // no values works for all lexicons on initial load
   
   function setHtmlContent(content) {
     setGeneratedHtml(renderHtml(content))
@@ -35,7 +43,7 @@ export default function BasicModal(props) {
           let matches = regex.exec(word)
           let comma = i < words.length - 1 ? ", " : ""
           if (matches) {
-            return  <NoSsr><a key={i} href={`${props.hash}`} onClick={() => props.showLexicon(matches[2])}>{matches[3]}{comma}</a></NoSsr>
+            return  <NoSsr><a key={i} href='#' onClick={() => showLexicon(matches[2])}>{matches[3]}{comma}</a></NoSsr>
           } else {
             return <span key={i} >{word}{comma}</span>
           }
@@ -44,6 +52,28 @@ export default function BasicModal(props) {
         return <span key={j} dangerouslySetInnerHTML={{__html: line}} />
       }
     }))
+  }
+
+  function showLexicon(strongs) {
+    setLocalRefresh(true)
+    setTitle(strongs)
+    try {
+      _getLexicon('TRLIT', strongs).then((resp) => {
+        const html = processLexiconData(resp[0])
+        if (!html.includes("[Not found]")) {
+          setHtmlContent(html)
+        } else {
+          _getLexicon('SECE', strongs).then((resp) => {
+            if (resp[0] != "[Not found]") {
+              const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
+              setHtmlContent(html)
+            }
+          })
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -57,7 +87,7 @@ export default function BasicModal(props) {
                   <div className="sm:flex sm:items-start">
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                       <Dialog.Title as="h3" className={theme.backgroundStyle + " text-lg font-medium leading-6"}>
-                        {props.title}
+                        {title}
                       </Dialog.Title>
                       <div className={theme.backgroundStyle + "mt-2"}>
                         {generatedHtml}
