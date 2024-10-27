@@ -8,7 +8,7 @@ import { APP_NAME } from '../../../../../lib/constants'
 import { addBookmark, bookmarkExists, deleteBookmark, getBibleNumberFromName, getBibleTextDir, isMobile, isPowerMode, preloadData, processLexiconData, range, removeOnEvents } from '../../../../../lib/util'
 import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, getSubheadings } from '../../../../../lib/api'
 import { _getCommentaryContent, _getDiscourse, _getInstantLex, _getLexicon, _getMorphology, _getSearchTool } from '../../../../../lib/api'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { bibleChapters } from '../../../../../data/bibleChapters'
 import { Disclosure } from '@headlessui/react'
 
@@ -108,7 +108,7 @@ export default function Index() {
     biblesInPopup = ['CUV', 'CUVs', 'KJV', 'MIB']
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.addEventListener('scroll', function (event) { removeToast() });
     locationHash.current = window?.location?.hash
     if (commentary) {
