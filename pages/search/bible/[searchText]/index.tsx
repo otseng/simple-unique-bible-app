@@ -21,8 +21,13 @@ export default function Index() {
 
   const router = useRouter()
   const searchText = router.query.searchText as string
-  let text = router.query.text as string
-  if (!text) text = "KJV"
+  let fullText = router.query.text as string
+  let text = fullText
+  if (!fullText) text = "KJV"
+  if (fullText && fullText.indexOf("-") > -1) {
+    const texts = fullText.split("-")
+    text = fullText[0]
+  }
   const { data: dataVerses, loading, error } = searchBible(searchText, text)
 
   if (error) return <div>Failed to load</div>
@@ -60,7 +65,7 @@ export default function Index() {
                     let verseStr = data[3]
                     const dir = getBibleTextDir(text, bookNum)
                     if (verseStr) {
-                      const link = <Link className={`${theme.bibleReferenceContainer}`} href={"/bible/" + text + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>{book} {chapter}:{verse}</Link>
+                      const link = <Link className={`${theme.bibleReferenceContainer}`} href={"/bible/" + fullText + "/" + book + "/" + chapter + "#v" + chapter + "_" + verse}>{book} {chapter}:{verse}</Link>
                       verseStr = highlight(verseStr, searchText)
                       return (<p className={`${theme.bibleDivContainer}` + " mt-2"} dir={dir}>{link} - <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: verseStr }} /></p>)
                     }

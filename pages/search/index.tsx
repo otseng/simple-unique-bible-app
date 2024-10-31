@@ -25,7 +25,7 @@ export default function Index() {
   const router = useRouter()
 
   let text = router.query.text as string
-  if (!text) text = "KJV"
+  if (!text) text = "KJV-TRLITx"
   let search = router.query.q as string
 
   const [searchText, setSearchText] = useState('')
@@ -79,6 +79,7 @@ export default function Index() {
     if (searchText.includes(" ")) {
       const parse1 = searchText.split(" ")
       let book = parse1[0]
+      book =  book.charAt(0).toUpperCase() + book.slice(1); 
       let chapter = 1
       let verse = 1
       if (parse1[1].includes(":")) {
@@ -92,12 +93,12 @@ export default function Index() {
       if (books2Number.has(book)) {
         foundBook = books2Number.get(book)
       }
-      if (foundBook == "") {
+      if (foundBook == "" || foundBook == undefined) {
         if (books2Number.has(book + ".")) {
-          foundBook = books2Number.get(book)
+          foundBook = books2Number.get(book + ".")
         }
       }
-      if (foundBook == "") {
+      if (foundBook == "" || foundBook == undefined) {
         book = book.replace("1", "1 ")
         book = book.replace("2", "2 ")
         book = book.replace("3", "3 ")
@@ -105,7 +106,7 @@ export default function Index() {
           foundBook = books2Number.get(book)
         }
       }
-      if (foundBook == "") {
+      if (foundBook == "" || foundBook == undefined) {
         return false
       }
       if (Number.isNaN(chapter)) {
