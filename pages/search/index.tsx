@@ -52,12 +52,14 @@ export default function Index() {
   }, [router.isReady]);
 
   function enterCommand() {
-    setSearchText("")
-    if (searchText.startsWith(".")) {
-      processCommand(searchText.substring(1))
-    } else if (checkReference()) {
-    } else {
-      searchBible()
+    if (searchText !== undefined && searchText.length > 2) {
+      setSearchText("")
+      if (searchText.startsWith(".")) {
+        processCommand(searchText.substring(1))
+      } else if (checkReference()) {
+      } else {
+        searchBible()
+      }
     }
   }
 

@@ -21,12 +21,17 @@ export default function Index() {
 
   const router = useRouter()
   const searchText = router.query.searchText as string
+
+  if (searchText == undefined || searchText == "") {
+    router.push('/search/bible')
+  }
+
   let fullText = router.query.text as string
   let text = fullText
   if (!fullText) text = "KJV"
   if (fullText && fullText.indexOf("-") > -1) {
     const texts = fullText.split("-")
-    text = fullText[0]
+    text = texts[0]
   }
   const { data: dataVerses, loading, error } = searchBible(searchText, text)
 
@@ -51,7 +56,7 @@ export default function Index() {
 
                 <div className="m-10">
 
-                  <Link href={`/search?text=${text}&q=${searchText}`}>
+                  <Link href={`/search?text=${fullText}&q=${searchText}`}>
                     <button className={`${theme.clickableButton}`}>{lang.Back_to_search}</button>
                   </Link>
 
