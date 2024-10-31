@@ -22,10 +22,6 @@ export default function Index() {
   const router = useRouter()
   const searchText = router.query.searchText as string
 
-  if (searchText == undefined || searchText == "") {
-    router.push('/search/bible')
-  }
-
   let fullText = router.query.text as string
   let text = fullText
   if (!fullText) text = "KJV"
