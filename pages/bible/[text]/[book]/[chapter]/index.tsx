@@ -100,7 +100,7 @@ export default function Index() {
   if (getLang() == "en") {
     biblesInPopup = []
     if (isPowerMode()) {
-      biblesInPopup.push.apply(biblesInPopup, ['KJV-CUVl-Pinyin-CUVx', 'KJV', 'ESV', 'NASB', 'NET', 'NIV', 'NKJV', 'NLT', 'NRSV', 'MIB'])
+      biblesInPopup.push.apply(biblesInPopup, ['KJV-CUVl-Pinyin-CUVx', 'KJV', 'ESV', 'NASB', 'NET', 'NIV', 'NKJV', 'NLT', 'MIB'])
     } else {
       biblesInPopup.push.apply(biblesInPopup, ['KJV', 'TRLITx', 'KJV-TRLITx', 'NET', 'WEB', 'MOB', 'MAB', 'MTB', 'MIB'])
     }
