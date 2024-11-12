@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.27] - 11/12/2024
+
+- Add chinese mode
+
 ## [1.26] - 10/25/2024
 
 - Fix lexicon modal

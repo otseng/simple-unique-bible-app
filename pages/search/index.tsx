@@ -216,6 +216,12 @@ export default function Index() {
           if (cmd[1] == "off") disablePowerMode()
         }
         break
+      case 'chinese':
+        if (cmd.length > 1) {
+          if (cmd[1] == "on") enableChineseMode()
+          if (cmd[1] == "off") disableChineseMode()
+        }
+        break
       case '...':
         enablePowerMode()
         setTheme('dark')
@@ -234,6 +240,16 @@ export default function Index() {
   function disablePowerMode() {
     setLocalStorage("powerMode", false)
     toast("Power mode off")
+  }
+
+  function enableChineseMode() {
+    setLocalStorage("chineseMode", true)
+    toast("Chinese mode on")
+  }
+
+  function disableChineseMode() {
+    setLocalStorage("chineseMode", false)
+    toast("Chinese mode off")
   }
 
   if (error) return <div>Failed to load</div>

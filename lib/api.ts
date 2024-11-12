@@ -2,7 +2,7 @@ import axios from 'axios'
 import useSWR from 'swr'
 import { API_SERVER } from './constants'
 import md5 from 'md5'
-import { getLocalStorage, isPowerMode } from './util'
+import { getLocalStorage, isChineseMode, isPowerMode } from './util'
 import { getLang } from '../lang/langUtil'
 
 const auth = {
@@ -23,8 +23,9 @@ export function getBibles() {
   const { data, error } = useSWR(address, fetcher)
 
   const powerMode = isPowerMode()
+  const chineseMode = isChineseMode()
 
-  if (powerMode && data && data.indexOf("KJV-CUVl-Pinyin-CUVx") < 0) data.unshift("KJV-CUVl-Pinyin-CUVx")
+  if ((powerMode || chineseMode) && data && data.indexOf("KJV-CUVl-Pinyin-CUVx") < 0) data.unshift("KJV-CUVl-Pinyin-CUVx")
   if (data && data.indexOf("KJV-TRLITx") < 0) data.unshift("KJV-TRLITx")
 
   return {
@@ -191,6 +192,7 @@ export function getCompareVerses(book, chapter, verse) {
 
   let address = API_SERVER + `/compare/${book}/${chapter}/${verse}?` + addLang()
   const powerMode = isPowerMode()
+  const chineseMode = isChineseMode()
   if (getLang() == "en") {
     address = address + '&text=KJV&text=WEB&text=NET'
     if (powerMode) {
@@ -205,8 +207,11 @@ export function getCompareVerses(book, chapter, verse) {
         '&text=YLT&text=KJV1611&text=Geneva' +
         '&text=Bishops&text=Tyndale&text=Wycliffe' +
         '&text=LXXE&text=TRLITx&text=KJVx'
+    if (powerMode || chineseMode) {
+      address = address + '&text=CUV&text=Pinyin'
+    }
     if (powerMode) {
-      address = address + '&text=CUV&text=Pinyin&text=MOB&text=HEBT'
+      address = address + '&text=MOB&text=HEBT'
     }
   } else if (getLang().startsWith("zh")) {
     address = address +

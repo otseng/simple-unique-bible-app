@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
-import { addBookmark, bookmarkExists, deleteBookmark, getBibleNumberFromName, getBibleTextDir, isMobile, isPowerMode, preloadData, processLexiconData, range, removeOnEvents } from '../../../../../lib/util'
+import { addBookmark, bookmarkExists, deleteBookmark, getBibleNumberFromName, getBibleTextDir, isChineseMode, isMobile, isPowerMode, preloadData, processLexiconData, range, removeOnEvents } from '../../../../../lib/util'
 import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, getSubheadings } from '../../../../../lib/api'
 import { _getCommentaryContent, _getDiscourse, _getInstantLex, _getLexicon, _getMorphology, _getSearchTool } from '../../../../../lib/api'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
@@ -99,8 +99,11 @@ export default function Index() {
 
   if (getLang() == "en") {
     biblesInPopup = []
+    if (isPowerMode() || isChineseMode) {
+      biblesInPopup.push.apply(biblesInPopup, ['KJV-CUVl-Pinyin-CUVx'])
+    }
     if (isPowerMode()) {
-      biblesInPopup.push.apply(biblesInPopup, ['KJV-CUVl-Pinyin-CUVx', 'KJV', 'ESV', 'NASB', 'NET', 'NIV', 'NKJV', 'NLT', 'MIB'])
+      biblesInPopup.push.apply(biblesInPopup, ['KJV', 'ESV', 'NASB', 'NET', 'NIV', 'NKJV', 'NLT', 'MIB'])
     } else {
       biblesInPopup.push.apply(biblesInPopup, ['KJV', 'TRLITx', 'KJV-TRLITx', 'NET', 'WEB', 'MOB', 'MAB', 'MTB', 'MIB'])
     }
@@ -229,9 +232,9 @@ export default function Index() {
       }
       const cmd = `BIBLE:::${bible}:::${book} ${chapter}:${verse}`
       if (isPowerMode()) {
-        window.open('https://uniquebibleapp.net/ubaTeamOnLY.html?cmd=' + cmd, '_blank', 'noreferrer');
+        window.open('https://uniquebibleapp.net/ubaTeamOnLY.html?cmd=' + cmd, '_new', 'noreferrer');
       } else {
-        window.open('https://uniquebibleapp.net/index.html?cmd=' + cmd, '_blank', 'noreferrer');
+        window.open('https://uniquebibleapp.net/index.html?cmd=' + cmd, '_new', 'noreferrer');
       }
     } else if (id == 'greeklab') {
       const book1 = book.replace(" ", "_")

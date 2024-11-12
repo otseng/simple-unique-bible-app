@@ -111,6 +111,9 @@ export function isPowerMode() {
     return getLocalStorage("powerMode") == true
 }
 
+export function isChineseMode() {
+    return getLocalStorage("chineseMode") == true
+}
 
 export function highlight(html: string, searchText: string): any {
     let style = "background-color:#f7dc6f; color: black;"

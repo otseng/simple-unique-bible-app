@@ -1,7 +1,7 @@
 import React from 'react';
 import Container from './container'
 import getConfig from 'next/config';
-import { isDev, isPowerMode, setLocalStorage } from '../lib/util';
+import { isChineseMode, isDev, isPowerMode, setLocalStorage } from '../lib/util';
 import { useLang } from '../lang/langContext';
 import { Item, Menu, useContextMenu } from 'react-contexify';
 import "react-contexify/dist/ReactContexify.css"
@@ -28,10 +28,9 @@ const Footer = () => {
   })
 
   let modeInfo = ""
-  if (isDev() || isPowerMode()) {
-    if (isDev()) modeInfo += "Dev"
-    if (isPowerMode()) modeInfo += "x"
-  }
+  if (isDev()) modeInfo += "Dev"
+  if (isPowerMode()) modeInfo += "x"
+  if (isChineseMode()) modeInfo += "c"
 
   function handleLanguageItemClick({ id, event, props, data, triggerEvent }) {
     if (isDev()) {
