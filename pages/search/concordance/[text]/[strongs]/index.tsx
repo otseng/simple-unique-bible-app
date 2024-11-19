@@ -28,7 +28,7 @@ export default function Index() {
     const texts = text.split("-")
     text = texts[0]
   }
-  if (!text.endsWith('x')) {
+  if (!text || !text.endsWith('x')) {
     text = 'KJVx'
   }
 
