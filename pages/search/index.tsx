@@ -181,6 +181,7 @@ export default function Index() {
 
   function searchLexiconReverse() {
     const url = `/search/lexiconreverse/TRLIT/${searchText}`
+    addSearch(url)
     router.push(url)
   }
 
@@ -338,7 +339,7 @@ export default function Index() {
                         <>
                           <div className="flex justify-center items-center ">
                             <Link href={search}>
-                              <button className={`${theme.clickableButton}`}>{searchText} {bible}</button>
+                              <button className={`${theme.clickableButton}`}>Search {bible} {searchText}</button>
                             </Link>
                             <button id={search} onClick={() => deleteOne(search)} className={`${theme.clickableButton}`}>{lang.Delete}</button>
                           </div>
@@ -355,7 +356,7 @@ export default function Index() {
                         <>
                           <div className="flex justify-center items-center ">
                             <Link href={search}>
-                              <button className={`${theme.clickableButton}`}>{strongs} {text}</button>
+                              <button className={`${theme.clickableButton}`}>Strong's {text} {strongs}</button>
                             </Link>
                             <button id={search} onClick={() => deleteOne(search)} className={`${theme.clickableButton}`}>{lang.Delete}</button>
                           </div>
@@ -374,7 +375,24 @@ export default function Index() {
                         <>
                           <div className="flex justify-center items-center ">
                             <Link href={search}>
-                              <button className={`${theme.clickableButton}`}>{book} {chapter}:{verse} ({text})</button>
+                              <button className={`${theme.clickableButton}`}>Bible {book} {chapter}:{verse} ({text})</button>
+                            </Link>
+                            <button id={search} onClick={() => deleteOne(search)} className={`${theme.clickableButton}`}>{lang.Delete}</button>
+                          </div>
+                        </>
+                      )
+                    }
+                    regex = new RegExp("/lexiconreverse/(.*)/(.*)")
+                    matches = regex.exec(search)
+                    if (matches) {
+                      const lexicon = matches[1]
+                      const word = matches[2]
+
+                      return (
+                        <>
+                          <div className="flex justify-center items-center ">
+                            <Link href={search}>
+                              <button className={`${theme.clickableButton}`}>Reverse {lexicon} {word}</button>
                             </Link>
                             <button id={search} onClick={() => deleteOne(search)} className={`${theme.clickableButton}`}>{lang.Delete}</button>
                           </div>
