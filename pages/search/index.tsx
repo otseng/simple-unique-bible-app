@@ -24,8 +24,14 @@ export default function Index() {
 
   const router = useRouter()
 
-  let text = router.query.text as string
-  if (!text) text = "KJV-TRLITx"
+  let fullText = router.query.text as string
+  if (!fullText || fullText == "undefined") fullText = "KJV-TRLITx"
+  let text = fullText
+  if (fullText && fullText.indexOf("-") > -1) {
+    const texts = text.split("-")
+    text = texts[0]
+  }
+
   let search = router.query.q as string
 
   const [searchText, setSearchText] = useState('')
@@ -48,7 +54,7 @@ export default function Index() {
   useEffect(() => {
     if (!router.isReady) return;
     setSearchText(search)
-    setSelectedBible(text)
+    setSelectedBible(fullText)
   }, [router.isReady]);
 
   function enterCommand() {
@@ -168,7 +174,7 @@ export default function Index() {
 
   function searchBible() {
     setSearchText("")
-    const url = `/search/bible/${searchText}?text=${selectedBible}`
+    const url = `/search/bible/${searchText}?fullText=${selectedBible}`
     addSearch(url)
     router.push(url)
   }
@@ -184,9 +190,16 @@ export default function Index() {
     if (!bible.endsWith('x')) {
       bible = 'KJVx'
     }
-    const url = `/search/concordance/${bible}/${text}`
-    addSearch(url)
-    router.push(url)
+    const regex = /[GgHh][0-9]*/
+    const matches = regex.exec(text)
+
+    if (matches) {
+      const url = `/search/concordance/${bible}/${text}`
+      addSearch(url)
+      router.push(url)
+    } else {
+      toast.error("Invalid Strong's number")
+    }
   }
 
   function searchTextChange(event) {

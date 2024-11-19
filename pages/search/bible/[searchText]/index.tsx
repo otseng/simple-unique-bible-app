@@ -22,7 +22,7 @@ export default function Index() {
   const router = useRouter()
   const searchText = router.query.searchText as string
 
-  let fullText = router.query.text as string
+  let fullText = router.query.fullText as string
   let text = fullText
   if (!fullText) text = "KJV"
   if (fullText && fullText.indexOf("-") > -1) {

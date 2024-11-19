@@ -22,7 +22,16 @@ export default function Index() {
 
   const router = useRouter()
   const strongs = router.query.strongs as string
-  let text = router.query.text as string
+  let fullText = router.query.text as string
+  let text = fullText
+  if (fullText && fullText.indexOf("-") > -1) {
+    const texts = text.split("-")
+    text = texts[0]
+  }
+  if (!text.endsWith('x')) {
+    text = 'KJVx'
+  }
+
   const returnLink = router.query.return as string
 
   const { data: dataVerses, loading, error } = concordanceSearch(strongs, text)
