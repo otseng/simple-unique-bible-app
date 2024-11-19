@@ -655,7 +655,7 @@ export default function Index() {
               <Disclosure.Panel className="text-gray-500">
                 <div>
                   {dataCommentaries.map((commentary, i) => (
-                    <Link key={i} href={"/commentary/" + commentary + '/' + book + '/' + chapter + '?text=' + text}>
+                    <Link key={i} href={"/commentary/" + commentary + '/' + book + '/' + chapter + '?text=' + fullText}>
                       <button className={`${theme.clickableButton}`}>
                         {commentary.replaceAll('_', ' ')}
                       </button>

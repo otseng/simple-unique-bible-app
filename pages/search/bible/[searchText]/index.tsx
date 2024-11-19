@@ -56,7 +56,7 @@ export default function Index() {
                     <button className={`${theme.clickableButton}`}>{lang.Back_to_search}</button>
                   </Link>
 
-                  <p className={`${theme.bibleTextContainer}` + " font-bold text-xl"}>"{searchText}" ({text}) - {dataVerses.length} {lang.verses_found}</p>
+                  <p className={`${theme.bibleTextContainer}` + " font-bold text-xl"}>"{searchText}" ({fullText}) - {dataVerses.length} {lang.verses_found}</p>
 
                   {dataVerses.map((data) => {
                     const bookNum = data[0]

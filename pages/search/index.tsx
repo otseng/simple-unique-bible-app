@@ -328,7 +328,7 @@ export default function Index() {
                     </div>
                     </>}
                   {searches.map((search) => {
-                    let regex = new RegExp("/search/bible/(.*)\\?text=(.*)")
+                    let regex = new RegExp("/search/bible/(.*)\\?fullText=(.*)")
                     let matches = regex.exec(search)
                     if (matches) {
                       const searchText = matches[1]
