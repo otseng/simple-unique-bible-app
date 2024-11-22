@@ -188,7 +188,7 @@ export default function Index() {
       navigator.clipboard.writeText(contents)
       toast(lang.Copied_to_clipboard)
     } else if (id == 'copyVerse') {
-      const type = parallelMode ? "v": "t"
+      const type = "v"
       const verseTextElement = document.getElementById(type + chapter + "_" + verse)
       let contents = parallelMode ? "" : book + " " + chapter + ":" + verse + " (" + text + ")\n"
       contents += verseTextElement.innerText + "\n"
