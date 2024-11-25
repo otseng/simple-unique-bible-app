@@ -117,7 +117,7 @@ export function getBookChapters(title) {
 
 export function getBookChapterContent(title, chapter) {
 
-  if (title) {
+  if (title && chapter) {
     title = title.replaceAll('%20', '+').replaceAll(' ', '+')
     chapter = chapter.replaceAll('%20', '+').replaceAll(' ', '+')
   }

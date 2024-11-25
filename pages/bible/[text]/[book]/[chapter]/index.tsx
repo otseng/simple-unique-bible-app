@@ -420,6 +420,13 @@ export default function Index() {
     router.push(url)
   }
 
+  function renderBookOverview(html) {
+    const index = html.indexOf("<h2>Title</h2>")
+    html = html.substring(index)
+    html =  "<article class='prose'>" + html + "</article>"
+    return <span dangerouslySetInnerHTML={{__html: html}} />
+  }
+
   if (error || errorParallel1) return <div className={`${theme.bibleReferenceContainer}`}>Failed to load</div>
   if (loading && loadingParallel1) return <div>Loading...</div>
 
@@ -655,8 +662,10 @@ export default function Index() {
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
               <div className={`${theme.booksTextContainer}`}>
-                <span dangerouslySetInnerHTML={{__html: "<article class='prose'>" + dataBookOverview + "</article>" }} />
-                </div>
+              {
+                renderBookOverview(dataBookOverview)
+              }
+              </div>
               </Disclosure.Panel>
             </Disclosure>
 
