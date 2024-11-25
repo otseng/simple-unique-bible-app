@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
 import { addBookmark, bookmarkExists, deleteBookmark, getBibleNumberFromName, getBibleTextDir, isChineseMode, isMobile, isPowerMode, preloadData, processLexiconData, range, removeOnEvents } from '../../../../../lib/util'
-import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, getSubheadings } from '../../../../../lib/api'
+import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, getSubheadings, getBookChapterContent } from '../../../../../lib/api'
 import { _getCommentaryContent, _getDiscourse, _getInstantLex, _getLexicon, _getMorphology, _getSearchTool } from '../../../../../lib/api'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { bibleChapters } from '../../../../../data/bibleChapters'
@@ -92,7 +92,8 @@ export default function Index() {
   const { data: dataParallel1, loading: loadingParallel1, error: errorParallel1 } = getBibleChapter(parallel1, bookNum, chapter)
   const { data: dataParallel2, loading: loadingParallel2, error: errorParallel2 } = getBibleChapter(parallel2, bookNum, chapter)
   const { data: dataParallel3, loading: loadingParallel3, error: errorParallel3 } = getBibleChapter(parallel3, bookNum, chapter)
-  
+  const { data: dataBookOverview, loading: loadingBookOverview, error: errorBookOverview } = getBookChapterContent('Bible_Book_Overviews', book)
+
   let biblesInPopup = []
 
   const menuTheme = (getTheme() == "dark" ? "dark" : "light")
@@ -647,6 +648,17 @@ export default function Index() {
                 <Link href={"/bible/" + fullText + '/' + book + '/' + (parseInt(chapter) + 1)}>
                   <button className={`${theme.clickableButton}`}>{lang.Next}</button></Link>}
             </div>
+
+            <Disclosure>
+              <Disclosure.Button className={`${theme.chapterDisclosure}`}>
+                <div className="text-xl">{lang.Book_overview}</div>
+              </Disclosure.Button>
+              <Disclosure.Panel className="text-gray-500">
+              <div className={`${theme.booksTextContainer}`}>
+                <span dangerouslySetInnerHTML={{__html: "<article class='prose'>" + dataBookOverview + "</article>" }} />
+                </div>
+              </Disclosure.Panel>
+            </Disclosure>
 
             <Disclosure>
               <Disclosure.Button className={`${theme.chapterDisclosure}`}>

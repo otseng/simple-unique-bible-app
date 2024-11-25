@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.28] - 11/25/2024
+
+- Add book overview
+
 ## [1.27] - 11/12/2024
 
 - Add chinese mode
