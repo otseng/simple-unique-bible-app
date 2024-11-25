@@ -424,7 +424,11 @@ export default function Index() {
     if (html) {
         const index = html.indexOf("<h2>Title</h2>")
         html = html.substring(index)
-        html =  "<article class='prose'>" + html + "</article>"
+        if (getTheme() == "dark") {
+            html = "<article class='prose dark:prose-invert'>" + html + "</article>"
+          } else {
+            html = "<article class='prose'>" + html + "</article>"
+          }
     }
     return <span dangerouslySetInnerHTML={{__html: html}} />
   }
