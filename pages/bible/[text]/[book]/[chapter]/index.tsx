@@ -421,9 +421,11 @@ export default function Index() {
   }
 
   function renderBookOverview(html) {
-    const index = html.indexOf("<h2>Title</h2>")
-    html = html.substring(index)
-    html =  "<article class='prose'>" + html + "</article>"
+    if (html) {
+        const index = html.indexOf("<h2>Title</h2>")
+        html = html.substring(index)
+        html =  "<article class='prose'>" + html + "</article>"
+    }
     return <span dangerouslySetInnerHTML={{__html: html}} />
   }
 
