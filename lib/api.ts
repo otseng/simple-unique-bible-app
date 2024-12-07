@@ -197,7 +197,7 @@ export function getCompareVerses(book, chapter, verse) {
     address = address + '&text=KJV&text=WEB&text=NET'
     if (powerMode) {
       address = address + '&text=ESV&text=NASB&text=NIV&text=HCSB&text=NRSV&text=NABRE&text=LEB' +
-        '&text=NLT&&text=TLB&text=AMP&text=MSG&text=EXB&text=TPT&text=T4T'
+        '&text=NKJV&text=NLT&&text=TLB&text=AMP&text=MSG&text=EXB&text=TPT&text=T4T&text=GNB'
     }
     address = address + '&text=ERV&text=ISV&text=ULT&text=2001'
     if (powerMode) {
