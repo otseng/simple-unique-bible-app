@@ -14,6 +14,7 @@ import { getLocalStorage, isDev, preloadData, setLocalStorage } from '../../lib/
 import toast from 'react-hot-toast';
 import { useTheme } from '../../theme/themeContext';
 import Link from 'next/link';
+require('dotenv').config()
 
 export default function Index() {
 
@@ -224,7 +225,7 @@ export default function Index() {
     const lowerText = text.toLowerCase()
     const cmd = lowerText.split(" ")
     switch (cmd[0]) {
-      case 'power':
+      case process.env.NEXT_PUBLIC_POWER_MODE:
         if (cmd.length > 1) {
           if (cmd[1] == "on") enablePowerMode()
           if (cmd[1] == "off") disablePowerMode()
@@ -235,10 +236,6 @@ export default function Index() {
           if (cmd[1] == "on") enableChineseMode()
           if (cmd[1] == "off") disableChineseMode()
         }
-        break
-      case '...':
-        enablePowerMode()
-        setTheme('dark')
         break
       case ',,,':
         disablePowerMode()
