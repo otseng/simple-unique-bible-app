@@ -9,7 +9,7 @@ import { getBookChapters, getBookChapterContent, getBooks, _getLexicon } from '.
 import { Disclosure } from '@headlessui/react'
 import toast from 'react-hot-toast'
 import { bookmarkExists, addBookmark, deleteBookmark, windowExists, processLexiconData } from '../../../../lib/util'
-import { useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import Input from 'rc-input'
 import { useLang } from '../../../../lang/langContext'
 import { useTheme } from '../../../../theme/themeContext'
@@ -47,6 +47,26 @@ export default function Index() {
   const [modalTitle, setModalTitle] = useState('')
   const [modalContent, setModalContent] = useState('')
   const [strongsModal, setStrongsModal] = useState('')
+
+  let locationHash = useRef('')
+
+  useLayoutEffect(() => {
+    locationHash.current = window?.location?.hash
+    if (locationHash.current) {
+      const id = locationHash.current.replace('#', '')
+      const element = document.getElementById(id)
+      if (element) {
+        if (scrolledRef) {
+          window.scrollTo({
+            behavior: 'smooth',
+            top:
+              element.getBoundingClientRect().top -
+              document.body.getBoundingClientRect().top - 10,
+          })
+        }
+      }
+    }
+  });
 
   function searchTextChange(event) {
     if (event.target.value.length <= 2) {
@@ -141,10 +161,10 @@ export default function Index() {
 
   if (data && dataBooks && dataChapters) {
 
-    const navigation = getNavigation(dataChapters, chapter.replaceAll("&quest;", "?"))
+    const navigation = getNavigation(dataChapters, chapter?.replaceAll("&quest;", "?"))
 
     let html = data
-    if (title.includes('Hymn Lyrics')) {
+    if (title?.includes('Hymn Lyrics')) {
       html = data.replace(/<ref.*\/ref>/, '')
     }
     if (getTheme() == "dark") {
@@ -170,7 +190,7 @@ export default function Index() {
                 <div>
                   {dataBooks.map((title) => (
                     <Link href={"/book/" + title}>
-                      <button className={`${theme.clickableButton}`}>{title.replaceAll('_', ' ')}</button>
+                      <button className={`${theme.clickableButton}`}>{title?.replaceAll('_', ' ')}</button>
                     </Link>
                   ))}
                 </div>
@@ -179,7 +199,7 @@ export default function Index() {
 
             <Disclosure>
               <Disclosure.Button className={`${theme.homeDisclosure}`}>
-                <div className="text-2xl">{title.replaceAll('_', ' ')}</div>
+                <div className="text-2xl">{title?.replaceAll('_', ' ')}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 <div className="flex justify-center items-center">
@@ -189,8 +209,8 @@ export default function Index() {
                 </div>
                 <div>
                   {dataChapters.map((chapter) => (
-                    <Link id={chapter} href={"/book/" + title + '/' + chapter.replaceAll("/", "_").replaceAll("?", "&quest;")}>
-                      <button className={`${theme.clickableButton}`}>{chapter.replaceAll("/", "_")}</button>
+                    <Link id={chapter} href={"/book/" + title + '/' + chapter?.replaceAll("/", "_").replaceAll("?", "&quest;")}>
+                      <button className={`${theme.clickableButton}`}>{chapter?.replaceAll("/", "_")}</button>
                     </Link>
                   ))}
                 </div>
@@ -199,17 +219,17 @@ export default function Index() {
 
             <Disclosure>
               <Disclosure.Button className={`${theme.chapterDisclosure}`}>
-                <div>{chapter.replaceAll("&quest;", "?")}</div>
+                <div>{chapter?.replaceAll("&quest;", "?")}</div>
               </Disclosure.Button>
               <Disclosure.Panel className="text-gray-500">
                 {navigation.previous &&
-                  <Link href={"/book/" + title + '/' + navigation.previous.replaceAll("?", "&quest;")}>
+                  <Link href={"/book/" + title + '/' + navigation.previous?.replaceAll("?", "&quest;")}>
                     <button className={`${theme.clickableButton}`}>{navigation.previous}</button>
                   </Link>}
                 {!bookmarkExist && <button onClick={addChapterBookmark} className={`${theme.clickableButton}`}>{lang.Add_bookmark}</button>}
                 {bookmarkExist && <button onClick={deleteChapterBookmark} className={`${theme.clickableButton}`}>{lang.Delete_bookmark}</button>}
                 {navigation.next &&
-                  <Link href={"/book/" + title + '/' + navigation.next.replaceAll("?", "&quest;")}>
+                  <Link href={"/book/" + title + '/' + navigation.next?.replaceAll("?", "&quest;")}>
                     <button className={`${theme.clickableButton}`}>{navigation.next}</button>
                   </Link>}
               </Disclosure.Panel>

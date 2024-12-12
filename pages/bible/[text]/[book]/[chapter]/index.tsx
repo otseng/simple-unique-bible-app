@@ -421,7 +421,7 @@ export default function Index() {
   }
 
   function renderBookOverview(html) {
-    if (html) {
+    if (html && typeof html === 'string') {
         const index = html.indexOf("<h2>Title</h2>")
         html = html.substring(index)
         if (getTheme() == "dark") {
