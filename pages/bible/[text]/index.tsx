@@ -26,7 +26,7 @@ export default function Index() {
     const texts = text.split("-")
     text = texts[0]
   }
-  
+
   const { data: dataBibles, loading: loadingBibles, error: errorBibles } = getBibles()
   const { data, loading, error } = getBibleTextBooks(text)
 
@@ -53,7 +53,7 @@ export default function Index() {
               <Disclosure.Panel className="text-gray-500">
                 <div>
                   {dataBibles.map((text) => (
-                    <Link href={"/bible/" + text}>
+                    <Link href={"/bible/" + fullText}>
                       <button className={`${theme.clickableButton}`}>{text}</button>
                     </Link>
                   ))}
@@ -68,7 +68,7 @@ export default function Index() {
               <Disclosure.Panel className="text-gray-500">
                 <div>
                   {bookNames.map((book) => (
-                    <Link href={"/bible/" + text + "/" + book + "/1"}>
+                    <Link href={"/bible/" + fullText + "/" + book + "/1"}>
                       <button className={`${theme.clickableButton}`}>{book}</button>
                     </Link>
                   ))}
