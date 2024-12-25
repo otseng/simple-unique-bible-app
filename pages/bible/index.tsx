@@ -20,7 +20,13 @@ export default function Index() {
   const {theme, setTheme} = useTheme()
 
   const router = useRouter()
-  const text = router.query.text
+  const fullText = router.query.text as string
+  let text = fullText
+
+  if (fullText && fullText.indexOf("-") > -1) {
+    const texts = text.split("-")
+    text = texts[0]
+  }
 
   const { data, loading, error } = getBibles()
 
