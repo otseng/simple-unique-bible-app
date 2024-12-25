@@ -421,7 +421,7 @@ export default function Index() {
     router.push(url)
   }
 
-  function renderBookOverview(html, allowNewPageInTarget) {
+  function renderBookOverview(html, type) {
     if (html && typeof html === 'string') {
       const text = "<h1>" + book + "</h1>"
       let index = html.indexOf(text) + text.length
@@ -433,9 +433,11 @@ export default function Index() {
       } else {
         html = "<article class='prose'>" + html + "</article>"
       }
-      html = html.replace(/https:\/\/simple.uniquebibleapp.com/g, '')
-      if (!allowNewPageInTarget) {
-        html = html.replaceAll('target="_new"', "")
+      html = html.replaceAll("https://simple.uniquebibleapp.com/bible/KJV-TRLITx", "/bible/" + fullText)
+      if (type == "headings") {
+        html = html.replaceAll('target="_blank"', "")
+      } else if (type == "overview") {
+        html = html.replaceAll('href="', 'target="_blank" href="')
       }
     }
     return <span dangerouslySetInnerHTML={{__html: html}} />
@@ -677,7 +679,7 @@ export default function Index() {
               <Disclosure.Panel className="text-gray-500">
               <div className={`${theme.booksTextContainer}`}>
               {
-                renderBookOverview(dataBookOverview, true)
+                renderBookOverview(dataBookOverview, "overview")
               }
               </div>
               </Disclosure.Panel>
@@ -690,7 +692,7 @@ export default function Index() {
               <Disclosure.Panel className="text-gray-500">
               <div className={`${theme.booksTextContainer}`}>
               {
-                renderBookOverview(dataBookHeadings, false)
+                renderBookOverview(dataBookHeadings, "headings")
               }
               </div>
               </Disclosure.Panel>
