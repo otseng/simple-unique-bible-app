@@ -93,6 +93,7 @@ export default function Index() {
   const { data: dataParallel2, loading: loadingParallel2, error: errorParallel2 } = getBibleChapter(parallel2, bookNum, chapter)
   const { data: dataParallel3, loading: loadingParallel3, error: errorParallel3 } = getBibleChapter(parallel3, bookNum, chapter)
   const { data: dataBookOverview, loading: loadingBookOverview, error: errorBookOverview } = getBookChapterContent('Bible_Book_Overviews', book)
+  const { data: dataBookHeadings, loading: loadingBookHeadings, error: errorBookHeadings } = getBookChapterContent('Bible_Headings', book)
 
   let biblesInPopup = []
 
@@ -420,15 +421,22 @@ export default function Index() {
     router.push(url)
   }
 
-  function renderBookOverview(html) {
+  function renderBookOverview(html, allowNewPageInTarget) {
     if (html && typeof html === 'string') {
-        const index = html.indexOf("<h2>Title</h2>")
-        html = html.substring(index)
-        if (getTheme() == "dark") {
-            html = "<article class='prose dark:prose-invert'>" + html + "</article>"
-          } else {
-            html = "<article class='prose'>" + html + "</article>"
-          }
+      const text = "<h1>" + book + "</h1>"
+      let index = html.indexOf(text) + text.length
+      html = html.substring(index)
+      index = html.indexOf("<h2>Title</h2>")
+      html = html.substring(index)
+      if (getTheme() == "dark") {
+        html = "<article class='prose dark:prose-invert'>" + html + "</article>"
+      } else {
+        html = "<article class='prose'>" + html + "</article>"
+      }
+      html = html.replace(/https:\/\/simple.uniquebibleapp.com/g, '')
+      if (!allowNewPageInTarget) {
+        html = html.replaceAll('target="_new"', "")
+      }
     }
     return <span dangerouslySetInnerHTML={{__html: html}} />
   }
@@ -669,7 +677,20 @@ export default function Index() {
               <Disclosure.Panel className="text-gray-500">
               <div className={`${theme.booksTextContainer}`}>
               {
-                renderBookOverview(dataBookOverview)
+                renderBookOverview(dataBookOverview, true)
+              }
+              </div>
+              </Disclosure.Panel>
+            </Disclosure>
+
+            <Disclosure>
+              <Disclosure.Button className={`${theme.chapterDisclosure}`}>
+                <div className="text-xl">{lang.Book_headings}</div>
+              </Disclosure.Button>
+              <Disclosure.Panel className="text-gray-500">
+              <div className={`${theme.booksTextContainer}`}>
+              {
+                renderBookOverview(dataBookHeadings, false)
               }
               </div>
               </Disclosure.Panel>
