@@ -130,7 +130,7 @@ export default function Index() {
         }
         if (scrolledRef) {
           window.scrollTo({
-            behavior: 'instant',
+            behavior: 'smooth',
             top:
               element.getBoundingClientRect().top -
               document.body.getBoundingClientRect().top - 10,
