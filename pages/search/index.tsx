@@ -59,13 +59,15 @@ export default function Index() {
   }, [router.isReady]);
 
   function enterCommand() {
-    if (searchText !== undefined && searchText.length > 2) {
+    if (searchText !== undefined && searchText.length > 0) {
       setSearchText("")
       if (searchText.startsWith(".")) {
         processCommand(searchText.substring(1))
       } else if (checkReference()) {
       } else {
-        searchBible()
+        if (selectedBible.startsWith("CUV") || searchText.length > 2) {
+          searchBible()
+        }
       }
     }
   }

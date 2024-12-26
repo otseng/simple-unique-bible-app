@@ -25,6 +25,7 @@ export function getBibles() {
   const powerMode = isPowerMode()
   const chineseMode = isChineseMode()
 
+  if ((powerMode || chineseMode) && data && data.indexOf("CUVl-Pinyin-KJV-CUVx") < 0) data.unshift("CUVl-Pinyin-KJV-CUVx")
   if ((powerMode || chineseMode) && data && data.indexOf("KJV-CUVl-Pinyin-CUVx") < 0) data.unshift("KJV-CUVl-Pinyin-CUVx")
   if (data && data.indexOf("KJV-TRLITx") < 0) data.unshift("KJV-TRLITx")
 
