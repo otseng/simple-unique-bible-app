@@ -60,6 +60,14 @@ export default function Index() {
     }
   }
 
+  function searchStrongs() {
+    let strongs = strongsModal
+    let bible = 'KJVx'
+    const url = `/search/concordance/${bible}/${strongs}?return=/bible/KJV-TRLITx/Matthew/1`
+
+    router.push(url)
+  }
+  
   if (dataLexicon) {
     return (
       <>
@@ -111,7 +119,7 @@ export default function Index() {
               </Disclosure.Panel>
             </Disclosure>
 
-            <BasicModal show={showModal} setter={setShowModal} title={modalTitle}
+            <BasicModal show={showModal} setter={setShowModal} title={modalTitle} searchStrongs={searchStrongs} 
             content={modalContent} strongsModal={strongsModal}
             showLexicon={showLexicon}></BasicModal>
             
