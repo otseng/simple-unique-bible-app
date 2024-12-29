@@ -341,7 +341,9 @@ export default function Index() {
       _getLexicon('CEDICT', strongs).then((resp) => {
         removeToast()
         if (resp && resp[0] != "[Not found]") {
-          const info = resp[0].split('<br/>', 1)[0]
+          let info = resp[0].split('<b>Links:</b>', 1)[0]
+          info = info.replace("<br/>", " - ")
+          info = info.replaceAll("<br/>", " ")
           toast(info, { duration: 5000 })
         }
       })
