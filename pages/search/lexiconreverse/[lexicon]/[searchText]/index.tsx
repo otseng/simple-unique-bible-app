@@ -40,7 +40,7 @@ export default function Index() {
     setStrongsModal(strongs)
     setModalTitle(strongs)
     try {
-      _getLexicon('TRLIT', strongs).then((resp) => {
+      _getLexicon(lexicon, strongs).then((resp) => {
         const html = processLexiconData(resp[0])
         if (!html.includes("[Not found]")) {
           setModalContent(html)
@@ -95,6 +95,10 @@ export default function Index() {
 
                   {dataLexicon.map((data) => {
                     const strongs = data[0]
+                    let title = strongs
+                    if (lexicon == "CEDict") {
+                      title = decodeURIComponent(strongs)
+                    }
                     const entry = data[1]
                     const exp = '' + searchText + '[ .,()]'
                     const regexp = new RegExp(exp)
@@ -104,11 +108,11 @@ export default function Index() {
                         <>
                         <p className={`${theme.bibleDivContainer}` + " mt-2"}>
                         <div className={`${theme.chapterDisclosure}`}>
-                          <a onClick={() => showLexicon(strongs)}>{strongs}</a>
+                          <a onClick={() => showLexicon(title)}>{title}</a>
                         </div>
                           <span className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: highlightedEntry }} />
                         </p>
-                        <div className="mt-5 pl-20 pr-20"><hr/></div>
+                        <div className="mt-5 pl-20 pr-20">&nbsp;</div>
                         </>
                       )
                     }

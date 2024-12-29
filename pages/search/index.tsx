@@ -76,9 +76,14 @@ export default function Index() {
     setSearchText("")
   }
 
-  function reverseLexicon() {
+  function reverseTRLITLexicon() {
     setSearchText("")
-    searchLexiconReverse()
+    searchLexiconReverse("TRLIT")
+  }
+
+  function reverseCEDictLexicon() {
+    setSearchText("")
+    searchLexiconReverse("CEDict")
   }
 
   function concordance() {
@@ -182,8 +187,8 @@ export default function Index() {
     router.push(url)
   }
 
-  function searchLexiconReverse() {
-    const url = `/search/lexiconreverse/TRLIT/${searchText}`
+  function searchLexiconReverse(lexicon) {
+    const url = `/search/lexiconreverse/${lexicon}/${searchText}`
     addSearch(url)
     router.push(url)
   }
@@ -319,7 +324,8 @@ export default function Index() {
                   </div>
                   <div className="flex justify-center items-center">
                   <button className={`${theme.clickableButton}`} onClick={concordance}>{lang.Strongs}</button>
-                  <button className={`${theme.clickableButton}`} onClick={reverseLexicon}>{lang.Reverse_Lexicon_Search}</button>
+                  <button className={`${theme.clickableButton}`} onClick={reverseTRLITLexicon}>{lang.Reverse_Lexicon_Search}</button>
+                  <button className={`${theme.clickableButton}`} onClick={reverseCEDictLexicon}>{lang.Reverse_Chinese_Search}</button>
                   </div>
                   
                   {searches.length > 0 && <>
