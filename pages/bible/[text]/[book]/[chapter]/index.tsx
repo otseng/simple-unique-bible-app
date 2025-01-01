@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
-import { addBookmark, bookmarkExists, deleteBookmark, getBibleNumberFromName, getBibleTextDir, isChineseMode, isMobile, isPowerMode, preloadData, processLexiconData, range, removeOnEvents } from '../../../../../lib/util'
+import { addBookmark, bookmarkExists, convertBibleNamesToAbbreviation, deleteBookmark, getBibleNumberFromName, getBibleTextDir, isChineseMode, isMobile, isPowerMode, preloadData, processLexiconData, range, removeOnEvents } from '../../../../../lib/util'
 import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, getSubheadings, getBookChapterContent } from '../../../../../lib/api'
 import { _getCommentaryContent, _getDiscourse, _getInstantLex, _getLexicon, _getMorphology, _getSearchTool } from '../../../../../lib/api'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
@@ -241,8 +241,11 @@ export default function Index() {
     } else if (id == 'greeklab') {
       const book1 = book.replace(" ", "_")
       window.open(`https://www.greeklab.org/interlinear.php?book=${book1}&cap=${chapter}&verse=${verse}`, '_blank', 'noreferrer');
-    }
+    } else if (id == 'tips') {
+    let book1 = convertBibleNamesToAbbreviation(book)
+    window.open(`https://tips.translation.bible/tip_verse/${book1}-${chapter}${verse}`, '_blank', 'noreferrer');
   }
+}
 
   function clearHighlights() {
     for (const x of Array(150).keys()) {
@@ -730,6 +733,7 @@ export default function Index() {
               <Item id="compare" onClick={handleItemClick}><span className="text-md">{lang.Compare}</span></Item>
               {/*!isMobile() && <Item id="discourse" onClick={handleItemClick}><span className="text-md">{lang.Discourse}</span></Item>*/}
               <Item id="uba" onClick={handleItemClick}><span className="text-md">UBA</span></Item>
+              <Item id="tips" onClick={handleItemClick}><span className="text-md">TIPS</span></Item>
               {!isMobile() && <Item id="greeklab" onClick={handleItemClick}><span className="text-md">Greeklab</span></Item>}
               {/*!isMobile() && <Separator />*/}
               {/* {!marvelBible && !trlitxBible && text != "KJVx" && <Item id={`bible-${text}-KJVx`} onClick={handleItemClick}><span className="text-md">{text}-KJVx</span></Item>} */}

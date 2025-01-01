@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.29] - 1/1/2025
+
+- Add link to TIPS (Translation Insights and Perspectives)
+
 ## [1.28] - 11/25/2024
 
 - Add book overview
