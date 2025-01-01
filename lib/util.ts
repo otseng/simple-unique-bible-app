@@ -221,7 +221,7 @@ export function convertBibleNamesToAbbreviation(text: string): string {
         'Titus': 'titus',
         'Philemon': 'philem',
         'Hebrews': 'heb',
-        'James': 'james',
+        'James': 'jas',
         '1 Peter': '1pet',
         '2 Peter': '2pet',
         '1 John': '1john',
