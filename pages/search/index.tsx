@@ -322,7 +322,7 @@ export default function Index() {
 
                 <div className="m-10">
                   <div className="flex justify-center items-center">
-                    <Input id="search-text" className={`${theme.searchInput}`}
+                    <Input id="search-text" className={`w-100 ${theme.searchInput}`}
                       type="search" value={searchText}
                       onChange={searchTextChange} onKeyPress={searchTextKeyPress} />
 
