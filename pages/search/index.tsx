@@ -330,7 +330,6 @@ export default function Index() {
 
                   </div>
                   <div className="flex flex-col md:flex-row justify-center items-center mb-5 mt-5">
-                    <span className="text-lg mr-2">{lang.Bible}:</span>
                     <Select className="ml-2 mt-2 w-40" options={bibleOptions}
                       value={bibleOptions.filter(obj => obj.value === selectedBible)}
                       onChange={handleBibleChange}
@@ -339,7 +338,7 @@ export default function Index() {
                       value={booksOptions.filter(obj => obj.value === selectedBooks)}
                       onChange={handleBookChange}
                     />
-                    <span className="ml-2">
+                    <span className="ml-2 mt-2">
                       <button className={`${theme.clickableButton}`} onClick={enterCommand}>{lang.Search}</button>
                     </span>
                   </div>
