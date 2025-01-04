@@ -244,10 +244,10 @@ export function getCrossReferences(book, chapter, verse, text) {
   }
 }
 
-export function searchBible(searchText, text) {
+export function searchBible(searchText, text, start, end) {
 
   const address = API_SERVER + `/search?type=bible&searchText=` + searchText + '&text=' + text +
-    '&' + addLang()
+    '&' + addLang() + '&start=' + start + '&end=' + end
   const fetcher = async (url) => await axios.get(url, { auth }).then((res) => res.data.data)
   const { data, error } = useSWR(address, fetcher)
 

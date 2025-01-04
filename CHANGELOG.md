@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.30] - 1/4/2025
+
+- Add books of Bible filter in search
+
 ## [1.29] - 1/1/2025
 
 - Add link to TIPS (Translation Insights and Perspectives)

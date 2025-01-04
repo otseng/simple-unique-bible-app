@@ -29,7 +29,22 @@ export default function Index() {
     const texts = fullText.split("-")
     text = texts[0]
   }
-  const { data: dataVerses, loading, error } = searchBible(searchText, text)
+  let books = router.query.books as string
+  console.log("books: " + books)
+  let startBook = "Genesis"
+  let endBook = "Revelation"
+  if (books == "New Testament") {
+    startBook = "Matthew"
+    endBook = "Revelation"
+  } else if (books == "Old Testament") {
+    startBook = "Genesis"
+    endBook = "Malachi"
+  } else if (books != "All") {
+    startBook = books
+    endBook = books
+  }
+
+  const { data: dataVerses, loading, error } = searchBible(searchText, text, startBook, endBook)
 
   if (error) return <div>Failed to load</div>
   if (loading) return <div>Loading...</div>
@@ -52,11 +67,11 @@ export default function Index() {
 
                 <div className="m-10">
 
-                  <Link href={`/search?text=${fullText}&q=${searchText}`}>
+                  <Link href={`/search?text=${fullText}&q=${searchText}&books=${books}`}>
                     <button className={`${theme.clickableButton}`}>{lang.Back_to_search}</button>
                   </Link>
 
-                  <p className={`${theme.bibleTextContainer}` + " font-bold text-xl"}>"{searchText}" ({fullText}) - {dataVerses.length} {lang.verses_found}</p>
+                  <p className={`${theme.bibleTextContainer}` + " font-bold text-xl"}>"{searchText}" ({fullText}) - {dataVerses.length} {lang.verses_found} in {books}</p>
 
                   {dataVerses.map((data) => {
                     const bookNum = data[0]

@@ -34,9 +34,12 @@ export default function Index() {
   }
 
   let search = router.query.q as string
+  let books = router.query.books as string
+  if (!books || books == "undefined") books = "All"
 
   const [searchText, setSearchText] = useState('')
   const [selectedBible, setSelectedBible] = useState('')
+  const [selectedBooks, setSelectedBooks] = useState('')
 
   let books2Number = new Map()
 
@@ -56,6 +59,7 @@ export default function Index() {
     if (!router.isReady) return;
     setSearchText(search)
     setSelectedBible(fullText)
+    setSelectedBooks(books)
   }, [router.isReady]);
 
   function enterCommand() {
@@ -182,7 +186,7 @@ export default function Index() {
 
   function searchBible() {
     setSearchText("")
-    const url = `/search/bible/${searchText}?fullText=${selectedBible}`
+    const url = `/search/bible/${searchText}?fullText=${selectedBible}&books=${selectedBooks}`
     addSearch(url)
     router.push(url)
   }
@@ -226,6 +230,10 @@ export default function Index() {
 
   function handleBibleChange(e) {
     setSelectedBible(e.value);
+  }
+
+  function handleBookChange(e) {
+    setSelectedBooks(e.value);
   }
 
   function processCommand(text: string) {
@@ -279,6 +287,15 @@ export default function Index() {
       { value: bible, label: bible }
     ))
 
+    let booksOptions = [
+      {value: "All", label: "All"},
+      {value: "Old Testament", label: "Old Testament"},
+      {value: "New Testament", label: "New Testament"}]
+    for (let i = 1; i <= 66; i++) {
+      let name = globalThis.bibleNumberToName[i]
+      booksOptions.push({value: name, label: name})
+    }
+
     if (books2Number.size == 0) {
       for (const rec of book2NumberData) {
         let book = rec['b']
@@ -314,9 +331,13 @@ export default function Index() {
                   </div>
                   <div className="flex justify-center items-center mb-5 mt-5">
                     <span className="text-lg mr-2">{lang.Bible}:</span>
-                    <Select options={bibleOptions}
+                    <Select className="ml-2 w-40" options={bibleOptions}
                       value={bibleOptions.filter(obj => obj.value === selectedBible)}
                       onChange={handleBibleChange}
+                    />
+                    <Select className="ml-2 w-40" options={booksOptions}
+                      value={booksOptions.filter(obj => obj.value === selectedBooks)}
+                      onChange={handleBookChange}
                     />
                     <span className="ml-2">
                       <button className={`${theme.clickableButton}`} onClick={enterCommand}>{lang.Search}</button>
@@ -334,17 +355,18 @@ export default function Index() {
                     </div>
                     </>}
                   {searches.map((search) => {
-                    let regex = new RegExp("/search/bible/(.*)\\?fullText=(.*)")
+                    let regex = new RegExp("/search/bible/(.*)\\?fullText=(.*)&books=(.*)")
                     let matches = regex.exec(search)
                     if (matches) {
                       const searchText = matches[1]
                       const bible = matches[2]
+                      const books = matches[3]
 
                       return (
                         <>
                           <div className="flex justify-center items-center ">
                             <Link href={search}>
-                              <button className={`${theme.clickableButton}`}>Search {bible} {searchText}</button>
+                              <button className={`${theme.clickableButton}`}>Search {bible} ({books}) "{searchText}"</button>
                             </Link>
                             <button id={search} onClick={() => deleteOne(search)} className={`${theme.clickableButton}`}>{lang.Delete}</button>
                           </div>
