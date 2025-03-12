@@ -22,12 +22,17 @@ export default function Index() {
   useEffect(() => {
     if(router.isReady) {
       const bm = router.query.bm
+      console.log(bm)
       if (typeof bm === 'undefined') {
       } else if (typeof bm === 'string') {
-        addSermon(bm)
+        var url = bm
+        url = url.replaceAll('!', "#", ).replaceAll('%2B', '+')
+        addSermon(url)
       } else {
         for (const b in bm) {
-            addSermon(b)
+            var url = bm[b]
+            url = url.replaceAll('!', "#", ).replaceAll('%2B', '+')
+            addSermon(url)
         }
       }
       router.push('/bookmark')
