@@ -69,9 +69,9 @@ export default function Index() {
     let sermonsUrl = ''
     if (typeof window !== 'undefined') {
       if (isDev()) {
-        sermonsUrl = "http://localhost:3000/bookmark/sermons?bm=" + getBookmarks().join("&bm=")
+        sermonsUrl = "http://localhost:3000/bookmark/sermon?bm=" + getSermons().join("&bm=")
       } else {
-        sermonsUrl = DOMAIN + "/bookmark/sermons?bm=" + getBookmarks().join("&bm=")
+        sermonsUrl = DOMAIN + "/bookmark/sermon?bm=" + getSermons().join("&bm=")
       }
       sermonsUrl = sermonsUrl.replaceAll("#", '!').replaceAll('+', '%2B')
     }
@@ -236,6 +236,9 @@ export default function Index() {
                           viewBox={`0 0 256 256`}
                         />
                         </NoSsr>
+                        {/* <Link href={sermonsUrl}>
+                              <button className={`${theme.clickableButton}`}>sermonsUrl</button>
+                        </Link> */}
                       </div>
                     </div>
                     <div className="flex justify-center ">

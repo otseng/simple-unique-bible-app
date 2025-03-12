@@ -24,15 +24,13 @@ export default function Index() {
       const bm = router.query.bm
       if (typeof bm === 'undefined') {
       } else if (typeof bm === 'string') {
-        console.log(bm)
         addSermon(bm)
       } else {
         for (const b in bm) {
-            console.log(b)
             addSermon(b)
         }
       }
-      router.push('/bookmarks')
+      router.push('/bookmark')
     }
   }, [router.isReady]);
 
