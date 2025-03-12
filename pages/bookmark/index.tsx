@@ -78,18 +78,27 @@ export default function Index() {
     setSermonsUrl(sermonsUrl)
   }
 
-  function copyAll() {
+  function copyBookmarksToClipboard() {
     navigator.clipboard.writeText(bookmarksUrl)
-    toast('Shared bookmarks link copied to clipboard')
+    toast('Bookmarks link copied to clipboard')
+  }
+
+  function copySermonsToClipboard() {
+    navigator.clipboard.writeText(sermonsUrl)
+    toast('Sermons link copied to clipboard')
   }
 
   function importBookmarks() {
     if (typeof window !== 'undefined') {
-      navigator.clipboard.readText().then((importString) => {
-        setBookmarks(JSON.parse(importString))
-        setLocalStorage('bookmarks', JSON.parse(importString))
-        buildUrl()
-      })
+        navigator.clipboard.readText().then((importString) => {
+            try {
+                setBookmarks(JSON.parse(importString))
+                setLocalStorage('bookmarks', JSON.parse(importString))
+                buildUrl()
+            } catch (error) {
+                toast("Could not import bookmarks")
+            }
+        })
     }
   }
 
@@ -185,7 +194,7 @@ export default function Index() {
                       </div>
                     </div>
                     <div className="flex justify-center p-1">
-                      <button onClick={copyAll} className={`${theme.clickableButton}`}>Copy link to clipboard</button>
+                      <button onClick={copyBookmarksToClipboard} className={`${theme.clickableButton}`}>Copy link to clipboard</button>
                     </div>
                     <div className="flex justify-center p-1">
                       <button onClick={exportBookmarks} className={`${theme.clickableButton}`}>Export bookmarks to clipboard</button>
@@ -239,6 +248,9 @@ export default function Index() {
                         {/* <Link href={sermonsUrl}>
                               <button className={`${theme.clickableButton}`}>sermonsUrl</button>
                         </Link> */}
+                        <div className="flex justify-center p-1">
+                            <button onClick={copySermonsToClipboard} className={`${theme.clickableButton}`}>Copy link to clipboard</button>
+                        </div>
                       </div>
                     </div>
                     <div className="flex justify-center ">
