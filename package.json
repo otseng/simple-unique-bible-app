@@ -1,6 +1,6 @@
 {
   "name": "simple-unique-bible-app",
-  "version": "1.30",
+  "version": "1.31",
   "private": true,
   "license": "Apache2",
   "scripts": {
@@ -26,7 +26,7 @@
     "gray-matter": "^4.0.3",
     "heroicons": "^2.0.13",
     "md5": "^2.3.0",
-    "next": "^14.2.5",
+    "next": "^15.2.2",
     "rc-input": "^0.1.4",
     "react": "^18.3.1",
     "react-bootstrap": "^2.5.0",

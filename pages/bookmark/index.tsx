@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME, DOMAIN } from '../../lib/constants'
-import { deleteBookmark, getBookmarks, isDev, preloadData, setLocalStorage } from '../../lib/util'
+import { deleteBookmark, getBookmarks, getSermons, isDev, preloadData, pruneSermons, setLocalStorage } from '../../lib/util'
 import { Disclosure } from '@headlessui/react'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
@@ -24,11 +24,15 @@ export default function Index() {
   const router = useRouter()
 
   const [bookmarksUrl, setBookmarksUrl] = useState('')
-
   const [bookmarks, setBookmarks] = useState([]);
+
+  const [sermonsUrl, setSermonsUrl] = useState('')
+  const [sermons, setSermons] = useState([]);
 
   useEffect(() => {
     setBookmarks(getBookmarks())
+    pruneSermons()
+    setSermons(getSermons())
     buildUrl()
   }, []);
 
@@ -38,23 +42,40 @@ export default function Index() {
     buildUrl()
   }
 
-  function deleteAll() {
+  function deleteAllBookmarks() {
     setLocalStorage('bookmarks', [])
     setBookmarks(getBookmarks())
     buildUrl()
   }
 
+  function deleteAllSermons() {
+    setLocalStorage('sermons', [])
+    setSermons(getSermons())
+    buildUrl()
+  }
+
   function buildUrl() {
-    let url = ''
+    let bookmarksUrl = ''
     if (typeof window !== 'undefined') {
       if (isDev()) {
-        url = "http://localhost:3000/bookmark/read?bm=" + getBookmarks().join("&bm=")
+        bookmarksUrl = "http://localhost:3000/bookmark/read?bm=" + getBookmarks().join("&bm=")
       } else {
-        url = DOMAIN + "/bookmark/read?bm=" + getBookmarks().join("&bm=")
+        bookmarksUrl = DOMAIN + "/bookmark/read?bm=" + getBookmarks().join("&bm=")
       }
-      url = url.replaceAll("#", '!').replaceAll('+', '%2B')
+      bookmarksUrl = bookmarksUrl.replaceAll("#", '!').replaceAll('+', '%2B')
     }
-    setBookmarksUrl(url)
+    setBookmarksUrl(bookmarksUrl)
+
+    let sermonsUrl = ''
+    if (typeof window !== 'undefined') {
+      if (isDev()) {
+        sermonsUrl = "http://localhost:3000/bookmark/sermons?bm=" + getBookmarks().join("&bm=")
+      } else {
+        sermonsUrl = DOMAIN + "/bookmark/sermons?bm=" + getBookmarks().join("&bm=")
+      }
+      sermonsUrl = sermonsUrl.replaceAll("#", '!').replaceAll('+', '%2B')
+    }
+    setSermonsUrl(sermonsUrl)
   }
 
   function copyAll() {
@@ -170,10 +191,59 @@ export default function Index() {
                       <button onClick={exportBookmarks} className={`${theme.clickableButton}`}>Export bookmarks to clipboard</button>
                     </div>
                     <div className="flex justify-center p-1">
-                      <button onClick={deleteAll} className={`${theme.clickableButton}`}>{lang.Delete_All}</button>
+                      <button onClick={deleteAllBookmarks} className={`${theme.clickableButton}`}>{lang.Delete_All}</button>
                     </div>
                   </>
                 }
+                {sermons.length > 0 && 
+                    <>
+                    <div className="text-2xl ml-10">{lang.Sermon_bookmarks}</div>
+                    </>
+                }
+                {sermons.length > 0 && sermons.map((sermon) => {
+                  if (sermon) {
+                    sermon = sermon.replaceAll('!', '#')
+                    let regex = new RegExp("/bible/(.*)/(.*)/(.*)#v.*_(.*)")
+                    let matches = regex.exec(sermon)
+                    if (matches) {
+                      const text = matches[1]
+                      const book = matches[2]
+                      const chapter = matches[3]
+                      const verse = matches[4]
+
+                      return (
+                        <>
+                          <div className="ml-10 flex justify-left">
+                            <Link href={sermon}>
+                              <button className={`${theme.clickableButton}`}>{text} {book} {chapter}:{verse}</button>
+                            </Link>
+                          </div>
+                        </>
+                      )
+                    }
+                  }
+                })
+                }
+                {sermons.length > 0 && 
+                    <>
+                     <div className="flex justify-center p-1">
+                      <div style={{ height: "auto", margin: "0 auto", maxWidth: 300, width: "400" }}>
+                        <NoSsr>
+                        <QRCode
+                          size={256}
+                          style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                          value={sermonsUrl}
+                          viewBox={`0 0 256 256`}
+                        />
+                        </NoSsr>
+                      </div>
+                    </div>
+                    <div className="flex justify-center ">
+                      <button onClick={deleteAllSermons} className={`${theme.clickableButton}`}>{lang.Delete_All}</button>
+                    </div>
+                    </>
+                }
+
               </div>
             </Disclosure.Panel>
           </Disclosure>

@@ -99,6 +99,49 @@ export function getBookmarks() {
     return bookmarks
 }
 
+
+export function getSermons() {
+    const sermons = getLocalStorage('sermons') || []
+    var newSermons = []
+    for (const sermon of sermons) {
+        const data = sermon.split("|")
+        newSermons.push(data[1])
+    }
+    return newSermons
+}
+
+export function addSermon(link) {
+    const sermons = getLocalStorage('sermons') || []
+    var newSermons = []
+    for (const sermon of sermons) {
+        const data = sermon.split("|")
+        const date = Date.parse(data[0])
+        if (data[1] != link) {
+            newSermons.push(sermon)
+        }
+    }
+    const now = new Date();
+    const sermon = now + "|" + link
+    newSermons.push(sermon)
+    setLocalStorage('sermons', newSermons)
+    pruneSermons()
+}
+
+export function pruneSermons() {
+    const sermons = getLocalStorage('sermons') || []
+    var newSermons = []
+    const timeCheck = 3600 * 5 // 5 days
+    for (const sermon of sermons) {
+        const data = sermon.split("|")
+        const time = Date.parse(data[0]) / 1000
+        const now = new Date().getTime() / 1000
+        if (now - time < timeCheck) {
+            newSermons.push(sermon)
+        }
+    }
+    setLocalStorage('sermons', newSermons)
+}
+
 export function deleteBookmark(key) {
     const bookmarks = getLocalStorage('bookmarks') || []
     const updatedBookmarks = bookmarks.filter((item) => {

@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
-import { addBookmark, bookmarkExists, convertBibleNamesToAbbreviation, deleteBookmark, getBibleNumberFromName, getBibleTextDir, isChineseMode, isMobile, isPowerMode, preloadData, processLexiconData, range, removeOnEvents } from '../../../../../lib/util'
+import { addBookmark, addSermon, bookmarkExists, convertBibleNamesToAbbreviation, deleteBookmark, getBibleNumberFromName, getBibleTextDir, isChineseMode, isMobile, isPowerMode, preloadData, processLexiconData, range, removeOnEvents } from '../../../../../lib/util'
 import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, getSubheadings, getBookChapterContent } from '../../../../../lib/api'
 import { _getCommentaryContent, _getDiscourse, _getInstantLex, _getLexicon, _getMorphology, _getSearchTool } from '../../../../../lib/api'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
@@ -208,7 +208,12 @@ export default function Index() {
       } else {
         clearHighlights()
       }
-    } else if (id == 'compare') {
+    } else if (id == 'sermon') {
+        const element = document.getElementById("v" + chapter + "_" + verse)
+        const url = `/bible/${fullText}/${book}/${chapter}#v${chapter}_${verse}`
+        addSermon(url)
+        toast('Added sermon bookmark')
+      } else if (id == 'compare') {
       router.push(`/compare/${book}/${chapter}/${verse}?text=${fullText}`)
     } else if (id == 'xref') {
       router.push(`/xref/${book}/${chapter}/${verse}/${fullText}`)
@@ -726,7 +731,7 @@ export default function Index() {
 
             <Menu id={BIBLE_VERSE_POPUP_MENU} theme={menuTheme}>
               <Item id="bookmark" onClick={handleItemClick}><span className="text-md">{lang.Toggle_bookmark}</span></Item>
-              <Item id="highlight" onClick={handleItemClick}><span className="text-md">{lang.Toggle_highlight}</span></Item>
+              <Item id="sermon" onClick={handleItemClick}><span className="text-md">{lang.Add_sermon}</span></Item>
               <Item id="copyVerse" onClick={handleItemClick}><span className="text-md">{lang.Copy_verse}</span></Item>
               <Item id="copyLink" onClick={handleItemClick}><span className="text-md">{lang.Copy_link}</span></Item>
               <Item id="xref" onClick={handleItemClick}><span className="text-md">{lang.Cross_references}</span></Item>

@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.31] - 3/12/2025
+
+- Add sermon bookmarks (bookmarks that automatically get deleted each week)
+
 ## [1.30] - 1/4/2025
 
 - Add books of Bible filter in search
