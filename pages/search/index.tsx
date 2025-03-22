@@ -97,7 +97,8 @@ export default function Index() {
 
   function checkReference() {
     if (searchText.includes(" ")) {
-      const parse1 = searchText.split(" ")
+      const parsed = searchText.replace(/^([123]) (.*)/, "$1$2" )
+      const parse1 = parsed.split(" ")
       let book = parse1[0]
       book =  book.charAt(0).toUpperCase() + book.slice(1); 
       let chapter = 1
