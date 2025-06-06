@@ -238,11 +238,11 @@ export default function Index() {
         bible = "CUVs"
       }
       const cmd = `BIBLE:::${bible}:::${book} ${chapter}:${verse}`
-      if (isPowerMode()) {
-        window.open('https://uniquebibleapp.net/ubaTeamOnLY.html?cmd=' + cmd, '_new', 'noreferrer');
-      } else {
+    //   if (isPowerMode()) {
+    //     window.open('https://uniquebibleapp.net/ubaTeamOnLY.html?cmd=' + cmd, '_new', 'noreferrer');
+    //   } else {
         window.open('https://uniquebibleapp.net/index.html?cmd=' + cmd, '_new', 'noreferrer');
-      }
+    //   }
     } else if (id == 'greeklab') {
       const book1 = book.replace(" ", "_")
       window.open(`https://www.greeklab.org/interlinear.php?book=${book1}&cap=${chapter}&verse=${verse}`, '_blank', 'noreferrer');
