@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.32] - 7/13/2025
+
+- Add JEPD Bible
+
 ## [1.31] - 3/12/2025
 
 - Add sermon bookmarks (bookmarks that automatically get deleted each week)

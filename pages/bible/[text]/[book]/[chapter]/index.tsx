@@ -463,10 +463,11 @@ export default function Index() {
     const mibBible = text == 'MIB'
     const mpbBible = text == 'MPB'
     const mtbBible = text == 'MTB'
+    const jepdBible = text == 'JEPD'
     const marvelBible = mabBible || mobBible || mibBible || mpbBible || mtbBible
     const trlitxBible = text == 'TRLITx'
     const parseVerse = text.endsWith('x') || text.endsWith('+')
-    const rawVerse = !mobBible && !mibBible && !parseVerse
+    const rawVerse = !mobBible && !mibBible && !jepdBible && !parseVerse
     const bookNames = dataBooks.map((number) => globalThis.bibleNumberToName[number])
 
     const textDir = getBibleTextDir(text, bookNum)
@@ -539,7 +540,7 @@ export default function Index() {
 
             <NoSsr>
             <div dir={textDir} className={`${theme.bibleDivContainer}`}>
-              {(mabBible || mibBible || mtbBible || mpbBible) &&
+              {(mabBible || mibBible || mtbBible || mpbBible || jepdBible) &&
                 data.map((verse, i) => {
                   let text = verse.t
                   text = text.replaceAll(/<vid.*?<\/vid>/g, "")
@@ -548,6 +549,12 @@ export default function Index() {
                   text = text.replaceAll(/ondblclick=".*?"/g, "")
                   text = text.replaceAll(/onmouseover=".*?"/g, "")
                   text = text.replaceAll(/onmouseout=".*?"/g, "")
+                  if (jepdBible) {
+                    text = text.replaceAll(/H\d{1,4} /g, "")
+                    text = text.replaceAll(/  /g, " ")
+                    text = text.replaceAll(/ ([,.;:])/g, "$1")
+                    text = " " + text
+                  }
                   return (
                     <p key={i} id={`v${verse.c}_${verse.v}`}>
                       <span className={`${theme.bibleReferenceContainer}`} onClick={displayMenu} id={`r${verse.c}_${verse.v}`}>{verse.c}:{verse.v}</span>
