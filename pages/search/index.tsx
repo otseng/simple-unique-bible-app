@@ -14,6 +14,7 @@ import { getLocalStorage, isDev, preloadData, setLocalStorage } from '../../lib/
 import toast from 'react-hot-toast';
 import { useTheme } from '../../theme/themeContext';
 import Link from 'next/link';
+import { get } from 'http';
 require('dotenv').config()
 
 export default function Index() {
@@ -26,7 +27,14 @@ export default function Index() {
   const router = useRouter()
 
   let fullText = router.query.text as string
-  if (!fullText || fullText == "undefined") fullText = "KJV-TRLITx"
+  if (!fullText || fullText == "undefined") {
+    const lastBible = getLocalStorage('searchBible')
+    if (lastBible && lastBible != "undefined" && lastBible != "null") {
+      fullText = lastBible
+    } else {
+      fullText = "KJV-TRLITx"
+    }
+  }
   let text = fullText
   if (fullText && fullText.indexOf("-") > -1) {
     const texts = text.split("-")
@@ -230,11 +238,12 @@ export default function Index() {
   }
 
   function handleBibleChange(e) {
-    setSelectedBible(e.value);
+    setSelectedBible(e.value)
+    setLocalStorage('searchBible', e.value)
   }
 
   function handleBookChange(e) {
-    setSelectedBooks(e.value);
+    setSelectedBooks(e.value)
   }
 
   function processCommand(text: string) {
