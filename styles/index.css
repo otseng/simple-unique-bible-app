@@ -247,9 +247,8 @@ div.e {
     padding: 5px 10px 5px 10px;
 }
 
-
 .jepd_J {
-    color: yellow;
+    color: goldenrod;
 }
 .jepd_E {
     color: lightgreen;
@@ -261,11 +260,11 @@ div.e {
     color: red;
 }
 .jepd_Dtr1 {
-    color: olive;
+    color: peru;
 }
 .jepd_Dtr2 {
     color: tan;
 }
 .jepd_Dtn {
-    color: silver;
+    color: slategray;
 }
