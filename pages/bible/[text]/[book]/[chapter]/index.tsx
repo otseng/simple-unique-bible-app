@@ -552,7 +552,7 @@ export default function Index() {
                   if (jepdBible) {
                     text = text.replaceAll(/H\d{1,4} /g, "")
                     text = text.replaceAll(/  /g, " ")
-                    text = text.replaceAll(/ ([,.;:])/g, "$1")
+                    text = text.replaceAll(/ ([,.;:?!])/g, "$1")
                     text = " " + text
                   }
                   return (
