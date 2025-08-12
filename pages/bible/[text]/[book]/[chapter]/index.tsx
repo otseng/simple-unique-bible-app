@@ -101,9 +101,9 @@ export default function Index() {
 
   if (getLang() == "en") {
     biblesInPopup = []
-    if (isPowerMode() || isChineseMode) {
-      biblesInPopup.push.apply(biblesInPopup, ['KJV-CUVl-Pinyin-CUVx'])
-    }
+    // if (isPowerMode() || isChineseMode) {
+    //   biblesInPopup.push.apply(biblesInPopup, ['KJV-CUVl-Pinyin-CUVx'])
+    // }
     if (isPowerMode()) {
       biblesInPopup.push.apply(biblesInPopup, ['KJV', 'ESV', 'NASB', 'NET', 'NIV', 'NKJV', 'NLT', 'MIB'])
     } else {
@@ -181,7 +181,7 @@ export default function Index() {
     const targetId = triggerEvent?.srcElement?.id || event.target.id || ''
     const regex = /r(.*)_(.*)/
     const matches = regex.exec(targetId)
-    const chapter = matches[1]
+    let chapter = matches[1]
     const verse = matches[2]
     if (id == 'copyLink') {
       let url = window.location.protocol + '//' + window.location.host + `/bible/${fullText}/${book}/${chapter}#v${chapter}_${verse}`
@@ -246,6 +246,13 @@ export default function Index() {
     } else if (id == 'greeklab') {
       const book1 = book.replace(" ", "_")
       window.open(`https://www.greeklab.org/interlinear.php?book=${book1}&cap=${chapter}&verse=${verse}`, '_blank', 'noreferrer');
+    } else if (id == 'openbible') {
+        let book1 = book.replace(" ", "_")
+        book1 = book1.toLowerCase()
+        if (book1.startsWith("song")) {
+            book1 = "songs"
+        }
+        window.open(`https://openbible.com/commentaries/${book1}/${chapter}-${verse}.htm`, '_blank', 'noreferrer');
     } else if (id == 'tips') {
     let book1 = convertBibleNamesToAbbreviation(book)
     window.open(`https://tips.translation.bible/tip_verse/${book1}-${chapter}${verse}`, '_blank', 'noreferrer');
@@ -745,8 +752,9 @@ export default function Index() {
               <Item id="compare" onClick={handleItemClick}><span className="text-md">{lang.Compare}</span></Item>
               {/*!isMobile() && <Item id="discourse" onClick={handleItemClick}><span className="text-md">{lang.Discourse}</span></Item>*/}
               <Item id="uba" onClick={handleItemClick}><span className="text-md">UBA</span></Item>
-              <Item id="tips" onClick={handleItemClick}><span className="text-md">TIPS</span></Item>
+              {/* <Item id="tips" onClick={handleItemClick}><span className="text-md">TIPS</span></Item> */}
               {!isMobile() && <Item id="greeklab" onClick={handleItemClick}><span className="text-md">Greeklab</span></Item>}
+              <Item id="openbible" onClick={handleItemClick}><span className="text-md">OpenBible</span></Item>
               {/*!isMobile() && <Separator />*/}
               {/* {!marvelBible && !trlitxBible && text != "KJVx" && <Item id={`bible-${text}-KJVx`} onClick={handleItemClick}><span className="text-md">{text}-KJVx</span></Item>} */}
               {isPowerMode() && text == "ASV" && <Item id={`bible-ASV-ASVx`} onClick={handleItemClick}><span className="text-md">ASV-ASVx</span></Item>}

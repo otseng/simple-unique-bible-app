@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.33] - 8/11/2025
+
+- Add link to OpenBible
+
 ## [1.32] - 7/13/2025
 
 - Add JEPD Bible
