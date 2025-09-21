@@ -253,6 +253,13 @@ export default function Index() {
             book1 = "songs"
         }
         window.open(`https://openbible.com/commentaries/${book1}/${chapter}-${verse}.htm`, '_blank', 'noreferrer');
+    } else if (id == 'gospelchurch') {
+        let book1 = book.replace(" ", "_")
+        book1 = book1.toLowerCase()
+        if (book1.startsWith("song")) {
+            book1 = "songs"
+        }
+        window.open(`https://bible.gospelchurch.uk/index.html?cmd=aic%3A%3A%3AKJV%3A%3A%3A${bookNum}.${chapter}.${verse}`, '_blank', 'noreferrer');
     } else if (id == 'tips') {
     let book1 = convertBibleNamesToAbbreviation(book)
     window.open(`https://tips.translation.bible/tip_verse/${book1}-${chapter}${verse}`, '_blank', 'noreferrer');
@@ -755,6 +762,7 @@ export default function Index() {
               {/* <Item id="tips" onClick={handleItemClick}><span className="text-md">TIPS</span></Item> */}
               {!isMobile() && <Item id="greeklab" onClick={handleItemClick}><span className="text-md">Greeklab</span></Item>}
               <Item id="openbible" onClick={handleItemClick}><span className="text-md">OpenBible</span></Item>
+              <Item id="gospelchurch" onClick={handleItemClick}><span className="text-md">GospelChurch</span></Item>
               {/*!isMobile() && <Separator />*/}
               {/* {!marvelBible && !trlitxBible && text != "KJVx" && <Item id={`bible-${text}-KJVx`} onClick={handleItemClick}><span className="text-md">{text}-KJVx</span></Item>} */}
               {isPowerMode() && text == "ASV" && <Item id={`bible-ASV-ASVx`} onClick={handleItemClick}><span className="text-md">ASV-ASVx</span></Item>}

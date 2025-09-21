@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.34] - 9/21/2025
+
+- Add link to GospelChurch (AI Commentary)
+
 ## [1.33] - 8/11/2025
 
 - Add link to OpenBible
