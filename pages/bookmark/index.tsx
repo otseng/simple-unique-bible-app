@@ -58,9 +58,9 @@ export default function Index() {
     let bookmarksUrl = ''
     if (typeof window !== 'undefined') {
       if (isDev()) {
-        bookmarksUrl = "http://localhost:3000/bookmark/read?bm=" + getBookmarks().join("&bm=")
+        bookmarksUrl = "http://localhost:3000/bookmark/read?bm=" + getBookmarks(7).join("&bm=")
       } else {
-        bookmarksUrl = DOMAIN + "/bookmark/read?bm=" + getBookmarks().join("&bm=")
+        bookmarksUrl = DOMAIN + "/bookmark/read?bm=" + getBookmarks(7).join("&bm=")
       }
       bookmarksUrl = bookmarksUrl.replaceAll("#", '!').replaceAll('+', '%2B')
     }
