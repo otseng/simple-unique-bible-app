@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.35] - 10/6/2025
+
+- Limit bookmarks in QR code to 7
+- Allow overwriting booksmarks
+
 ## [1.34] - 9/21/2025
 
 - Add link to GospelChurch (AI Commentary)

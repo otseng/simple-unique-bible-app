@@ -197,6 +197,9 @@ export default function Index() {
                       <button onClick={copyBookmarksToClipboard} className={`${theme.clickableButton}`}>Copy link to clipboard</button>
                     </div>
                     <div className="flex justify-center p-1">
+                      <button onClick={importBookmarks} className={`${theme.clickableButton}`}>Import bookmarks from clipboard</button>
+                    </div>
+                    <div className="flex justify-center p-1">
                       <button onClick={exportBookmarks} className={`${theme.clickableButton}`}>Export bookmarks to clipboard</button>
                     </div>
                     <div className="flex justify-center p-1">

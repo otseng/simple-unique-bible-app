@@ -94,8 +94,9 @@ export function addBookmark(link) {
     }
 }
 
-export function getBookmarks() {
-    const bookmarks = getLocalStorage('bookmarks') || []
+export function getBookmarks(limit = 100) {
+    let bookmarks = getLocalStorage('bookmarks') || []
+    bookmarks = bookmarks.slice(0, limit)
     return bookmarks
 }
 
