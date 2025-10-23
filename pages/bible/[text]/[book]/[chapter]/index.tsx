@@ -105,7 +105,7 @@ export default function Index() {
     //   biblesInPopup.push.apply(biblesInPopup, ['KJV-CUVl-Pinyin-CUVx'])
     // }
     if (isPowerMode()) {
-      biblesInPopup.push.apply(biblesInPopup, ['KJV', 'ESV', 'NASB', 'NET', 'NIV', 'NKJV', 'NLT', 'MIB'])
+      biblesInPopup.push.apply(biblesInPopup, ['OJB-KJVx', 'KJV', 'ESV', 'NASB', 'NET', 'NIV', 'NKJV', 'NLT', 'MIB'])
     } else {
       biblesInPopup.push.apply(biblesInPopup, ['KJV', 'TRLITx', 'KJV-TRLITx', 'NET', 'WEB', 'MOB', 'MAB', 'MTB', 'MIB'])
     }
