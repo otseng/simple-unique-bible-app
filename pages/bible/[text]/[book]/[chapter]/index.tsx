@@ -295,8 +295,9 @@ export default function Index() {
     try {
       _getLexicon('TRLIT', strongs).then((resp) => {
         removeToast()
-        const html = processLexiconData(resp[0])
+        let html = processLexiconData(resp[0])
         if (!html.includes("[Not found]")) {
+          html += "<br/><a href='https://simple.uniquebibleapp.com/lexicon/" + strongs + "' target='_blank'>Simple UBA</a>"
           setModalContent(html)
           setShowModal(true)
         } else {
