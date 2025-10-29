@@ -303,7 +303,7 @@ export default function Index() {
         } else {
           _getLexicon('SECE', strongs).then((resp) => {
             if (resp[0] != "[Not found]") {
-              const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
+              html = resp[0]?.replaceAll('<a href', '<a target="new" href')
               setModalContent(html)
               setShowModal(true)
             }
