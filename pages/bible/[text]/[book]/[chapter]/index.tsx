@@ -295,15 +295,15 @@ export default function Index() {
     try {
       _getLexicon('TRLIT', strongs).then((resp) => {
         removeToast()
-        let html = processLexiconData(resp[0])
-        if (!html.includes("[Not found]")) {
-          html += "<br/><a href='https://simple.uniquebibleapp.com/lexicon/" + strongs + "' target='_blank'>Simple UBA</a>"
+        const data = processLexiconData(resp[0])
+        if (!data.includes("[Not found]")) {
+          const html = data + "<br/><a href='https://simple.uniquebibleapp.com/lexicon/" + strongs + "' target='_blank'>Simple UBA</a>"
           setModalContent(html)
           setShowModal(true)
         } else {
           _getLexicon('SECE', strongs).then((resp) => {
             if (resp[0] != "[Not found]") {
-              html = resp[0]?.replaceAll('<a href', '<a target="new" href')
+              const html = resp[0]?.replaceAll('<a href', '<a target="new" href')
               setModalContent(html)
               setShowModal(true)
             }
