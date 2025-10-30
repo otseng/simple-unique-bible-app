@@ -297,7 +297,7 @@ export default function Index() {
         removeToast()
         const data = processLexiconData(resp[0])
         if (!data.includes("[Not found]")) {
-          const html = data + "<br/><a href='https://simple.uniquebibleapp.com/lexicon/" + strongs + "' target='_blank'>Simple UBA</a>"
+          const html = data
           setModalContent(html)
           setShowModal(true)
         } else {
