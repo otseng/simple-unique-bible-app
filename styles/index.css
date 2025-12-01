@@ -271,7 +271,7 @@ div.e {
 
 .raw-html-dark-mode {
     color: F5F5F5;
-    h2, h3, a, b, ul {
+    h2, h3, a, b, ul, span, div {
         color: #F5F5F5;
     }
 }
