@@ -17,11 +17,25 @@ export default function Index() {
   const {theme, setTheme} = useTheme()
 
   const router = useRouter()
-  const strongs = router.query.strongs as string
+  let strongs = router.query.strongs as string
 
   const [lexiconData, setLexiconData] = useState("");
 
   useEffect(() => {
+    if (strongs) {
+      if (strongs.startsWith('H0')) {
+          strongs = strongs.replace('H0', 'H')
+      } 
+      if (strongs.startsWith('H0')) {
+          strongs = strongs.replace('H0', 'H')
+      } 
+      if (strongs.startsWith('G0')) {
+          strongs = strongs.replace('G0', 'G')
+      }
+      if (strongs.startsWith('G0')) {
+          strongs = strongs.replace('G0', 'G')
+      }
+    }
     if(router.isReady) {
       _getLexicon('TRLIT', strongs).then((resp) => {
         const data = resp[0].replaceAll('<a href', '<a target="new" href')
@@ -48,7 +62,7 @@ export default function Index() {
           </Disclosure>
           
           {lexiconData && <>
-            <div className="ml-4">
+            <div className="ml-4 `${theme.textColor}`">
               <span dangerouslySetInnerHTML={{ __html: lexiconData }}/>
             </div>
           </>}
