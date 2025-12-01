@@ -8,6 +8,7 @@ import { _getLexicon } from '../../../lib/api'
 import { Disclosure } from '@headlessui/react'
 import { useLang } from '../../../lang/langContext'
 import { useTheme } from '../../../theme/themeContext'
+import { getTheme } from '../../../theme/themeUtil';
 import { useEffect, useState } from 'react'
 import NoSsr from '../../../components/NoSsr'
 
@@ -20,6 +21,7 @@ export default function Index() {
   let strongs = router.query.strongs as string
 
   const [lexiconData, setLexiconData] = useState("");
+  const [rawHtmlClassState, setRawHtmlClassState] = useState("");
 
   useEffect(() => {
     if (strongs) {
@@ -37,6 +39,11 @@ export default function Index() {
       }
     }
     if(router.isReady) {
+      if (getTheme() == "dark") {
+        setRawHtmlClassState('raw-html-dark-mode')
+      } else {
+        setRawHtmlClassState('')
+      }
       _getLexicon('TRLIT', strongs).then((resp) => {
         const data = resp[0].replaceAll('<a href', '<a target="new" href')
         setLexiconData(data)
@@ -62,7 +69,8 @@ export default function Index() {
           </Disclosure>
           
           {lexiconData && <>
-            <div className={"ml-4 " + theme.textColor}>
+
+            <div className={"ml-4 " + rawHtmlClassState}>
               <span dangerouslySetInnerHTML={{ __html: lexiconData }}/>
             </div>
           </>}
