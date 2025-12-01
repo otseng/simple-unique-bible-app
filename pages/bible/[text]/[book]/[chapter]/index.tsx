@@ -455,6 +455,7 @@ export default function Index() {
       html = html.substring(index)
       if (getTheme() == "dark") {
         html = "<article class='prose dark:prose-invert'>" + html + "</article>"
+        html = "<div class='raw-html-dark-mode'>" + html + "</div>"
       } else {
         html = "<article class='prose'>" + html + "</article>"
       }
