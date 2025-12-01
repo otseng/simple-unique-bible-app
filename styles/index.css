@@ -270,5 +270,8 @@ div.e {
 }
 
 .raw-html-dark-mode {
-    color: #F5F5F5;
+    color: F5F5F5;
+    h2, h3, a {
+        color: #F5F5F5;
+    }
 }
