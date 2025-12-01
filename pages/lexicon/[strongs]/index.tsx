@@ -62,7 +62,7 @@ export default function Index() {
           </Disclosure>
           
           {lexiconData && <>
-            <div className={"ml-4 `${theme.textColor}`"}>
+            <div className={"ml-4 " + theme.textColor}>
               <span dangerouslySetInnerHTML={{ __html: lexiconData }}/>
             </div>
           </>}
