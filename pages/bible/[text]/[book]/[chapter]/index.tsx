@@ -324,7 +324,7 @@ export default function Index() {
       _getAICommentaryContent(bookNum, chapter, verse).then((resp) => {
         removeToast()
         const data = resp
-        if (!data.includes("[Not found]")) {
+        if (data && !data.includes("[Not found]")) {
           const html = convertMarkdownToHtml(data)
           setModalContent(html)
           setShowModal(true)
