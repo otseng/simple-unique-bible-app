@@ -360,6 +360,22 @@ export async function _getCommentaryContent(title, bookNumber, chapter) {
   return cacheCommentaryContent.get(key)
 }
 
+let cacheAICommentaryContent: Map<string, string> = new Map();
+
+export async function _getAICommentaryContent(bookNumber, chapter, verse) {
+
+  const key = 'AI_' + bookNumber + '_' + chapter + '_' + verse
+  if (!cacheAICommentaryContent.has(key)) {
+    const address = API_SERVER + `/commentary/AIC/${bookNumber}/${chapter}/${verse}?` + addLang()
+    const res = await axios.get(address, { auth })
+    const data = await res.data.data
+    cacheAICommentaryContent.set(key, data)
+  }
+
+  return cacheAICommentaryContent.get(key)
+}
+
+
 let cacheMorphology: Map<string, string> = new Map();
 
 export async function _getMorphology(portion, wordId) {

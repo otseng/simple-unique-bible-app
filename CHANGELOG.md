@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.36] - 1/1/2026
+
+- Add AI commentary
+
 ## [1.35] - 10/6/2025
 
 - Limit bookmarks in QR code to 7

@@ -5,9 +5,9 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { APP_NAME } from '../../../../../lib/constants'
-import { addBookmark, addSermon, bookmarkExists, convertBibleNamesToAbbreviation, deleteBookmark, getBibleNumberFromName, getBibleTextDir, isChineseMode, isMobile, isPowerMode, preloadData, processLexiconData, range, removeOnEvents } from '../../../../../lib/util'
+import { addBookmark, addSermon, bookmarkExists, convertBibleNamesToAbbreviation, deleteBookmark, getBibleNumberFromName, getBibleTextDir, isChineseMode, isMobile, isPowerMode, preloadData, processLexiconData, range, removeOnEvents, convertMarkdownToHtml } from '../../../../../lib/util'
 import { getBibleChapter, getBibles, getBibleTextBooks, getCommentaries, getSubheadings, getBookChapterContent } from '../../../../../lib/api'
-import { _getCommentaryContent, _getDiscourse, _getInstantLex, _getLexicon, _getMorphology, _getSearchTool } from '../../../../../lib/api'
+import { _getCommentaryContent, _getDiscourse, _getInstantLex, _getLexicon, _getMorphology, _getSearchTool, _getAICommentaryContent } from '../../../../../lib/api'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { bibleChapters } from '../../../../../data/bibleChapters'
 import { Disclosure } from '@headlessui/react'
@@ -260,6 +260,8 @@ export default function Index() {
             book1 = "songs"
         }
         window.open(`https://bible.gospelchurch.uk/index.html?cmd=aic%3A%3A%3AKJV%3A%3A%3A${bookNum}.${chapter}.${verse}`, '_blank', 'noreferrer');
+    } else if (id == 'commentary') {
+        showAICommentary(verse)
     } else if (id == 'tips') {
     let book1 = convertBibleNamesToAbbreviation(book)
     window.open(`https://tips.translation.bible/tip_verse/${book1}-${chapter}${verse}`, '_blank', 'noreferrer');
@@ -308,6 +310,24 @@ export default function Index() {
               setShowModal(true)
             }
           })
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  function showAICommentary(verse) {
+    setScrolledRef(false)
+    setModalTitle("AI Commentary")
+    try {
+      _getAICommentaryContent(bookNum, chapter, verse).then((resp) => {
+        removeToast()
+        const data = resp
+        if (!data.includes("[Not found]")) {
+          const html = convertMarkdownToHtml(data)
+          setModalContent(html)
+          setShowModal(true)
         }
       })
     } catch (error) {
@@ -764,6 +784,7 @@ export default function Index() {
               {!isMobile() && <Item id="greeklab" onClick={handleItemClick}><span className="text-md">Greeklab</span></Item>}
               <Item id="openbible" onClick={handleItemClick}><span className="text-md">OpenBible</span></Item>
               <Item id="gospelchurch" onClick={handleItemClick}><span className="text-md">GospelChurch</span></Item>
+              <Item id="commentary" onClick={handleItemClick}><span className="text-md">Commentary</span></Item>
               {/*!isMobile() && <Separator />*/}
               {/* {!marvelBible && !trlitxBible && text != "KJVx" && <Item id={`bible-${text}-KJVx`} onClick={handleItemClick}><span className="text-md">{text}-KJVx</span></Item>} */}
               {isPowerMode() && text == "ASV" && <Item id={`bible-ASV-ASVx`} onClick={handleItemClick}><span className="text-md">ASV-ASVx</span></Item>}

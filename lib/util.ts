@@ -206,6 +206,19 @@ export function processLexiconData(html: string): any {
     return html
 }
 
+export function convertMarkdownToHtml(text: string): string {
+    let html = text
+    html = html.replaceAll(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // bold
+    html = html.replaceAll(/\*(.*?)\*/g, '<em>$1</em>') // italic
+    html = html.replaceAll(/__(.*?)__/g, '<u>$1</u>') // underline
+    html = html.replaceAll(/~~(.*?)~~/g, '<del>$1</del>') // strikethrough
+    html = html.replaceAll(/`(.*?)`/g, '<code>$1</code>') // inline code
+    // html = html.replaceAll(/^#\s+(.*)\n/g, '<h1>$1</h1>\n') // h1
+    // html = html.replaceAll(/^##\s+(.*)\n/g, '<h1>$1</h1>\n') // h2
+    html = html.replaceAll(/\n/g, '<br/>') // new line
+    return html
+}
+
 export function convertBibleNamesToAbbreviation(text: string): string {
     let map = {"Genesis": "gen",
         "Exodus": "exod",
