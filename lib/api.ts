@@ -198,22 +198,28 @@ export function getCompareVerses(book, chapter, verse) {
   if (getLang() == "en") {
     address = address + '&text=KJV&text=WEB&text=NET'
     if (powerMode) {
-      address = address + '&text=ESV&text=NASB&text=NIV&text=HCSB&text=NRSV&text=NABRE&text=LEB' +
-        '&text=NKJV&text=NLT&&text=TLB&text=AMP&text=MSG&text=EXB&text=TPT&text=T4T&text=GNB'
+        address = address + '&text=ESV&text=NASB&text=NIV&text=HCSB&text=NRSV&text=RSV&text=NABRE&text=LEB' +
+            '&text=NKJV&text=T4T&text=BSB&text=Darby'
+        address = address + '&text=Recovery&text=NWT'
     }
-    address = address + '&text=ERV&text=ISV&text=ULT&text=2001'
+    address = address + '&text=ISV&text=2001&text=FBV'
     if (powerMode) {
-      address = address + '&text=PESH&text=CJB'
+      address = address + '&text=NLT&&text=TLB&text=AMP&text=MSG&text=EXB&text=TPT&text=GNB&text=UDB&text=EBR'
+      address = address + '&text=BBE&text=ERV&text=NSB&text=TNIV&text=UST&text=CEB'
+      address = address + '&text=PESH&text=CJB&text=OJB&text=WMB'
     }
-    address = address + '&text=ASV&text=DRB' +
-        '&text=YLT&text=KJV1611&text=Geneva&text=DRB' +
+    address = address + '&text=ULT&text=YLT'
+    address = address + '&text=Vulgate&text=DRB'
+    address = address + '&text=ASV' +
+        '&text=KJV1611&text=Geneva&text=GB1' +
         '&text=Bishops&text=Tyndale&text=Wycliffe' +
-        '&text=LXXE&text=KJVx&text=TRLITx&text=OJB&text=Vulgate'
+        '&text=KJVx&text=TRLITx'
     if (powerMode || chineseMode) {
-      address = address + '&text=CUV&text=Pinyin'
+        address = address + '&text=CUV&text=Pinyin'
     }
     if (powerMode) {
-      address = address + '&text=MOB&text=HEBT'
+        address = address + '&text=LXXE'
+        address = address + '&text=MOB&text=HEBT&text=HSB'
     }
   } else if (getLang().startsWith("zh")) {
     address = address +
