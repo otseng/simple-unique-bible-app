@@ -211,7 +211,7 @@ export function getCompareVerses(book, chapter, verse) {
     address = address + '&text=ULT&text=YLT'
     address = address + '&text=Vulgate&text=DRB'
     address = address + '&text=ASV' +
-        '&text=KJV1611&text=Geneva&text=GB1' +
+        '&text=KJV1611&text=Geneva' +
         '&text=Bishops&text=Tyndale&text=Wycliffe' +
         '&text=KJVx&text=TRLITx'
     if (powerMode || chineseMode) {
