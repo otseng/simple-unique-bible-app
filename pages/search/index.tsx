@@ -14,6 +14,7 @@ import { getLocalStorage, isDev, preloadData, setLocalStorage } from '../../lib/
 import toast from 'react-hot-toast';
 import { useTheme } from '../../theme/themeContext';
 import Link from 'next/link';
+import { bibleChapters } from '../../data/bibleChapters'
 import { get } from 'http';
 require('dotenv').config()
 
@@ -143,6 +144,9 @@ export default function Index() {
       }
       if (Number.isNaN(verse)) {
         verse = 1
+      }
+      if (chapter > bibleChapters[foundBook]) {
+        chapter = bibleChapters[foundBook]
       }
       const bookName = globalThis.bibleNumberToName[parseInt(foundBook)]
       const url = `/bible/${selectedBible}/${bookName}/${chapter}#v${chapter}_${verse}`
