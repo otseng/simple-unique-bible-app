@@ -186,7 +186,7 @@ export default function Index() {
     if (id == 'copyLink') {
       let url = window.location.protocol + '//' + window.location.host + `/bible/${fullText}/${book}/${chapter}#v${chapter}_${verse}`
       url = url.replaceAll(" ", "+")
-      let contents = url + "\n"
+      let contents = url
       navigator.clipboard.writeText(contents)
       toast(lang.Copied_to_clipboard)
     } else if (id == 'copyVerse') {
