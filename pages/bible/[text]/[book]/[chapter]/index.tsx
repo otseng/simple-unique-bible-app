@@ -696,13 +696,13 @@ export default function Index() {
                         : <span key={j} className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
                     ))}
                     {parallelMode && parallel2 && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{parallel2}:</span> </>}
-                    {parallelMode && dataParallel2 && dataParallel2[i].t.split(' ').map((word, j) => (
+                    {parallelMode && parallel2 && dataParallel2 && dataParallel2[i].t.split(' ').map((word, j) => (
                       word.match(/[GH][0-9]{1,4}/) ?
                         <a key={j} className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
                         : <span key={j} className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
                     ))}
                     {parallelMode && parallel3 && <><br/><br/><span className={`${theme.bibleReferenceContainer}`}>{parallel3}:</span> </>}
-                    {parallelMode && dataParallel3 && dataParallel3[i].t.split(' ').map((word, j) => (
+                    {parallelMode && parallel3 && dataParallel3 && dataParallel3[i].t.split(' ').map((word, j) => (
                       word.match(/[GH][0-9]{1,4}/) ?
                         <a key={j} className={`${theme.textStrongs}`} onMouseEnter={() => instantLexicon(word)} onMouseLeave={() => removeToast()} onClick={() => showLexicon(word)}>{word} </a>
                         : <span key={j} className={`${theme.bibleTextContainer}`} dangerouslySetInnerHTML={{ __html: word + " " }} />
